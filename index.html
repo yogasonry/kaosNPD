@@ -75,19 +75,53 @@ font-weight:400;}
 }
 .hero-desc strong{color:var(--amber);}
 
-/* ─── HERO IMAGE 16:9 ─── */
-.hero-img-wrap{
+/* ─── HERO SLIDESHOW 16:9 ─── */
+.hero-slide-wrap{
   width:100%;max-width:860px;margin:0 auto;position:relative;
-  overflow:hidden;border-bottom:3px solid var(--gold);
-  cursor:zoom-in;background:var(--black);
+  overflow:hidden;border-bottom:3px solid var(--gold);background:var(--black);
+  aspect-ratio:16/9;
 }
-.hero-img-wrap img{width:100%;height:auto;display:block;transition:transform .5s ease;}
-.hero-img-wrap:active img{transform:scale(1.01);}
-.hero-img-hint{
-  position:absolute;bottom:10px;right:12px;
-  background:rgba(10,7,5,.8);border:1px solid rgba(200,134,10,.5);
-  font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:1px;
-  color:var(--amber);padding:4px 10px;
+.hero-track{
+  display:flex;
+  /* NO width:100% — let track grow to fit all slides */
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+}
+.hero-slide{
+  flex-shrink:0;
+  width:100vw;
+  max-width:860px;
+  cursor:zoom-in;
+  /* fixed height = 16:9 of max-width. Use aspect-ratio so it scales */
+  aspect-ratio:16/9;
+  overflow:hidden;
+}
+.hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.hs-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(10,7,5,.65);border:2px solid rgba(200,134,10,.4);
+  color:var(--amber);font-family:'Anton SC',sans-serif;font-size:26px;
+  width:42px;height:56px;cursor:pointer;z-index:10;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.hs-btn:active,.hs-btn:hover{background:var(--rust);border-color:var(--amber);}
+.hs-prev{left:0;border-left:none;}
+.hs-next{right:0;border-right:none;}
+.hs-dots{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:10;
+}
+.hs-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:rgba(200,134,10,.35);border:1px solid rgba(200,134,10,.5);
+  cursor:pointer;transition:all .25s;padding:0;
+}
+.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.25);}
+.hs-counter{
+  position:absolute;top:10px;right:12px;
+  background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.4);
+  font-family:'Anton SC',sans-serif;font-size:12px;letter-spacing:2px;
+  color:var(--amber);padding:3px 10px;z-index:10;pointer-events:none;
 }
 
 /* ─── PRODUCT INFO ─── */
@@ -166,11 +200,7 @@ font-weight:400;}
 @media(hover:hover){.gal-item:hover{border-color:var(--amber);}}
 .gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s;}
 @media(hover:hover){.gal-item:hover img{transform:scale(1.07);}}
-.gal-num{
-  position:absolute;bottom:6px;right:7px;
-  background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.4);
-  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;color:var(--amber);padding:2px 7px;
-font-weight:400;}
+
 
 /* ─── LIGHTBOX ─── */
 .lb{
@@ -387,7 +417,7 @@ font-weight:400;}
 @media(min-width:560px){.steps-grid{grid-template-columns:repeat(4,1fr);}}
 .step-card{border:1px solid rgba(200,134,10,.16);padding:16px 10px;text-align:center;position:relative;background:rgba(61,26,8,.1);}
 @media(max-width:400px){.step-card{padding:12px 8px;}}
-.snum-bg{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:46px;color:rgba(200,134,10,.08);line-height:1;position:absolute;top:-4px;left:8px;font-weight:400;}
+.snum-bg{font-family:'Rubik Dirt',sans-serif;font-size:52px;color:rgba(200,134,10,.42);line-height:1;position:absolute;top:-4px;left:8px;font-weight:900;text-shadow:0 0 16px rgba(200,134,10,.18);}
 .sico{font-size:24px;margin-bottom:8px;display:block;}
 .stitle{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;color:var(--amber);letter-spacing:2px;margin-bottom:4px;font-weight:400;}
 .sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.6;line-height:1.55;}
@@ -532,13 +562,30 @@ font-weight:400;}
   <div class="marquee-track" id="marquee-track"></div>
 </div>
 
-<!-- HERO IMAGE 16:9 -->
-<div class="hero-img-wrap" onclick="openLb(0)">
-  <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
-       alt="AWAS BAHAYA NPD" loading="eager"
-       srcset="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png 1600w, https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png 3000w"
-       sizes="100vw">
-  <div class="hero-img-hint" data-i18n="imgHint">🔍 Perbesar</div>
+<!-- HERO SLIDESHOW 16:9 -->
+<div class="hero-slide-wrap">
+  <div class="hero-track" id="hs-track">
+    <div class="hero-slide" onclick="openLb(4)">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
+           alt="AWAS BAHAYA NPD — Poster 1" loading="eager">
+    </div>
+    <div class="hero-slide" onclick="openLb(5)">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774184001/Mockup_NPD_qmx1jm.png"
+           alt="AWAS BAHAYA NPD — Poster 2" loading="lazy">
+    </div>
+    <div class="hero-slide" onclick="openLb(6)">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774184824/Hero-2_ocxqcn.jpg"
+           alt="AWAS BAHAYA NPD — Poster 3" loading="lazy">
+    </div>
+  </div>
+  <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Sebelumnya">&#8249;</button>
+  <button class="hs-btn hs-next" onclick="hsNav(1)" aria-label="Berikutnya">&#8250;</button>
+  <div class="hs-dots">
+    <button class="hs-dot active" onclick="hsGo(0)" aria-label="Slide 1"></button>
+    <button class="hs-dot" onclick="hsGo(1)" aria-label="Slide 2"></button>
+    <button class="hs-dot" onclick="hsGo(2)" aria-label="Slide 3"></button>
+  </div>
+  <div class="hs-counter" id="hs-counter">1 / 3</div>
 </div>
 
 <!-- PRODUCT INFO -->
@@ -592,15 +639,12 @@ font-weight:400;}
   <div class="gallery-grid">
     <div class="gal-item" onclick="openLb(1)">
       <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png" alt="Mockup 1" loading="lazy">
-      <div class="gal-num">2/4</div>
     </div>
     <div class="gal-item" onclick="openLb(2)">
       <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png" alt="Mockup 2" loading="lazy">
-      <div class="gal-num">3/4</div>
     </div>
     <div class="gal-item" onclick="openLb(3)">
       <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png" alt="Mockup 3" loading="lazy">
-      <div class="gal-num">4/4</div>
     </div>
   </div>
 </section>
@@ -936,14 +980,45 @@ font-weight:400;}
 // ═══ CONFIG ═══
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzl3ejf11vj62O-Jc_YxbQ1lCe_7Zo63RUpF4nyaClPcIiyoZbq9rA9K3heSf7C2uDNyA/exec';
 
+
+// ═══ HERO SLIDESHOW ═══
+const HS_TOTAL = 3;
+let hsCurrent = 0, hsTimer = null;
+function hsGo(idx) {
+  hsCurrent = idx;
+  const _w = document.querySelector('.hero-slide-wrap').offsetWidth;
+  document.getElementById('hs-track').style.transform = 'translateX(-' + (idx * _w) + 'px)';
+  document.getElementById('hs-counter').textContent   = (idx + 1) + ' / ' + HS_TOTAL;
+  document.querySelectorAll('.hs-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function hsNav(d) { hsGo((hsCurrent + d + HS_TOTAL) % HS_TOTAL); }
+function hsStart() { hsStop(); hsTimer = setInterval(() => hsNav(1), 4500); }
+function hsStop()  { clearInterval(hsTimer); }
+hsStart();
+const _hsWrap = document.querySelector('.hero-slide-wrap');
+if (_hsWrap) {
+  _hsWrap.addEventListener('mouseenter', hsStop);
+  _hsWrap.addEventListener('mouseleave', hsStart);
+  let _hsTX = 0;
+  _hsWrap.addEventListener('touchstart', e => { _hsTX = e.touches[0].clientX; hsStop(); }, {passive:true});
+  _hsWrap.addEventListener('touchend',   e => {
+    const dx = _hsTX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 36) hsNav(dx > 0 ? 1 : -1);
+    hsStart();
+  });
+}
+
 // ═══ GALLERY & LIGHTBOX ═══
 // Index 0 = hero image (Gemini), 1-3 = gallery mockups
 // Full resolution HQ for lightbox — q_100 = lossless, f_png = no compression
 const GALLERY = [
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774184001/Mockup_NPD_qmx1jm.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100/v1774184824/Hero-2_ocxqcn.jpg',
 ];
 let lbIdx = 0;
 
@@ -969,530 +1044,6 @@ function buildDots() {
     `<button class="lb-dot${i===lbIdx?' active':''}" onclick="openLb(${i})" aria-label="Foto ${i+1}"></button>`
   ).join('');
 }
-
-// Lightbox touch swipe
-let lbTX = 0;
-document.getElementById('lb').addEventListener('touchstart', e => { lbTX = e.touches[0].clientX; }, {passive:true});
-document.getElementById('lb').addEventListener('touchend', e => {
-  const dx = lbTX - e.changedTouches[0].clientX;
-  if (Math.abs(dx) > 40) lbNav(dx > 0 ? 1 : -1);
-});
-document.addEventListener('keydown', e => {
-  if (!document.getElementById('lb').classList.contains('open')) return;
-  if (e.key==='ArrowLeft') lbNav(-1);
-  if (e.key==='ArrowRight') lbNav(1);
-  if (e.key==='Escape') closeLb();
-});
-
-// ═══ FORM STATE ═══
-let selectedSize = 'L', hargaPerPcs = 150000, qty = 1;
-let orderData = {}, imageBase64 = null, imageMime = 'image/jpeg';
-
-function pickSize(btn, size, harga) {
-  document.querySelectorAll('.sopt').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedSize = size; hargaPerPcs = harga;
-  document.getElementById('t-size').textContent = size;
-  document.getElementById('t-harga').textContent = formatPrice(harga);
-  updateTotal();
-}
-
-function changeQty(d) {
-  qty = Math.max(1, Math.min(20, qty + d));
-  document.getElementById('qty-disp').textContent = qty;
-  document.getElementById('t-qty').textContent = '× ' + qty + ' pcs';
-  updateTotal();
-}
-
-function updateTotal() {
-  document.getElementById('t-total').textContent = formatPrice(qty * hargaPerPcs);
-}
-
-function validate() {
-  const fields = [
-    {id:'f-nama', lbl:'NAMA'},
-    {id:'f-phone', lbl:'NO. WA'},
-    {id:'f-alamat', lbl:'ALAMAT'},
-    {id:'f-kota', lbl:'KOTA'},
-    {id:'f-kodepos', lbl:'KODE POS'},
-  ];
-  for (const f of fields) {
-    const el = document.getElementById(f.id);
-    if (!el.value.trim()) {
-      toast(f.lbl + ' WAJIB DIISI!');
-      el.focus();
-      el.style.borderColor = '#c0392b';
-      setTimeout(() => el.style.borderColor = '', 2000);
-      return false;
-    }
-  }
-  return true;
-}
-
-function goToStep2() {
-  if (!validate()) return;
-  const ccSelect = document.getElementById('f-countrycode');
-  const rawPhone = document.getElementById('f-phone').value.trim();
-  const countryCode = ccSelect ? ccSelect.value : '62';
-
-  orderData = {
-    orderNum    : 'NPD-' + Date.now().toString().slice(-6),
-    nama        : document.getElementById('f-nama').value.trim(),
-    phone       : rawPhone,
-    countryCode : countryCode,
-    alamat      : document.getElementById('f-alamat').value.trim(),
-    kota        : document.getElementById('f-kota').value.trim(),
-    kodePos     : document.getElementById('f-kodepos').value.trim(),
-    ukuran      : selectedSize, qty, hargaPerPcs,
-    catatan     : document.getElementById('f-catatan').value.trim(),
-  };
-  const total = qty * hargaPerPcs;
-  document.getElementById('r-ordernum').textContent = orderData.orderNum;
-  document.getElementById('r-nama').textContent     = orderData.nama;
-  document.getElementById('r-phone').textContent    = orderData.phone;
-  document.getElementById('r-size').textContent     = orderData.ukuran;
-  document.getElementById('r-qty').textContent      = orderData.qty + ' pcs';
-  document.getElementById('r-kota').textContent     = orderData.kota;
-  document.getElementById('r-harga').textContent    = formatPrice(hargaPerPcs);
-  document.getElementById('r-total').textContent    = formatPrice(total);
-
-  setStep(1,'done'); setStep(2,'active');
-  document.getElementById('sl1').classList.add('done');
-  document.getElementById('step1').style.display = 'none';
-  document.getElementById('step2').style.display = 'block';
-  document.getElementById('order-section').scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-// File upload with compression
-function handleFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 6 * 1024 * 1024) { toast('FILE TERLALU BESAR! MAKS 5MB'); input.value = ''; return; }
-  imageMime = file.type || 'image/jpeg';
-  document.getElementById('preview-name').textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let w = img.width, h = img.height;
-      const MAX = 1000;
-      if (w > MAX) { h = h * MAX / w; w = MAX; }
-      if (h > MAX) { w = w * MAX / h; h = MAX; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      imageBase64 = canvas.toDataURL('image/jpeg', 0.78);
-      document.getElementById('preview-img').src = imageBase64;
-      document.getElementById('preview-wrap').style.display = 'block';
-      document.getElementById('upload-area').style.display  = 'none';
-      document.getElementById('upload-req').style.display   = 'none';
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function removeFile() {
-  imageBase64 = null;
-  document.getElementById('bukti-file').value = '';
-  document.getElementById('preview-wrap').style.display = 'none';
-  document.getElementById('upload-area').style.display  = 'block';
-}
-
-// Drag & drop (desktop)
-const ua = document.getElementById('upload-area');
-ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag-over'); });
-ua.addEventListener('dragleave', () => ua.classList.remove('drag-over'));
-ua.addEventListener('drop', e => {
-  e.preventDefault(); ua.classList.remove('drag-over');
-  const f = e.dataTransfer.files[0];
-  if (f && f.type.startsWith('image/')) {
-    const dt = new DataTransfer(); dt.items.add(f);
-    const inp = document.getElementById('bukti-file');
-    inp.files = dt.files; handleFile(inp);
-  }
-});
-
-// Final submit
-async function submitAll() {
-  if (!imageBase64) {
-    document.getElementById('upload-req').style.display = 'block';
-    toast('UPLOAD BUKTI TRANSFER DULU!');
-    return;
-  }
-  const btn = document.getElementById('btn2');
-  const btxt = document.getElementById('btn2-txt');
-  const sp   = document.getElementById('sp2');
-  btn.disabled = true; btxt.style.display = 'none'; sp.style.display = 'block';
-
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method  : 'POST',
-      headers : {'Content-Type': 'text/plain;charset=utf-8'},
-      body    : JSON.stringify({...orderData, imageData: imageBase64, imageMime}),
-      mode    : 'no-cors',
-    });
-  } catch(err) {
-    console.warn('Submit warning (no-cors expected):', err);
-  }
-
-  // Always show success (no-cors = opaque response, can't detect errors)
-  setStep(2,'done'); setStep(3,'done'); setStep(4,'active');
-  document.getElementById('sl2').classList.add('done');
-  document.getElementById('sl3').classList.add('done');
-  document.getElementById('step2').style.display = 'none';
-  document.getElementById('step3').style.display = 'block';
-  document.getElementById('s-ordernum').textContent = orderData.orderNum;
-  document.getElementById('order-section').scrollIntoView({behavior:'smooth', block:'start'});
-
-  btn.disabled = false; btxt.style.display = ''; sp.style.display = 'none';
-}
-
-function setStep(n, state) { document.getElementById('sd' + n).className = 'sdot ' + state; }
-
-function copyNum(num, label) {
-  navigator.clipboard.writeText(num)
-    .then(() => toast(label + ' — COPIED!'))
-    .catch(() => toast('HOLD UNTUK COPY:\n' + num));
-}
-
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-// ═══════════════════════════════════════════════════════
-// BILINGUAL + CURRENCY SYSTEM
-// ═══════════════════════════════════════════════════════
-
-// ─── TRANSLATIONS ───────────────────────────────────────
-const T = {
-  id: {
-    topTag       : '⚡ Limited Drop — Bhuta Kala Modern ⚡',
-    heroHl       : 'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>',
-    heroDesc     : 'Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong>',
-    warningBadge : '⚡ AWAS BAHAYA NPD',
-    productDesc  : 'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.',
-    priceLbl     : '⚡ harga group order ⚡',
-    priceNote    : '<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',
-    galleryTitle : 'DETAIL KAOS',
-    galleryNote  : 'Tap foto untuk memperbesar',
-    sizeNote     : 'Cotton Combed 24s · ukuran dalam cm',
-    formTitle    : 'FORM ORDER',
-    lblNama      : 'Nama Lengkap *',
-    lblPhone     : 'Nomor WhatsApp *',
-    lblAlamat    : 'Alamat Lengkap *',
-    lblKota      : 'Kota / Kabupaten *',
-    lblKodePos   : 'Kode Pos *',
-    lblUkuran    : 'Pilih Ukuran *',
-    lblQty       : 'Jumlah',
-    lblCatatan   : 'Catatan (opsional)',
-    lblUpload    : 'Upload Bukti Transfer *',
-    uploadLabel  : 'TAP UNTUK PILIH FOTO',
-    uploadSub    : 'Screenshot bukti transfer · JPG/PNG · Maks 5MB',
-    btnNext      : 'LANJUT KE PEMBAYARAN',
-    btnConfirm   : 'KONFIRMASI PEMBAYARAN',
-    stockWarn    : '⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',
-    howTitle     : 'ALUR ORDER',
-    successTitle : 'ORDER MASUK!',
-    ongkirNote   : 'BELUM TERMASUK ONGKOS KIRIM',
-    payTitle     : '💸 TRANSFER KE',
-    stepForm     : 'FORM',
-    stepBayar    : 'BAYAR',
-    stepUpload   : 'UPLOAD',
-    stepSelesai  : 'SELESAI',
-    imgHint      : '🔍 Perbesar',
-    phNama       : 'Nama untuk label pengiriman',
-    phPhone      : '81xxxxxxxx',
-    phAlamat     : 'Jalan, RT/RW, Kelurahan, Kecamatan...',
-    phKota       : 'Denpasar',
-    phKodePos    : '80361',
-    phCatatan    : 'Request, titip salam, dll',
-    tKeySize     : 'Ukuran',
-    tKeyHarga    : 'Harga/pcs',
-    tKeyQty      : 'Qty',
-    removeBtn    : '✕ HAPUS FOTO',
-    uploadReq    : '⚡ Upload bukti transfer dulu ya!',
-    oKeyNama     : 'Nama', oKeyWA: 'No WA', oKeyUkuran: 'Ukuran',
-    oKeyQty      : 'Qty', oKeyKota: 'Kota', oKeyHarga: 'Harga/pcs',
-    oKeyTotal    : 'TOTAL KAOS', oKeyOngkir: 'Ongkir',
-    ongkirVal    : 'Diinfo via WA setelah GO closing',
-    payDesc      : 'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',
-    adminNote    : 'Admin verifikasi dalam 1×24 jam',
-    shipText     : 'Pengiriman hanya ke seluruh Indonesia',
-    marquee: [
-      {icon:'🛒', text:'<strong>PRE-ORDER</strong> — Baju diproduksi setelah kamu pesan'},
-      {icon:'⏱️', text:'Estimasi produksi <strong>1–2 hari kerja</strong>'},
-      {icon:'💸', text:'Pembayaran <strong>lunas di awal</strong> · Ongkir diinfo terpisah'},
-      {icon:'👕', text:'Bahan <strong>Cotton Combed 24s</strong> · Premium 170–180 GSM'},
-      {icon:'📦', text:'Ongkos kirim diinfo via WA setelah <strong>GO closing</strong>'},
-      {icon:'🔥', text:'<strong>LIMITED DROP</strong> — Bhuta Kala Modern'},
-    ],
-    // Step cards
-    sc1title: 'ISI FORM',   sc1desc: 'Lengkapi data diri, pilih ukuran & qty.',
-    sc2title: 'TRANSFER',   sc2desc: 'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.',
-    sc3title: 'UPLOAD BUKTI', sc3desc: 'Upload screenshot bukti transfer langsung di web.',
-    sc4title: 'PRODUKSI',   sc4desc: 'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.',
-    // Success flow
-    sf1title: 'BUKTI TRANSFER DITERIMA',
-    sf1desc : 'Data & foto bukti tersimpan di sistem admin',
-    sf2title: 'ADMIN SEDANG CEK PEMBAYARAN',
-    sf2desc : 'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>',
-    sf3title: 'NOTIF WA JIKA TERKONFIRMASI',
-    sf3desc : 'Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi',
-    sf4title: 'PRODUKSI 1–2 HARI KERJA',
-    sf4desc : 'Dimulai setelah pembayaran terkonfirmasi',
-    // Symptoms
-    sym1: 'EGOIS MAKSIMAL', sym2: 'ANTI KRITIK', sym3: 'OTAK NGAMBUL',
-    // Footer
-    hashtags: '#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN',
-    fnote   : 'Made with chaos in Bali · Limited Group Order Only',
-    successMsg: 'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.',
-    successBoxTitle: '📋 DETAIL ORDER',
-    successLi1: 'No. order: <strong id="s-ordernum" style="color:var(--amber)">—</strong>',
-    successLi2: 'Bukti transfer tersimpan di sistem',
-    successLi3: 'Notif email sudah dikirim ke admin',
-    payDesc: 'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',
-    bankAN: 'a/n dikonfirmasi via WA',
-  },
-  en: {
-    topTag       : '⚡ Limited Drop — Bhuta Kala Modern ⚡',
-    heroHl       : 'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>',
-    heroDesc     : 'People with NPD rarely realize it themselves —<br><strong>sometimes we need to reflect on ourselves.</strong>',
-    warningBadge : '⚡ BEWARE OF NPD',
-    productDesc  : 'Reflect on yourself with a <strong style="color:var(--amber)">METAKSU</strong> tee. Premium combed 24s cotton — thick, quality collector vibes.',
-    priceLbl     : '⚡ group order price ⚡',
-    priceNote    : '<strong>Price per piece</strong> · shipping cost not included',
-    galleryTitle : 'SHIRT DETAILS',
-    galleryNote  : 'Tap photo to enlarge',
-    sizeNote     : 'Cotton Combed 24s · measurements in cm',
-    formTitle    : 'ORDER FORM',
-    lblNama      : 'Full Name *',
-    lblPhone     : 'WhatsApp Number *',
-    lblAlamat    : 'Full Address *',
-    lblKota      : 'City / Regency *',
-    lblKodePos   : 'Postal Code *',
-    lblUkuran    : 'Select Size *',
-    lblQty       : 'Quantity',
-    lblCatatan   : 'Notes (optional)',
-    lblUpload    : 'Upload Proof of Payment *',
-    uploadLabel  : 'TAP TO SELECT PHOTO',
-    uploadSub    : 'Screenshot of transfer receipt · JPG/PNG · Max 5MB',
-    btnNext      : 'PROCEED TO PAYMENT',
-    btnConfirm   : 'CONFIRM PAYMENT',
-    stockWarn    : '⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡',
-    howTitle     : 'ORDER FLOW',
-    successTitle : 'ORDER RECEIVED!',
-    ongkirNote   : 'SHIPPING COST NOT INCLUDED',
-    payTitle     : '💸 TRANSFER TO',
-    stepForm     : 'FORM',
-    stepBayar    : 'PAY',
-    stepUpload   : 'UPLOAD',
-    stepSelesai  : 'DONE',
-    imgHint      : '🔍 Enlarge',
-    phNama       : 'Name for shipping label',
-    phPhone      : '81xxxxxxxx',
-    phAlamat     : 'Street, district, city...',
-    phKota       : 'e.g. Denpasar',
-    phKodePos    : 'Postal code',
-    phCatatan    : 'Special requests, notes, etc.',
-    tKeySize     : 'Size',
-    tKeyHarga    : 'Price/pcs',
-    tKeyQty      : 'Qty',
-    removeBtn    : '✕ REMOVE PHOTO',
-    uploadReq    : '⚡ Please upload proof of payment first!',
-    oKeyNama     : 'Name', oKeyWA: 'WA No.', oKeyUkuran: 'Size',
-    oKeyQty      : 'Qty', oKeyKota: 'City', oKeyHarga: 'Price/pcs',
-    oKeyTotal    : 'TOTAL', oKeyOngkir: 'Shipping',
-    ongkirVal    : 'To be confirmed via WA after GO closing',
-    payDesc      : 'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping cost will be confirmed separately via WA.',
-    adminNote    : 'Admin will verify within 1×24 hours',
-    shipText     : 'Indonesia shipping only',
-    marquee: [
-      {icon:'🛒', text:'<strong>PRE-ORDER</strong> — Made after you order'},
-      {icon:'⏱️', text:'Production estimate <strong>1–2 working days</strong>'},
-      {icon:'💸', text:'Full payment upfront · Shipping confirmed separately'},
-      {icon:'👕', text:'Material <strong>Cotton Combed 24s</strong> · Premium 170–180 GSM'},
-      {icon:'📦', text:'Shipping cost confirmed via WA after <strong>GO closing</strong>'},
-      {icon:'🔥', text:'<strong>LIMITED DROP</strong> — Bhuta Kala Modern'},
-    ],
-    // Step cards
-    sc1title: 'FILL FORM',   sc1desc: 'Fill in your details, choose size & quantity.',
-    sc2title: 'TRANSFER',    sc2desc: 'Transfer shirt total to GoPay/Dana. Shipping to follow.',
-    sc3title: 'UPLOAD PROOF', sc3desc: 'Upload your transfer screenshot directly on the site.',
-    sc4title: 'PRODUCTION',  sc4desc: 'Once payment is verified, your shirt goes into production in <strong style="color:var(--amber)">1–2 working days</strong>.',
-    // Success flow
-    sf1title: 'PROOF OF PAYMENT RECEIVED',
-    sf1desc : 'Your data & payment proof are saved in the admin system',
-    sf2title: 'ADMIN IS VERIFYING PAYMENT',
-    sf2desc : 'Estimated confirmation within <strong style="color:var(--amber)">1×24 hours</strong>',
-    sf3title: 'WA NOTIFICATION IF CONFIRMED',
-    sf3desc : 'You will receive a WhatsApp message when your payment is confirmed',
-    sf4title: 'PRODUCTION 1–2 WORKING DAYS',
-    sf4desc : 'Starts after payment is confirmed',
-    // Symptoms
-    sym1: 'MAXIMUM SELFISHNESS', sym2: 'CANNOT TAKE CRITICISM', sym3: 'EASILY TRIGGERED',
-    // Footer
-    hashtags: '#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN',
-    fnote   : 'Made with chaos in Bali · Limited Group Order Only',
-    successMsg: 'Your order details and proof of payment<br>have been received by our system.',
-    successBoxTitle: '📋 ORDER SUMMARY',
-    successLi1: 'Order no: <strong id="s-ordernum" style="color:var(--amber)">—</strong>',
-    successLi2: 'Payment proof saved in system',
-    successLi3: 'Email notification sent to admin',
-    payDesc: 'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping cost will be confirmed separately via WA.',
-    bankAN: 'account name confirmed via WA',
-  }
-};
-
-// ─── CURRENCY (IDR only) ─────────────────────────────────
-let currentLang = 'id';
-
-function formatPrice(idr) {
-  return 'Rp ' + idr.toLocaleString('id-ID');
-}
-
-function formatPriceShort(idr) {
-  return (idr / 1000) + 'K';
-}
-
-// ─── LANGUAGE ────────────────────────────────────────────
-function setLang(lang) {
-  currentLang = lang;
-  const t = T[lang];
-
-  // Toggle button states
-  document.getElementById('btn-id').classList.toggle('active', lang === 'id');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-
-  // Apply all translations
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.innerHTML = t[key];
-  });
-
-  // Placeholders
-  const phMap = {
-    'f-nama'    : t.phNama,
-    'f-alamat'  : t.phAlamat,
-    'f-kota'    : t.phKota,
-    'f-kodepos' : t.phKodePos,
-    'f-catatan' : t.phCatatan,
-    'f-phone'   : t.phPhone,
-  };
-  Object.entries(phMap).forEach(([id, ph]) => {
-    const el = document.getElementById(id);
-    if (el) el.placeholder = ph;
-  });
-
-  // Total box labels
-  const tSize  = document.querySelector('.tkey[data-field="size"]');
-  const tHarga = document.querySelector('.tkey[data-field="harga"]');
-  const tQty   = document.querySelector('.tkey[data-field="qty"]');
-  if (tSize)  tSize.textContent  = t.tKeySize;
-  if (tHarga) tHarga.textContent = t.tKeyHarga;
-  if (tQty)   tQty.textContent   = t.tKeyQty;
-
-  // Order card labels
-  const oMap = {
-    'okey-nama'   : t.oKeyNama,   'okey-wa'    : t.oKeyWA,
-    'okey-ukuran' : t.oKeyUkuran, 'okey-qty'   : t.oKeyQty,
-    'okey-kota'   : t.oKeyKota,   'okey-harga' : t.oKeyHarga,
-    'okey-total'  : t.oKeyTotal,  'okey-ongkir': t.oKeyOngkir,
-    'oval-ongkir' : t.ongkirVal,
-  };
-  Object.entries(oMap).forEach(([id, txt]) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = txt;
-  });
-
-  // Upload req message
-  const upReq = document.getElementById('upload-req');
-  if (upReq) upReq.textContent = t.uploadReq;
-
-  // Shipping text
-  const shipEl = document.getElementById('ship-text');
-  if (shipEl) shipEl.textContent = t.shipText;
-
-  // Rebuild marquee with translated text
-  buildMarquee(lang);
-
-  // Success flow items (have data-i18n but need innerHTML for <strong> tags)
-  ['sf1title','sf1desc','sf2title','sf2desc',
-   'sf3title','sf3desc','sf4title','sf4desc'].forEach(key => {
-    document.querySelectorAll('[data-i18n="'+key+'"]').forEach(el => {
-      if (t[key]) el.innerHTML = t[key];
-    });
-  });
-
-  // Page lang attribute
-  document.documentElement.lang = lang;
-  updatePhonePlaceholder();
-}
-
-function buildMarquee(lang) {
-  const track = document.getElementById('marquee-track');
-  if (!track) return;
-  const pills = T[lang].marquee;
-  // Build set 1 + set 2 for seamless loop
-  let html = '';
-  for (let pass = 0; pass < 2; pass++) {
-    pills.forEach(p => {
-      html += '<div class="preorder-pill"><span class="icon">' + p.icon + '</span><span>' + p.text + '</span></div>';
-      html += '<span class="preorder-sep">⚡</span>';
-    });
-  }
-  track.innerHTML = html;
-}
-
-function updatePhonePlaceholder() {
-  const cc = document.getElementById('f-countrycode');
-  const ph = document.getElementById('f-phone');
-  if (!cc || !ph) return;
-  // For Indonesia +62: start from 8 (drop leading 0)
-  // For others: show generic format
-  const placeholders = {
-    '62': '81xxxxxxxx',
-    '1' : '(555) 000-0000',
-    '44': '7911 123456',
-    '61': '412 345 678',
-    '65': '9123 4567',
-    '60': '12-345 6789',
-    '31': '6 12345678',
-    '49': '151 23456789',
-    '33': '6 12 34 56 78',
-    '81': '90-1234-5678',
-    '82': '10-1234-5678',
-    '86': '138 0000 0000',
-    '91': '98765 43210',
-    '7' : '912 345-67-89',
-    '55': '11 91234-5678',
-  };
-  ph.placeholder = placeholders[cc.value] || '81xxxxxxxx';
-}
-
-
-
-// Init marquee and lang on load
-buildMarquee('id');
-
-// Scroll entrance animations
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-    }
-  });
-}, {threshold: 0.06});
-
-document.querySelectorAll('.step-card, .gal-item, .product-info, .price-wrap').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity .5s ease, transform .5s ease';
-  obs.observe(el);
-});
 </script>
 </body>
 </html>
