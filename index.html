@@ -30,7 +30,7 @@
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
 :root{
   --black:#0a0705;--rust:#3d1a08;--gold:#c8860a;
@@ -83,16 +83,14 @@ header{
 }
 .hero-track{
   display:flex;
-  /* NO width:100% — let track grow to fit all slides */
+  /* Each slide is 100% of wrap, track width = n * 100% */
   transition:transform .6s cubic-bezier(.4,0,.2,1);
   will-change:transform;
 }
 .hero-slide{
   flex-shrink:0;
-  width:100vw;
-  max-width:860px;
+  width:100%;  /* 100% of the hero-slide-wrap */
   cursor:default;
-  /* fixed height = 16:9 of max-width. Use aspect-ratio so it scales */
   aspect-ratio:16/10;
   overflow:hidden;
 }
@@ -256,8 +254,8 @@ header{
 .sdot.done .sdot-c{border-color:#3a9a3a;color:#fff;background:#3a9a3a;}
 .sdot-l{font-family:'Roboto',sans-serif;font-size:9px;color:rgba(200,134,10,.65);margin-top:4px;letter-spacing:1px;text-align:center;white-space:nowrap;}
 .sdot.active .sdot-l,.sdot.done .sdot-l{color:var(--gold);}
-.sline{flex:1;height:2px;background:rgba(200,134,10,.16);margin-top:18px;min-width:8px;max-width:50px;transition:background .4s;}
-@media(max-width:360px){.sdot-l{font-size:8px;letter-spacing:0;}}
+.sline{flex:1;height:2px;background:rgba(200,134,10,.16);margin-top:18px;min-width:6px;max-width:50px;transition:background .4s;}
+@media(max-width:360px){.sdot-l{display:none;}.sline{min-width:4px;}}
 .sline.done{background:#3a9a3a;}
 
 /* Inputs — 16px minimum to prevent iOS zoom */
@@ -275,6 +273,11 @@ header{
 select.finp{
   -webkit-appearance:none;appearance:none;
   background-color:#1a0f06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c8860a'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 8px center;
+  background-size:10px 6px;
+  padding-right:26px;
   color:var(--cream);cursor:pointer;
 }
 select.finp option{background:#1a0f06;color:var(--cream);}
@@ -289,8 +292,9 @@ textarea.finp{resize:vertical;min-height:80px;}
   position:relative;background:transparent;
   border:1px solid rgba(200,134,10,.28);
   color:var(--cream);font-family:'Anton SC',sans-serif;font-size:11px;
-  padding:6px 10px;cursor:pointer;transition:all .2s;text-align:center;
+  padding:10px 12px;cursor:pointer;transition:all .2s;text-align:center;
   display:flex;align-items:center;gap:6px;letter-spacing:1px;white-space:nowrap;
+  min-height:44px;
 }
 .color-swatch{
   width:12px;height:12px;border-radius:50%;
@@ -337,7 +341,7 @@ textarea.finp{resize:vertical;min-height:80px;}
   min-height:48px;justify-content:center;
 }
 @media(max-width:360px){.sopt{font-size:12px;min-height:44px;}}
-.sopt-price{font-family:'Roboto',sans-serif;font-size:8px;letter-spacing:1px;opacity:.55;line-height:1;}
+.sopt-price{font-family:'Roboto',sans-serif;font-size:7px;letter-spacing:.5px;opacity:.55;line-height:1;}
 .sopt:active{border-color:var(--amber);}
 @media(hover:hover){.sopt:hover{border-color:var(--amber);color:var(--amber);}}
 .sopt.active{background:var(--amber);color:var(--black);border-color:var(--amber);box-shadow:0 0 14px rgba(232,160,32,.35);}
@@ -402,7 +406,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(max-width:400px){.bank-card{padding:10px;}}
 .bank-card:active,.bank-card:hover{border-color:var(--amber);}
 .bank-name-lbl{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:12px;letter-spacing:2px;color:var(--gold);}
-.bank-num{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:var(--white);margin:4px 0;}
+.bank-num{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(20px,6vw,28px);color:var(--white);margin:4px 0;}
 .bank-an{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.8;}
 .bank-copy{font-size:10px;letter-spacing:2px;color:var(--amber);opacity:.55;margin-top:4px;}
 
@@ -449,13 +453,15 @@ textarea.finp{resize:vertical;min-height:80px;}
 .sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.6;line-height:1.55;}
 
 /* footer */
-footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,.1);}
+footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.1);}
 .hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.55;margin-bottom:10px;}
 .fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.55;letter-spacing:2px;}
 
 /* toast — max-width so it doesn't overflow mobile */
 .toast{
-  position:fixed;bottom:20px;left:50%;
+  position:fixed;
+  bottom:calc(96px + env(safe-area-inset-bottom, 0px));
+  left:50%;
   transform:translateX(-50%) translateY(120px);
   background:var(--amber);color:var(--black);
   font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;
@@ -483,6 +489,8 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 *{--rdf:normal;}
 :where([style*="Rubik Dirt"],[class]){font-weight:400;}
 
+/* Scroll animation fallback — elements visible without JS */
+.step-card,.gal-item,.product-info,.price-wrap{transition:opacity .5s ease,transform .5s ease;}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--rust);}
@@ -504,7 +512,10 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 /* ─── FLOATING WA BUTTON ─── */
 .wa-float{
-  position:fixed;bottom:24px;right:20px;z-index:8000;
+  position:fixed;
+  bottom:calc(28px + env(safe-area-inset-bottom, 0px));
+  right:max(16px, env(safe-area-inset-right, 16px));
+  z-index:8000;
   display:flex;flex-direction:column;align-items:flex-end;gap:8px;
 }
 .wa-float-btn{
@@ -529,7 +540,8 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
   opacity:0;transform:translateX(8px);
   transition:opacity .25s,transform .25s;pointer-events:none;
 }
-.wa-float:hover .wa-float-tooltip{opacity:1;transform:translateX(0);}
+.wa-float:hover .wa-float-tooltip,
+.wa-float.show-tip .wa-float-tooltip{opacity:1;transform:translateX(0);}
 
 /* ─── PRE-ORDER BADGE ─── */
 .preorder-bar{
@@ -542,19 +554,14 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 .preorder-bar::before,.preorder-bar::after{
   content:'';position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;
 }
-.preorder-bar::before{left:0;background:linear-gradient(90deg,#1a0f05,transparent);}
-.preorder-bar::after{right:0;background:linear-gradient(270deg,#1a0f05,transparent);}
+.preorder-bar::before{left:0;background:linear-gradient(90deg,#1e1208,transparent);}
+.preorder-bar::after{right:0;background:linear-gradient(270deg,#251507,transparent);}
 
 .marquee-track{
   display:flex;align-items:center;height:36px;
   white-space:nowrap;
-  animation:marquee 22s linear infinite;
   width:max-content;
-}
-.marquee-track:hover{animation-play-state:paused;}
-@keyframes marquee{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-50%);}
+  will-change:transform;
 }
 .preorder-pill{
   display:inline-flex;align-items:center;gap:6px;
@@ -684,7 +691,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
     <!-- Prev -->
     <button id="dlb-prev" class="dlb-nav-btn dlb-prev-btn">&#8249;</button>
     <!-- Image -->
-    <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:78vh;object-fit:contain;border:2px solid var(--gold);display:block;touch-action:pinch-zoom;">
+    <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;">
     <!-- Next -->
     <button id="dlb-next" class="dlb-nav-btn dlb-next-btn">&#8250;</button>
   </div>
@@ -742,7 +749,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
       <div class="fg">
         <label class="flbl" data-i18n="lblPhone">Nomor WhatsApp *</label>
         <div style="display:flex;gap:0;">
-          <select id="f-countrycode" class="finp" onchange="updatePhonePlaceholder()" style="width:auto;flex-shrink:0;padding-right:8px;padding-left:8px;cursor:pointer;background:#1a0f06;border-right:none;font-size:14px;min-width:90px;">
+          <select id="f-countrycode" class="finp" onchange="updatePhonePlaceholder()" style="width:auto;flex-shrink:0;padding-right:8px;padding-left:8px;cursor:pointer;background:#1a0f06;border-right:none;font-size:16px;min-width:90px;">
             <option value="62">🇮🇩 +62</option>
             <option value="1">🇺🇸 +1</option>
             <option value="44">🇬🇧 +44</option>
@@ -762,7 +769,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
           <input class="finp" type="tel" id="f-phone"
                  placeholder="81xxxxxxxx"
                  inputmode="numeric" autocomplete="tel"
-                 style="flex:1;border-left:1px solid rgba(200,134,10,.4);">
+                 style="flex:1;border-left:none;">
         </div>
         <div style="font-family:'Roboto',sans-serif;font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">
           Pilih kode negara jika bukan Indonesia
@@ -1016,7 +1023,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 <!-- FLOATING WA BUTTON -->
 <div class="wa-float">
   <div class="wa-float-tooltip">Tanya admin via WA</div>
-  <a class="wa-float-btn" href="https://wa.me/6281236869035?text=Halo%2C%20aku%20mau%20tanya-tanya%20dulu%20soal%20kaos%20AWAS%20BAHAYA%20NPD%20boleh%3F%20%F0%9F%98%8A" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <a class="wa-float-btn" id="wa-float-btn" href="https://wa.me/6281236869035?text=Halo%2C%20aku%20mau%20tanya-tanya%20dulu%20soal%20kaos%20AWAS%20BAHAYA%20NPD%20boleh%3F%20%F0%9F%98%8A" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
     </svg>
@@ -1031,23 +1038,57 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzl3ejf11vj62O-
 // ═══ MISSING FUNCTIONS FIX ═══
 
 // Marquee init
-(function initMarquee() {
+function initMarquee() {
   const pills = [
     { icon:'⚡', text:'PRE-ORDER OPEN' },
-    { icon:'👕', text:'Cotton Combed <strong>24s</strong>' },
-    { icon:'📦', text:'Produksi <strong>1–2 hari kerja</strong>' },
-    { icon:'💸', text:'Mulai <strong>Rp 150.000</strong>' },
+    { icon:'👕', text:'Cotton Combed 24s' },
+    { icon:'📦', text:'Produksi 1–2 hari kerja' },
+    { icon:'💸', text:'Mulai Rp 150.000' },
     { icon:'🇮🇩', text:'Kirim ke seluruh Indonesia' },
     { icon:'⚡', text:'GRABFAST — stok terbatas' },
   ];
   const track = document.getElementById('marquee-track');
   if (!track) return;
-  // Double the pills for seamless loop
-  const html = [...pills, ...pills].map(p =>
+
+  // Build HTML — triple the pills so loop never shows a gap
+  const html = [...pills, ...pills, ...pills].map(p =>
     `<span class="preorder-pill"><span class="icon">${p.icon}</span> ${p.text}</span><span class="preorder-sep">·</span>`
   ).join('');
   track.innerHTML = html;
-})();
+
+  // Wait for browser to render & measure, then start animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // scrollWidth = total 3x content width
+      // We want to scroll one copy (1/3 of total) seamlessly
+      const totalW   = track.scrollWidth;
+      const oneLoopW = Math.round(totalW / 3);
+
+      // Inject a dynamic keyframe using the exact pixel width
+      const styleId = 'marquee-kf';
+      let styleEl = document.getElementById(styleId);
+      if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = styleId;
+        document.head.appendChild(styleEl);
+      }
+      // Duration: ~60px per second for comfortable reading speed
+      const duration = Math.round(oneLoopW / 55);
+      styleEl.textContent = `
+        @keyframes marquee-px {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-${oneLoopW}px); }
+        }
+        .marquee-track.running {
+          animation: marquee-px ${duration}s linear infinite !important;
+        }
+        .marquee-track.running:hover { animation-play-state: paused !important; }
+      `;
+      track.classList.add('running');
+    });
+  });
+}
+initMarquee();
 
 // Language toggle (UI only — no full i18n needed, just swaps key labels)
 function setLang(lang) {
@@ -1085,7 +1126,7 @@ const HS_TOTAL = 3;
 let hsCurrent = 0, hsTimer = null;
 function hsGo(idx) {
   hsCurrent = idx;
-  const _w = document.querySelector('.hero-slide-wrap').offsetWidth;
+  const _w = document.querySelector('.hero-slide').offsetWidth;
   document.getElementById('hs-track').style.transform = 'translateX(-' + (idx * _w) + 'px)';
   document.getElementById('hs-counter').textContent   = (idx + 1) + ' / ' + HS_TOTAL;
   document.querySelectorAll('.hs-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
@@ -1106,6 +1147,14 @@ if (_hsWrap) {
     hsStart();
   });
 }
+// Recalculate slide position on resize / orientation change
+window.addEventListener('resize', () => { hsGo(hsCurrent); });
+
+// Pause auto-slide when hero not in viewport (user scrolled to form)
+const _hsObserver = new IntersectionObserver(entries => {
+  entries[0].isIntersecting ? hsStart() : hsStop();
+}, {threshold: 0.1});
+if (_hsWrap) _hsObserver.observe(_hsWrap);
 
 // ═══ COLOR CONFIG — update stok di sini tanpa ubah kode lain ═══
 const COLORS = [
@@ -1153,7 +1202,7 @@ function dlbRender() {
   document.getElementById('dlb-img').src = DETAIL_GALLERY[dlbIdx];
   document.getElementById('dlb-counter').textContent = (dlbIdx + 1) + ' / ' + DETAIL_GALLERY.length;
   document.getElementById('dlb-dots').innerHTML = DETAIL_GALLERY.map((_,i) =>
-    `<button onclick="dlbGo(${i})" style="width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;padding:0;background:${i===dlbIdx?'var(--amber)':'rgba(200,134,10,.35)'};transition:background .2s;"></button>`
+    `<button onclick="dlbGo(${i});event.stopPropagation()" style="width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;padding:0;background:${i===dlbIdx?'var(--amber)':'rgba(200,134,10,.35)'};transition:background .2s;"></button>`
   ).join('');
 }
 
@@ -1290,7 +1339,20 @@ function goToStep2() {
   document.getElementById('step1').style.display = 'none';
   document.getElementById('step2').style.display = 'block';
   document.getElementById('order-section').scrollIntoView({behavior:'smooth', block:'start'});
+  // Push state for Android back button support
+  history.pushState({step:2}, '');
 }
+
+// Android back button — go back to step 1
+window.addEventListener('popstate', function(e) {
+  const s2 = document.getElementById('step2');
+  if (s2 && s2.style.display !== 'none') {
+    s2.style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+    setStep(2,''); setStep(1,'active');
+    document.getElementById('sl1').classList.remove('done');
+  }
+});
 
 // File upload
 function handleFile(input) {
@@ -1375,6 +1437,19 @@ function copyNum(num, label) {
     .then(() => toast(label + ' — COPIED!'))
     .catch(() => toast('HOLD UNTUK COPY: ' + num));
 }
+// WA float tooltip on mobile touch
+(function(){
+  const fl = document.querySelector('.wa-float');
+  const btn = document.getElementById('wa-float-btn');
+  if (fl && btn) {
+    btn.addEventListener('touchstart', function(){
+      fl.classList.add('show-tip');
+      clearTimeout(fl._tt);
+      fl._tt = setTimeout(() => fl.classList.remove('show-tip'), 2500);
+    }, {passive:true});
+  }
+})();
+
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
