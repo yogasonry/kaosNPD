@@ -30,7 +30,7 @@
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --black:#0a0705;--rust:#3d1a08;--gold:#c8860a;
@@ -58,11 +58,11 @@ header{
 }
 .top-tag{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.85;margin-bottom:8px;text-transform:uppercase;}
 .hero-hl{
-  font-family:'Anton',sans-serif;font-size:clamp(32px,9vw,76px);
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(32px,9vw,76px);
   line-height:.92;color:var(--white);letter-spacing:1px;
   text-shadow:3px 3px 0 #000,0 0 40px rgba(200,134,10,.3);
   animation:flicker 6s infinite;
-}
+font-weight:400;}
 @media(max-width:480px){
   .hero-hl{font-size:clamp(36px,11vw,52px);}
 }
@@ -106,16 +106,19 @@ header{
 
 .warning-badge{
   display:inline-block;background:var(--red);border:2px solid var(--amber);
-  padding:5px 12px;font-family:'Anton',sans-serif;font-size:11px;
+  padding:5px 12px;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;
   letter-spacing:3px;color:var(--amber);margin-bottom:12px;
   animation:bp 2s ease-in-out infinite;
-}
+font-weight:400;}
 @keyframes bp{0%,100%{box-shadow:0 0 6px rgba(232,160,32,.3)}50%{box-shadow:0 0 18px rgba(232,160,32,.7)}}
 .product-title{
-  font-family:'Anton',sans-serif;font-size:clamp(28px,5.5vw,54px);
-  line-height:.93;color:var(--white);text-shadow:3px 3px 0 var(--rust);
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(28px,5.5vw,54px);
+  line-height:1.05;color:var(--white);text-shadow:3px 3px 0 var(--rust);
+font-weight:400;}
+.product-title span{
+  color:var(--amber);display:block;font-size:.72em;
+  margin-top:4px;line-height:1.1;
 }
-.product-title span{color:var(--amber);display:block;font-size:.72em;}
 .material-tag{
   display:inline-block;margin:10px 0 0;
   background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.35);
@@ -140,17 +143,17 @@ header{
 .price-grid{display:flex;justify-content:center;align-items:flex-end;gap:24px;flex-wrap:wrap;}
 .price-item{text-align:center;}
 .price-sizes{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:3px;color:var(--gold);opacity:.85;margin-bottom:4px;}
-.price-num{font-family:'Anton',sans-serif;line-height:.9;color:var(--amber);text-shadow:4px 4px 0 var(--rust);animation:flicker 9s infinite 2s;}
+.price-num{font-family:'Rubik Dirt',sans-serif;font-weight:400;line-height:.9;color:var(--amber);text-shadow:4px 4px 0 var(--rust);animation:flicker 9s infinite 2s;font-weight:400;}
 .price-num.big{font-size:clamp(54px,13vw,104px);}
 .price-num.mid{font-size:clamp(44px,10vw,84px);color:#d09018;}
-.price-sep{font-family:'Anton',sans-serif;font-size:28px;color:rgba(200,134,10,.28);padding-bottom:10px;}
+.price-sep{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:rgba(200,134,10,.28);padding-bottom:10px;font-weight:400;}
 .price-note{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.75;margin-top:12px;}
 .price-note strong{color:var(--amber);}
 .divider{width:100%;max-width:540px;margin:16px auto;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 
 /* ─── GALLERY ─── */
 .gallery-section{max-width:860px;margin:0 auto;padding:0 10px 32px;}
-.sec-title{font-family:'Anton',sans-serif;font-size:clamp(22px,5vw,34px);color:var(--amber);letter-spacing:3px;text-align:center;margin-bottom:5px;}
+.sec-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(22px,5vw,34px);color:var(--amber);letter-spacing:3px;text-align:center;margin-bottom:5px;font-weight:400;}
 .sec-note{text-align:center;font-family:'Roboto',sans-serif;font-size:12px;color:var(--gold);opacity:.82;letter-spacing:2px;margin-bottom:16px;}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 @media(max-width:400px){.gallery-grid{grid-template-columns:repeat(3,1fr);gap:6px;}}
@@ -166,8 +169,8 @@ header{
 .gal-num{
   position:absolute;bottom:6px;right:7px;
   background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.4);
-  font-family:'Anton',sans-serif;font-size:11px;color:var(--amber);padding:2px 7px;
-}
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;color:var(--amber);padding:2px 7px;
+font-weight:400;}
 
 /* ─── LIGHTBOX ─── */
 .lb{
@@ -198,11 +201,11 @@ header{
 }
 .lb-prev,.lb-next{
   background:rgba(200,134,10,.85);border:none;color:var(--black);
-  font-family:'Anton',sans-serif;font-size:22px;
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
   min-width:52px;height:44px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .2s;border-radius:2px;
-}
+font-weight:400;}
 .lb-prev:active,.lb-next:active,.lb-prev:hover,.lb-next:hover{background:var(--amber);}
 .lb-dots{display:flex;justify-content:center;gap:8px;margin-top:10px;}
 .lb-dot{width:9px;height:9px;border-radius:50%;background:rgba(200,134,10,.3);border:none;cursor:pointer;transition:background .2s;padding:0;}
@@ -211,13 +214,13 @@ header{
 /* ─── SIZE CHART ─── */
 .size-section{max-width:640px;margin:0 auto;padding:0 14px 36px;}
 .chart-tbl{width:100%;border-collapse:collapse;}
-.chart-tbl thead tr{background:var(--red);color:var(--amber);font-family:'Anton',sans-serif;font-size:15px;letter-spacing:2px;}
+.chart-tbl thead tr{background:var(--red);color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;letter-spacing:2px;font-weight:400;}
 .chart-tbl th{padding:10px 12px;text-align:center;}
 .chart-tbl tbody tr{border-bottom:1px solid rgba(200,134,10,.13);transition:background .2s;}
 .chart-tbl tbody tr:active,.chart-tbl tbody tr:hover{background:rgba(200,134,10,.07);}
 .chart-tbl td{padding:10px 12px;text-align:center;font-family:'Roboto',sans-serif;font-size:14px;font-weight:300;color:var(--cream);}
-.chart-tbl td:first-child{font-family:'Anton',sans-serif;font-size:19px;color:var(--amber);}
-.chart-tbl td.pc{font-family:'Anton',sans-serif;font-size:17px;}
+.chart-tbl td:first-child{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:19px;color:var(--amber);font-weight:400;}
+.chart-tbl td.pc{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:17px;font-weight:400;}
 .chart-tbl td.pc.sp{color:#d09018;}
 .chart-note{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.65;text-align:center;margin-top:10px;line-height:1.6;}
 
@@ -235,8 +238,8 @@ header{
 .sdot-c{
   width:36px;height:36px;border-radius:50%;
   border:2px solid rgba(200,134,10,.25);display:flex;align-items:center;justify-content:center;
-  font-family:'Anton',sans-serif;font-size:15px;color:rgba(200,134,10,.3);transition:all .4s;
-}
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;color:rgba(200,134,10,.3);transition:all .4s;
+font-weight:400;}
 .sdot.active .sdot-c{border-color:var(--amber);color:var(--black);background:var(--amber);}
 .sdot.done .sdot-c{border-color:#3a9a3a;color:#fff;background:#3a9a3a;}
 .sdot-l{font-family:'Roboto',sans-serif;font-size:9px;color:rgba(200,134,10,.65);margin-top:4px;letter-spacing:1px;text-align:center;white-space:nowrap;}
@@ -247,7 +250,7 @@ header{
 
 /* Inputs — 16px minimum to prevent iOS zoom */
 .fg{margin-bottom:14px;}
-.flbl{display:block;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:2px;color:var(--gold);margin-bottom:5px;}
+.flbl{display:block;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;color:var(--gold);margin-bottom:5px;font-weight:400;}
 .finp{
   width:100%;background:rgba(255,255,255,.04);
   border:2px solid rgba(200,134,10,.22);color:var(--cream);
@@ -272,11 +275,11 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(max-width:380px){.size-picker{grid-template-columns:repeat(3,1fr);}}
 .sopt{
   background:transparent;border:2px solid rgba(200,134,10,.26);
-  color:var(--cream);font-family:'Anton',sans-serif;font-size:14px;
+  color:var(--cream);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;
   padding:8px 1px;cursor:pointer;transition:all .2s;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:2px;
   min-height:48px;justify-content:center;
-}
+font-weight:400;}
 @media(max-width:360px){.sopt{font-size:12px;min-height:44px;}}
 .sopt-price{font-family:'Roboto',sans-serif;font-size:8px;letter-spacing:1px;opacity:.55;line-height:1;}
 .sopt:active{border-color:var(--amber);}
@@ -288,17 +291,17 @@ textarea.finp{resize:vertical;min-height:80px;}
 
 /* Qty */
 .qty-row{display:flex;align-items:center;gap:14px;}
-.qty-lbl{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:2px;color:var(--gold);}
+.qty-lbl{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;letter-spacing:2px;color:var(--gold);font-weight:400;}
 .qty-ctrl{display:flex;align-items:center;border:2px solid var(--gold);}
 .qty-btn{
   background:transparent;border:none;color:var(--amber);
-  font-family:'Anton',sans-serif;font-size:22px;
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
   width:46px;height:46px;cursor:pointer;transition:background .2s;
   display:flex;align-items:center;justify-content:center;
-}
+font-weight:400;}
 .qty-btn:active{background:var(--rust);}
 @media(hover:hover){.qty-btn:hover{background:var(--rust);}}
-.qty-num{width:52px;text-align:center;font-family:'Anton',sans-serif;font-size:22px;color:var(--white);border:none;background:rgba(255,255,255,.04);padding:0;}
+.qty-num{width:52px;text-align:center;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;color:var(--white);border:none;background:rgba(255,255,255,.04);padding:0;font-weight:400;}
 
 /* Total */
 .total-box{background:rgba(200,134,10,.07);border:2px solid rgba(200,134,10,.26);padding:14px 16px;margin:16px 0;}
@@ -307,18 +310,18 @@ textarea.finp{resize:vertical;min-height:80px;}
 .tkey{font-family:'Roboto',sans-serif;font-size:13px;letter-spacing:2px;color:var(--gold);font-weight:300;}
 .tval{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);}
 .tdiv{border:none;border-top:1px solid rgba(200,134,10,.18);margin:10px 0;}
-.tbig{font-family:'Anton',sans-serif;font-size:34px;color:var(--white);text-align:center;margin-top:6px;}
+.tbig{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:34px;color:var(--white);text-align:center;margin-top:6px;font-weight:400;}
 .tsub{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.35;text-align:center;margin-top:4px;letter-spacing:2px;}
 
 /* CTA button */
 .btn-main{
   width:100%;padding:17px;background:var(--amber);border:none;
-  color:var(--black);font-family:'Anton',sans-serif;font-size:22px;
+  color:var(--black);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
   letter-spacing:4px;cursor:pointer;transition:background .2s;
   box-shadow:0 0 24px rgba(232,160,32,.18);
   display:flex;align-items:center;justify-content:center;gap:10px;
   -webkit-appearance:none;border-radius:0;
-}
+font-weight:400;}
 .btn-main:active{background:#d09010;}
 @media(hover:hover){.btn-main:hover{background:#f0b030;}}
 .btn-main:disabled{background:rgba(200,134,10,.28);color:rgba(0,0,0,.45);cursor:not-allowed;}
@@ -330,20 +333,20 @@ textarea.finp{resize:vertical;min-height:80px;}
 #step2{display:none;}
 .order-card{border:2px solid var(--gold);background:rgba(61,26,8,.24);padding:16px;margin-bottom:16px;}
 @media(max-width:400px){.order-card{padding:12px;}}
-.order-num-big{font-family:'Anton',sans-serif;font-size:32px;color:var(--amber);letter-spacing:4px;text-align:center;margin-bottom:2px;}
+.order-num-big{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:32px;color:var(--amber);letter-spacing:4px;text-align:center;margin-bottom:2px;font-weight:400;}
 .orow{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(200,134,10,.1);font-size:13px;gap:12px;}
 .orow:last-child{border-bottom:none;}
 .okey{color:var(--gold);font-weight:600;letter-spacing:1px;flex-shrink:0;}
 .oval{color:var(--cream);text-align:right;word-break:break-word;}
 .pay-box{background:rgba(200,134,10,.07);border:2px solid var(--amber);padding:14px;margin-bottom:14px;}
 @media(max-width:400px){.pay-box{padding:10px;}}
-.pay-title{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:3px;color:var(--amber);text-align:center;margin-bottom:10px;}
+.pay-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:18px;letter-spacing:3px;color:var(--amber);text-align:center;margin-bottom:10px;font-weight:400;}
 .pay-desc{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.88;text-align:center;line-height:1.7;margin-bottom:14px;}
 .bank-card{background:var(--black);border:1px solid rgba(200,134,10,.28);padding:14px;cursor:pointer;transition:border-color .2s;}
 @media(max-width:400px){.bank-card{padding:10px;}}
 .bank-card:active,.bank-card:hover{border-color:var(--amber);}
-.bank-name-lbl{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold);}
-.bank-num{font-family:'Anton',sans-serif;font-size:28px;color:var(--white);margin:4px 0;}
+.bank-name-lbl{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:400;}
+.bank-num{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:var(--white);margin:4px 0;font-weight:400;}
 .bank-an{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.8;}
 .bank-copy{font-size:10px;letter-spacing:2px;color:var(--amber);opacity:.55;margin-top:4px;}
 
@@ -357,22 +360,22 @@ textarea.finp{resize:vertical;min-height:80px;}
 .upload-area:active,.upload-area.drag-over{border-color:var(--amber);background:rgba(200,134,10,.1);}
 .upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .upload-icon{font-size:34px;display:block;margin-bottom:8px;}
-.upload-label{font-family:'Anton',sans-serif;font-size:17px;letter-spacing:2px;color:var(--amber);}
+.upload-label{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:17px;letter-spacing:2px;color:var(--amber);font-weight:400;}
 .upload-sub{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.72;margin-top:5px;}
 .preview-wrap{display:none;margin-top:14px;text-align:center;}
 .preview-img{max-width:100%;max-height:180px;border:2px solid var(--gold);object-fit:contain;display:block;margin:0 auto;}
 .preview-name{font-family:'Roboto',sans-serif;font-size:11px;color:var(--gold);margin-top:6px;opacity:.65;word-break:break-all;}
-.remove-btn{background:var(--red);border:none;color:var(--cream);font-family:'Anton',sans-serif;font-size:12px;letter-spacing:2px;padding:6px 14px;cursor:pointer;margin-top:8px;}
+.remove-btn{background:var(--red);border:none;color:var(--cream);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:12px;letter-spacing:2px;padding:6px 14px;cursor:pointer;margin-top:8px;font-weight:400;}
 .upload-req{font-family:'Roboto',sans-serif;font-size:12px;color:var(--red);text-align:center;margin-top:8px;display:none;}
 
 /* ─── STEP 3 SUCCESS ─── */
 #step3{display:none;text-align:center;padding:12px 0;}
 .success-icon{font-size:56px;display:block;margin-bottom:14px;animation:pop .5s cubic-bezier(.34,1.56,.64,1);}
 @keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
-.success-title{font-family:'Anton',sans-serif;font-size:36px;color:var(--amber);letter-spacing:4px;margin-bottom:10px;}
+.success-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:36px;color:var(--amber);letter-spacing:4px;margin-bottom:10px;font-weight:400;}
 .success-msg{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);opacity:.7;line-height:1.8;max-width:380px;margin:0 auto 20px;}
 .success-box{background:rgba(45,106,45,.13);border:2px solid #3a9a3a;padding:16px;margin-bottom:18px;text-align:left;}
-.success-box-title{font-family:'Anton',sans-serif;font-size:14px;letter-spacing:2px;color:#80d080;margin-bottom:8px;}
+.success-box-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:2px;color:#80d080;margin-bottom:8px;font-weight:400;}
 .success-box ul{list-style:none;}
 .success-box li{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.76;padding:3px 0;display:flex;gap:8px;}
 .success-box li::before{content:'✓';color:#80d080;flex-shrink:0;}
@@ -384,14 +387,14 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(min-width:560px){.steps-grid{grid-template-columns:repeat(4,1fr);}}
 .step-card{border:1px solid rgba(200,134,10,.16);padding:16px 10px;text-align:center;position:relative;background:rgba(61,26,8,.1);}
 @media(max-width:400px){.step-card{padding:12px 8px;}}
-.snum-bg{font-family:'Anton',sans-serif;font-size:46px;color:rgba(200,134,10,.08);line-height:1;position:absolute;top:-4px;left:8px;}
+.snum-bg{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:46px;color:rgba(200,134,10,.08);line-height:1;position:absolute;top:-4px;left:8px;font-weight:400;}
 .sico{font-size:24px;margin-bottom:8px;display:block;}
-.stitle{font-family:'Anton',sans-serif;font-size:15px;color:var(--amber);letter-spacing:2px;margin-bottom:4px;}
+.stitle{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;color:var(--amber);letter-spacing:2px;margin-bottom:4px;font-weight:400;}
 .sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.6;line-height:1.55;}
 
 /* footer */
 footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,.1);}
-.hashtags{font-family:'Anton',sans-serif;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.55;margin-bottom:10px;}
+.hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.55;margin-bottom:10px;font-weight:400;}
 .fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.55;letter-spacing:2px;}
 
 /* toast — max-width so it doesn't overflow mobile */
@@ -399,13 +402,13 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
   position:fixed;bottom:20px;left:50%;
   transform:translateX(-50%) translateY(120px);
   background:var(--amber);color:var(--black);
-  font-family:'Anton',sans-serif;font-size:13px;letter-spacing:2px;
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;
   padding:10px 20px;z-index:9999;
   transition:transform .4s cubic-bezier(.34,1.56,.64,1);
   box-shadow:0 6px 24px rgba(0,0,0,.5);
   max-width:calc(100vw - 32px);text-align:center;
   white-space:normal;word-break:break-word;
-}
+font-weight:400;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 
 /* ─── SHIPPING BADGE ─── */
@@ -420,6 +423,10 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 .ship-flag{font-size:16px;}
 .ship-text{opacity:.85;}
 
+/* Global Rubik Dirt weight override — safety net */
+*{--rdf:normal;}
+:where([style*="Rubik Dirt"],[class]){font-weight:400;}
+
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--rust);}
@@ -431,10 +438,10 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 }
 .ctrl-btn{
   background:transparent;border:1px solid rgba(200,134,10,.35);
-  color:rgba(200,134,10,.6);font-family:'Anton',sans-serif;font-size:11px;
+  color:rgba(200,134,10,.6);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;
   letter-spacing:2px;padding:4px 10px;cursor:pointer;
   transition:all .2s;border-radius:2px;
-}
+font-weight:400;}
 .ctrl-btn:hover{border-color:var(--amber);color:var(--amber);}
 .ctrl-btn.active{background:var(--amber);color:var(--black);border-color:var(--amber);}
 .ctrl-sep{color:rgba(200,134,10,.25);font-size:11px;padding:0 2px;}
@@ -522,34 +529,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <!-- ═══ PRE-ORDER INFO BAR — ROLLING MARQUEE ═══ -->
 <div class="preorder-bar">
-  <div class="marquee-track">
-    <!-- Set 1 -->
-    <div class="preorder-pill"><span class="icon">🛒</span><span><strong>PRE-ORDER</strong> — Baju diproduksi setelah kamu pesan</span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">⏱️</span><span>Estimasi produksi <strong>1–2 hari kerja</strong></span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">💸</span><span>Pembayaran <strong>lunas di awal</strong> · Ongkir diinfo terpisah</span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">👕</span><span>Bahan <strong>Cotton Combed 24s</strong> · Premium 170–180 GSM</span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">📦</span><span>Ongkos kirim diinfo via WA setelah <strong>GO closing</strong></span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">🔥</span><span><strong>LIMITED DROP</strong> — Bhuta Kala Modern</span></div>
-    <span class="preorder-sep">⚡</span>
-    <!-- Set 2 — duplikat untuk seamless loop -->
-    <div class="preorder-pill"><span class="icon">🛒</span><span><strong>PRE-ORDER</strong> — Baju diproduksi setelah kamu pesan</span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">⏱️</span><span>Estimasi produksi <strong>1–2 hari kerja</strong></span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">💸</span><span>Pembayaran <strong>lunas di awal</strong> · Ongkir diinfo terpisah</span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">👕</span><span>Bahan <strong>Cotton Combed 24s</strong> · Premium 170–180 GSM</span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">📦</span><span>Ongkos kirim diinfo via WA setelah <strong>GO closing</strong></span></div>
-    <span class="preorder-sep">⚡</span>
-    <div class="preorder-pill"><span class="icon">🔥</span><span><strong>LIMITED DROP</strong> — Bhuta Kala Modern</span></div>
-    <span class="preorder-sep">⚡</span>
-  </div>
+  <div class="marquee-track" id="marquee-track"></div>
 </div>
 
 <!-- HERO IMAGE 16:9 -->
@@ -796,7 +776,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
         <div class="orow"><span class="okey" id="okey-harga">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
         <div class="orow" style="margin-top:6px;">
           <span class="okey" id="okey-total" style="color:var(--amber)">TOTAL KAOS</span>
-          <span class="oval" style="color:var(--amber);font-family:'Anton',sans-serif;font-size:20px;" id="r-total">—</span>
+          <span class="oval" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:20px;" id="r-total">—</span>
         </div>
         <div class="orow">
           <span class="okey" id="okey-ongkir">Ongkir</span>
@@ -869,7 +849,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(45,106,45,.15);border:1px solid #3a9a3a;margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">✅</span>
           <div style="text-align:left;">
-            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;" data-i18n="sf1title">BUKTI TRANSFER DITERIMA</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:1px;color:#80d080;" data-i18n="sf1title">BUKTI TRANSFER DITERIMA</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="sf1desc">Data & foto bukti tersimpan di sistem admin</div>
           </div>
         </div>
@@ -878,7 +858,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.4);margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">🔍</span>
           <div style="text-align:left;">
-            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:var(--amber);" data-i18n="sf2title">ADMIN SEDANG CEK PEMBAYARAN</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:1px;color:var(--amber);" data-i18n="sf2title">ADMIN SEDANG CEK PEMBAYARAN</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="sf2desc">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
           </div>
         </div>
@@ -887,7 +867,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">📱</span>
           <div style="text-align:left;">
-            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="sf3title">NOTIF WA JIKA TERKONFIRMASI</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="sf3title">NOTIF WA JIKA TERKONFIRMASI</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="sf3desc">Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi</div>
           </div>
         </div>
@@ -896,7 +876,7 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);">
           <span style="font-size:20px;flex-shrink:0;">🏭</span>
           <div style="text-align:left;">
-            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="sf4title">PRODUKSI 1–2 HARI KERJA</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="sf4title">PRODUKSI 1–2 HARI KERJA</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="sf4desc">Dimulai setelah pembayaran terkonfirmasi</div>
           </div>
         </div>
@@ -1241,6 +1221,14 @@ const T = {
     payDesc      : 'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',
     adminNote    : 'Admin verifikasi dalam 1×24 jam',
     shipText     : 'Pengiriman hanya ke seluruh Indonesia',
+    marquee: [
+      {icon:'🛒', text:'<strong>PRE-ORDER</strong> — Baju diproduksi setelah kamu pesan'},
+      {icon:'⏱️', text:'Estimasi produksi <strong>1–2 hari kerja</strong>'},
+      {icon:'💸', text:'Pembayaran <strong>lunas di awal</strong> · Ongkir diinfo terpisah'},
+      {icon:'👕', text:'Bahan <strong>Cotton Combed 24s</strong> · Premium 170–180 GSM'},
+      {icon:'📦', text:'Ongkos kirim diinfo via WA setelah <strong>GO closing</strong>'},
+      {icon:'🔥', text:'<strong>LIMITED DROP</strong> — Bhuta Kala Modern'},
+    ],
     // Step cards
     sc1title: 'ISI FORM',   sc1desc: 'Lengkapi data diri, pilih ukuran & qty.',
     sc2title: 'TRANSFER',   sc2desc: 'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.',
@@ -1321,6 +1309,14 @@ const T = {
     payDesc      : 'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping cost will be confirmed separately via WA.',
     adminNote    : 'Admin will verify within 1×24 hours',
     shipText     : 'Indonesia shipping only',
+    marquee: [
+      {icon:'🛒', text:'<strong>PRE-ORDER</strong> — Made after you order'},
+      {icon:'⏱️', text:'Production estimate <strong>1–2 working days</strong>'},
+      {icon:'💸', text:'Full payment upfront · Shipping confirmed separately'},
+      {icon:'👕', text:'Material <strong>Cotton Combed 24s</strong> · Premium 170–180 GSM'},
+      {icon:'📦', text:'Shipping cost confirmed via WA after <strong>GO closing</strong>'},
+      {icon:'🔥', text:'<strong>LIMITED DROP</strong> — Bhuta Kala Modern'},
+    ],
     // Step cards
     sc1title: 'FILL FORM',   sc1desc: 'Fill in your details, choose size & quantity.',
     sc2title: 'TRANSFER',    sc2desc: 'Transfer shirt total to GoPay/Dana. Shipping to follow.',
@@ -1419,6 +1415,9 @@ function setLang(lang) {
   const shipEl = document.getElementById('ship-text');
   if (shipEl) shipEl.textContent = t.shipText;
 
+  // Rebuild marquee with translated text
+  buildMarquee(lang);
+
   // Success flow items (have data-i18n but need innerHTML for <strong> tags)
   ['sf1title','sf1desc','sf2title','sf2desc',
    'sf3title','sf3desc','sf4title','sf4desc'].forEach(key => {
@@ -1430,6 +1429,21 @@ function setLang(lang) {
   // Page lang attribute
   document.documentElement.lang = lang;
   updatePhonePlaceholder();
+}
+
+function buildMarquee(lang) {
+  const track = document.getElementById('marquee-track');
+  if (!track) return;
+  const pills = T[lang].marquee;
+  // Build set 1 + set 2 for seamless loop
+  let html = '';
+  for (let pass = 0; pass < 2; pass++) {
+    pills.forEach(p => {
+      html += '<div class="preorder-pill"><span class="icon">' + p.icon + '</span><span>' + p.text + '</span></div>';
+      html += '<span class="preorder-sep">⚡</span>';
+    });
+  }
+  track.innerHTML = html;
 }
 
 function updatePhonePlaceholder() {
@@ -1459,6 +1473,9 @@ function updatePhonePlaceholder() {
 }
 
 
+
+// Init marquee and lang on load
+buildMarquee('id');
 
 // Scroll entrance animations
 const obs = new IntersectionObserver(entries => {
