@@ -734,22 +734,61 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
     <!-- STEP 3 SUCCESS -->
     <div id="step3">
       <span class="success-icon">✅</span>
-      <div class="success-title">ORDER CONFIRMED!</div>
+      <div class="success-title">ORDER MASUK!</div>
       <p class="success-msg">
-        Pembayaran lo udah masuk sistem.<br>
-        Admin akan konfirmasi via WhatsApp dalam <strong style="color:var(--amber)">1×24 jam</strong>.<br>
-        <span style="font-size:12px;opacity:.7;">Produksi dimulai setelah konfirmasi · estimasi <strong style="color:var(--amber)">1–2 hari kerja</strong></span>
+        Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.
       </p>
+
+      <!-- Status flow -->
+      <div style="margin-bottom:20px;">
+
+        <!-- Step 1: Done -->
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(45,106,45,.15);border:1px solid #3a9a3a;margin-bottom:8px;">
+          <span style="font-size:20px;flex-shrink:0;">✅</span>
+          <div style="text-align:left;">
+            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;">BUKTI TRANSFER DITERIMA</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;">Data & foto bukti tersimpan di sistem admin</div>
+          </div>
+        </div>
+
+        <!-- Step 2: In Progress -->
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.4);margin-bottom:8px;">
+          <span style="font-size:20px;flex-shrink:0;">🔍</span>
+          <div style="text-align:left;">
+            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:var(--amber);">ADMIN SEDANG CEK PEMBAYARAN</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
+          </div>
+        </div>
+
+        <!-- Step 3: Waiting -->
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);margin-bottom:8px;">
+          <span style="font-size:20px;flex-shrink:0;">📱</span>
+          <div style="text-align:left;">
+            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;">NOTIF WA JIKA TERKONFIRMASI</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;">Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi</div>
+          </div>
+        </div>
+
+        <!-- Step 4: Waiting -->
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);">
+          <span style="font-size:20px;flex-shrink:0;">🏭</span>
+          <div style="text-align:left;">
+            <div style="font-family:'Anton',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;">PRODUKSI 1–2 HARI KERJA</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;">Dimulai setelah pembayaran terkonfirmasi</div>
+          </div>
+        </div>
+      </div>
+
       <div class="success-box">
-        <div class="success-box-title">⚡ RINGKASAN</div>
+        <div class="success-box-title">📋 DETAIL ORDER</div>
         <ul>
           <li>No. order: <strong id="s-ordernum" style="color:var(--amber)">—</strong></li>
-          <li>Data & bukti bayar tersimpan di sistem</li>
-          <li>Admin sudah dapat notifikasi email</li>
-          <li>Pantau WA lo untuk konfirmasi</li>
+          <li>Bukti transfer tersimpan di sistem</li>
+          <li>Notif email sudah dikirim ke admin</li>
         </ul>
       </div>
-      <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.5;line-height:1.7;">
+
+      <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.55;line-height:1.7;">
         Ada pertanyaan? Chat admin:<br>
         <a href="https://wa.me/6281236869035" target="_blank" rel="noopener"
            style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>
@@ -792,7 +831,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <script>
 // ═══ CONFIG ═══
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbA3CF7D6CSOwEF4ZXqKHf38-l9PpLkMJomKBaCcaLS5TPmM1DojMKRd6XiCiXR3GwNQ/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3wRmhm1SPtDU2oz1TZdBGhfu8WFYepM8hkaz4O5Q8icCxZC4xJ1OLNgAnq6jec11zcA/exec';
 
 // ═══ GALLERY & LIGHTBOX ═══
 // Index 0 = hero image (Gemini), 1-3 = gallery mockups
