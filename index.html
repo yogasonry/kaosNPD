@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0705">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤘</text></svg>">
 <meta name="description" content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern. Cotton Combed 24s. Limited Group Order.">
 <title>AWAS BAHAYA NPD — Bhuta Kala Modern</title>
 
@@ -28,6 +29,7 @@
 <meta name="twitter:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png">
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -97,8 +99,8 @@ header{
 @media(max-width:580px){.product-info{grid-template-columns:1fr;}}
 .pi-left,.pi-right{padding:24px 28px;}
 .pi-left{border-right:1px solid rgba(200,134,10,.15);}
-@media(max-width:580px){.pi-left{border-right:none;border-bottom:1px solid rgba(200,134,10,.15);padding-bottom:16px;}}
-@media(max-width:580px){.pi-right{padding-top:16px;}}
+@media(max-width:580px){.pi-left{border-right:none;border-bottom:1px solid rgba(200,134,10,.15);padding:16px 16px 14px;}}
+@media(max-width:580px){.pi-right{padding:14px 16px 16px;}}
 
 .warning-badge{
   display:inline-block;background:var(--red);border:2px solid var(--amber);
@@ -128,9 +130,10 @@ header{
 
 /* ─── PRICE ─── */
 .price-wrap{
-  text-align:center;padding:40px 24px 22px;
+  text-align:center;padding:32px 16px 18px;
   background:linear-gradient(180deg,transparent,rgba(61,26,8,.2),transparent);
 }
+@media(max-width:480px){.price-wrap{padding:22px 12px 14px;}}
 .price-lbl{font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
 .price-grid{display:flex;justify-content:center;align-items:flex-end;gap:24px;flex-wrap:wrap;}
 .price-item{text-align:center;}
@@ -144,7 +147,7 @@ header{
 .divider{width:100%;max-width:540px;margin:16px auto;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 
 /* ─── GALLERY ─── */
-.gallery-section{max-width:860px;margin:0 auto;padding:0 16px 44px;}
+.gallery-section{max-width:860px;margin:0 auto;padding:0 12px 36px;}
 .sec-title{font-family:'Anton',sans-serif;font-size:clamp(22px,5vw,34px);color:var(--amber);letter-spacing:3px;text-align:center;margin-bottom:5px;}
 .sec-note{text-align:center;font-family:'Roboto',sans-serif;font-size:12px;color:var(--gold);opacity:.82;letter-spacing:2px;margin-bottom:16px;}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
@@ -172,12 +175,14 @@ header{
 }
 .lb.open{display:flex;}
 .lb-img-wrap{
-  position:relative;width:100%;max-width:min(90vw,600px);
+  position:relative;width:100%;max-width:min(96vw,900px);
   display:flex;align-items:center;justify-content:center;
 }
 .lb-img{
-  max-width:100%;max-height:72vh;object-fit:contain;
+  max-width:100%;max-height:88vh;object-fit:contain;
   border:2px solid var(--gold);display:block;
+  /* pinch-zoom works on mobile */
+  touch-action:pinch-zoom;
 }
 .lb-close{
   position:fixed;top:14px;right:14px;width:40px;height:40px;
@@ -212,12 +217,12 @@ header{
 .chart-tbl td:first-child{font-family:'Anton',sans-serif;font-size:19px;color:var(--amber);}
 .chart-tbl td.pc{font-family:'Anton',sans-serif;font-size:17px;}
 .chart-tbl td.pc.sp{color:#d09018;}
-.chart-note{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.4;text-align:center;margin-top:10px;line-height:1.6;}
+.chart-note{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.65;text-align:center;margin-top:10px;line-height:1.6;}
 
 /* ─── ORDER FORM ─── */
 .form-section{
   background:linear-gradient(180deg,var(--black),#160c05,var(--black));
-  border-top:2px solid rgba(200,134,10,.18);padding:44px 16px 56px;
+  border-top:2px solid rgba(200,134,10,.18);padding:44px 16px 80px;
 }
 .form-inner{max-width:520px;margin:0 auto;}
 
@@ -233,7 +238,8 @@ header{
 .sdot.done .sdot-c{border-color:#3a9a3a;color:#fff;background:#3a9a3a;}
 .sdot-l{font-family:'Roboto',sans-serif;font-size:9px;color:rgba(200,134,10,.65);margin-top:4px;letter-spacing:1px;text-align:center;white-space:nowrap;}
 .sdot.active .sdot-l,.sdot.done .sdot-l{color:var(--gold);}
-.sline{flex:1;height:2px;background:rgba(200,134,10,.16);margin-top:18px;min-width:16px;max-width:60px;transition:background .4s;}
+.sline{flex:1;height:2px;background:rgba(200,134,10,.16);margin-top:18px;min-width:8px;max-width:50px;transition:background .4s;}
+@media(max-width:360px){.sdot-l{font-size:8px;letter-spacing:0;}}
 .sline.done{background:#3a9a3a;}
 
 /* Inputs — 16px minimum to prevent iOS zoom */
@@ -257,11 +263,12 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(max-width:380px){.size-picker{grid-template-columns:repeat(3,1fr);}}
 .sopt{
   background:transparent;border:2px solid rgba(200,134,10,.26);
-  color:var(--cream);font-family:'Anton',sans-serif;font-size:15px;
-  padding:10px 2px;cursor:pointer;transition:all .2s;text-align:center;
+  color:var(--cream);font-family:'Anton',sans-serif;font-size:14px;
+  padding:8px 1px;cursor:pointer;transition:all .2s;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:2px;
-  min-height:52px;justify-content:center;
+  min-height:48px;justify-content:center;
 }
+@media(max-width:360px){.sopt{font-size:12px;min-height:44px;}}
 .sopt-price{font-family:'Roboto',sans-serif;font-size:8px;letter-spacing:1px;opacity:.55;line-height:1;}
 .sopt:active{border-color:var(--amber);}
 @media(hover:hover){.sopt:hover{border-color:var(--amber);color:var(--amber);}}
@@ -357,7 +364,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .success-box li::before{content:'✓';color:#80d080;flex-shrink:0;}
 
 /* ─── HOW SECTION ─── */
-.how-section{padding:44px 16px;border-top:2px solid rgba(200,134,10,.16);}
+.how-section{padding:36px 12px;border-top:2px solid rgba(200,134,10,.16);}
 .how-inner{max-width:700px;margin:0 auto;}
 .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px;}
 @media(min-width:560px){.steps-grid{grid-template-columns:repeat(4,1fr);}}
@@ -499,8 +506,10 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <!-- HERO IMAGE 16:9 -->
 <div class="hero-img-wrap" onclick="openLb(0)">
-  <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
-       alt="AWAS BAHAYA NPD" loading="eager">
+  <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
+       alt="AWAS BAHAYA NPD" loading="eager"
+       srcset="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png 1600w, https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png 3000w"
+       sizes="100vw">
   <div class="hero-img-hint">🔍 Perbesar</div>
 </div>
 
@@ -546,17 +555,17 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
   <h3 class="sec-title">DETAIL KAOS</h3>
   <p class="sec-note">Tap foto untuk memperbesar</p>
   <div class="gallery-grid">
-    <div class="gal-item" onclick="openLb(0)">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png" alt="Mockup 1" loading="lazy">
-      <div class="gal-num">1/3</div>
-    </div>
     <div class="gal-item" onclick="openLb(1)">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png" alt="Mockup 2" loading="lazy">
-      <div class="gal-num">2/3</div>
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png" alt="Mockup 1" loading="lazy">
+      <div class="gal-num">2/4</div>
     </div>
     <div class="gal-item" onclick="openLb(2)">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png" alt="Mockup 3" loading="lazy">
-      <div class="gal-num">3/3</div>
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png" alt="Mockup 2" loading="lazy">
+      <div class="gal-num">3/4</div>
+    </div>
+    <div class="gal-item" onclick="openLb(3)">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png" alt="Mockup 3" loading="lazy">
+      <div class="gal-num">4/4</div>
     </div>
   </div>
 </section>
@@ -870,11 +879,12 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3wRmhm1SPtDU2
 
 // ═══ GALLERY & LIGHTBOX ═══
 // Index 0 = hero image (Gemini), 1-3 = gallery mockups
+// Full resolution HQ for lightbox — q_100 = lossless, f_png = no compression
 const GALLERY = [
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
 ];
 let lbIdx = 0;
 
