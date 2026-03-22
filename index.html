@@ -47,23 +47,26 @@ body::before{
 
 /* ─── HEADER ─── */
 header{
-  text-align:center;padding:28px 20px 0;
+  text-align:center;padding:20px 16px 0;
   background:radial-gradient(ellipse at top,#2e1206 0%,var(--black) 68%);
   border-bottom:3px solid var(--gold);overflow:hidden;position:relative;
 }
-.top-tag{font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:4px;color:var(--gold);opacity:.85;margin-bottom:12px;text-transform:uppercase;}
+@media(max-width:480px){
+  header{padding:14px 12px 0;}
+}
+.top-tag{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.85;margin-bottom:8px;text-transform:uppercase;}
 .hero-hl{
-  font-family:'Anton',sans-serif;font-size:clamp(28px,8vw,76px);
-  line-height:.9;color:var(--white);letter-spacing:1px;
-  text-shadow:4px 4px 0 #000,0 0 50px rgba(200,134,10,.3);
+  font-family:'Anton',sans-serif;font-size:clamp(22px,7vw,72px);
+  line-height:.92;color:var(--white);letter-spacing:1px;
+  text-shadow:3px 3px 0 #000,0 0 40px rgba(200,134,10,.3);
   animation:flicker 6s infinite;
 }
 .hero-hl em{color:var(--amber);font-style:normal;}
 @keyframes flicker{0%,93%,97%,100%{opacity:1}95%{opacity:.82}}
 .hero-desc{
-  font-family:'Roboto',sans-serif;font-size:clamp(13px,3.5vw,16px);
-  color:var(--cream);opacity:.88;max-width:480px;margin:14px auto 0;line-height:1.75;
-  padding:0 8px;
+  font-family:'Roboto',sans-serif;font-size:clamp(12px,3vw,15px);
+  color:var(--cream);opacity:.88;max-width:480px;margin:10px auto 0;line-height:1.65;
+  padding:0 12px;
 }
 .hero-desc strong{color:var(--amber);}
 
@@ -418,20 +421,26 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
   background:linear-gradient(135deg,#1a0f05,#2a1608);
   border-bottom:2px solid rgba(200,134,10,.3);
   border-top:2px solid rgba(200,134,10,.3);
-  padding:14px 20px;text-align:center;
+  padding:10px 16px;text-align:center;
 }
 .preorder-bar-inner{
   max-width:680px;margin:0 auto;
   display:flex;flex-wrap:wrap;justify-content:center;
-  align-items:center;gap:16px 32px;
+  align-items:center;gap:8px 20px;
 }
 .preorder-pill{
-  display:flex;align-items:center;gap:8px;
-  font-family:'Roboto',sans-serif;font-size:13px;
-  color:var(--cream);letter-spacing:.5px;
+  display:flex;align-items:center;gap:6px;
+  font-family:'Roboto',sans-serif;font-size:11px;
+  color:var(--cream);letter-spacing:.3px;opacity:.9;
 }
-.preorder-pill span.icon{font-size:16px;}
+.preorder-pill span.icon{font-size:13px;}
 .preorder-pill strong{color:var(--amber);}
+@media(max-width:480px){
+  .preorder-bar{padding:8px 12px;}
+  .preorder-bar-inner{gap:6px 14px;}
+  .preorder-pill{font-size:10px;}
+  .preorder-pill span.icon{font-size:12px;}
+}
 </style>
 </head>
 <body>
@@ -441,7 +450,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
   <p class="top-tag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl">AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
   <p class="hero-desc">Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong></p>
-  <div style="height:24px"></div>
+  <div style="height:14px"></div>
 </header>
 
 <!-- ═══ PRE-ORDER INFO BAR ═══ -->
