@@ -54,10 +54,8 @@ header::after{
 
 /* ─── PRODUCT GRID ─── */
 .product-wrap{
-  display:grid;grid-template-columns:1fr 1fr;
-  max-width:980px;margin:0 auto;padding:42px 24px 0;align-items:center;gap:0;
+  max-width:860px;margin:0 auto;padding:0;
 }
-@media(max-width:660px){.product-wrap{grid-template-columns:1fr;}.img-side{order:-1;}}
 .warning-badge{
   display:inline-block;background:var(--red);border:2px solid var(--amber);
   padding:5px 14px;font-family:'Anton SC',sans-serif;font-size:13px;
@@ -82,12 +80,27 @@ header::after{
   padding:6px 0;border-bottom:1px solid rgba(200,134,10,.12);letter-spacing:1px;
 }
 .sym-list li::before{content:'⚡';color:var(--amber);flex-shrink:0;}
-.img-side{display:flex;justify-content:center;padding:20px;}
-.tshirt-frame{position:relative;width:100%;max-width:300px;}
-.tshirt-glow{position:absolute;inset:-20px;background:radial-gradient(ellipse,rgba(200,134,10,.2),transparent 70%);border-radius:50%;animation:glow 3s ease-in-out infinite;}
-@keyframes glow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
-.tshirt-svg{width:100%;position:relative;z-index:2;filter:drop-shadow(0 20px 50px rgba(0,0,0,.9));transition:transform .4s;}
-.tshirt-svg:hover{transform:scale(1.03) rotate(-1deg);}
+.hero-single-img{
+  position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;
+  border-bottom:3px solid var(--gold);cursor:zoom-in;
+}
+.hero-single-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.hero-single-img:hover img{transform:scale(1.03);}
+.hsi-zoom{
+  position:absolute;bottom:12px;right:14px;
+  background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.5);
+  font-family:'Special Elite',cursive;font-size:11px;letter-spacing:2px;
+  color:var(--amber);padding:5px 12px;opacity:0;transition:opacity .3s;
+}
+.hero-single-img:hover .hsi-zoom{opacity:1;}
+.txt-side{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;padding:28px 28px 10px;align-items:start;
+}
+@media(max-width:600px){.txt-side{grid-template-columns:1fr;padding:20px 20px 10px;}}
 
 /* ─── PRICE BLOCK ─── */
 .price-wrap{
@@ -316,6 +329,40 @@ footer{padding:34px 24px;text-align:center;border-top:1px solid rgba(200,134,10,
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--amber);color:var(--black);font-family:'Anton SC',sans-serif;font-size:14px;letter-spacing:3px;padding:11px 26px;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 6px 26px rgba(0,0,0,.5);white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 
+
+/* ─── HERO CAROUSEL ─── */
+.hero-carousel{
+  position:relative;width:100%;max-width:340px;
+  overflow:hidden;border:2px solid rgba(200,134,10,.3);
+  box-shadow:0 20px 60px rgba(0,0,0,.8), 0 0 40px rgba(200,134,10,.15);
+}
+.hc-track{
+  display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+}
+.hc-slide{flex:0 0 100%;aspect-ratio:3/4;}
+.hc-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.hc-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(10,7,5,.7);border:1px solid rgba(200,134,10,.4);
+  color:var(--amber);font-family:'Anton SC',sans-serif;font-size:28px;
+  width:36px;height:48px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;z-index:10;
+}
+.hc-btn:hover{background:var(--rust);border-color:var(--amber);}
+.hc-prev{left:0;border-left:none;}
+.hc-next{right:0;border-right:none;}
+.hc-dots{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:7px;z-index:10;
+}
+.hc-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(200,134,10,.35);cursor:pointer;
+  border:1px solid rgba(200,134,10,.4);transition:all .2s;
+}
+.hc-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.2);}
+
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--rust);}
@@ -336,47 +383,33 @@ footer{padding:34px 24px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <!-- ═══ PRODUCT ═══ -->
 <div class="product-wrap">
-  <div class="txt-side">
-    <div class="warning-badge">⚡ AWAS BAHAYA NPD</div>
-    <h2 class="product-title">NASKLENG<span>PERSONALITY DISORDER</span></h2>
-    <div class="material-tag">Cotton Combed 24s · 170–180 GSM · 100% Cotton</div>
-    <ul class="sym-list">
-      <li>EGOIS MAKSIMAL</li>
-      <li>ANTI KRITIK</li>
-      <li>OTAK NGAMBUL</li>
-    </ul>
-    <p style="font-family:'Special Elite',cursive;font-size:13px;color:var(--cream);opacity:.6;line-height:1.75;margin-top:12px;">
-      Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>.<br>
-      Bahan premium combed 24s — tebal, berisi, collector vibes.
-    </p>
+
+  <!-- 16:9 Hero Image — full width on top -->
+  <div class="hero-single-img" onclick="openLb(1)">
+    <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png" alt="AWAS BAHAYA NPD">
+    <div class="hsi-zoom">🔍 Tap untuk perbesar</div>
   </div>
-  <div class="img-side">
-    <div class="tshirt-frame">
-      <div class="tshirt-glow"></div>
-      <svg class="tshirt-svg" viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg">
-        <defs><filter id="tx"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" result="n"/><feColorMatrix type="saturate" values="0" in="n" result="g"/><feBlend in="SourceGraphic" in2="g" mode="multiply"/></filter></defs>
-        <path d="M60,40 L0,80 L30,120 L70,100 L70,380 L290,380 L290,100 L330,120 L360,80 L300,40 L240,10 Q180,30 120,10 Z" fill="#1a1410" stroke="#3d2810" stroke-width="2" filter="url(#tx)"/>
-        <path d="M120,10 Q180,40 240,10 Q210,50 180,52 Q150,50 120,10Z" fill="#111009"/>
-        <rect x="90" y="100" width="180" height="210" rx="4" fill="#2a1205" stroke="#c8860a" stroke-width="1.5"/>
-        <rect x="94" y="104" width="172" height="42" rx="2" fill="#8b1a0a"/>
-        <text x="180" y="124" text-anchor="middle" font-family="Impact" font-size="11" fill="#f0d080" letter-spacing="1">AWAS BAHAYA</text>
-        <text x="180" y="139" text-anchor="middle" font-family="Impact" font-size="15" fill="#e8a020" letter-spacing="3">NPD</text>
-        <circle cx="180" cy="200" r="50" fill="#3d1a00" stroke="#c8860a" stroke-width="1"/>
-        <circle cx="180" cy="200" r="30" fill="none" stroke="#c8860a" stroke-width=".5" opacity=".4"/>
-        <circle cx="180" cy="200" r="42" fill="none" stroke="#c8860a" stroke-width=".5" opacity=".3"/>
-        <ellipse cx="180" cy="196" rx="22" ry="26" fill="#8b4a10"/>
-        <ellipse cx="172" cy="191" rx="5" ry="6" fill="white"/><ellipse cx="188" cy="191" rx="5" ry="6" fill="white"/>
-        <circle cx="173" cy="192" r="3" fill="#1a0a00"/><circle cx="189" cy="192" r="3" fill="#1a0a00"/>
-        <path d="M172,210 L168,222 L175,213 Z" fill="ivory"/><path d="M188,210 L184,213 L192,222 Z" fill="ivory"/>
-        <path d="M162,176 Q180,166 198,176 Q190,171 180,169 Q170,171 162,176Z" fill="#c8860a"/>
-        <text x="122" y="176" font-size="13" fill="#e8a020" opacity=".85">⚡</text>
-        <text x="228" y="176" font-size="13" fill="#e8a020" opacity=".85">⚡</text>
-        <text x="100" y="278" font-family="Impact" font-size="8.5" fill="#f0d080">• EGOIS MAKSIMAL</text>
-        <text x="100" y="293" font-family="Impact" font-size="8.5" fill="#f0d080">• ANTI KRITIK</text>
-        <text x="100" y="308" font-family="Impact" font-size="8.5" fill="#f0d080">• OTAK NGAMBUL</text>
-      </svg>
+
+  <!-- Product text below — 2 col on desktop -->
+  <div class="txt-side">
+    <div class="txt-left">
+      <div class="warning-badge">⚡ AWAS BAHAYA NPD</div>
+      <h2 class="product-title">NASKLENG<span>PERSONALITY DISORDER</span></h2>
+      <div class="material-tag">Cotton Combed 24s · 170–180 GSM · 100% Cotton</div>
+    </div>
+    <div class="txt-right">
+      <ul class="sym-list">
+        <li>EGOIS MAKSIMAL</li>
+        <li>ANTI KRITIK</li>
+        <li>OTAK NGAMBUL</li>
+      </ul>
+      <p style="font-family:'Special Elite',cursive;font-size:13px;color:var(--cream);opacity:.6;line-height:1.75;margin-top:12px;">
+        Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>.<br>
+        Bahan premium combed 24s — tebal, berisi, collector vibes.
+      </p>
     </div>
   </div>
+
 </div>
 
 <!-- ═══ PRICE ═══ -->
@@ -831,7 +864,8 @@ async function submitAll() {
   if (APPS_SCRIPT_URL !== 'PASTE_URL_APPS_SCRIPT_DISINI') {
     try {
       await fetch(APPS_SCRIPT_URL, {
-        method:'POST', headers:{'Content-Type':'application/json'},
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify({...orderData, imageData:imageBase64, imageMime}),
         mode:'no-cors'
       });
@@ -874,6 +908,27 @@ document.querySelectorAll('.step-card,.gal-item').forEach(el => {
   el.style.transition='opacity .5s ease, transform .5s ease';
   obs.observe(el);
 });
+
+// ═══ HERO CAROUSEL ═══
+let hcCurrent = 0;
+const HC_TOTAL = 4;
+function hcNav(d) { hcGo((hcCurrent + d + HC_TOTAL) % HC_TOTAL); }
+function hcGo(idx) {
+  hcCurrent = idx;
+  document.getElementById('hc-track').style.transform = `translateX(-${idx * 100}%)`;
+  document.querySelectorAll('.hc-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+}
+// Auto-slide every 3.5s
+let hcTimer = setInterval(() => hcNav(1), 3500);
+document.querySelector('.hero-carousel')?.addEventListener('mouseenter', () => clearInterval(hcTimer));
+document.querySelector('.hero-carousel')?.addEventListener('mouseleave', () => { hcTimer = setInterval(() => hcNav(1), 3500); });
+
+// Touch swipe
+let hcTouchX = 0;
+document.getElementById('hc-track')?.addEventListener('touchstart', e => { hcTouchX = e.touches[0].clientX; }, {passive:true});
+document.getElementById('hc-track')?.addEventListener('touchend', e => {
+  const dx = hcTouchX - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 40) hcNav(dx > 0 ? 1 : -1);
+});
+
 </script>
-</body>
-</html>
