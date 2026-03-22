@@ -254,6 +254,12 @@ header{
 }
 .finp::placeholder{color:rgba(240,224,192,.22);}
 .finp:focus{border-color:var(--amber);background:rgba(200,134,10,.05);}
+select.finp{
+  -webkit-appearance:none;appearance:none;
+  background-color:#1a0f06;
+  color:var(--cream);cursor:pointer;
+}
+select.finp option{background:#1a0f06;color:var(--cream);}
 textarea.finp{resize:vertical;min-height:80px;}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:440px){.frow{grid-template-columns:1fr;}}
@@ -393,9 +399,35 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 }
 .toast.show{transform:translateX(-50%) translateY(0);}
 
+/* ─── SHIPPING BADGE ─── */
+.shipping-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:14px;padding:7px 16px;
+  background:rgba(200,134,10,.1);
+  border:1px solid rgba(200,134,10,.35);
+  font-family:'Roboto',sans-serif;font-size:12px;
+  color:var(--cream);letter-spacing:1px;
+}
+.ship-flag{font-size:16px;}
+.ship-text{opacity:.85;}
+
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--rust);}
+
+/* ─── LANG + CURRENCY TOGGLE ─── */
+.top-controls{
+  position:fixed;top:12px;right:14px;z-index:7000;
+  display:flex;gap:6px;align-items:center;
+}
+.ctrl-btn{
+  background:rgba(10,7,5,.85);border:1px solid rgba(200,134,10,.45);
+  color:var(--amber);font-family:'Anton',sans-serif;font-size:11px;
+  letter-spacing:2px;padding:5px 10px;cursor:pointer;
+  transition:all .2s;backdrop-filter:blur(6px);
+}
+.ctrl-btn:hover,.ctrl-btn.active{background:var(--amber);color:var(--black);}
+.ctrl-sep{color:rgba(200,134,10,.3);font-size:12px;}
 
 /* ─── FLOATING WA BUTTON ─── */
 .wa-float{
@@ -466,9 +498,9 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <!-- HEADER -->
 <header>
-  <p class="top-tag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
-  <h1 class="hero-hl">AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
-  <p class="hero-desc">Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong></p>
+  <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
+  <h1 class="hero-hl" data-i18n="heroHl">AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
+  <p class="hero-desc" data-i18n="heroDesc">Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong></p>
   <div style="height:14px"></div>
 </header>
 
@@ -510,13 +542,13 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
        alt="AWAS BAHAYA NPD" loading="eager"
        srcset="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png 1600w, https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png 3000w"
        sizes="100vw">
-  <div class="hero-img-hint">🔍 Perbesar</div>
+  <div class="hero-img-hint" data-i18n="imgHint">🔍 Perbesar</div>
 </div>
 
 <!-- PRODUCT INFO -->
 <div class="product-info">
   <div class="pi-left">
-    <div class="warning-badge">⚡ AWAS BAHAYA NPD</div>
+    <div class="warning-badge" data-i18n="warningBadge">⚡ AWAS BAHAYA NPD</div>
     <h2 class="product-title">NASKLENG<span>PERSONALITY DISORDER</span></h2>
     <div class="material-tag">Cotton Combed 24s · 170–180 GSM<br>100% Cotton</div>
   </div>
@@ -526,13 +558,13 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       <li>ANTI KRITIK</li>
       <li>OTAK NGAMBUL</li>
     </ul>
-    <p class="product-desc">Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.</p>
+    <p class="product-desc" data-i18n="productDesc">Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.</p>
   </div>
 </div>
 
 <!-- PRICE -->
 <div class="price-wrap">
-  <p class="price-lbl">⚡ harga group order ⚡</p>
+  <p class="price-lbl" data-i18n="priceLbl">⚡ harga group order ⚡</p>
   <div class="price-grid">
     <div class="price-item">
       <div class="price-sizes">S · M · L · XL</div>
@@ -544,16 +576,23 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       <div class="price-num mid">170K</div>
     </div>
   </div>
-  <p class="price-note"><strong>Harga per pcs</strong> · belum termasuk ongkos kirim</p>
+  <p class="price-note" data-i18n="priceNote"><strong>Harga per pcs</strong> · belum termasuk ongkos kirim</p>
   <p class="price-note" style="margin-top:4px;font-size:11px;">Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing</p>
+
+  <!-- Indonesia Shipping Only -->
+  <div class="shipping-badge" data-i18n-id="shippingBadge" data-i18n-en="shippingBadgeEn">
+    <span class="ship-flag">🇮🇩</span>
+    <span class="ship-text" id="ship-text">Pengiriman hanya ke seluruh Indonesia</span>
+    <span class="ship-flag">🇮🇩</span>
+  </div>
 </div>
 
 <div class="divider"></div>
 
 <!-- GALLERY (3 foto selain hero) -->
 <section class="gallery-section">
-  <h3 class="sec-title">DETAIL KAOS</h3>
-  <p class="sec-note">Tap foto untuk memperbesar</p>
+  <h3 class="sec-title" data-i18n="galleryTitle">DETAIL KAOS</h3>
+  <p class="sec-note" data-i18n="galleryNote">Tap foto untuk memperbesar</p>
   <div class="gallery-grid">
     <div class="gal-item" onclick="openLb(1)">
       <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png" alt="Mockup 1" loading="lazy">
@@ -588,7 +627,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 <!-- SIZE CHART -->
 <section class="size-section">
   <h3 class="sec-title">SIZE CHART</h3>
-  <p class="sec-note">Cotton Combed 24s · ukuran dalam cm</p>
+  <p class="sec-note" data-i18n="sizeNote">Cotton Combed 24s · ukuran dalam cm</p>
   <table class="chart-tbl">
     <thead><tr><th>Ukuran</th><th>Lebar</th><th>Panjang</th><th>Harga</th></tr></thead>
     <tbody>
@@ -609,52 +648,76 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
     <!-- Step Bar -->
     <div class="step-bar">
-      <div class="sdot active" id="sd1"><div class="sdot-c">1</div><div class="sdot-l">FORM</div></div>
+      <div class="sdot active" id="sd1"><div class="sdot-c">1</div><div class="sdot-l" data-i18n="stepForm">FORM</div></div>
       <div class="sline" id="sl1"></div>
-      <div class="sdot" id="sd2"><div class="sdot-c">2</div><div class="sdot-l">BAYAR</div></div>
+      <div class="sdot" id="sd2"><div class="sdot-c">2</div><div class="sdot-l" data-i18n="stepBayar">BAYAR</div></div>
       <div class="sline" id="sl2"></div>
-      <div class="sdot" id="sd3"><div class="sdot-c">3</div><div class="sdot-l">UPLOAD</div></div>
+      <div class="sdot" id="sd3"><div class="sdot-c">3</div><div class="sdot-l" data-i18n="stepUpload">UPLOAD</div></div>
       <div class="sline" id="sl3"></div>
-      <div class="sdot" id="sd4"><div class="sdot-c">✓</div><div class="sdot-l">SELESAI</div></div>
+      <div class="sdot" id="sd4"><div class="sdot-c">✓</div><div class="sdot-l" data-i18n="stepSelesai">SELESAI</div></div>
     </div>
 
     <!-- STEP 1 -->
     <div id="step1">
-      <h3 class="sec-title" style="margin-bottom:20px;">FORM ORDER</h3>
+      <h3 class="sec-title" style="margin-bottom:20px;" data-i18n="formTitle">FORM ORDER</h3>
 
       <div class="fg">
-        <label class="flbl" for="f-nama">Nama Lengkap *</label>
+        <label class="flbl" for="f-nama" data-i18n="lblNama">Nama Lengkap *</label>
         <input class="finp" type="text" id="f-nama" placeholder="Nama untuk label pengiriman"
                autocomplete="name" autocapitalize="words">
       </div>
 
       <div class="fg">
-        <label class="flbl" for="f-phone">Nomor WhatsApp *</label>
-        <input class="finp" type="tel" id="f-phone" placeholder="08xxxxxxxxxx"
-               inputmode="numeric" autocomplete="tel">
+        <label class="flbl" data-i18n="lblPhone">Nomor WhatsApp *</label>
+        <div style="display:flex;gap:0;">
+          <select id="f-countrycode" class="finp" onchange="updatePhonePlaceholder()" style="width:auto;flex-shrink:0;padding-right:8px;padding-left:8px;cursor:pointer;background:#1a0f06;border-right:none;font-size:14px;min-width:90px;">
+            <option value="62">🇮🇩 +62</option>
+            <option value="1">🇺🇸 +1</option>
+            <option value="44">🇬🇧 +44</option>
+            <option value="61">🇦🇺 +61</option>
+            <option value="65">🇸🇬 +65</option>
+            <option value="60">🇲🇾 +60</option>
+            <option value="31">🇳🇱 +31</option>
+            <option value="49">🇩🇪 +49</option>
+            <option value="33">🇫🇷 +33</option>
+            <option value="81">🇯🇵 +81</option>
+            <option value="82">🇰🇷 +82</option>
+            <option value="86">🇨🇳 +86</option>
+            <option value="91">🇮🇳 +91</option>
+            <option value="7">🇷🇺 +7</option>
+            <option value="55">🇧🇷 +55</option>
+          </select>
+          <input class="finp" type="tel" id="f-phone"
+                 placeholder="81xxxxxxxx"
+                 inputmode="numeric" autocomplete="tel"
+                 style="flex:1;border-left:1px solid rgba(200,134,10,.4);">
+        </div>
+        <div style="font-family:'Roboto',sans-serif;font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">
+          Pilih kode negara jika bukan Indonesia
+        </div>
       </div>
 
       <div class="fg">
-        <label class="flbl" for="f-alamat">Alamat Lengkap *</label>
+        <label class="flbl" for="f-alamat" data-i18n="lblAlamat">Alamat Lengkap *</label>
         <textarea class="finp" id="f-alamat" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan..."
                   autocomplete="street-address"></textarea>
       </div>
 
       <div class="frow">
         <div class="fg">
-          <label class="flbl" for="f-kota">Kota / Kabupaten *</label>
+          <label class="flbl" for="f-kota" data-i18n="lblKota">Kota / Kabupaten *</label>
           <input class="finp" type="text" id="f-kota" placeholder="Denpasar"
                  autocomplete="address-level2" autocapitalize="words">
         </div>
         <div class="fg">
-          <label class="flbl" for="f-kodepos">Kode Pos *</label>
+          <label class="flbl" for="f-kodepos" data-i18n="lblKodePos">Kode Pos *</label>
           <input class="finp" type="text" id="f-kodepos" placeholder="80361"
                  maxlength="6" inputmode="numeric" autocomplete="postal-code">
         </div>
       </div>
 
       <div class="fg">
-        <label class="flbl">Pilih Ukuran *</label>
+        <label class="flbl" data-i18n="lblUkuran">Pilih Ukuran *</label>
         <div class="size-picker">
           <button class="sopt" onclick="pickSize(this,'S',150000)">S<span class="sopt-price">150K</span></button>
           <button class="sopt" onclick="pickSize(this,'M',150000)">M<span class="sopt-price">150K</span></button>
@@ -666,7 +729,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       </div>
 
       <div class="fg">
-        <label class="flbl" style="margin-bottom:9px;">Jumlah</label>
+        <label class="flbl" style="margin-bottom:9px;" data-i18n="lblQty">Jumlah</label>
         <div class="qty-row">
           <span class="qty-lbl">QTY</span>
           <div class="qty-ctrl">
@@ -678,24 +741,24 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       </div>
 
       <div class="fg">
-        <label class="flbl" for="f-catatan">Catatan (opsional)</label>
+        <label class="flbl" for="f-catatan" data-i18n="lblCatatan">Catatan (opsional)</label>
         <input class="finp" type="text" id="f-catatan" placeholder="Request, titip salam, dll">
       </div>
 
       <div class="total-box">
-        <div class="trow"><span class="tkey">Ukuran</span><span class="tval" id="t-size">L</span></div>
-        <div class="trow"><span class="tkey">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
-        <div class="trow"><span class="tkey">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
+        <div class="trow"><span class="tkey" data-field="size">Ukuran</span><span class="tval" id="t-size">L</span></div>
+        <div class="trow"><span class="tkey" data-field="harga">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
+        <div class="trow"><span class="tkey" data-field="qty">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
         <hr class="tdiv">
         <div class="tbig" id="t-total">Rp 150.000</div>
-        <div class="tsub">BELUM TERMASUK ONGKOS KIRIM</div>
+        <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKOS KIRIM</div>
       </div>
 
       <button class="btn-main" id="btn1" onclick="goToStep2()">
-        <span id="btn1-txt">LANJUT KE PEMBAYARAN</span>
+        <span id="btn1-txt" data-i18n="btnNext">LANJUT KE PEMBAYARAN</span>
         <div class="spinner" id="sp1"></div>
       </button>
-      <p class="stock-warn">⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡</p>
+      <p class="stock-warn" data-i18n="stockWarn">⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡</p>
     </div>
 
     <!-- STEP 2 -->
@@ -709,24 +772,24 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
         <p style="font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-align:center;margin-bottom:4px;">NO. ORDER</p>
         <div class="order-num-big" id="r-ordernum">NPD-000000</div>
         <hr class="tdiv" style="margin:12px 0;">
-        <div class="orow"><span class="okey">Nama</span><span class="oval" id="r-nama">—</span></div>
-        <div class="orow"><span class="okey">No WA</span><span class="oval" id="r-phone">—</span></div>
-        <div class="orow"><span class="okey">Ukuran</span><span class="oval" id="r-size">—</span></div>
-        <div class="orow"><span class="okey">Qty</span><span class="oval" id="r-qty">—</span></div>
-        <div class="orow"><span class="okey">Kota</span><span class="oval" id="r-kota">—</span></div>
-        <div class="orow"><span class="okey">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
+        <div class="orow"><span class="okey" id="okey-nama">Nama</span><span class="oval" id="r-nama">—</span></div>
+        <div class="orow"><span class="okey" id="okey-wa">No WA</span><span class="oval" id="r-phone">—</span></div>
+        <div class="orow"><span class="okey" id="okey-ukuran">Ukuran</span><span class="oval" id="r-size">—</span></div>
+        <div class="orow"><span class="okey" id="okey-qty">Qty</span><span class="oval" id="r-qty">—</span></div>
+        <div class="orow"><span class="okey" id="okey-kota">Kota</span><span class="oval" id="r-kota">—</span></div>
+        <div class="orow"><span class="okey" id="okey-harga">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
         <div class="orow" style="margin-top:6px;">
-          <span class="okey" style="color:var(--amber)">TOTAL KAOS</span>
+          <span class="okey" id="okey-total" style="color:var(--amber)">TOTAL KAOS</span>
           <span class="oval" style="color:var(--amber);font-family:'Anton',sans-serif;font-size:20px;" id="r-total">—</span>
         </div>
         <div class="orow">
-          <span class="okey">Ongkir</span>
-          <span class="oval" style="font-size:12px;opacity:.45;">Diinfo via WA setelah GO closing</span>
+          <span class="okey" id="okey-ongkir">Ongkir</span>
+          <span class="oval" id="oval-ongkir" style="font-size:12px;opacity:.45;">Diinfo via WA setelah GO closing</span>
         </div>
       </div>
 
       <div class="pay-box">
-        <div class="pay-title">💸 TRANSFER KE</div>
+        <div class="pay-title" data-i18n="payTitle">💸 TRANSFER KE</div>
         <p class="pay-desc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
 
         <div class="bank-card" onclick="copyNum('7730320901','BCA')">
@@ -751,12 +814,12 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       </div>
 
       <div class="fg" style="margin-top:4px;">
-        <label class="flbl">Upload Bukti Transfer *</label>
+        <label class="flbl" data-i18n="lblUpload">Upload Bukti Transfer *</label>
         <div class="upload-area" id="upload-area">
           <input type="file" id="bukti-file" accept="image/*" onchange="handleFile(this)">
           <span class="upload-icon">📸</span>
-          <div class="upload-label">TAP UNTUK PILIH FOTO</div>
-          <div class="upload-sub">Screenshot bukti transfer · JPG/PNG · Maks 5MB</div>
+          <div class="upload-label" data-i18n="uploadLabel">TAP UNTUK PILIH FOTO</div>
+          <div class="upload-sub" data-i18n="uploadSub">Screenshot bukti transfer · JPG/PNG · Maks 5MB</div>
         </div>
         <div class="preview-wrap" id="preview-wrap">
           <img id="preview-img" class="preview-img" src="" alt="preview">
@@ -767,7 +830,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       </div>
 
       <button class="btn-main" id="btn2" onclick="submitAll()" style="margin-top:18px;">
-        <span id="btn2-txt">KONFIRMASI PEMBAYARAN</span>
+        <span id="btn2-txt" data-i18n="btnConfirm">KONFIRMASI PEMBAYARAN</span>
         <div class="spinner" id="sp2"></div>
       </button>
       <p style="font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.6;text-align:center;margin-top:10px;letter-spacing:2px;">
@@ -778,7 +841,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
     <!-- STEP 3 SUCCESS -->
     <div id="step3">
       <span class="success-icon">✅</span>
-      <div class="success-title">ORDER MASUK!</div>
+      <div class="success-title" data-i18n="successTitle">ORDER MASUK!</div>
       <p class="success-msg">
         Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.
       </p>
@@ -845,7 +908,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 <!-- HOW TO ORDER -->
 <section class="how-section">
   <div class="how-inner">
-    <h3 class="sec-title" style="text-align:center;">ALUR ORDER</h3>
+    <h3 class="sec-title" style="text-align:center;" data-i18n="howTitle">ALUR ORDER</h3>
     <div class="steps-grid">
       <div class="step-card"><div class="snum-bg">1</div><span class="sico">📋</span><div class="stitle">ISI FORM</div><div class="sdesc">Lengkapi data diri, pilih ukuran & qty.</div></div>
       <div class="step-card"><div class="snum-bg">2</div><span class="sico">💸</span><div class="stitle">TRANSFER</div><div class="sdesc">Transfer total kaos ke GoPay/Dana. Ongkir menyusul.</div></div>
@@ -863,6 +926,13 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <div class="toast" id="toast"></div>
 
+<!-- LANG + CURRENCY CONTROLS -->
+<div class="top-controls">
+  <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">ID</button>
+  <span class="ctrl-sep">|</span>
+  <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
 <!-- FLOATING WA BUTTON -->
 <div class="wa-float">
   <div class="wa-float-tooltip">Tanya admin via WA</div>
@@ -875,7 +945,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <script>
 // ═══ CONFIG ═══
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3wRmhm1SPtDU2oz1TZdBGhfu8WFYepM8hkaz4O5Q8icCxZC4xJ1OLNgAnq6jec11zcA/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzl3ejf11vj62O-Jc_YxbQ1lCe_7Zo63RUpF4nyaClPcIiyoZbq9rA9K3heSf7C2uDNyA/exec';
 
 // ═══ GALLERY & LIGHTBOX ═══
 // Index 0 = hero image (Gemini), 1-3 = gallery mockups
@@ -934,7 +1004,7 @@ function pickSize(btn, size, harga) {
   btn.classList.add('active');
   selectedSize = size; hargaPerPcs = harga;
   document.getElementById('t-size').textContent = size;
-  document.getElementById('t-harga').textContent = 'Rp ' + harga.toLocaleString('id-ID');
+  document.getElementById('t-harga').textContent = formatPrice(harga);
   updateTotal();
 }
 
@@ -946,7 +1016,7 @@ function changeQty(d) {
 }
 
 function updateTotal() {
-  document.getElementById('t-total').textContent = 'Rp ' + (qty * hargaPerPcs).toLocaleString('id-ID');
+  document.getElementById('t-total').textContent = formatPrice(qty * hargaPerPcs);
 }
 
 function validate() {
@@ -972,15 +1042,20 @@ function validate() {
 
 function goToStep2() {
   if (!validate()) return;
+  const ccSelect = document.getElementById('f-countrycode');
+  const rawPhone = document.getElementById('f-phone').value.trim();
+  const countryCode = ccSelect ? ccSelect.value : '62';
+
   orderData = {
-    orderNum : 'NPD-' + Date.now().toString().slice(-6),
-    nama     : document.getElementById('f-nama').value.trim(),
-    phone    : document.getElementById('f-phone').value.trim(),
-    alamat   : document.getElementById('f-alamat').value.trim(),
-    kota     : document.getElementById('f-kota').value.trim(),
-    kodePos  : document.getElementById('f-kodepos').value.trim(),
-    ukuran   : selectedSize, qty, hargaPerPcs,
-    catatan  : document.getElementById('f-catatan').value.trim(),
+    orderNum    : 'NPD-' + Date.now().toString().slice(-6),
+    nama        : document.getElementById('f-nama').value.trim(),
+    phone       : rawPhone,
+    countryCode : countryCode,
+    alamat      : document.getElementById('f-alamat').value.trim(),
+    kota        : document.getElementById('f-kota').value.trim(),
+    kodePos     : document.getElementById('f-kodepos').value.trim(),
+    ukuran      : selectedSize, qty, hargaPerPcs,
+    catatan     : document.getElementById('f-catatan').value.trim(),
   };
   const total = qty * hargaPerPcs;
   document.getElementById('r-ordernum').textContent = orderData.orderNum;
@@ -989,8 +1064,8 @@ function goToStep2() {
   document.getElementById('r-size').textContent     = orderData.ukuran;
   document.getElementById('r-qty').textContent      = orderData.qty + ' pcs';
   document.getElementById('r-kota').textContent     = orderData.kota;
-  document.getElementById('r-harga').textContent    = 'Rp ' + hargaPerPcs.toLocaleString('id-ID');
-  document.getElementById('r-total').textContent    = 'Rp ' + total.toLocaleString('id-ID');
+  document.getElementById('r-harga').textContent    = formatPrice(hargaPerPcs);
+  document.getElementById('r-total').textContent    = formatPrice(total);
 
   setStep(1,'done'); setStep(2,'active');
   document.getElementById('sl1').classList.add('done');
@@ -1097,6 +1172,224 @@ function toast(msg) {
   t.textContent = msg; t.classList.add('show');
   clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2800);
 }
+
+// ═══════════════════════════════════════════════════════
+// BILINGUAL + CURRENCY SYSTEM
+// ═══════════════════════════════════════════════════════
+
+// ─── TRANSLATIONS ───────────────────────────────────────
+const T = {
+  id: {
+    topTag       : '⚡ Limited Drop — Bhuta Kala Modern ⚡',
+    heroHl       : 'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>',
+    heroDesc     : 'Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong>',
+    warningBadge : '⚡ AWAS BAHAYA NPD',
+    productDesc  : 'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.',
+    priceLbl     : '⚡ harga group order ⚡',
+    priceNote    : '<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',
+    galleryTitle : 'DETAIL KAOS',
+    galleryNote  : 'Tap foto untuk memperbesar',
+    sizeNote     : 'Cotton Combed 24s · ukuran dalam cm',
+    formTitle    : 'FORM ORDER',
+    lblNama      : 'Nama Lengkap *',
+    lblPhone     : 'Nomor WhatsApp *',
+    lblAlamat    : 'Alamat Lengkap *',
+    lblKota      : 'Kota / Kabupaten *',
+    lblKodePos   : 'Kode Pos *',
+    lblUkuran    : 'Pilih Ukuran *',
+    lblQty       : 'Jumlah',
+    lblCatatan   : 'Catatan (opsional)',
+    lblUpload    : 'Upload Bukti Transfer *',
+    uploadLabel  : 'TAP UNTUK PILIH FOTO',
+    uploadSub    : 'Screenshot bukti transfer · JPG/PNG · Maks 5MB',
+    btnNext      : 'LANJUT KE PEMBAYARAN',
+    btnConfirm   : 'KONFIRMASI PEMBAYARAN',
+    stockWarn    : '⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',
+    howTitle     : 'ALUR ORDER',
+    successTitle : 'ORDER MASUK!',
+    ongkirNote   : 'BELUM TERMASUK ONGKOS KIRIM',
+    payTitle     : '💸 TRANSFER KE',
+    stepForm     : 'FORM',
+    stepBayar    : 'BAYAR',
+    stepUpload   : 'UPLOAD',
+    stepSelesai  : 'SELESAI',
+    imgHint      : '🔍 Perbesar',
+    phNama       : 'Nama untuk label pengiriman',
+    phPhone      : '81xxxxxxxx',
+    phAlamat     : 'Jalan, RT/RW, Kelurahan, Kecamatan...',
+    phKota       : 'Denpasar',
+    phKodePos    : '80361',
+    phCatatan    : 'Request, titip salam, dll',
+    tKeySize     : 'Ukuran',
+    tKeyHarga    : 'Harga/pcs',
+    tKeyQty      : 'Qty',
+    removeBtn    : '✕ HAPUS FOTO',
+    uploadReq    : '⚡ Upload bukti transfer dulu ya!',
+    oKeyNama     : 'Nama', oKeyWA: 'No WA', oKeyUkuran: 'Ukuran',
+    oKeyQty      : 'Qty', oKeyKota: 'Kota', oKeyHarga: 'Harga/pcs',
+    oKeyTotal    : 'TOTAL KAOS', oKeyOngkir: 'Ongkir',
+    ongkirVal    : 'Diinfo via WA setelah GO closing',
+    payDesc      : 'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',
+    adminNote    : 'Admin verifikasi dalam 1×24 jam',
+    shipText     : 'Pengiriman hanya ke seluruh Indonesia',
+  },
+  en: {
+    topTag       : '⚡ Limited Drop — Bhuta Kala Modern ⚡',
+    heroHl       : 'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>',
+    heroDesc     : 'People with NPD rarely realize it themselves —<br><strong>sometimes we need to reflect on ourselves.</strong>',
+    warningBadge : '⚡ BEWARE OF NPD',
+    productDesc  : 'Reflect on yourself with a <strong style="color:var(--amber)">METAKSU</strong> tee. Premium combed 24s cotton — thick, quality collector vibes.',
+    priceLbl     : '⚡ group order price ⚡',
+    priceNote    : '<strong>Price per piece</strong> · shipping cost not included',
+    galleryTitle : 'SHIRT DETAILS',
+    galleryNote  : 'Tap photo to enlarge',
+    sizeNote     : 'Cotton Combed 24s · measurements in cm',
+    formTitle    : 'ORDER FORM',
+    lblNama      : 'Full Name *',
+    lblPhone     : 'WhatsApp Number *',
+    lblAlamat    : 'Full Address *',
+    lblKota      : 'City / Regency *',
+    lblKodePos   : 'Postal Code *',
+    lblUkuran    : 'Select Size *',
+    lblQty       : 'Quantity',
+    lblCatatan   : 'Notes (optional)',
+    lblUpload    : 'Upload Proof of Payment *',
+    uploadLabel  : 'TAP TO SELECT PHOTO',
+    uploadSub    : 'Screenshot of transfer receipt · JPG/PNG · Max 5MB',
+    btnNext      : 'PROCEED TO PAYMENT',
+    btnConfirm   : 'CONFIRM PAYMENT',
+    stockWarn    : '⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡',
+    howTitle     : 'ORDER FLOW',
+    successTitle : 'ORDER RECEIVED!',
+    ongkirNote   : 'SHIPPING COST NOT INCLUDED',
+    payTitle     : '💸 TRANSFER TO',
+    stepForm     : 'FORM',
+    stepBayar    : 'PAY',
+    stepUpload   : 'UPLOAD',
+    stepSelesai  : 'DONE',
+    imgHint      : '🔍 Enlarge',
+    phNama       : 'Name for shipping label',
+    phPhone      : '81xxxxxxxx',
+    phAlamat     : 'Street, district, city...',
+    phKota       : 'e.g. Denpasar',
+    phKodePos    : 'Postal code',
+    phCatatan    : 'Special requests, notes, etc.',
+    tKeySize     : 'Size',
+    tKeyHarga    : 'Price/pcs',
+    tKeyQty      : 'Qty',
+    removeBtn    : '✕ REMOVE PHOTO',
+    uploadReq    : '⚡ Please upload proof of payment first!',
+    oKeyNama     : 'Name', oKeyWA: 'WA No.', oKeyUkuran: 'Size',
+    oKeyQty      : 'Qty', oKeyKota: 'City', oKeyHarga: 'Price/pcs',
+    oKeyTotal    : 'TOTAL', oKeyOngkir: 'Shipping',
+    ongkirVal    : 'To be confirmed via WA after GO closing',
+    payDesc      : 'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping cost will be confirmed separately via WA.',
+    adminNote    : 'Admin will verify within 1×24 hours',
+    shipText     : 'Indonesia shipping only',
+  }
+};
+
+// ─── CURRENCY (IDR only) ─────────────────────────────────
+let currentLang = 'id';
+
+function formatPrice(idr) {
+  return 'Rp ' + idr.toLocaleString('id-ID');
+}
+
+function formatPriceShort(idr) {
+  return (idr / 1000) + 'K';
+}
+
+// ─── LANGUAGE ────────────────────────────────────────────
+function setLang(lang) {
+  currentLang = lang;
+  const t = T[lang];
+
+  // Toggle button states
+  document.getElementById('btn-id').classList.toggle('active', lang === 'id');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+  // Apply all translations
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  // Placeholders
+  const phMap = {
+    'f-nama'    : t.phNama,
+    'f-alamat'  : t.phAlamat,
+    'f-kota'    : t.phKota,
+    'f-kodepos' : t.phKodePos,
+    'f-catatan' : t.phCatatan,
+    'f-phone'   : t.phPhone,
+  };
+  Object.entries(phMap).forEach(([id, ph]) => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = ph;
+  });
+
+  // Total box labels
+  const tSize  = document.querySelector('.tkey[data-field="size"]');
+  const tHarga = document.querySelector('.tkey[data-field="harga"]');
+  const tQty   = document.querySelector('.tkey[data-field="qty"]');
+  if (tSize)  tSize.textContent  = t.tKeySize;
+  if (tHarga) tHarga.textContent = t.tKeyHarga;
+  if (tQty)   tQty.textContent   = t.tKeyQty;
+
+  // Order card labels
+  const oMap = {
+    'okey-nama'   : t.oKeyNama,   'okey-wa'    : t.oKeyWA,
+    'okey-ukuran' : t.oKeyUkuran, 'okey-qty'   : t.oKeyQty,
+    'okey-kota'   : t.oKeyKota,   'okey-harga' : t.oKeyHarga,
+    'okey-total'  : t.oKeyTotal,  'okey-ongkir': t.oKeyOngkir,
+    'oval-ongkir' : t.ongkirVal,
+  };
+  Object.entries(oMap).forEach(([id, txt]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = txt;
+  });
+
+  // Upload req message
+  const upReq = document.getElementById('upload-req');
+  if (upReq) upReq.textContent = t.uploadReq;
+
+  // Shipping text
+  const shipEl = document.getElementById('ship-text');
+  if (shipEl) shipEl.textContent = t.shipText;
+
+  // Page lang attribute
+  document.documentElement.lang = lang;
+  updatePhonePlaceholder();
+}
+
+function updatePhonePlaceholder() {
+  const cc = document.getElementById('f-countrycode');
+  const ph = document.getElementById('f-phone');
+  if (!cc || !ph) return;
+  // For Indonesia +62: start from 8 (drop leading 0)
+  // For others: show generic format
+  const placeholders = {
+    '62': '81xxxxxxxx',
+    '1' : '(555) 000-0000',
+    '44': '7911 123456',
+    '61': '412 345 678',
+    '65': '9123 4567',
+    '60': '12-345 6789',
+    '31': '6 12345678',
+    '49': '151 23456789',
+    '33': '6 12 34 56 78',
+    '81': '90-1234-5678',
+    '82': '10-1234-5678',
+    '86': '138 0000 0000',
+    '91': '98765 43210',
+    '7' : '912 345-67-89',
+    '55': '11 91234-5678',
+  };
+  ph.placeholder = placeholders[cc.value] || '81xxxxxxxx';
+}
+
+
 
 // Scroll entrance animations
 const obs = new IntersectionObserver(entries => {
