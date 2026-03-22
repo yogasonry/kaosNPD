@@ -424,19 +424,20 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--rust);}
 
-/* ─── LANG + CURRENCY TOGGLE ─── */
-.top-controls{
-  position:fixed;top:12px;right:14px;z-index:7000;
-  display:flex;gap:6px;align-items:center;
+/* ─── LANG TOGGLE — inside header ─── */
+.lang-bar{
+  display:flex;justify-content:center;gap:4px;align-items:center;
+  margin-bottom:10px;
 }
 .ctrl-btn{
-  background:rgba(10,7,5,.85);border:1px solid rgba(200,134,10,.45);
-  color:var(--amber);font-family:'Anton',sans-serif;font-size:11px;
-  letter-spacing:2px;padding:5px 10px;cursor:pointer;
-  transition:all .2s;backdrop-filter:blur(6px);
+  background:transparent;border:1px solid rgba(200,134,10,.35);
+  color:rgba(200,134,10,.6);font-family:'Anton',sans-serif;font-size:11px;
+  letter-spacing:2px;padding:4px 10px;cursor:pointer;
+  transition:all .2s;border-radius:2px;
 }
-.ctrl-btn:hover,.ctrl-btn.active{background:var(--amber);color:var(--black);}
-.ctrl-sep{color:rgba(200,134,10,.3);font-size:12px;}
+.ctrl-btn:hover{border-color:var(--amber);color:var(--amber);}
+.ctrl-btn.active{background:var(--amber);color:var(--black);border-color:var(--amber);}
+.ctrl-sep{color:rgba(200,134,10,.25);font-size:11px;padding:0 2px;}
 
 /* ─── FLOATING WA BUTTON ─── */
 .wa-float{
@@ -507,6 +508,12 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <!-- HEADER -->
 <header>
+  <!-- Language toggle — part of header layout -->
+  <div class="lang-bar">
+    <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">🇮🇩 ID</button>
+    <span class="ctrl-sep">|</span>
+    <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+  </div>
   <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl" data-i18n="heroHl">AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
   <p class="hero-desc" data-i18n="heroDesc">Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong></p>
@@ -934,13 +941,6 @@ footer{padding:28px 14px;text-align:center;border-top:1px solid rgba(200,134,10,
 </footer>
 
 <div class="toast" id="toast"></div>
-
-<!-- LANG + CURRENCY CONTROLS -->
-<div class="top-controls">
-  <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">ID</button>
-  <span class="ctrl-sep">|</span>
-  <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">EN</button>
-</div>
 
 <!-- FLOATING WA BUTTON -->
 <div class="wa-float">
