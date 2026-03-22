@@ -1094,22 +1094,114 @@ initMarquee();
 function setLang(lang) {
   document.getElementById('btn-id').classList.toggle('active', lang === 'id');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  // Basic swap for key visible strings
-  const swap = {
-    topTag:    { id:'⚡ Limited Drop — Bhuta Kala Modern ⚡', en:'⚡ Limited Drop — Bhuta Kala Modern ⚡' },
-    priceLbl:  { id:'⚡ harga group order ⚡', en:'⚡ group order price ⚡' },
-    priceNote: { id:'Harga per pcs · belum termasuk ongkos kirim', en:'Price per pcs · shipping not included' },
-    btnNext:   { id:'LANJUT KE PEMBAYARAN', en:'PROCEED TO PAYMENT' },
-    btnConfirm:{ id:'KONFIRMASI PEMBAYARAN', en:'CONFIRM PAYMENT' },
-    stockWarn: { id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡', en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡' },
+
+  const T = {
+    // Header
+    topTag:        { id:'⚡ Limited Drop — Bhuta Kala Modern ⚡', en:'⚡ Limited Drop — Bhuta Kala Modern ⚡' },
+    heroHl:        { id:'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>', en:'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>' },
+    heroDesc:      { id:'Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong>', en:'People never realize they have NPD —<br><strong>sometimes we need to reflect on ourselves.</strong>' },
+    // Product
+    warningBadge:  { id:'⚡ AWAS BAHAYA NPD', en:'⚡ BEWARE OF NPD' },
+    sym1:          { id:'EGOIS MAKSIMAL', en:'EXTREMELY SELFISH' },
+    sym2:          { id:'ANTI KRITIK', en:'ANTI CRITICISM' },
+    sym3:          { id:'OTAK NGAMBUL', en:'TANTRUM BRAIN' },
+    productDesc:   { id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.', en:'Reflect yourself with a shirt that has <strong style="color:var(--amber)">METAKSU</strong>. Premium combed 24s — thick, hefty, collector vibes.' },
+    // Price
+    priceLbl:      { id:'⚡ harga group order ⚡', en:'⚡ group order price ⚡' },
+    priceNote:     { id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim', en:'<strong>Price per pcs</strong> · shipping not included' },
+    // Gallery
+    galleryTitle:  { id:'DETAIL KAOS', en:'SHIRT DETAIL' },
+    galleryNote:   { id:'Tap foto untuk memperbesar', en:'Tap photo to enlarge' },
+    // Size chart
+    sizeNote:      { id:'Cotton Combed 24s · ukuran dalam cm', en:'Cotton Combed 24s · measurements in cm' },
+    // Form steps
+    stepForm:      { id:'FORM', en:'FORM' },
+    stepBayar:     { id:'BAYAR', en:'PAY' },
+    stepUpload:    { id:'UPLOAD', en:'UPLOAD' },
+    stepSelesai:   { id:'SELESAI', en:'DONE' },
+    formTitle:     { id:'FORM ORDER', en:'ORDER FORM' },
+    // Form labels
+    lblNama:       { id:'Nama Lengkap *', en:'Full Name *' },
+    lblPhone:      { id:'Nomor WhatsApp *', en:'WhatsApp Number *' },
+    lblAlamat:     { id:'Alamat Lengkap *', en:'Full Address *' },
+    lblKota:       { id:'Kota / Kabupaten *', en:'City *' },
+    lblKodePos:    { id:'Kode Pos *', en:'Postal Code *' },
+    lblUkuran:     { id:'Pilih Ukuran *', en:'Choose Size *' },
+    lblQty:        { id:'Jumlah', en:'Quantity' },
+    lblCatatan:    { id:'Catatan (opsional)', en:'Notes (optional)' },
+    ongkirNote:    { id:'BELUM TERMASUK ONGKOS KIRIM', en:'SHIPPING NOT INCLUDED' },
+    btnNext:       { id:'LANJUT KE PEMBAYARAN', en:'PROCEED TO PAYMENT' },
+    stockWarn:     { id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡', en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡' },
+    // Step 2
+    payTitle:      { id:'💸 TRANSFER KE', en:'💸 TRANSFER TO' },
+    payDesc:       { id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.', en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.' },
+    bankAN:        { id:'a/n dikonfirmasi via WA', en:'account name confirmed via WA' },
+    lblUpload:     { id:'Upload Bukti Transfer *', en:'Upload Payment Proof *' },
+    uploadLabel:   { id:'TAP UNTUK PILIH FOTO', en:'TAP TO CHOOSE PHOTO' },
+    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 5MB', en:'Transfer screenshot · JPG/PNG · Max 5MB' },
+    btnConfirm:    { id:'KONFIRMASI PEMBAYARAN', en:'CONFIRM PAYMENT' },
+    // Success
+    successTitle:  { id:'ORDER MASUK!', en:'ORDER RECEIVED!' },
+    successMsg:    { id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.', en:'Your order details and payment proof<br>have been received by the system.' },
+    sf1title:      { id:'BUKTI TRANSFER DITERIMA', en:'PAYMENT PROOF RECEIVED' },
+    sf1desc:       { id:'Data & foto bukti tersimpan di sistem admin', en:'Data & proof photo saved in admin system' },
+    sf2title:      { id:'ADMIN SEDANG CEK PEMBAYARAN', en:'ADMIN IS VERIFYING PAYMENT' },
+    sf2desc:       { id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>', en:'Estimated confirmation within <strong style="color:var(--amber)">24 hours</strong>' },
+    sf3title:      { id:'NOTIF WA JIKA TERKONFIRMASI', en:'WA NOTIFICATION WHEN CONFIRMED' },
+    sf3desc:       { id:'Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi', en:"You'll receive a WA message when payment is confirmed" },
+    sf4title:      { id:'PRODUKSI 1–2 HARI KERJA', en:'PRODUCTION 1–2 WORKING DAYS' },
+    sf4desc:       { id:'Dimulai setelah pembayaran terkonfirmasi', en:'Starts after payment is confirmed' },
+    successBoxTitle:{ id:'📋 DETAIL ORDER', en:'📋 ORDER DETAILS' },
+    // How section
+    howTitle:      { id:'ALUR ORDER', en:'ORDER FLOW' },
+    sc1title:      { id:'ISI FORM', en:'FILL FORM' },
+    sc1desc:       { id:'Lengkapi data diri, pilih ukuran & qty.', en:'Fill in your details, choose size & qty.' },
+    sc2title:      { id:'TRANSFER', en:'TRANSFER' },
+    sc2desc:       { id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.', en:'Transfer shirt total to GoPay/Dana. Shipping follows.' },
+    sc3title:      { id:'UPLOAD BUKTI', en:'UPLOAD PROOF' },
+    sc3desc:       { id:'Upload screenshot bukti transfer langsung di web.', en:'Upload transfer screenshot directly on the website.' },
+    sc4title:      { id:'PRODUKSI', en:'PRODUCTION' },
+    sc4desc:       { id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.', en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.' },
+    // Footer
+    hashtags:      { id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN', en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN' },
+    fnote:         { id:'Made with chaos in Bali · Limited Group Order Only', en:'Made with chaos in Bali · Limited Group Order Only' },
   };
-  Object.entries(swap).forEach(([key, vals]) => {
-    const el = document.querySelector(`[data-i18n="${key}"]`);
-    if (el) el.innerHTML = vals[lang] || vals.id;
+
+  // Apply all translations
+  Object.entries(T).forEach(([key, vals]) => {
+    document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => {
+      el.innerHTML = vals[lang] ?? vals.id;
+    });
   });
+
   // Ship text
   const st = document.getElementById('ship-text');
   if (st) st.textContent = lang === 'en' ? 'Shipping to Indonesia only' : 'Pengiriman hanya ke seluruh Indonesia';
+
+  // Update form placeholders
+  if (lang === 'en') {
+    const ph = {
+      'f-nama'   : 'Name for shipping label',
+      'f-alamat' : 'Street, neighbourhood, district...',
+      'f-kota'   : 'City',
+      'f-catatan': 'Request, notes, etc.',
+    };
+    Object.entries(ph).forEach(([id, p]) => {
+      const el = document.getElementById(id);
+      if (el) el.placeholder = p;
+    });
+  } else {
+    const ph = {
+      'f-nama'   : 'Nama untuk label pengiriman',
+      'f-alamat' : 'Jalan, RT/RW, Kelurahan, Kecamatan...',
+      'f-kota'   : 'Denpasar',
+      'f-catatan': 'Request, titip salam, dll',
+    };
+    Object.entries(ph).forEach(([id, p]) => {
+      const el = document.getElementById(id);
+      if (el) el.placeholder = p;
+    });
+  }
 }
 
 // Phone placeholder update on country code change
