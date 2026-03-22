@@ -49,11 +49,11 @@ header{
 /* ─── HERO IMAGE 16:9 ─── */
 .hero-img-wrap{
   width:100%;max-width:860px;margin:0 auto;position:relative;
-  aspect-ratio:16/9;overflow:hidden;border-bottom:3px solid var(--gold);
-  cursor:zoom-in;
+  overflow:hidden;border-bottom:3px solid var(--gold);
+  cursor:zoom-in;background:var(--black);
 }
-.hero-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
-.hero-img-wrap:active img{transform:scale(1.02);}
+.hero-img-wrap img{width:100%;height:auto;display:block;transition:transform .5s ease;}
+.hero-img-wrap:active img{transform:scale(1.01);}
 .hero-img-hint{
   position:absolute;bottom:10px;right:12px;
   background:rgba(10,7,5,.8);border:1px solid rgba(200,134,10,.5);
@@ -596,8 +596,22 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       <div class="pay-box">
         <div class="pay-title">💸 TRANSFER KE</div>
         <p class="pay-desc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
+
+        <div class="bank-card" onclick="copyNum('7730320901','BCA')">
+          <div class="bank-name-lbl">🏦 BANK BCA</div>
+          <div class="bank-num">7730320901</div>
+          <div class="bank-an">a/n dikonfirmasi via WA</div>
+          <div class="bank-copy">⚡ TAP UNTUK COPY NOMOR REKENING</div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;margin:10px 0;">
+          <div style="flex:1;height:1px;background:rgba(200,134,10,.2);"></div>
+          <span style="font-family:'Special Elite',cursive;font-size:11px;color:var(--gold);opacity:.6;letter-spacing:2px;">ATAU</span>
+          <div style="flex:1;height:1px;background:rgba(200,134,10,.2);"></div>
+        </div>
+
         <div class="bank-card" onclick="copyNum('081236869035','GoPay / Dana')">
-          <div class="bank-name-lbl">GOPAY / DANA</div>
+          <div class="bank-name-lbl">📱 GOPAY / DANA</div>
           <div class="bank-num">0812-3686-9035</div>
           <div class="bank-an">a/n dikonfirmasi via WA</div>
           <div class="bank-copy">⚡ TAP UNTUK COPY NOMOR</div>
@@ -679,7 +693,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 
 <script>
 // ═══ CONFIG ═══
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnfAhAUcR345Nt40_5OIDxjf2HIRHSBgdehx_NDUO-c3tq1GpKduxYEuvTR5_koThRCA/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxp3TVXa0lrxZkDqL_vk8K0i9tXA4EjQaH_yapl8XbXSc54NMXzW_l_xkDIV5B5TcwINg/exec';
 
 // ═══ GALLERY & LIGHTBOX ═══
 const GALLERY = [
