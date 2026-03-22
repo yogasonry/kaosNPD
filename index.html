@@ -6,6 +6,21 @@
 <meta name="theme-color" content="#0a0705">
 <meta name="description" content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern. Cotton Combed 24s. Limited Group Order.">
 <title>AWAS BAHAYA NPD — Bhuta Kala Modern</title>
+
+<!-- ═══ OPEN GRAPH — WhatsApp / Telegram / Instagram preview ═══ -->
+<meta property="og:type"        content="website">
+<meta property="og:title"       content="⚡ AWAS BAHAYA NPD — Bhuta Kala Modern">
+<meta property="og:description" content="Kaos Cotton Combed 24s premium. S–XXXL. Harga mulai 150K. Limited group order — GRABFAST sebelum kehabisan!">
+<meta property="og:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="⚡ AWAS BAHAYA NPD — Bhuta Kala Modern">
+<meta name="twitter:description" content="Kaos Cotton Combed 24s premium. S–XXXL. Harga mulai 150K. Limited group order!">
+<meta name="twitter:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -362,6 +377,55 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--rust);}
+
+/* ─── FLOATING WA BUTTON ─── */
+.wa-float{
+  position:fixed;bottom:24px;right:20px;z-index:8000;
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+}
+.wa-float-btn{
+  width:56px;height:56px;background:#25d366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(37,211,102,.45);
+  cursor:pointer;border:none;text-decoration:none;
+  animation:wa-pulse 2.5s ease-in-out infinite;
+  transition:transform .2s;
+}
+.wa-float-btn:active{transform:scale(.93);}
+@media(hover:hover){.wa-float-btn:hover{transform:scale(1.08);animation:none;background:#1ebe5e;}}
+@keyframes wa-pulse{
+  0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.45);}
+  50%{box-shadow:0 4px 32px rgba(37,211,102,.75),0 0 0 8px rgba(37,211,102,.12);}
+}
+.wa-float-btn svg{width:30px;height:30px;fill:white;}
+.wa-float-tooltip{
+  background:var(--black);border:1px solid rgba(37,211,102,.4);
+  color:#80e090;font-family:'Roboto',sans-serif;font-size:12px;
+  letter-spacing:1px;padding:6px 12px;white-space:nowrap;
+  opacity:0;transform:translateX(8px);
+  transition:opacity .25s,transform .25s;pointer-events:none;
+}
+.wa-float:hover .wa-float-tooltip{opacity:1;transform:translateX(0);}
+
+/* ─── PRE-ORDER BADGE ─── */
+.preorder-bar{
+  background:linear-gradient(135deg,#1a0f05,#2a1608);
+  border-bottom:2px solid rgba(200,134,10,.3);
+  border-top:2px solid rgba(200,134,10,.3);
+  padding:14px 20px;text-align:center;
+}
+.preorder-bar-inner{
+  max-width:680px;margin:0 auto;
+  display:flex;flex-wrap:wrap;justify-content:center;
+  align-items:center;gap:16px 32px;
+}
+.preorder-pill{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Roboto',sans-serif;font-size:13px;
+  color:var(--cream);letter-spacing:.5px;
+}
+.preorder-pill span.icon{font-size:16px;}
+.preorder-pill strong{color:var(--amber);}
 </style>
 </head>
 <body>
@@ -373,6 +437,24 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
   <p class="hero-desc">Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong></p>
   <div style="height:24px"></div>
 </header>
+
+<!-- ═══ PRE-ORDER INFO BAR ═══ -->
+<div class="preorder-bar">
+  <div class="preorder-bar-inner">
+    <div class="preorder-pill">
+      <span class="icon">🛒</span>
+      <span><strong>PRE-ORDER</strong> — Baju diproduksi setelah kamu pesan</span>
+    </div>
+    <div class="preorder-pill">
+      <span class="icon">⏱️</span>
+      <span>Estimasi produksi <strong>1–2 hari kerja</strong></span>
+    </div>
+    <div class="preorder-pill">
+      <span class="icon">💸</span>
+      <span>Pembayaran <strong>lunas di awal</strong> · Ongkir diinfo terpisah</span>
+    </div>
+  </div>
+</div>
 
 <!-- HERO IMAGE 16:9 -->
 <div class="hero-img-wrap" onclick="openLb(0)">
@@ -563,7 +645,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
         <span id="btn1-txt">LANJUT KE PEMBAYARAN</span>
         <div class="spinner" id="sp1"></div>
       </button>
-      <p class="stock-warn">⚡ STOK TERBATAS — GRABFAST ⚡</p>
+      <p class="stock-warn">⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡</p>
     </div>
 
     <!-- STEP 2 -->
@@ -649,7 +731,8 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       <div class="success-title">ORDER CONFIRMED!</div>
       <p class="success-msg">
         Pembayaran lo udah masuk sistem.<br>
-        Admin akan konfirmasi via WhatsApp dalam <strong style="color:var(--amber)">1×24 jam</strong>.
+        Admin akan konfirmasi via WhatsApp dalam <strong style="color:var(--amber)">1×24 jam</strong>.<br>
+        <span style="font-size:12px;opacity:.7;">Produksi dimulai setelah konfirmasi · estimasi <strong style="color:var(--amber)">1–2 hari kerja</strong></span>
       </p>
       <div class="success-box">
         <div class="success-box-title">⚡ RINGKASAN</div>
@@ -678,7 +761,7 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
       <div class="step-card"><div class="snum-bg">1</div><span class="sico">📋</span><div class="stitle">ISI FORM</div><div class="sdesc">Lengkapi data diri, pilih ukuran & qty.</div></div>
       <div class="step-card"><div class="snum-bg">2</div><span class="sico">💸</span><div class="stitle">TRANSFER</div><div class="sdesc">Transfer total kaos ke GoPay/Dana. Ongkir menyusul.</div></div>
       <div class="step-card"><div class="snum-bg">3</div><span class="sico">📸</span><div class="stitle">UPLOAD BUKTI</div><div class="sdesc">Upload screenshot bukti transfer langsung di web.</div></div>
-      <div class="step-card"><div class="snum-bg">4</div><span class="sico">✅</span><div class="stitle">KONFIRMASI</div><div class="sdesc">Admin verifikasi & konfirmasi via WA dalam 1×24 jam.</div></div>
+      <div class="step-card"><div class="snum-bg">4</div><span class="sico">🏭</span><div class="stitle">PRODUKSI</div><div class="sdesc">Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.</div></div>
     </div>
   </div>
 </section>
@@ -690,6 +773,16 @@ footer{padding:32px 16px;text-align:center;border-top:1px solid rgba(200,134,10,
 </footer>
 
 <div class="toast" id="toast"></div>
+
+<!-- FLOATING WA BUTTON -->
+<div class="wa-float">
+  <div class="wa-float-tooltip">Tanya admin via WA</div>
+  <a class="wa-float-btn" href="https://wa.me/6281236869035" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+</div>
 
 <script>
 // ═══ CONFIG ═══
