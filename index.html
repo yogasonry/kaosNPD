@@ -1892,7 +1892,7 @@ function renderColors() {
       onclick="pickColor('${c.id}')"
       onmouseenter="showColorPreview('${c.img}','${c.label}')"
       onmouseleave="hideColorPreview()"
-      ontouchstart="showColorPreview('${c.img}','${c.label}')"
+      ontouchstart="onColorTouchStart('${c.img}','${c.label}')"
       aria-label="${c.label}">
       <span class="copt-swatch-wrap">
         <span class="copt-swatch" style="background:${sw};${c.swatch==='putih'?'border:1.5px solid rgba(200,134,10,.3);':''}"></span>
@@ -1904,10 +1904,23 @@ function renderColors() {
   }).join('');
 }
 
+let _justPicked = false;
+let _isTouchDevice = false;
+
 function pickColor(id) {
   selectedColor = id;
   sndClick();
-  renderColors();
+  if (_isTouchDevice) {
+    // On touch: keep preview visible briefly so user can see it
+    renderColors();
+    setTimeout(() => { hideColorPreview(); }, 1200);
+  } else {
+    // On mouse: hide immediately, block re-show from re-render
+    _justPicked = true;
+    renderColors();
+    hideColorPreview();
+    setTimeout(() => { _justPicked = false; }, 600);
+  }
 }
 
 function getOrCreatePreviewPop() {
@@ -1920,7 +1933,13 @@ function getOrCreatePreviewPop() {
   return pop;
 }
 
+function onColorTouchStart(imgUrl, label) {
+  _isTouchDevice = true;
+  showColorPreview(imgUrl, label);
+}
+
 function showColorPreview(imgUrl, label) {
+  if (_justPicked) return;
   const pop = getOrCreatePreviewPop();
   pop.innerHTML = `<div class="cpop-inner">
     <img src="${imgUrl}" alt="${label}" loading="eager">
@@ -1969,6 +1988,19 @@ document.querySelectorAll('.sopt').forEach(btn => {
 
 // ─── QTY ─────────────────────────────────────────────────────────
 function getQty() { return Math.max(1, Math.min(100, parseInt(document.getElementById('qty-disp')?.value)||1)); }
+
+function changeQty(delta) {
+  const inp = document.getElementById('qty-disp');
+  if (!inp) return;
+  const curr = parseInt(inp.value) || 1;
+  const next = Math.max(1, Math.min(100, curr + delta));
+  inp.value  = next;
+  sndTick();
+  // Show/hide max warning
+  const w = document.getElementById('qty-max-warn');
+  if (w) w.style.display = next >= 100 ? 'block' : 'none';
+  updatePrice();
+}
 function updatePrice() {
   const size  = selectedSize || 'M';
   const harga = ['XXL','XXXL'].indexOf(size) >= 0 ? 170000 : 150000;
@@ -1978,15 +2010,20 @@ function updatePrice() {
   if (el) el.textContent = qty + ' × Rp ' + harga.toLocaleString('id-ID') + ' = Rp ' + total.toLocaleString('id-ID');
 }
 function onQtyInput(e) {
-  const v = parseInt(e.target.value);
+  const v = parseInt(e.value) || 1;
   const w = document.getElementById('qty-max-warn');
   if (w) w.style.display = v > 100 ? 'block' : 'none';
-  updatePrice(); sndTick();
+  updatePrice();
+  sndTick();
 }
 function onQtyBlur(e) {
-  let v = parseInt(e.target.value) || 1;
-  if (v < 1) v = 1; if (v > 100) v = 100;
-  e.target.value = v; updatePrice();
+  let v = parseInt(e.value) || 1;
+  if (v < 1)   v = 1;
+  if (v > 100) v = 100;
+  e.value = v;
+  const w = document.getElementById('qty-max-warn');
+  if (w) w.style.display = 'none';
+  updatePrice();
 }
 
 // ─── FILE UPLOAD ─────────────────────────────────────────────────
@@ -2274,6 +2311,7 @@ function hsGo(idx) {
 }
 function hsNext() { hsGo((hsCur+1) % HS_TOTAL); }
 function hsPrev() { hsGo((hsCur - 1 + HS_TOTAL) % HS_TOTAL); }
+function hsNav(d)  { hsStopAuto(); hsGo((hsCur + d + HS_TOTAL) % HS_TOTAL); hsStartAuto(); }
 function hsStartAuto() { hsAuto = setInterval(hsNext, 4500); }
 function hsStopAuto()  { clearInterval(hsAuto); }
 
