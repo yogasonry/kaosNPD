@@ -530,6 +530,9 @@ textarea.finp{resize:vertical;min-height:80px;}
   opacity:1;
   transform:translate(18px,-50%) scale(1);
 }
+@media(max-width:768px){
+  #color-preview-pop{ display:none !important; }
+}
 .cpop-inner{
   background:rgba(10,5,2,.92);
   border:1px solid rgba(200,134,10,.4);
@@ -1935,7 +1938,7 @@ function getOrCreatePreviewPop() {
 
 function onColorTouchStart(imgUrl, label) {
   _isTouchDevice = true;
-  showColorPreview(imgUrl, label);
+  // No popup on mobile — disabled for better UX
 }
 
 function showColorPreview(imgUrl, label) {
