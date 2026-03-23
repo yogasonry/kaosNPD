@@ -456,7 +456,110 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(max-width:440px){.frow{grid-template-columns:1fr;}}
 
 /* Color picker */
-.color-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px;}
+.color-row{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-top:4px;}
+
+/* ─── COLOR PICKER CARDS ─── */
+#color-picker{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+.copt{
+  display:flex;flex-direction:column;align-items:center;
+  gap:8px;padding:14px 12px 10px;
+  background:rgba(61,26,8,.15);
+  border:1.5px solid rgba(200,134,10,.2);
+  border-radius:12px;
+  min-width:76px;flex:1;max-width:100px;
+  cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:
+    transform .35s cubic-bezier(.34,1.56,.64,1),
+    border-color .25s ease,
+    background .25s ease,
+    box-shadow .35s ease;
+}
+.copt:hover{
+  border-color:rgba(200,134,10,.5);
+  background:rgba(200,134,10,.12);
+  transform:translateY(-3px);
+}
+.copt.active{
+  border-color:var(--amber);
+  background:rgba(200,134,10,.18);
+  box-shadow:0 4px 20px rgba(200,134,10,.2),inset 0 0 0 1px rgba(232,160,32,.15);
+  transform:translateY(-4px) scale(1.02);
+}
+.copt-swatch-wrap{
+  position:relative;width:36px;height:36px;
+}
+.copt-swatch{
+  width:36px;height:36px;
+  border-radius:50%;
+  display:block;
+}
+.copt-check{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;color:var(--amber);
+  text-shadow:0 0 8px rgba(232,160,32,.6);
+  font-weight:700;
+}
+.copt-name{
+  font-family:'Roboto',sans-serif;
+  font-size:10px;font-weight:600;
+  letter-spacing:2px;color:var(--cream);
+  opacity:.85;text-align:center;
+}
+.copt.active .copt-name{color:var(--amber);opacity:1;}
+
+@media(max-width:360px){
+  .copt{min-width:64px;padding:10px 8px;}
+  .copt-swatch-wrap,.copt-swatch{width:30px;height:30px;}
+}
+
+/* ─── COLOR PREVIEW POPUP ─── */
+#color-preview-pop{
+  position:fixed;
+  top:0;left:0;
+  width:300px;
+  pointer-events:none;
+  z-index:9999;
+  opacity:0;
+  transform:translate(18px,-50%) scale(.92);
+  transition:opacity .2s ease, transform .2s cubic-bezier(.34,1.56,.64,1);
+  will-change:transform,opacity;
+}
+#color-preview-pop.visible{
+  opacity:1;
+  transform:translate(18px,-50%) scale(1);
+}
+.cpop-inner{
+  background:rgba(10,5,2,.92);
+  border:1px solid rgba(200,134,10,.4);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(200,134,10,.1);
+}
+.cpop-inner img{
+  width:100%;display:block;
+  aspect-ratio:3/4;object-fit:cover;
+}
+.cpop-label{
+  display:block;text-align:center;
+  font-family:'Rubik Dirt',sans-serif;
+  font-size:10px;letter-spacing:3px;
+  color:var(--amber);padding:8px 0 10px;
+}
+
+/* ─── COLOR ROW LAYOUT FIX ─── */
+.color-row{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:4px;
+}
+.color-wa-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 .color-picker{display:flex;gap:6px;flex-wrap:wrap;}
 .color-opt{
   position:relative;background:transparent;
@@ -521,23 +624,38 @@ textarea.finp{resize:vertical;min-height:80px;}
 .sopt.sp-size.active{background:#d09018;border-color:#d09018;}
 
 /* Qty */
-.qty-row{display:flex;align-items:center;gap:14px;}
-.qty-lbl{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;letter-spacing:2px;color:var(--gold);}
-.qty-ctrl{display:flex;align-items:center;border:2px solid var(--gold);}
+.qty-row{
+  display:flex;align-items:center;gap:0;
+  background:rgba(61,26,8,.15);
+  border:1.5px solid rgba(200,134,10,.3);
+  border-radius:10px;
+  overflow:hidden;
+  width:fit-content;
+}
+.qty-lbl{display:none;}
+.qty-ctrl{display:flex;align-items:center;}
 .qty-btn{
   background:transparent;border:none;color:var(--amber);
-  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
-  width:46px;height:46px;cursor:pointer;transition:background .2s;
+  font-size:22px;
+  width:48px;height:48px;cursor:pointer;
+  transition:background .2s,color .2s;
   display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
 }
+.qty-btn:hover{background:rgba(200,134,10,.15);color:#f5c030;}
+.qty-btn:active{background:rgba(200,134,10,.25);}
 .qty-btn:active{background:var(--rust);}
 @media(hover:hover){.qty-btn:hover{background:var(--rust);}}
 .qty-num{
-  width:62px;text-align:center;
-  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
-  color:var(--white);border:none;background:rgba(255,255,255,.04);
+  width:56px;text-align:center;
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:20px;
+  color:var(--white);border:none;
+  border-left:1px solid rgba(200,134,10,.2);
+  border-right:1px solid rgba(200,134,10,.2);
+  background:rgba(255,255,255,.03);
   padding:8px 0;outline:none;
-  -moz-appearance:textfield;/* Firefox hide arrows */
+  font-size:16px;
+  -moz-appearance:textfield;
 }
 .qty-num::-webkit-inner-spin-button,
 .qty-num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
@@ -655,49 +773,45 @@ textarea.finp{resize:vertical;min-height:80px;}
 .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px;}
 @media(min-width:560px){.steps-grid{grid-template-columns:repeat(4,1fr);}}
 .step-card{
-  border:1px solid rgba(200,134,10,.35);
-  border-top:2px solid rgba(232,160,32,.5);
-  padding:18px 12px 16px;text-align:center;
-  position:relative;overflow:hidden;
-  background:rgba(200,134,10,.1);
-  backdrop-filter:blur(2px);
+  border:1px solid rgba(200,134,10,.28);
+  border-radius:16px;
+  padding:24px 20px 20px;
+  text-align:left;
+  position:relative;
+  overflow:hidden;
+  background:rgba(200,134,10,.07);
+  backdrop-filter:blur(4px);
   transition:
     transform .45s cubic-bezier(.34,1.56,.64,1),
     border-color .35s ease,
     box-shadow .45s ease,
     background .35s ease;
 }
-/* Gradient shimmer layer */
 .step-card::before{
   content:'';
   position:absolute;inset:0;
   background:linear-gradient(
     135deg,
     transparent 0%,
-    rgba(200,134,10,.06) 40%,
-    rgba(232,160,32,.14) 50%,
-    rgba(200,134,10,.06) 60%,
-    transparent 100%
-  );
+    rgba(200,134,10,.05) 40%,
+    rgba(232,160,32,.12) 50%,
+    rgba(200,134,10,.05) 60%,
+    transparent 100%);
   background-size:250% 250%;
   background-position:200% 200%;
   transition:background-position .6s ease, opacity .4s ease;
-  opacity:0;
-  pointer-events:none;
-  z-index:0;
+  opacity:0;pointer-events:none;z-index:0;border-radius:16px;
 }
-/* Ensure content is above the gradient layer */
 .step-card > *{position:relative;z-index:1;}
 @media(hover:hover){
   .step-card:hover{
-    transform:translateY(-8px) scale(1.04);
-    background:rgba(200,134,10,.18);
-    border-color:rgba(232,160,32,.7);
-    border-top-color:#f5c030;
+    transform:translateY(-8px) scale(1.03);
+    background:rgba(200,134,10,.13);
+    border-color:rgba(232,160,32,.55);
     box-shadow:
-      0 14px 36px rgba(200,134,10,.25),
-      0 0 0 1px rgba(200,134,10,.2),
-      inset 0 1px 0 rgba(255,200,80,.2);
+      0 14px 36px rgba(200,134,10,.2),
+      0 0 0 1px rgba(200,134,10,.12),
+      inset 0 1px 0 rgba(232,160,32,.15);
   }
   .step-card:hover::before{
     background-position:0% 0%;
@@ -705,9 +819,8 @@ textarea.finp{resize:vertical;min-height:80px;}
     animation:cardGradient 1.8s ease-in-out infinite alternate;
   }
 }
-/* Mobile tap */
 .step-card:active{
-  transform:translateY(-4px) scale(1.02);
+  transform:translateY(-3px) scale(1.01);
   border-color:rgba(200,134,10,.4);
 }
 @keyframes cardGradient{
@@ -715,10 +828,16 @@ textarea.finp{resize:vertical;min-height:80px;}
   100%{background-position:100% 100%;opacity:1;}
 }
 @media(max-width:400px){.step-card{padding:12px 8px;}}
-.snum-bg{font-family:'Rubik Dirt',sans-serif;font-size:52px;color:rgba(232,160,32,.45);line-height:1;position:absolute;top:-4px;left:8px;font-weight:900;text-shadow:0 0 20px rgba(232,160,32,.3);}
-.sico{font-size:24px;margin-bottom:8px;display:block;}
-.stitle{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;color:#f5c030;letter-spacing:2px;margin-bottom:4px;text-shadow:0 0 12px rgba(232,160,32,.3);}
-.sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.6;line-height:1.55;}
+.step-num{
+  font-family:'Roboto',sans-serif;font-weight:300;
+  font-size:11px;letter-spacing:4px;
+  color:rgba(200,134,10,.6);
+  margin-bottom:14px;
+  display:block;
+}
+
+.stitle{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:17px;color:var(--amber);letter-spacing:2px;margin-bottom:8px;}
+.sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.65;line-height:1.65;}
 
 /* footer */
 footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.1);}
@@ -916,8 +1035,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 #shimmer-loader{
   position:fixed;inset:0;background:var(--black);
   z-index:99999;pointer-events:all;
+  display:flex;align-items:center;justify-content:center;
+  opacity:1;
   transition:opacity .6s ease;
   overflow:hidden;
+  /* CSS-only fallback: auto-hide after 3.5s even if JS fails */
+  animation:loaderAutoHide .5s ease forwards 3.5s;
+}
+@keyframes loaderAutoHide{
+  0%  { opacity:1; pointer-events:all; }
+  100%{ opacity:0; pointer-events:none; visibility:hidden; }
 }
 #shimmer-loader.hiding{opacity:0;pointer-events:none;}
 .sh-wrap{
@@ -984,7 +1111,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   justify-content:center;padding:32px 0 20px;gap:20px;
 }
 .sh-barong-img{
-  width:clamp(156px,36vw,260px);
+  width:clamp(200px,47vw,340px);
   filter:invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(.75);
   animation:barongEntrance .8s cubic-bezier(.34,1.56,.64,1) forwards,
             barongBreathe 2.8s ease-in-out infinite 1s;
@@ -1111,6 +1238,32 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .preorder-pill strong{color:var(--amber);}
 .preorder-sep{color:rgba(200,134,10,.4);font-size:14px;padding:0 4px;flex-shrink:0;}
 </style>
+<script>
+// Loader — isolated script, runs independently of main JS
+(function(){
+  function hide(){
+    var l=document.getElementById('shimmer-loader');
+    if(!l||l._done)return;
+    l._done=true;
+    l.style.transition='opacity .5s ease';
+    l.style.opacity='0';
+    l.style.pointerEvents='none';
+    setTimeout(function(){
+      if(l.parentNode){ l.style.display='none'; }
+    },600);
+  }
+  // Multiple trigger points
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){ hide(); });
+  } else {
+    hide();
+  }
+  window.addEventListener('load', hide);
+  // Absolute hard cap: 2s
+  setTimeout(hide, 2000);
+  window.hideLoader = hide;
+})();
+</script>
 </head>
 <body>
 
@@ -1118,7 +1271,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <div class="particle-bg" id="particle-bg" aria-hidden="true"></div>
 
 <!-- SHIMMER LOADER -->
-<div id="shimmer-loader" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;">
+<div id="shimmer-loader" aria-hidden="true">
   <div class="sh-barong-wrap">
     <img class="sh-barong-img"
          src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774191326/barong_bali_line_art_ke9x3y.png"
@@ -1214,7 +1367,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <!-- Indonesia Shipping Only -->
   <div class="shipping-badge" data-i18n-id="shippingBadge" data-i18n-en="shippingBadgeEn">
     <span class="ship-flag">🇮🇩</span>
-    <span class="ship-text" id="ship-text">Pengiriman ke seluruh Indonesia</span>
+    <span class="ship-text" id="ship-text" data-i18n="shipText">Pengiriman ke seluruh Indonesia</span>
     <span class="ship-flag">🇮🇩</span>
   </div>
 </div>
@@ -1328,7 +1481,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
                  style="flex:1;border-left:none;">
         </div>
         <div style="font-family:'Roboto',sans-serif;font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">
-          Pilih kode negara jika bukan Indonesia
+          <span data-i18n="ccHint">Pilih kode negara jika bukan Indonesia</span>
         </div>
       </div>
 
@@ -1339,7 +1492,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
                inputmode="email" autocomplete="email"
                autocapitalize="none" autocorrect="off">
         <div style="font-family:'Roboto',sans-serif;font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">
-          Untuk menerima konfirmasi order otomatis
+          <span data-i18n="emailHint">Untuk menerima konfirmasi order otomatis</span>
         </div>
       </div>
 
@@ -1375,17 +1528,18 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       </div>
 
       <div class="fg">
-        <label class="flbl">Pilih Warna *</label>
+        <label class="flbl" data-i18n="lblWarna">Pilih Warna *</label>
         <div class="color-row">
-          <div class="color-picker" id="color-picker"><!-- rendered by JS --></div>
-          <a class="color-wa-btn"
+          <div id="color-picker"><!-- rendered by JS --></div>
+          <div class="color-wa-row">
+          <a class="color-wa-btn" data-i18n="colorWaBtn"
              href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD+dulu+sebelum+order+%F0%9F%99%8F"
              target="_blank" rel="noopener">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
             TANYAKAN STOK
           </a>
         </div>
-        <p class="color-note">⚡ Tanyakan stok warna kaos terlebih dahulu sebelum memesan</p>
+        <p class="color-note" data-i18n="colorNote">⚡ Tanyakan stok warna kaos terlebih dahulu sebelum memesan</p>
       </div>
 
       <div class="fg">
@@ -1432,7 +1586,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
     <!-- STEP 2 -->
     <div id="step2">
-      <h3 class="sec-title" style="margin-bottom:8px;">INSTRUKSI BAYAR</h3>
+      <h3 class="sec-title" style="margin-bottom:8px;" data-i18n="payInstrTitle">INSTRUKSI BAYAR</h3>
       <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.6;text-align:center;margin-bottom:18px;line-height:1.7;">
         Simpan no. order, lalu transfer & upload bukti di bawah.
       </p>
@@ -1595,866 +1749,291 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="how-inner">
     <h3 class="sec-title sr sr-up" style="text-align:center;" data-i18n="howTitle">ALUR ORDER</h3>
     <div class="steps-grid">
-      <div class="step-card sr sr-up sr-delay1"><div class="snum-bg">1</div><span class="sico">📋</span><div class="stitle" data-i18n="sc1title">ISI FORM</div><div class="sdesc" data-i18n="sc1desc">Lengkapi data diri, pilih ukuran & qty.</div></div>
-      <div class="step-card sr sr-up sr-delay2"><div class="snum-bg">2</div><span class="sico">💸</span><div class="stitle" data-i18n="sc2title">TRANSFER</div><div class="sdesc" data-i18n="sc2desc">Transfer total kaos ke GoPay/Dana. Ongkir menyusul.</div></div>
-      <div class="step-card sr sr-up sr-delay3"><div class="snum-bg">3</div><span class="sico">📸</span><div class="stitle" data-i18n="sc3title">UPLOAD BUKTI</div><div class="sdesc" data-i18n="sc3desc">Upload screenshot bukti transfer langsung di web.</div></div>
-      <div class="step-card sr sr-up sr-delay4"><div class="snum-bg">4</div><span class="sico">🏭</span><div class="stitle" data-i18n="sc4title">PRODUKSI</div><div class="sdesc" data-i18n="sc4desc">Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.</div></div>
+      <div class="step-card sr sr-up sr-delay1">
+        <div class="step-num">01</div>
+        <div class="stitle" data-i18n="sc1title">ISI FORM</div>
+        <div class="sdesc" data-i18n="sc1desc">Lengkapi data diri, pilih ukuran & qty.</div>
+      </div>
+      <div class="step-card sr sr-up sr-delay2">
+        <div class="step-num">02</div>
+        <div class="stitle" data-i18n="sc2title">TRANSFER</div>
+        <div class="sdesc" data-i18n="sc2desc">Transfer total kaos ke GoPay/Dana. Ongkir menyusul.</div>
+      </div>
+      <div class="step-card sr sr-up sr-delay3">
+        <div class="step-num">03</div>
+        <div class="stitle" data-i18n="sc3title">UPLOAD BUKTI</div>
+        <div class="sdesc" data-i18n="sc3desc">Upload screenshot bukti transfer langsung di web.</div>
+      </div>
+      <div class="step-card sr sr-up sr-delay4">
+        <div class="step-num">04</div>
+        <div class="stitle" data-i18n="sc4title">PRODUKSI</div>
+        <div class="sdesc" data-i18n="sc4desc">Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.</div>
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <p class="hashtags sr sr-up" data-i18n="hashtags">#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN</p>
+  <p class="hashtags" data-i18n="hashtags">#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN</p>
   <p class="fnote" data-i18n="fnote">Made with chaos in Bali · Limited Group Order Only</p>
   <div style="height:20px"></div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
-
-
-<!-- FLOATING WA BUTTON -->
 <div class="wa-float">
   <div class="wa-float-tooltip">Tanya admin via WA</div>
-  <a class="wa-float-btn" id="wa-float-btn" href="https://wa.me/6281236869035?text=Halo%2C%20aku%20mau%20tanya-tanya%20dulu%20soal%20kaos%20AWAS%20BAHAYA%20NPD%20boleh%3F%20%F0%9F%98%8A" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <a class="wa-float-btn" id="wa-float-btn"
+     href="https://wa.me/6281236869035?text=Halo%2C%20aku%20mau%20tanya-tanya%20dulu%20soal%20kaos%20AWAS%20BAHAYA%20NPD%20boleh%3F%20%F0%9F%98%8A"
+     target="_blank" rel="noopener" aria-label="Chat WhatsApp">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
     </svg>
   </a>
 </div>
 
+<!-- BARONG LOADING SCREEN -->
+<div id="shimmer-loader" aria-hidden="true">
+  <div class="sh-barong-wrap">
+    <img class="sh-barong-img"
+         src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774191326/barong_bali_line_art_ke9x3y.png"
+         alt="">
+    <div class="sh-tagline">LOADING...</div>
+    <div class="sh-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
 <script>
-// ═══ TYPEWRITER ═══
-(function(){
-  const el = document.getElementById('tw-text');
-  if (!el) return;
-
-  const line1 = 'Orang tidak akan sadar dirinya NPD —';
-  const line2 = 'kadang kita perlu merefleksikan diri kita sendiri.';
-  const SPEED = 46, PAUSE_NEWLINE = 520;
-  let ci = 0, phase = 1; // phase 1 = line1, phase 2 = line2
-
-  function render(l1, l2chars) {
-    el.innerHTML =
-      l1 +
-      (l2chars !== undefined
-        ? '<br><strong style="color:var(--amber);font-weight:600;">' + line2.slice(0, l2chars) + '</strong>'
-        : '');
-  }
-
-  function tick() {
-    if (phase === 1) {
-      ci++;
-      render(line1.slice(0, ci));
-      if (ci < line1.length) {
-        setTimeout(tick, SPEED);
-      } else {
-        // Line 1 done → pause → start line 2
-        phase = 2; ci = 0;
-        setTimeout(tick, PAUSE_NEWLINE);
-      }
-    } else {
-      ci++;
-      render(line1, ci);
-      if (ci < line2.length) {
-        setTimeout(tick, SPEED);
-      }
-      // Line 2 done — stop, no loop
-    }
-  }
-
-  // Start after shimmer
-  setTimeout(tick, 1200);
-})();
-
-// ═══ PARALLAX — LERP smooth mouse tracking ═══
-(function(){
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  // ── Title parallax + glitch ───────────────────────────────────
-  const titleEl = document.getElementById('product-title');
-  const spanEl  = titleEl ? titleEl.querySelector('span') : null;
-  const piLeft  = document.querySelector('.pi-left');
-
-  let tTX=0,tTY=0,tSX=0,tSY=0;
-  let cTX=0,cTY=0,cSX=0,cSY=0;
-  let titleHov=false, titleRaf=null, glitchTimer=null;
-
-  function tickTitle() {
-    cTX = lerp(cTX, tTX, 0.09);
-    cTY = lerp(cTY, tTY, 0.09);
-    cSX = lerp(cSX, tSX, 0.07);
-    cSY = lerp(cSY, tSY, 0.07);
-    if (titleEl) titleEl.style.transform = `translate(${cTX.toFixed(2)}px,${cTY.toFixed(2)}px)`;
-    if (spanEl)  spanEl.style.transform  = `translate(${cSX.toFixed(2)}px,${cSY.toFixed(2)}px)`;
-    const settled = Math.abs(cTX-tTX)<.05 && Math.abs(cTY-tTY)<.05;
-    if (!settled || titleHov) titleRaf = requestAnimationFrame(tickTitle);
-    else titleRaf = null;
-  }
-
-  function startGlitch() {
-    if (!titleEl) return;
-    titleEl.classList.add('glitch-on');
-    clearTimeout(glitchTimer);
-    glitchTimer = setTimeout(() => {
-      if (titleEl) titleEl.classList.remove('glitch-on');
-      if (titleHov) glitchTimer = setTimeout(startGlitch, 350 + Math.random() * 550);
-    }, 180 + Math.random() * 160);
-  }
-
-  if (piLeft && titleEl) {
-    piLeft.addEventListener('mousemove', function(e) {
-      const r  = piLeft.getBoundingClientRect();
-      const dx = (e.clientX - r.left - r.width/2)  / (r.width/2);
-      const dy = (e.clientY - r.top  - r.height/2) / (r.height/2);
-      tTX = dx * -18; tTY = dy * -12;
-      tSX = dx * -28; tSY = dy * -8;
-      if (!titleHov) { titleHov = true; startGlitch(); }
-      if (!titleRaf) titleRaf = requestAnimationFrame(tickTitle);
-    });
-    piLeft.addEventListener('mouseleave', function() {
-      tTX=0; tTY=0; tSX=0; tSY=0;
-      titleHov = false;
-      clearTimeout(glitchTimer);
-      if (titleEl) titleEl.classList.remove('glitch-on');
-      if (!titleRaf) titleRaf = requestAnimationFrame(tickTitle);
-    });
-    piLeft.addEventListener('touchmove', function(e) {
-      const t=e.touches[0], r=piLeft.getBoundingClientRect();
-      const dx=(t.clientX-r.left-r.width/2)/(r.width/2);
-      const dy=(t.clientY-r.top-r.height/2)/(r.height/2);
-      tTX=dx*-14; tTY=dy*-9; tSX=dx*-22; tSY=dy*-6;
-      if (!titleHov) { titleHov=true; startGlitch(); }
-      if (!titleRaf) titleRaf=requestAnimationFrame(tickTitle);
-    },{passive:true});
-    piLeft.addEventListener('touchend', function() {
-      tTX=0; tTY=0; tSX=0; tSY=0;
-      titleHov=false;
-      clearTimeout(glitchTimer);
-      if (titleEl) titleEl.classList.remove('glitch-on');
-      if (!titleRaf) titleRaf=requestAnimationFrame(tickTitle);
-    });
-  }
-
-  // ── Price parallax ─────────────────────────────────────────────
-  const priceWrap = document.querySelector('.price-wrap');
-  const p150 = document.getElementById('price-150');
-  const p170 = document.getElementById('price-170');
-  if (!priceWrap || !p150 || !p170) return;
-
-  const nums = [
-    { el:p150, depth:28, fy:14, fs:1.12 },
-    { el:p170, depth:16, fy:10, fs:1.07 },
-  ];
-  const cur = nums.map(() => ({x:0,y:0,s:1}));
-  const tgt = nums.map(() => ({x:0,y:0,s:1}));
-  let hov=false, raf=null;
-
-  function shadowFor(x, y) {
-    const d = Math.sqrt(x*x + y*y) * 0.6;
-    const layers = [];
-    for (let n=1; n<=9; n++) {
-      const t  = n/9;
-      const sx = (x*t*0.35).toFixed(1);
-      const sy = (y*t*0.35 + d*t).toFixed(1);
-      const l  = Math.round(25 - n*2);
-      layers.push(`${sx}px ${sy}px 0 hsl(22,85%,${l}%)`);
-    }
-    layers.push(`0 ${(d*1.2).toFixed(0)}px ${(d*2.5).toFixed(0)}px rgba(232,160,32,.4)`);
-    return layers.join(',');
-  }
-
-  function tick() {
-    let active = false;
-    nums.forEach((n,i) => {
-      cur[i].x = lerp(cur[i].x, tgt[i].x, 0.08);
-      cur[i].y = lerp(cur[i].y, tgt[i].y, 0.08);
-      cur[i].s = lerp(cur[i].s, tgt[i].s, 0.08);
-      const {x,y,s} = cur[i];
-      n.el.style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(3)})`;
-      n.el.style.textShadow = (Math.abs(x)+Math.abs(y))>0.3 ? shadowFor(x,y) : '';
-      if (Math.abs(x-tgt[i].x)>.05||Math.abs(y-tgt[i].y)>.05||Math.abs(s-tgt[i].s)>.002) active=true;
-    });
-    if (active||hov) raf=requestAnimationFrame(tick);
-    else {
-      raf=null;
-      if (!hov) nums.forEach(n => { n.el.style.transform=''; n.el.style.textShadow=''; });
-    }
-  }
-
-  priceWrap.addEventListener('mousemove', function(e) {
-    const r  = priceWrap.getBoundingClientRect();
-    const dx = (e.clientX-r.left-r.width/2)  / (r.width/2);
-    const dy = (e.clientY-r.top -r.height/2) / (r.height/2);
-    nums.forEach((n,i) => { tgt[i].x=dx*n.depth; tgt[i].y=dy*-n.fy; tgt[i].s=n.fs; });
-    hov=true;
-    if (!raf) raf=requestAnimationFrame(tick);
-  });
-  priceWrap.addEventListener('mouseleave', function() {
-    nums.forEach((_,i) => { tgt[i].x=0; tgt[i].y=0; tgt[i].s=1; });
-    hov=false;
-    if (!raf) raf=requestAnimationFrame(tick);
-  });
-})();
-// ═══ GLITCH — hero headline parallax + glitch ═══
-(function(){
-  const heroHl  = document.getElementById('hero-hl');
-  const headerEl= document.querySelector('header');
-  if (!heroHl || !headerEl) return;
-
-  let hx=0,hy=0, cx=0,cy=0;
-  let hov=false, hRaf=null, hGTimer=null;
-
-  function lerp(a,b,t){ return a+(b-a)*t; }
-
-  function tickHero() {
-    cx = lerp(cx, hx, 0.09);
-    cy = lerp(cy, hy, 0.09);
-    heroHl.style.transform = `translate(${cx.toFixed(2)}px,${cy.toFixed(2)}px)`;
-    const settled = Math.abs(cx-hx)<.05 && Math.abs(cy-hy)<.05;
-    if (!settled || hov) hRaf = requestAnimationFrame(tickHero);
-    else hRaf = null;
-  }
-
-  function triggerHeroGlitch() {
-    if (!heroHl) return;
-    heroHl.classList.add('glitch-on');
-    clearTimeout(hGTimer);
-    hGTimer = setTimeout(() => {
-      heroHl.classList.remove('glitch-on');
-      if (hov) hGTimer = setTimeout(triggerHeroGlitch, 380 + Math.random() * 700);
-    }, 160 + Math.random() * 200);
-  }
-
-  headerEl.addEventListener('mousemove', function(e) {
-    const r  = headerEl.getBoundingClientRect();
-    const dx = (e.clientX - r.left - r.width/2)  / (r.width/2);
-    const dy = (e.clientY - r.top  - r.height/2) / (r.height/2);
-    hx = dx * -16;
-    hy = dy * -10;
-    if (!hov) { hov=true; triggerHeroGlitch(); }
-    if (!hRaf) hRaf = requestAnimationFrame(tickHero);
-  });
-
-  headerEl.addEventListener('mouseleave', function() {
-    hx=0; hy=0; hov=false;
-    clearTimeout(hGTimer);
-    heroHl.classList.remove('glitch-on');
-    if (!hRaf) hRaf = requestAnimationFrame(tickHero);
-  });
-
-  // Mobile touch
-  headerEl.addEventListener('touchmove', function(e) {
-    const t=e.touches[0], r=headerEl.getBoundingClientRect();
-    const dx=(t.clientX-r.left-r.width/2)/(r.width/2);
-    const dy=(t.clientY-r.top-r.height/2)/(r.height/2);
-    hx=dx*-12; hy=dy*-8;
-    if (!hov){hov=true;triggerHeroGlitch();}
-    if (!hRaf) hRaf=requestAnimationFrame(tickHero);
-  },{passive:true});
-
-  headerEl.addEventListener('touchend', function() {
-    hx=0;hy=0;hov=false;
-    clearTimeout(hGTimer);
-    heroHl.classList.remove('glitch-on');
-    if (!hRaf) hRaf=requestAnimationFrame(tickHero);
-  });
-
-  // Ambient glitch burst every ~8s (idle, not hovering)
-  setInterval(() => {
-    if (!hov) triggerHeroGlitch();
-  }, 7500 + Math.random()*3000);
-})();
-
-// ═══ RIPPLE ON CLICK ═══
-(function(){
-  function addRipple(e) {
-    const btn = e.currentTarget;
-    const rect = btn.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = (e.clientX || rect.left + rect.width/2) - rect.left - size/2;
-    const y = (e.clientY || rect.top + rect.height/2) - rect.top - size/2;
-
-    const ring = document.createElement('span');
-    ring.className = 'ripple-ring';
-    ring.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
-    btn.appendChild(ring);
-    setTimeout(() => ring.remove(), 650);
-  }
-
-  // Apply to CTA buttons
-  document.querySelectorAll('.btn-main.ripple-wrap').forEach(btn => {
-    btn.addEventListener('click', addRipple);
-  });
-
-  // Apply to size options dynamically
-  function attachSopt() {
-    document.querySelectorAll('.sopt:not(.ripple-wrap)').forEach(btn => {
-      btn.classList.add('ripple-wrap');
-      btn.addEventListener('click', addRipple);
-      btn.addEventListener('touchstart', function(e){
-        const t = e.touches[0];
-        addRipple({currentTarget:this, clientX:t.clientX, clientY:t.clientY});
-      }, {passive:true});
-    });
-  }
-  attachSopt();
-
-  // Apply to color options (rendered by JS, so wait)
-  const _origRender = window.renderColors;
-  const origRenderColors = typeof renderColors !== 'undefined' ? renderColors : null;
-  // Hook after renderColors runs
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      document.querySelectorAll('.color-opt:not(.ripple-wrap)').forEach(btn => {
-        btn.classList.add('ripple-wrap');
-        btn.addEventListener('click', addRipple);
-      });
-    }, 500);
-  });
-
-  // Touch support
-  document.querySelectorAll('.ripple-wrap').forEach(btn => {
-    btn.addEventListener('touchstart', function(e){
-      const touch = e.touches[0];
-      addRipple({currentTarget: this, clientX: touch.clientX, clientY: touch.clientY});
-    }, {passive:true});
-  });
-})();
-
-// ═══ FLOATING PARTICLES ═══
-(function(){
-  const bg = document.getElementById('particle-bg');
-  if (!bg) return;
-
-  const isMobile = window.innerWidth < 600;
-  const COUNT    = isMobile ? 20 : 35;
-  const COLORS   = [
-    '#e8a020','#e8a020','#c8860a',  // amber dominant
-    '#f5c050','#d09018',
-    '#f0e0c0','#faf5ee',            // cream hints
-  ];
-
-  for (let i = 0; i < COUNT; i++) {
-    const el  = document.createElement('div');
-    el.className = 'ptc';
-
-    const size = 1 + Math.random() * 1.8;         // 1–2.8px
-    const left = Math.random() * 100;              // full 0–100vw
-    const dur  = 12 + Math.random() * 16;          // 12–28s
-    const delay = -(Math.random() * dur);           // pre-seeded
-    const sway  = (Math.random() - .5) * 80;       // ±40px
-    const col  = COLORS[Math.floor(Math.random() * COLORS.length)];
-    const op   = 0.15 + Math.random() * 0.35;      // 15–50%
-
-    // Distribute vertically across full page height
-    const startY = Math.random() * 100;            // random start height
-
-    el.style.cssText = `
-      width:${size}px;
-      height:${size}px;
-      left:${left}vw;
-      bottom:${startY}vh;
-      background:${col};
-      opacity:${op};
-      --sx:${sway}px;
-      animation-duration:${dur}s;
-      animation-delay:${delay}s;
-    `;
-    bg.appendChild(el);
-  }
-})();
-
-// ═══ SHIMMER LOADER ═══
-(function() {
-  const loader = document.getElementById('shimmer-loader');
-  if (!loader) return;
-
-  function hideLoader() {
-    loader.classList.add('hiding');
-    setTimeout(() => {
-      loader.style.display = 'none';
-    }, 700);
-  }
-
-  // Hide after all content + fonts loaded
-  if (document.readyState === 'complete') {
-    setTimeout(hideLoader, 800);
-  } else {
-    window.addEventListener('load', () => {
-      setTimeout(hideLoader, 600);
-    });
-  }
-
-  // Fallback — never block more than 3s
-  setTimeout(hideLoader, 3000);
-})();
-
-// ═══ CONFIG ═══
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweuhzeJ1pmg-IWWUIAe16muz3qQ0_YNPLkxeKcQS9HQkUJsuKO_bEbszJMsHrLRAyd8w/exec';
-
-
-// ═══ MISSING FUNCTIONS FIX ═══
-
-// Marquee init
-function initMarquee() {
-  const pills = [
-    { icon:'⚡', text:'PRE-ORDER OPEN' },
-    { icon:'👕', text:'Cotton Combed 24s' },
-    { icon:'📦', text:'Produksi 1–2 hari kerja' },
-    { icon:'💸', text:'Mulai Rp 150.000' },
-    { icon:'🇮🇩', text:'Kirim ke seluruh Indonesia' },
-    { icon:'⚡', text:'GRABFAST — stok terbatas' },
-  ];
-  const track = document.getElementById('marquee-track');
-  if (!track) return;
-
-  // Build HTML — triple the pills so loop never shows a gap
-  const html = [...pills, ...pills, ...pills].map(p =>
-    `<span class="preorder-pill"><span class="icon">${p.icon}</span> ${p.text}</span><span class="preorder-sep">·</span>`
-  ).join('');
-  track.innerHTML = html;
-
-  // Wait for browser to render & measure, then start animation
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      // scrollWidth = total 3x content width
-      // We want to scroll one copy (1/3 of total) seamlessly
-      const totalW   = track.scrollWidth;
-      const oneLoopW = Math.round(totalW / 3);
-
-      // Inject a dynamic keyframe using the exact pixel width
-      const styleId = 'marquee-kf';
-      let styleEl = document.getElementById(styleId);
-      if (!styleEl) {
-        styleEl = document.createElement('style');
-        styleEl.id = styleId;
-        document.head.appendChild(styleEl);
-      }
-      // Duration: ~60px per second for comfortable reading speed
-      const duration = Math.round(oneLoopW / 55);
-      styleEl.textContent = `
-        @keyframes marquee-px {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-${oneLoopW}px); }
-        }
-        .marquee-track.running {
-          animation: marquee-px ${duration}s linear infinite !important;
-        }
-        .marquee-track.running:hover { animation-play-state: paused !important; }
-      `;
-      track.classList.add('running');
-    });
-  });
-}
-initMarquee();
-
-// Language toggle (UI only — no full i18n needed, just swaps key labels)
-function setLang(lang) {
-  document.getElementById('btn-id').classList.toggle('active', lang === 'id');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-
-  const T = {
-    // Header
-    topTag:        { id:'⚡ Limited Drop — Bhuta Kala Modern ⚡', en:'⚡ Limited Drop — Bhuta Kala Modern ⚡' },
-    heroHl:        { id:'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>', en:'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>' },
-    heroDesc:      { id:'Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong>', en:'People never realize they have NPD —<br><strong>sometimes we need to reflect on ourselves.</strong>' },
-    // Product
-    warningBadge:  { id:'⚡ AWAS BAHAYA NPD', en:'⚡ BEWARE OF NPD' },
-    sym1:          { id:'EGOIS MAKSIMAL', en:'EXTREMELY SELFISH' },
-    sym2:          { id:'ANTI KRITIK', en:'ANTI CRITICISM' },
-    sym3:          { id:'OTAK NGAMBUL', en:'TANTRUM BRAIN' },
-    productDesc:   { id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.', en:'Reflect yourself with a shirt that has <strong style="color:var(--amber)">METAKSU</strong>. Premium combed 24s — thick, hefty, collector vibes.' },
-    // Price
-    priceLbl:      { id:'⚡ harga group order ⚡', en:'⚡ group order price ⚡' },
-    priceNote:     { id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim', en:'<strong>Price per pcs</strong> · shipping not included' },
-    // Gallery
-    galleryTitle:  { id:'DETAIL KAOS', en:'SHIRT DETAIL' },
-    galleryNote:   { id:'Tap foto untuk memperbesar', en:'Tap photo to enlarge' },
-    // Size chart
-    sizeNote:      { id:'Cotton Combed 24s · ukuran dalam cm', en:'Cotton Combed 24s · measurements in cm' },
-    // Form steps
-    stepForm:      { id:'FORM', en:'FORM' },
-    stepBayar:     { id:'BAYAR', en:'PAY' },
-    stepUpload:    { id:'UPLOAD', en:'UPLOAD' },
-    stepSelesai:   { id:'SELESAI', en:'DONE' },
-    formTitle:     { id:'FORM ORDER', en:'ORDER FORM' },
-    // Form labels
-    lblNama:       { id:'Nama Lengkap *', en:'Full Name *' },
-    lblEmail:      { id:'Email *', en:'Email *' },
-    lblPhone:      { id:'Nomor WhatsApp *', en:'WhatsApp Number *' },
-    lblAlamat:     { id:'Alamat Lengkap *', en:'Full Address *' },
-    lblKota:       { id:'Kota / Kabupaten *', en:'City *' },
-    lblKodePos:    { id:'Kode Pos *', en:'Postal Code *' },
-    lblUkuran:     { id:'Pilih Ukuran *', en:'Choose Size *' },
-    lblQty:        { id:'Jumlah', en:'Quantity' },
-    lblCatatan:    { id:'Catatan (opsional)', en:'Notes (optional)' },
-    ongkirNote:    { id:'BELUM TERMASUK ONGKOS KIRIM', en:'SHIPPING NOT INCLUDED' },
-    btnNext:       { id:'LANJUT KE PEMBAYARAN', en:'PROCEED TO PAYMENT' },
-    stockWarn:     { id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡', en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡' },
-    // Step 2
-    payTitle:      { id:'💸 TRANSFER KE', en:'💸 TRANSFER TO' },
-    payDesc:       { id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.', en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.' },
-    bankAN:        { id:'a/n dikonfirmasi via WA', en:'account name confirmed via WA' },
-    lblUpload:     { id:'Upload Bukti Transfer *', en:'Upload Payment Proof *' },
-    uploadLabel:   { id:'TAP UNTUK PILIH FOTO', en:'TAP TO CHOOSE PHOTO' },
-    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 5MB', en:'Transfer screenshot · JPG/PNG · Max 5MB' },
-    btnConfirm:    { id:'KONFIRMASI PEMBAYARAN', en:'CONFIRM PAYMENT' },
-    // Success
-    successTitle:  { id:'ORDER MASUK!', en:'ORDER RECEIVED!' },
-    successMsg:    { id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.', en:'Your order details and payment proof<br>have been received by the system.' },
-    sf1title:      { id:'BUKTI TRANSFER DITERIMA', en:'PAYMENT PROOF RECEIVED' },
-    sf1desc:       { id:'Data & foto bukti tersimpan di sistem admin', en:'Data & proof photo saved in admin system' },
-    sf2title:      { id:'ADMIN SEDANG CEK PEMBAYARAN', en:'ADMIN IS VERIFYING PAYMENT' },
-    sf2desc:       { id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>', en:'Estimated confirmation within <strong style="color:var(--amber)">24 hours</strong>' },
-    sf3title:      { id:'NOTIF WA JIKA TERKONFIRMASI', en:'WA NOTIFICATION WHEN CONFIRMED' },
-    sf3desc:       { id:'Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi', en:"You'll receive a WA message when payment is confirmed" },
-    sf4title:      { id:'PRODUKSI 1–2 HARI KERJA', en:'PRODUCTION 1–2 WORKING DAYS' },
-    sf4desc:       { id:'Dimulai setelah pembayaran terkonfirmasi', en:'Starts after payment is confirmed' },
-    successBoxTitle:{ id:'📋 DETAIL ORDER', en:'📋 ORDER DETAILS' },
-    // How section
-    howTitle:      { id:'ALUR ORDER', en:'ORDER FLOW' },
-    sc1title:      { id:'ISI FORM', en:'FILL FORM' },
-    sc1desc:       { id:'Lengkapi data diri, pilih ukuran & qty.', en:'Fill in your details, choose size & qty.' },
-    sc2title:      { id:'TRANSFER', en:'TRANSFER' },
-    sc2desc:       { id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.', en:'Transfer shirt total to GoPay/Dana. Shipping follows.' },
-    sc3title:      { id:'UPLOAD BUKTI', en:'UPLOAD PROOF' },
-    sc3desc:       { id:'Upload screenshot bukti transfer langsung di web.', en:'Upload transfer screenshot directly on the website.' },
-    sc4title:      { id:'PRODUKSI', en:'PRODUCTION' },
-    sc4desc:       { id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.', en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.' },
-    // Footer
-    hashtags:      { id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN', en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN' },
-    fnote:         { id:'Made with chaos in Bali · Limited Group Order Only', en:'Made with chaos in Bali · Limited Group Order Only' },
-  };
-
-  // Apply all translations
-  Object.entries(T).forEach(([key, vals]) => {
-    document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => {
-      el.innerHTML = vals[lang] ?? vals.id;
-    });
-  });
-
-  // Update glitch data-text attributes after lang swap
-  document.querySelectorAll('.glitch').forEach(el => {
-    const txt = el.childNodes[0]?.textContent?.trim() || el.textContent.trim();
-    if (txt) el.setAttribute('data-text', txt);
-  });
-
-  // Ship text
-  const st = document.getElementById('ship-text');
-  if (st) st.textContent = lang === 'en' ? 'Shipping to all of Indonesia' : 'Pengiriman ke seluruh Indonesia';
-
-  // Update form placeholders
-  if (lang === 'en') {
-    const ph = {
-      'f-nama'   : 'Name for shipping label',
-      'f-email'  : 'your@email.com',
-      'f-alamat' : 'Street, neighbourhood, district...',
-      'f-kota'   : 'City',
-      'f-catatan': 'Request, notes, etc.',
-    };
-    Object.entries(ph).forEach(([id, p]) => {
-      const el = document.getElementById(id);
-      if (el) el.placeholder = p;
-    });
-  } else {
-    const ph = {
-      'f-nama'   : 'Nama untuk label pengiriman',
-      'f-email'  : 'email@kamu.com',
-      'f-alamat' : 'Jalan, RT/RW, Kelurahan, Kecamatan...',
-      'f-kota'   : 'Denpasar',
-      'f-catatan': 'Request, titip salam, dll',
-    };
-    Object.entries(ph).forEach(([id, p]) => {
-      const el = document.getElementById(id);
-      if (el) el.placeholder = p;
-    });
-  }
-}
-
-// Phone placeholder update on country code change
-function updatePhonePlaceholder() {
-  const cc = document.getElementById('f-countrycode')?.value;
-  const inp = document.getElementById('f-phone');
-  if (!inp) return;
-  const placeholders = { '62':'81xxxxxxxx', '1':'(555) 000-0000', '44':'7700 000000', '65':'9000 0000', '60':'11-0000 0000' };
-  inp.placeholder = placeholders[cc] || '000-000-0000';
-}
-
-// ═══ HERO SLIDESHOW ═══
-const HS_TOTAL = 4;
-let hsCurrent = 0, hsTimer = null;
-function hsGo(idx) {
-  hsCurrent = idx;
-  const _w = document.querySelector('.hero-slide').offsetWidth;
-  document.getElementById('hs-track').style.transform = 'translateX(-' + (idx * _w) + 'px)';
-  document.getElementById('hs-counter').textContent   = (idx + 1) + ' / ' + HS_TOTAL;
-  document.querySelectorAll('.hs-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-}
-function hsNav(d) { hsGo((hsCurrent + d + HS_TOTAL) % HS_TOTAL); }
-function hsStart() { hsStop(); hsTimer = setInterval(() => hsNav(1), 4500); }
-function hsStop()  { clearInterval(hsTimer); }
-hsStart();
-const _hsWrap = document.querySelector('.hero-slide-wrap');
-if (_hsWrap) {
-  _hsWrap.addEventListener('mouseenter', hsStop);
-  _hsWrap.addEventListener('mouseleave', hsStart);
-  let _hsTX = 0;
-  _hsWrap.addEventListener('touchstart', e => { _hsTX = e.touches[0].clientX; hsStop(); }, {passive:true});
-  _hsWrap.addEventListener('touchend',   e => {
-    const dx = _hsTX - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 36) hsNav(dx > 0 ? 1 : -1);
-    hsStart();
-  });
-}
-// Recalculate slide position on resize / orientation change
-window.addEventListener('resize', () => { hsGo(hsCurrent); });
-
-// Pause auto-slide when hero not in viewport (user scrolled to form)
-const _hsObserver = new IntersectionObserver(entries => {
-  entries[0].isIntersecting ? hsStart() : hsStop();
-}, {threshold: 0.1});
-if (_hsWrap) _hsObserver.observe(_hsWrap);
-
-// ═══ COLOR CONFIG — update stok di sini tanpa ubah kode lain ═══
+// ─── CONFIG ──────────────────────────────────────────────────────
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu5t5VqsezEVPBjREt0EqltP2W_EDzIwB-1Lh_HoWeYcpiaFEVea_pwLrDDtlbR-Yd/exec';
 const COLORS = [
-  { id:'hitam',  label:'HITAM',  swatch:'hitam',  status:'tersedia' },
-  { id:'putih',  label:'PUTIH',  swatch:'putih',  status:'terbatas' },
-  { id:'orange', label:'ORANGE', swatch:'orange', status:'tersedia' },
-  // status: 'tersedia' | 'terbatas' | 'habis'
-];
-const BADGE_LABEL = { tersedia:'', terbatas:'TERBATAS', habis:'HABIS' };
-
-// ═══ DETAIL LIGHTBOX — catalog photos only ═══
-// Add more photos here to expand the gallery
-const DETAIL_GALLERY = [
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
+  { id:'hitam',  label:'HITAM',  swatch:'hitam',  status:'tersedia',
+    img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png' },
+  { id:'putih',  label:'PUTIH',  swatch:'putih',  status:'terbatas',
+    img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png' },
+  { id:'orange', label:'ORANGE', swatch:'orange', status:'tersedia',
+    img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png' },
 ];
 
-let dlbIdx = 0;
+// ─── STATE ───────────────────────────────────────────────────────
+let selectedColor = '', selectedSize = '', imageBase64 = '', imageMime = '';
+let orderData = {};
+let currentLang = 'id';
 
-function dlbOpen(idx) {
-  dlbIdx = idx;
-  dlbRender();
-  const el = document.getElementById('dlb');
-  el.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+// ─── LOADER ──────────────────────────────────────────────────────
+// Loader handled by inline script in <head>
+// Fallback call in case main script loads late
+if (window.hideLoader) setTimeout(window.hideLoader, 500);
+
+// ─── TOAST ───────────────────────────────────────────────────────
+function toast(msg, dur) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), dur || 2800);
 }
 
-function dlbClose() {
-  document.getElementById('dlb').style.display = 'none';
-  document.body.style.overflow = '';
+// ─── RIPPLE ──────────────────────────────────────────────────────
+function addRipple(el, x, y) {
+  const r = document.createElement('div');
+  r.className = 'ripple-ring';
+  const rect = el.getBoundingClientRect();
+  r.style.left = (x - rect.left) + 'px';
+  r.style.top  = (y - rect.top)  + 'px';
+  el.appendChild(r);
+  setTimeout(() => r.remove(), 700);
 }
-
-function dlbNav(d) {
-  dlbIdx = (dlbIdx + d + DETAIL_GALLERY.length) % DETAIL_GALLERY.length;
-  dlbRender();
-}
-
-function dlbGo(idx) {
-  dlbIdx = idx;
-  dlbRender();
-}
-
-function dlbRender() {
-  document.getElementById('dlb-img').src = DETAIL_GALLERY[dlbIdx];
-  document.getElementById('dlb-counter').textContent = (dlbIdx + 1) + ' / ' + DETAIL_GALLERY.length;
-  document.getElementById('dlb-dots').innerHTML = DETAIL_GALLERY.map((_,i) =>
-    `<button onclick="dlbGo(${i});event.stopPropagation()" style="width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;padding:0;background:${i===dlbIdx?'var(--amber)':'rgba(200,134,10,.35)'};transition:background .2s;"></button>`
-  ).join('');
-}
-
-// Wire up buttons
-document.getElementById('dlb-close').onclick = dlbClose;
-document.getElementById('dlb-prev').onclick  = function(){ dlbNav(-1); };
-document.getElementById('dlb-next').onclick  = function(){ dlbNav(1); };
-
-// Backdrop click
-document.getElementById('dlb').addEventListener('click', function(e){
-  if (e.target === this) dlbClose();
+document.addEventListener('click', function(e) {
+  const el = e.target.closest('.ripple-wrap');
+  if (el) addRipple(el, e.clientX, e.clientY);
 });
-
-// Keyboard
-document.addEventListener('keydown', function(e){
-  if (document.getElementById('dlb').style.display === 'none') return;
-  if (e.key === 'ArrowLeft')  dlbNav(-1);
-  if (e.key === 'ArrowRight') dlbNav(1);
-  if (e.key === 'Escape')     dlbClose();
-});
-
-// Touch swipe
-let _dlbTX = 0, _dlbTY = 0;
-document.getElementById('dlb').addEventListener('touchstart', function(e){
-  _dlbTX = e.touches[0].clientX;
-  _dlbTY = e.touches[0].clientY;
+document.addEventListener('touchstart', function(e) {
+  const el = e.target.closest('.ripple-wrap');
+  if (el && e.touches[0]) addRipple(el, e.touches[0].clientX, e.touches[0].clientY);
 }, {passive:true});
-document.getElementById('dlb').addEventListener('touchend', function(e){
-  const dx = _dlbTX - e.changedTouches[0].clientX;
-  const dy = _dlbTY - e.changedTouches[0].clientY;
-  if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy)) dlbNav(dx > 0 ? 1 : -1);
-});
 
-// ═══ SOUND ENGINE ═══
-// Web Audio API — no external files needed
-const _AC = window.AudioContext || window.webkitAudioContext;
+// ─── SOUND ───────────────────────────────────────────────────────
 let _ac = null;
-
-function _getAC() {
+function getAC() {
   if (!_ac) {
-    try { _ac = new _AC(); } catch(e) { return null; }
+    try { _ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
   }
-  // Resume if suspended (browser autoplay policy)
-  if (_ac.state === 'suspended') _ac.resume();
+  if (_ac && _ac.state === 'suspended') _ac.resume();
   return _ac;
 }
-
-// Short tactile click — for size/color/qty selection
-function sndClick() {
-  const ac = _getAC(); if (!ac) return;
-  const o = ac.createOscillator();
-  const g = ac.createGain();
+function beep(freq, type, dur, vol) {
+  const ac = getAC(); if (!ac) return;
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type || 'sine'; o.frequency.setValueAtTime(freq, ac.currentTime);
+  o.frequency.exponentialRampToValueAtTime(freq * 0.5, ac.currentTime + dur);
+  g.gain.setValueAtTime(vol || 0.08, ac.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
   o.connect(g); g.connect(ac.destination);
-  o.type = 'sine';
-  o.frequency.setValueAtTime(880, ac.currentTime);
-  o.frequency.exponentialRampToValueAtTime(440, ac.currentTime + 0.06);
-  g.gain.setValueAtTime(0.08, ac.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.08);
-  o.start(ac.currentTime);
-  o.stop(ac.currentTime + 0.08);
+  o.start(); o.stop(ac.currentTime + dur);
 }
-
-// Softer tick — for qty +/−
-function sndTick() {
-  const ac = _getAC(); if (!ac) return;
-  const o = ac.createOscillator();
-  const g = ac.createGain();
-  o.connect(g); g.connect(ac.destination);
-  o.type = 'triangle';
-  o.frequency.setValueAtTime(660, ac.currentTime);
-  o.frequency.exponentialRampToValueAtTime(330, ac.currentTime + 0.04);
-  g.gain.setValueAtTime(0.06, ac.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.05);
-  o.start(ac.currentTime);
-  o.stop(ac.currentTime + 0.05);
-}
-
-// Success — order confirmed ding
+function sndClick()   { beep(880, 'sine',     0.08, 0.07); }
+function sndTick()    { beep(660, 'triangle', 0.05, 0.06); }
 function sndSuccess() {
-  const ac = _getAC(); if (!ac) return;
-  const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
-  notes.forEach((freq, i) => {
-    const o = ac.createOscillator();
-    const g = ac.createGain();
-    o.connect(g); g.connect(ac.destination);
-    o.type = 'sine';
-    const t = ac.currentTime + i * 0.12;
-    o.frequency.setValueAtTime(freq, t);
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(0.12, t + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-    o.start(t);
-    o.stop(t + 0.5);
-  });
+  [261.6, 329.6, 392, 523.3].forEach((f, i) => setTimeout(() => beep(f, 'sine', 0.15, 0.09), i * 120));
 }
 
-// ═══ COLOR PICKER ═══
-let selectedColor = null;
-
+// ─── COLOR PICKER ────────────────────────────────────────────────
 function renderColors() {
   const wrap = document.getElementById('color-picker');
   if (!wrap) return;
-  wrap.innerHTML = COLORS.map(c => `
-    <button type="button"
-      class="color-opt${c.status === 'habis' ? ' disabled' : ''}"
-      id="color-${c.id}"
+  wrap.innerHTML = COLORS.map(c => {
+    const sw = c.swatch === 'hitam'  ? '#111111' :
+               c.swatch === 'putih'  ? '#f5f5f0' :
+               c.swatch === 'orange' ? '#e86000' : '#888';
+
+    const isActive = selectedColor === c.id;
+    return `<button class="copt ripple-wrap${isActive ? ' active' : ''}"
       onclick="pickColor('${c.id}')"
-      ${c.status === 'habis' ? 'disabled' : ''}>
-      <span class="color-swatch ${c.swatch}"></span>
-      ${c.label}${c.status !== 'tersedia' ? ` <span class="color-badge ${c.status}">${BADGE_LABEL[c.status]}</span>` : ''}
-    </button>
-  `).join('');
+      onmouseenter="showColorPreview('${c.img}','${c.label}')"
+      onmouseleave="hideColorPreview()"
+      ontouchstart="showColorPreview('${c.img}','${c.label}')"
+      aria-label="${c.label}">
+      <span class="copt-swatch-wrap">
+        <span class="copt-swatch" style="background:${sw};${c.swatch==='putih'?'border:1.5px solid rgba(200,134,10,.3);':''}"></span>
+        ${isActive ? '<span class="copt-check">✓</span>' : ''}
+      </span>
+      <span class="copt-name">${currentLang==='en' ? (c.id==='hitam'?'BLACK':c.id==='putih'?'WHITE':c.id==='orange'?'ORANGE':c.label) : c.label}</span>
+
+    </button>`;
+  }).join('');
 }
+
 function pickColor(id) {
-  const c = COLORS.find(x => x.id === id);
-  if (!c || c.status === 'habis') return;
-  sndClick();
   selectedColor = id;
-  document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('color-' + id);
-  if (btn) btn.classList.add('active');
-}
-renderColors();
-// Attach ripple to color buttons after they render
-setTimeout(() => {
-  document.querySelectorAll('.color-opt:not(.ripple-wrap)').forEach(btn => {
-    btn.classList.add('ripple-wrap');
-    btn.addEventListener('click', function(e){ addRipple && addRipple(e); });
-    btn.addEventListener('touchstart', function(e){
-      const t = e.touches[0];
-      addRipple && addRipple({currentTarget:this, clientX:t.clientX, clientY:t.clientY});
-    }, {passive:true});
-  });
-}, 100);
-
-// ═══ FORM STATE ═══
-let selectedSize = 'L', hargaPerPcs = 150000, qty = 1;
-let orderData = {}, imageBase64 = null, imageMime = 'image/jpeg';
-
-function pickSize(btn, size, harga) {
   sndClick();
-  document.querySelectorAll('.sopt').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedSize = size; hargaPerPcs = harga;
-  document.getElementById('t-size').textContent  = size;
-  document.getElementById('t-harga').textContent = 'Rp ' + harga.toLocaleString('id-ID');
-  updateTotal();
-}
-function changeQty(d) {
-  sndTick();
-  qty = Math.max(1, Math.min(100, qty + d));
-  document.getElementById('qty-disp').value    = qty;
-  document.getElementById('t-qty').textContent = '× ' + qty + ' pcs';
-  updateTotal();
-}
-// Manual input handler
-function onQtyInput(el) {
-  const val = parseInt(el.value, 10);
-  const warn = document.getElementById('qty-max-warn');
-  if (!isNaN(val) && val >= 1) {
-    if (val > 100) {
-      if (warn) warn.style.display = 'block';
-    } else {
-      if (warn) warn.style.display = 'none';
-      qty = val;
-      document.getElementById('t-qty').textContent = '× ' + qty + ' pcs';
-      updateTotal();
-    }
-  }
-}
-// On blur — clamp & clean up empty/invalid input
-function onQtyBlur(el) {
-  let val = parseInt(el.value, 10);
-  if (isNaN(val) || val < 1) val = 1;
-  if (val > 100) val = 100;
-  qty = val;
-  el.value = qty;
-  document.getElementById('t-qty').textContent = '× ' + qty + ' pcs';
-  updateTotal();
-  const warn = document.getElementById('qty-max-warn');
-  if (warn) warn.style.display = 'none';
-}
-function updateTotal() {
-  document.getElementById('t-total').textContent = 'Rp ' + (qty * hargaPerPcs).toLocaleString('id-ID');
+  renderColors();
 }
 
-function validate() {
-  if (!selectedColor) {
-    toast('PILIH WARNA DULU!');
-    document.getElementById('color-picker').scrollIntoView({behavior:'smooth', block:'center'});
-    return false;
+function getOrCreatePreviewPop() {
+  let pop = document.getElementById('color-preview-pop');
+  if (!pop) {
+    pop = document.createElement('div');
+    pop.id = 'color-preview-pop';
+    document.body.appendChild(pop);
   }
+  return pop;
+}
+
+function showColorPreview(imgUrl, label) {
+  const pop = getOrCreatePreviewPop();
+  pop.innerHTML = `<div class="cpop-inner">
+    <img src="${imgUrl}" alt="${label}" loading="eager">
+    <span class="cpop-label">${label}</span>
+  </div>`;
+  pop.classList.add('visible');
+}
+
+function moveColorPreview(e) {
+  const pop = document.getElementById('color-preview-pop');
+  if (!pop || !pop.classList.contains('visible')) return;
+  const x = e.clientX, y = e.clientY;
+  const pw = 300, ph = 420;
+  // Stay within viewport
+  const lx = (x + 100 + pw > window.innerWidth) ? x - pw - 100 : x + 100;
+  const ly = Math.max(8, Math.min(window.innerHeight - ph - 8, y - ph/2));
+  pop.style.left = lx + 'px';
+  pop.style.top  = ly + 'px';
+  // Remove the translate-based positioning while following cursor
+  pop.style.transform = 'scale(1)';
+}
+
+function hideColorPreview() {
+  const pop = document.getElementById('color-preview-pop');
+  if (pop) {
+    pop.classList.remove('visible');
+    pop.style.transform = '';
+  }
+}
+
+// Global mousemove for cursor tracking
+document.addEventListener('mousemove', moveColorPreview);
+
+renderColors();
+
+// ─── SIZE PICKER ─────────────────────────────────────────────────
+document.querySelectorAll('.sopt').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.sopt').forEach(b => b?.classList.remove('active'));
+    this.classList.add('active');
+    selectedSize = this.dataset.size;
+    sndClick();
+    updatePrice();
+  });
+});
+
+// ─── QTY ─────────────────────────────────────────────────────────
+function getQty() { return Math.max(1, Math.min(100, parseInt(document.getElementById('qty-disp')?.value)||1)); }
+function updatePrice() {
+  const size  = selectedSize || 'M';
+  const harga = ['XXL','XXXL'].indexOf(size) >= 0 ? 170000 : 150000;
+  const qty   = getQty();
+  const total = harga * qty;
+  const el    = document.getElementById('price-calc');
+  if (el) el.textContent = qty + ' × Rp ' + harga.toLocaleString('id-ID') + ' = Rp ' + total.toLocaleString('id-ID');
+}
+function onQtyInput(e) {
+  const v = parseInt(e.target.value);
+  const w = document.getElementById('qty-max-warn');
+  if (w) w.style.display = v > 100 ? 'block' : 'none';
+  updatePrice(); sndTick();
+}
+function onQtyBlur(e) {
+  let v = parseInt(e.target.value) || 1;
+  if (v < 1) v = 1; if (v > 100) v = 100;
+  e.target.value = v; updatePrice();
+}
+
+// ─── FILE UPLOAD ─────────────────────────────────────────────────
+function handleFile(file) {
+  if (!file || !file.type.startsWith('image/')) { toast('File harus berupa gambar!'); return; }
+  if (file.size > 5 * 1024 * 1024) { toast('Ukuran file maks 5MB!'); return; }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const result = e.target.result;
+    imageBase64 = result;
+    imageMime   = file.type;
+    const prev = document.getElementById('upload-preview');
+    const lbl  = document.getElementById('upload-label-text');
+    const rmv  = document.getElementById('remove-file-btn');
+    if (prev) { prev.src = result; prev.style.display = 'block'; }
+    if (lbl)  lbl.textContent = file.name;
+    if (rmv)  rmv.style.display = 'inline-block';
+    toast('Foto berhasil dipilih ✅');
+  };
+  reader.readAsDataURL(file);
+}
+function removeFile() {
+  imageBase64 = ''; imageMime = '';
+  const prev = document.getElementById('upload-preview');
+  const lbl  = document.getElementById('upload-label-text');
+  const rmv  = document.getElementById('remove-file-btn');
+  const inp  = document.getElementById('f-bukti');
+  if (prev) { prev.src = ''; prev.style.display = 'none'; }
+  if (lbl)  lbl.textContent = currentLang === 'en' ? 'TAP TO CHOOSE PHOTO' : 'TAP UNTUK PILIH FOTO';
+  if (rmv)  rmv.style.display = 'none';
+  if (inp)  inp.value = '';
+}
+// Drag & drop
+const uploadArea = document.getElementById('upload-area');
+if (uploadArea) {
+  uploadArea.addEventListener('dragover',  e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+  uploadArea.addEventListener('drop', function(e) {
+    e.preventDefault(); uploadArea.classList.remove('drag-over');
+    handleFile(e.dataTransfer.files[0]);
+  });
+}
+
+// ─── VALIDATE FORM ───────────────────────────────────────────────
+function validate() {
+  if (!selectedColor) { toast('Pilih warna dulu!'); return false; }
+  if (!selectedSize)  { toast('Pilih ukuran dulu!'); return false; }
   const fields = [
     {id:'f-nama',    lbl:'NAMA'},
     {id:'f-phone',   lbl:'NO. WA'},
@@ -2463,6 +2042,10 @@ function validate() {
     {id:'f-kota',    lbl:'KOTA'},
     {id:'f-kodepos', lbl:'KODE POS'},
   ];
+  for (const f of fields) {
+    const el = document.getElementById(f.id);
+    if (!el || !el.value.trim()) { toast('Lengkapi: ' + f.lbl); el && el.focus(); return false; }
+  }
   // Email format check
   const emailEl = document.getElementById('f-email');
   if (emailEl && emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
@@ -2472,123 +2055,49 @@ function validate() {
     setTimeout(() => emailEl.style.borderColor = '', 2000);
     return false;
   }
-  for (const f of fields) {
-    const el = document.getElementById(f.id);
-    if (!el.value.trim()) {
-      toast(f.lbl + ' WAJIB DIISI!');
-      el.focus();
-      el.style.borderColor = '#c0392b';
-      setTimeout(() => el.style.borderColor = '', 2000);
-      return false;
-    }
-  }
   return true;
 }
 
+// ─── STEP 2 ──────────────────────────────────────────────────────
 function goToStep2() {
   if (!validate()) return;
+  const cc    = document.getElementById('f-countrycode')?.value || '62';
+  const phone = document.getElementById('f-phone').value.trim().replace(/^0/, '');
+  const harga = ['XXL','XXXL'].indexOf(selectedSize) >= 0 ? 170000 : 150000;
+  const qty   = getQty();
   orderData = {
-    orderNum : 'NPD-' + Date.now().toString().slice(-6),
-    nama     : document.getElementById('f-nama').value.trim(),
-    phone    : document.getElementById('f-phone').value.trim(),
-    email    : document.getElementById('f-email').value.trim(),
-    alamat   : document.getElementById('f-alamat').value.trim(),
-    kota     : document.getElementById('f-kota').value.trim(),
-    kodePos  : document.getElementById('f-kodepos').value.trim(),
-    ukuran   : selectedSize, qty, hargaPerPcs,
-    warna    : selectedColor,
-    catatan  : document.getElementById('f-catatan').value.trim(),
+    orderNum    : 'NPD-' + Date.now().toString().slice(-6),
+    nama        : document.getElementById('f-nama').value.trim(),
+    phone       : document.getElementById('f-phone').value.trim(),
+    email       : document.getElementById('f-email').value.trim(),
+    alamat      : document.getElementById('f-alamat').value.trim(),
+    kota        : document.getElementById('f-kota').value.trim(),
+    kodePos     : document.getElementById('f-kodepos').value.trim(),
+    catatan     : document.getElementById('f-catatan')?.value.trim() || '',
+    warna       : selectedColor,
+    ukuran      : selectedSize,
+    qty         : qty,
+    hargaPerPcs : harga,
+    countryCode : cc,
   };
-  const total = qty * hargaPerPcs;
-  document.getElementById('r-ordernum').textContent = orderData.orderNum;
-  document.getElementById('r-nama').textContent     = orderData.nama;
-  document.getElementById('r-phone').textContent    = orderData.phone;
-  document.getElementById('r-email').textContent    = orderData.email;
-  document.getElementById('r-warna').textContent    = orderData.warna.toUpperCase();
-  document.getElementById('r-size').textContent     = orderData.ukuran;
-  document.getElementById('r-qty').textContent      = orderData.qty + ' pcs';
-  document.getElementById('r-kota').textContent     = orderData.kota;
-  document.getElementById('r-harga').textContent    = 'Rp ' + hargaPerPcs.toLocaleString('id-ID');
-  document.getElementById('r-total').textContent    = 'Rp ' + total.toLocaleString('id-ID');
-  setStep(1,'done'); setStep(2,'active');
-  document.getElementById('sl1').classList.add('done');
-  document.getElementById('step1').style.display = 'none';
-  document.getElementById('step2').style.display = 'block';
-  document.getElementById('order-section').scrollIntoView({behavior:'smooth', block:'start'});
-  // Push state for Android back button support
-  history.pushState({step:2}, '');
+  // Fill order card
+  document.getElementById('r-ordernum').textContent  = orderData.orderNum;
+  document.getElementById('r-nama').textContent      = orderData.nama;
+  document.getElementById('r-warna').textContent     = orderData.warna.toUpperCase();
+  document.getElementById('r-ukuran').textContent    = orderData.ukuran;
+  document.getElementById('r-qty').textContent       = orderData.qty + ' pcs';
+  document.getElementById('r-phone').textContent     = orderData.phone;
+  document.getElementById('r-email').textContent     = orderData.email;
+  document.getElementById('r-total').textContent     = 'Rp ' + (qty * harga).toLocaleString('id-ID');
+  showStep(2);
+  history.pushState({step:2}, '', '');
 }
 
-// Android back button — go back to step 1
-window.addEventListener('popstate', function(e) {
-  const s2 = document.getElementById('step2');
-  if (s2 && s2.style.display !== 'none') {
-    s2.style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-    setStep(2,''); setStep(1,'active');
-    document.getElementById('sl1').classList.remove('done');
-  }
-});
-
-// File upload
-function handleFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 6*1024*1024) { toast('FILE TERLALU BESAR! MAKS 5MB'); input.value=''; return; }
-  imageMime = file.type || 'image/jpeg';
-  document.getElementById('preview-name').textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let w = img.width, h = img.height;
-      const MAX = 1000;
-      if (w > MAX) { h = h*MAX/w; w = MAX; }
-      if (h > MAX) { w = w*MAX/h; h = MAX; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      imageBase64 = canvas.toDataURL('image/jpeg', 0.78);
-      document.getElementById('preview-img').src     = imageBase64;
-      document.getElementById('preview-wrap').style.display  = 'block';
-      document.getElementById('upload-area').style.display   = 'none';
-      document.getElementById('upload-req').style.display    = 'none';
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-function removeFile() {
-  imageBase64 = null;
-  document.getElementById('bukti-file').value = '';
-  document.getElementById('preview-wrap').style.display = 'none';
-  document.getElementById('upload-area').style.display  = 'block';
-}
-const _ua = document.getElementById('upload-area');
-if (_ua) {
-  _ua.addEventListener('dragover', e => { e.preventDefault(); _ua.classList.add('drag-over'); });
-  _ua.addEventListener('dragleave', () => _ua.classList.remove('drag-over'));
-  _ua.addEventListener('drop', e => {
-    e.preventDefault(); _ua.classList.remove('drag-over');
-    const f = e.dataTransfer.files[0];
-    if (f && f.type.startsWith('image/')) {
-      const dt = new DataTransfer(); dt.items.add(f);
-      const inp = document.getElementById('bukti-file');
-      inp.files = dt.files; handleFile(inp);
-    }
-  });
-}
-
-// Final submit
+// ─── STEP 3 / SUBMIT ─────────────────────────────────────────────
 async function submitAll() {
-  if (!imageBase64) {
-    document.getElementById('upload-req').style.display = 'block';
-    toast('UPLOAD BUKTI TRANSFER DULU!'); return;
-  }
-  const btn = document.getElementById('btn2');
-  const btxt = document.getElementById('btn2-txt');
-  const sp   = document.getElementById('sp2');
-  btn.disabled = true; btxt.style.display = 'none'; sp.style.display = 'block';
+  if (!imageBase64) { toast('Upload bukti transfer dulu!'); return; }
+  const btn = document.getElementById('btn-confirm');
+  if (btn) { btn.disabled = true; btn.textContent = 'MENGIRIM...'; }
   try {
     await fetch(APPS_SCRIPT_URL, {
       method  : 'POST',
@@ -2596,63 +2105,36 @@ async function submitAll() {
       body    : JSON.stringify({...orderData, imageData: imageBase64, imageMime}),
       mode    : 'no-cors',
     });
-  } catch(err) { console.warn('Submit (no-cors):', err); }
-  setStep(2,'done'); setStep(3,'done'); setStep(4,'active');
-  document.getElementById('sl2').classList.add('done');
-  document.getElementById('sl3').classList.add('done');
-  document.getElementById('step2').style.display = 'none';
-  document.getElementById('step3').style.display = 'block';
+  } catch(err) { console.log('Submit note:', err); }
   document.getElementById('s-ordernum').textContent = orderData.orderNum;
   updateWASummaryLink(orderData);
-  setTimeout(sndSuccess, 300); // slight delay for drama
+  setTimeout(sndSuccess, 300);
   setTimeout(launchConfetti, 400);
-  document.getElementById('order-section').scrollIntoView({behavior:'smooth', block:'start'});
-  btn.disabled = false; btxt.style.display = ''; sp.style.display = 'none';
+  showStep(3);
+  setStep(1,'done'); setStep(2,'done'); setStep(3,'done'); setStep(4,'active');
 }
 
-function launchConfetti() {
-  const colors = [
-    '#e8a020','#c8860a','#f5b830', // ambers
-    '#ff6b35','#ff4444',           // reds
-    '#faf5ee','#f0e0c0',           // creams
-    '#3a9a3a','#25d366',           // greens
-    '#e8a020','#ffdd57',           // golds
-  ];
-  const shapes = ['square','circle','rect'];
-  // Reduce confetti on mobile for performance
-  const total = window.innerWidth < 600 ? 55 : 120;
-
-  for (let i = 0; i < total; i++) {
-    setTimeout(() => {
-      const el = document.createElement('div');
-      el.className = 'confetti-piece';
-
-      const shape = shapes[Math.floor(Math.random() * shapes.length)];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const size  = 6 + Math.random() * 10;
-      const left  = Math.random() * 100;
-      const delay = Math.random() * 0.4;
-      const dur   = 2.5 + Math.random() * 2;
-      const swayDur = 1.5 + Math.random() * 1.5;
-
-      el.style.cssText = `
-        left:${left}vw;
-        width:${shape==='rect' ? size*2 : size}px;
-        height:${shape==='rect' ? size*.45 : size}px;
-        background:${color};
-        border-radius:${shape==='circle' ? '50%' : '2px'};
-        animation:
-          confettiFall ${dur}s ${delay}s ease-in forwards,
-          confettiSway ${swayDur}s ${delay}s ease-in-out infinite;
-      `;
-
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), (dur + delay + 0.5) * 1000);
-    }, Math.random() * 600);
-  }
+// ─── SHOW STEP ────────────────────────────────────────────────────
+function showStep(n) {
+  document.getElementById('step1').style.display = n===1 ? 'block' : 'none';
+  document.getElementById('step2').style.display = n===2 ? 'block' : 'none';
+  document.getElementById('step3').style.display = n===3 ? 'block' : 'none';
+  // Step bar
+  [1,2,3,4].forEach(i => {
+    const el = document.getElementById('sbar'+i);
+    if (!el) return;
+    el.classList.remove('active','done');
+    if (i < n) el.classList.add('done');
+    else if (i === n) el.classList.add('active');
+  });
+  window.scrollTo({top: document.getElementById('order-section').offsetTop - 16, behavior:'smooth'});
+}
+function setStep(n, state) { const el = document.getElementById('sd'+n); if (el) el.className = 'sdot ' + state; }
+function copyNum(num, label) {
+  navigator.clipboard?.writeText(num).then(() => toast(label + ' disalin!')).catch(() => toast(label + ': ' + num));
 }
 
-// ═══ WA RINGKASAN ORDER ═══
+// ─── WA SUMMARY ──────────────────────────────────────────────────
 function buildWASummary(data) {
   const total = data.qty * data.hargaPerPcs;
   const lines = [
@@ -2680,77 +2162,524 @@ function buildWASummary(data) {
     '',
     '🛒 orderkaosnpd.shop',
   ].filter(l => l !== undefined);
-
   return lines.join('\n');
 }
-
 function updateWASummaryLink(data) {
   const link = document.getElementById('wa-summary-link');
   if (!link) return;
   const msg  = buildWASummary(data);
-  // Send to customer's own number (pre-fill)
   const phone = (data.phone || '').replace(/[^0-9]/g, '');
   const cc    = document.getElementById('f-countrycode')?.value || '62';
   const fullPhone = phone.startsWith('0') ? cc + phone.slice(1) : cc + phone;
   link.href = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
 }
 
-function setStep(n, state) { document.getElementById('sd'+n).className = 'sdot ' + state; }
-function copyNum(num, label) {
-  navigator.clipboard.writeText(num)
-    .then(() => toast(label + ' — COPIED!'))
-    .catch(() => toast('HOLD UNTUK COPY: ' + num));
-}
-// WA float tooltip on mobile touch
-(function(){
-  const fl = document.querySelector('.wa-float');
-  const btn = document.getElementById('wa-float-btn');
-  if (fl && btn) {
-    btn.addEventListener('touchstart', function(){
-      fl.classList.add('show-tip');
-      clearTimeout(fl._tt);
-      fl._tt = setTimeout(() => fl.classList.remove('show-tip'), 2500);
-    }, {passive:true});
+// ─── CONFETTI ────────────────────────────────────────────────────
+function launchConfetti() {
+  const COUNT  = window.innerWidth < 600 ? 55 : 120;
+  const COLORS_C = ['#e8a020','#c8860a','#f0e0c0','#c0392b','#ffffff','#f5c030'];
+  const SHAPES = ['circle','rect','tri'];
+  for (let i = 0; i < COUNT; i++) {
+    setTimeout(() => {
+      const el     = document.createElement('div');
+      const shape  = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+      const color  = COLORS_C[Math.floor(Math.random() * COLORS_C.length)];
+      const size   = 6 + Math.random() * 10;
+      const left   = Math.random() * 100;
+      const delay  = Math.random() * 0.5;
+      const dur    = 2.5 + Math.random() * 2;
+      const swayDur = 1.5 + Math.random() * 1.5;
+      el.style.cssText = `
+        position:fixed;top:-20px;pointer-events:none;z-index:9999;
+        left:${left}vw;
+        width:${shape==='rect' ? size*2 : size}px;
+        height:${shape==='rect' ? size*.45 : size}px;
+        background:${color};
+        border-radius:${shape==='circle' ? '50%' : '2px'};
+        animation:
+          confettiFall ${dur}s ${delay}s ease-in forwards,
+          confettiSway ${swayDur}s ${delay}s ease-in-out infinite;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), (dur + delay + 0.5) * 1000);
+    }, Math.random() * 600);
   }
+}
+
+// ─── LIGHTBOX ────────────────────────────────────────────────────
+const DETAIL_GALLERY = [
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
+];
+let dlbIdx = 0, _dlbTX = 0, _dlbSX = 0;
+function dlbOpen(idx) {
+  dlbIdx = idx;
+  const dlb = document.getElementById('dlb');
+  if (dlb) { dlb.style.display = 'flex'; dlbRender(); }
+  document.addEventListener('keydown', dlbKey);
+}
+function dlbClose() {
+  const dlb = document.getElementById('dlb');
+  if (dlb) dlb.style.display = 'none';
+  document.removeEventListener('keydown', dlbKey);
+}
+function dlbNav(d) { dlbIdx = (dlbIdx + d + DETAIL_GALLERY.length) % DETAIL_GALLERY.length; dlbRender(); }
+function dlbGo(i) { dlbIdx = i; dlbRender(); }
+function dlbRender() {
+  const img = document.getElementById('dlb-img');
+  const ctr = document.getElementById('dlb-counter');
+  const dot = document.getElementById('dlb-dots');
+  if (img) img.src = DETAIL_GALLERY[dlbIdx];
+  if (ctr) ctr.textContent = (dlbIdx+1) + ' / ' + DETAIL_GALLERY.length;
+  if (dot) dot.innerHTML = DETAIL_GALLERY.map((_,i) =>
+    `<button class="dlb-dot${i===dlbIdx?' active':''}" onclick="dlbGo(${i});event.stopPropagation()"></button>`
+  ).join('');
+  // Touch swipe
+  const wrap = document.getElementById('dlb-img-wrap');
+  if (wrap) {
+    wrap.ontouchstart = e => { _dlbSX = e.touches[0].clientX; };
+    wrap.ontouchend   = e => {
+      const dx = e.changedTouches[0].clientX - _dlbSX;
+      if (Math.abs(dx) > 40) dlbNav(dx < 0 ? 1 : -1);
+    };
+  }
+}
+function dlbKey(e) {
+  if (e.key === 'ArrowLeft')  dlbNav(-1);
+  if (e.key === 'ArrowRight') dlbNav(1);
+  if (e.key === 'Escape')     dlbClose();
+}
+
+// ─── HERO SLIDESHOW ──────────────────────────────────────────────
+const HS_TOTAL = 4;
+let hsCur = 0, hsRaf = null, hsAuto = null;
+function hsGetW() {
+  const sl = document.querySelector('.hero-slide');
+  return sl ? sl.offsetWidth : window.innerWidth;
+}
+function hsSetPos(idx, instant) {
+  const track = document.getElementById('hs-track');
+  if (!track) return;
+  if (instant) track.style.transition = 'none';
+  track.style.transform = `translateX(-${idx * hsGetW()}px)`;
+  if (instant) requestAnimationFrame(() => { track.style.transition = ''; });
+}
+function hsGo(idx) {
+  hsCur = Math.max(0, Math.min(HS_TOTAL - 1, idx));
+  hsSetPos(hsCur);
+  document.querySelectorAll('.hs-dot').forEach((d,i) => d.classList.toggle('active', i===hsCur));
+  const ctr = document.getElementById('hs-counter');
+  if (ctr) ctr.textContent = (hsCur+1) + ' / ' + HS_TOTAL;
+}
+function hsNext() { hsGo((hsCur+1) % HS_TOTAL); }
+function hsPrev() { hsGo((hsCur - 1 + HS_TOTAL) % HS_TOTAL); }
+function hsStartAuto() { hsAuto = setInterval(hsNext, 4500); }
+function hsStopAuto()  { clearInterval(hsAuto); }
+
+// Touch/swipe
+let _hsSX = 0;
+const heroWrap = document.querySelector('.hero-wrap');
+if (heroWrap) {
+  heroWrap.addEventListener('touchstart', e => { _hsSX = e.touches[0].clientX; hsStopAuto(); }, {passive:true});
+  heroWrap.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - _hsSX;
+    if (Math.abs(dx) > 36) { dx < 0 ? hsNext() : hsPrev(); }
+    hsStartAuto();
+  }, {passive:true});
+}
+// Resize
+window.addEventListener('resize', () => { hsSetPos(hsCur, true); });
+// IntersectionObserver to pause
+new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) hsStartAuto(); else hsStopAuto();
+}, {threshold:0.2}).observe(document.querySelector('.hero-wrap') || document.body);
+hsStartAuto();
+
+// ─── MARQUEE ─────────────────────────────────────────────────────
+function initMarquee() {
+  const track = document.getElementById('marquee-track');
+  if (!track) return;
+  const orig = track.innerHTML;
+  track.innerHTML = orig + orig + orig;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const oneLoopW = track.scrollWidth / 3;
+    const duration = oneLoopW / 55;
+    const styleEl  = document.createElement('style');
+    styleEl.textContent = `@keyframes marquee-px{0%{transform:translateX(0)}100%{transform:translateX(-${Math.round(oneLoopW)}px)}}`;
+    document.head.appendChild(styleEl);
+    track.style.animation = `marquee-px ${duration}s linear infinite`;
+  }));
+}
+initMarquee();
+
+// ─── SCROLL REVEAL ───────────────────────────────────────────────
+(function(){
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.sr').forEach(el => obs.observe(el));
 })();
 
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-// ═══ HOW-SECTION BARONG ═══
+// ─── HOW-SECTION BARONG ──────────────────────────────────────────
 (function(){
   const b = document.getElementById('how-barong');
   const s = document.getElementById('how-section');
   if (!b || !s) return;
   const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      b.classList.add('visible');
-      obs.disconnect();
-    }
+    if (entries[0].isIntersecting) { b.classList.add('visible'); obs.disconnect(); }
   }, {threshold:0.15});
   obs.observe(s);
-  // Fallback
   if (s.getBoundingClientRect().top < window.innerHeight) b.classList.add('visible');
 })();
 
-// ═══ SCROLL REVEAL SYSTEM ═══
+// ─── PARALLAX — LERP ─────────────────────────────────────────────
 (function(){
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        obs.unobserve(e.target); // trigger once
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  function lerp(a, b, t) { return a + (b - a) * t; }
 
-  document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+  // Title parallax + glitch
+  const titleEl = document.getElementById('product-title');
+  const spanEl  = titleEl ? titleEl.querySelector('span') : null;
+  const piLeft  = document.querySelector('.pi-left');
+  let tTX=0,tTY=0,tSX=0,tSY=0, cTX=0,cTY=0,cSX=0,cSY=0;
+  let titleHov=false, titleRaf=null, glitchTimer=null;
+
+  function tickTitle() {
+    cTX = lerp(cTX, tTX, 0.09); cTY = lerp(cTY, tTY, 0.09);
+    cSX = lerp(cSX, tSX, 0.07); cSY = lerp(cSY, tSY, 0.07);
+    if (titleEl) titleEl.style.transform = `translate(${cTX.toFixed(2)}px,${cTY.toFixed(2)}px)`;
+    if (spanEl)  spanEl.style.transform  = `translate(${cSX.toFixed(2)}px,${cSY.toFixed(2)}px)`;
+    const settled = Math.abs(cTX-tTX)<.05 && Math.abs(cTY-tTY)<.05;
+    if (!settled || titleHov) titleRaf = requestAnimationFrame(tickTitle);
+    else titleRaf = null;
+  }
+  function startGlitch() {
+    if (!titleEl) return;
+    titleEl.classList.add('glitch-on');
+    clearTimeout(glitchTimer);
+    glitchTimer = setTimeout(() => {
+      if (titleEl) titleEl.classList.remove('glitch-on');
+      if (titleHov) glitchTimer = setTimeout(startGlitch, 350 + Math.random() * 550);
+    }, 180 + Math.random() * 160);
+  }
+  if (piLeft && titleEl) {
+    piLeft.addEventListener('mousemove', function(e) {
+      const r = piLeft.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width/2)  / (r.width/2);
+      const dy = (e.clientY - r.top  - r.height/2) / (r.height/2);
+      tTX = dx * -18; tTY = dy * -12; tSX = dx * -28; tSY = dy * -8;
+      if (!titleHov) { titleHov = true; startGlitch(); }
+      if (!titleRaf) titleRaf = requestAnimationFrame(tickTitle);
+    });
+    piLeft.addEventListener('mouseleave', function() {
+      tTX=0; tTY=0; tSX=0; tSY=0; titleHov=false;
+      clearTimeout(glitchTimer);
+      if (titleEl) titleEl.classList.remove('glitch-on');
+      if (!titleRaf) titleRaf = requestAnimationFrame(tickTitle);
+    });
+    piLeft.addEventListener('touchmove', function(e) {
+      const t=e.touches[0], r=piLeft.getBoundingClientRect();
+      const dx=(t.clientX-r.left-r.width/2)/(r.width/2);
+      const dy=(t.clientY-r.top-r.height/2)/(r.height/2);
+      tTX=dx*-14; tTY=dy*-9; tSX=dx*-22; tSY=dy*-6;
+      if (!titleHov) { titleHov=true; startGlitch(); }
+      if (!titleRaf) titleRaf=requestAnimationFrame(tickTitle);
+    },{passive:true});
+    piLeft.addEventListener('touchend', function() {
+      tTX=0; tTY=0; tSX=0; tSY=0; titleHov=false;
+      clearTimeout(glitchTimer);
+      if (titleEl) titleEl.classList.remove('glitch-on');
+      if (!titleRaf) titleRaf=requestAnimationFrame(tickTitle);
+    });
+  }
+
+  // Price parallax
+  const priceWrap = document.querySelector('.price-wrap');
+  const p150 = document.getElementById('price-150');
+  const p170 = document.getElementById('price-170');
+  if (!priceWrap || !p150 || !p170) return;
+  const nums = [
+    { el:p150, depth:28, fy:14, fs:1.12 },
+    { el:p170, depth:16, fy:10, fs:1.07 },
+  ];
+  const cur = nums.map(() => ({x:0,y:0,s:1}));
+  const tgt = nums.map(() => ({x:0,y:0,s:1}));
+  let hov=false, raf=null;
+
+  function shadowFor(x, y) {
+    const d = Math.sqrt(x*x + y*y) * 0.6;
+    const layers = [];
+    for (let n=1; n<=9; n++) {
+      const t  = n/9;
+      const sx = (x*t*0.35).toFixed(1);
+      const sy = (y*t*0.35 + d*t).toFixed(1);
+      const l  = Math.round(25 - n*2);
+      layers.push(`${sx}px ${sy}px 0 hsl(22,85%,${l}%)`);
+    }
+    layers.push(`0 ${(d*1.2).toFixed(0)}px ${(d*2.5).toFixed(0)}px rgba(232,160,32,.4)`);
+    return layers.join(',');
+  }
+  function tick() {
+    let active = false;
+    nums.forEach((n,i) => {
+      cur[i].x = lerp(cur[i].x, tgt[i].x, 0.08);
+      cur[i].y = lerp(cur[i].y, tgt[i].y, 0.08);
+      cur[i].s = lerp(cur[i].s, tgt[i].s, 0.08);
+      const {x,y,s} = cur[i];
+      n.el.style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(3)})`;
+      n.el.style.textShadow = (Math.abs(x)+Math.abs(y))>0.3 ? shadowFor(x,y) : '';
+      if (Math.abs(x-tgt[i].x)>.05||Math.abs(y-tgt[i].y)>.05||Math.abs(s-tgt[i].s)>.002) active=true;
+    });
+    if (active||hov) raf=requestAnimationFrame(tick);
+    else {
+      raf=null;
+      if (!hov) nums.forEach(n => { n.el.style.transform=''; n.el.style.textShadow=''; });
+    }
+  }
+  priceWrap.addEventListener('mousemove', function(e) {
+    const r = priceWrap.getBoundingClientRect();
+    const dx = (e.clientX-r.left-r.width/2)  / (r.width/2);
+    const dy = (e.clientY-r.top -r.height/2) / (r.height/2);
+    nums.forEach((n,i) => { tgt[i].x=dx*n.depth; tgt[i].y=dy*-n.fy; tgt[i].s=n.fs; });
+    hov=true;
+    if (!raf) raf=requestAnimationFrame(tick);
+  });
+  priceWrap.addEventListener('mouseleave', function() {
+    nums.forEach((_,i) => { tgt[i].x=0; tgt[i].y=0; tgt[i].s=1; });
+    hov=false;
+    if (!raf) raf=requestAnimationFrame(tick);
+  });
 })();
 
+// ─── GLITCH — hero headline ───────────────────────────────────────
+(function(){
+  const heroHl  = document.getElementById('hero-hl');
+  const headerEl= document.querySelector('header');
+  if (!heroHl || !headerEl) return;
+  let hx=0,hy=0, cx=0,cy=0, hov=false, hRaf=null, hGTimer=null;
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function tickHero() {
+    cx = lerp(cx, hx, 0.09); cy = lerp(cy, hy, 0.09);
+    heroHl.style.transform = `translate(${cx.toFixed(2)}px,${cy.toFixed(2)}px)`;
+    const settled = Math.abs(cx-hx)<.05 && Math.abs(cy-hy)<.05;
+    if (!settled || hov) hRaf = requestAnimationFrame(tickHero);
+    else hRaf = null;
+  }
+  function triggerHeroGlitch() {
+    if (!heroHl) return;
+    heroHl.classList.add('glitch-on');
+    clearTimeout(hGTimer);
+    hGTimer = setTimeout(() => {
+      if (heroHl) heroHl.classList.remove('glitch-on');
+      if (hov) hGTimer = setTimeout(triggerHeroGlitch, 380 + Math.random() * 700);
+    }, 160 + Math.random() * 200);
+  }
+  headerEl.addEventListener('mousemove', function(e) {
+    const r = headerEl.getBoundingClientRect();
+    const dx = (e.clientX-r.left-r.width/2)  / (r.width/2);
+    const dy = (e.clientY-r.top -r.height/2) / (r.height/2);
+    hx = dx * -16; hy = dy * -10;
+    if (!hov) { hov=true; triggerHeroGlitch(); }
+    if (!hRaf) hRaf = requestAnimationFrame(tickHero);
+  });
+  headerEl.addEventListener('mouseleave', function() {
+    hx=0; hy=0; hov=false;
+    clearTimeout(hGTimer);
+    if (heroHl) heroHl.classList.remove('glitch-on');
+    if (!hRaf) hRaf = requestAnimationFrame(tickHero);
+  });
+  headerEl.addEventListener('touchmove', function(e) {
+    const t=e.touches[0], r=headerEl.getBoundingClientRect();
+    const dx=(t.clientX-r.left-r.width/2)/(r.width/2);
+    const dy=(t.clientY-r.top-r.height/2)/(r.height/2);
+    hx=dx*-12; hy=dy*-8;
+    if (!hov){hov=true;triggerHeroGlitch();}
+    if (!hRaf) hRaf=requestAnimationFrame(tickHero);
+  },{passive:true});
+  headerEl.addEventListener('touchend', function() {
+    hx=0;hy=0;hov=false;
+    clearTimeout(hGTimer);
+    if (heroHl) heroHl.classList.remove('glitch-on');
+    if (!hRaf) hRaf=requestAnimationFrame(tickHero);
+  });
+  setInterval(() => { if (!hov) triggerHeroGlitch(); }, 7500 + Math.random()*3000);
+})();
 
+// ─── TYPEWRITER ──────────────────────────────────────────────────
+(function(){
+  const el = document.getElementById('tw-text');
+  if (!el) return;
+  const line1 = el.dataset.line1 || '';
+  const line2 = el.dataset.line2 || '';
+  const SPEED = 38, PAUSE_NEWLINE = 320;
+  let phase = 1, ci = 0;
+  function render(text) { el.innerHTML = text; }
+  function tick() {
+    if (phase === 1) {
+      ci++;
+      render(line1.slice(0, ci));
+      if (ci < line1.length) { setTimeout(tick, SPEED); }
+      else { phase = 2; ci = 0; setTimeout(tick, PAUSE_NEWLINE); }
+    } else {
+      ci++;
+      render(line1 + '<br><strong style="font-weight:600;color:var(--amber)">' + line2.slice(0, ci) + '</strong>');
+      if (ci < line2.length) setTimeout(tick, SPEED);
+    }
+  }
+  setTimeout(tick, 600);
+})();
+
+// ─── FLOATING PARTICLES ──────────────────────────────────────────
+(function(){
+  const bg = document.getElementById('particle-bg');
+  if (!bg) return;
+  const isMobile = window.innerWidth < 600;
+  const COUNT    = isMobile ? 20 : 35;
+  const COLORS_P = ['#e8a020','#e8a020','#c8860a','#f5c050','#d09018','#f0e0c0','#faf5ee'];
+  for (let i = 0; i < COUNT; i++) {
+    const el  = document.createElement('div');
+    el.className = 'ptc';
+    const size  = 1 + Math.random() * 1.8;
+    const left  = Math.random() * 100;
+    const dur   = 12 + Math.random() * 16;
+    const delay = -(Math.random() * dur);
+    const sway  = (Math.random() - .5) * 80;
+    const col   = COLORS_P[Math.floor(Math.random() * COLORS_P.length)];
+    const op    = 0.15 + Math.random() * 0.35;
+    const startY = Math.random() * 100;
+    el.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${left}vw;bottom:${startY}vh;
+      background:${col};opacity:${op};
+      --sx:${sway}px;
+      animation-duration:${dur}s;animation-delay:${delay}s;
+    `;
+    bg.appendChild(el);
+  }
+})();
+
+// ─── i18n ────────────────────────────────────────────────────────
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-id')?.classList.toggle('active', lang==='id');
+  document.getElementById('btn-en')?.classList.toggle('active', lang==='en');
+
+  const T = {
+    topTag:        { id:'⚡ Limited Drop — Bhuta Kala Modern ⚡', en:'⚡ Limited Drop — Bhuta Kala Modern ⚡' },
+    heroHl:        { id:'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>', en:'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>' },
+    heroDesc:      { id:'Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong>', en:'People never realize they have NPD —<br><strong>sometimes we need to reflect on ourselves.</strong>' },
+    warningBadge:  { id:'⚡ AWAS BAHAYA NPD', en:'⚡ BEWARE OF NPD' },
+    sym1:          { id:'EGOIS MAKSIMAL', en:'EXTREMELY SELFISH' },
+    sym2:          { id:'ANTI KRITIK', en:'CANNOT TAKE CRITICISM' },
+    sym3:          { id:'OTAK NGAMBUL', en:'PERPETUAL TANTRUM' },
+    productDesc:   { id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.', en:'Express yourself with a <strong style="color:var(--amber)">TAKSU</strong> shirt. Premium combed 24s — thick, substantial, collector vibes.' },
+    priceLbl:      { id:'⚡ harga group order ⚡', en:'⚡ group order pricing ⚡' },
+    priceNote:     { id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim', en:'<strong>Price per pcs</strong> · shipping not included' },
+    galleryTitle:  { id:'DETAIL KAOS', en:'SHIRT DETAILS' },
+    galleryNote:   { id:'Tap foto untuk memperbesar', en:'Tap photo to enlarge' },
+    sizeNote:      { id:'Cotton Combed 24s · ukuran dalam cm', en:'Cotton Combed 24s · measurements in cm' },
+    stepForm:      { id:'FORM', en:'FORM' },
+    stepBayar:     { id:'BAYAR', en:'PAY' },
+    stepUpload:    { id:'UPLOAD', en:'UPLOAD' },
+    stepSelesai:   { id:'SELESAI', en:'DONE' },
+    formTitle:     { id:'FORM ORDER', en:'ORDER FORM' },
+    lblNama:       { id:'Nama Lengkap *', en:'Full Name *' },
+    lblEmail:      { id:'Email *', en:'Email *' },
+    lblPhone:      { id:'Nomor WhatsApp *', en:'WhatsApp Number *' },
+    lblAlamat:     { id:'Alamat Lengkap *', en:'Full Address *' },
+    lblKota:       { id:'Kota / Kabupaten *', en:'City *' },
+    lblKodePos:    { id:'Kode Pos *', en:'Postal Code *' },
+    lblUkuran:     { id:'Pilih Ukuran *', en:'Choose Size *' },
+    lblQty:        { id:'Jumlah', en:'Quantity' },
+    lblCatatan:    { id:'Catatan (opsional)', en:'Notes (optional)' },
+    ongkirNote:    { id:'BELUM TERMASUK ONGKOS KIRIM', en:'SHIPPING NOT INCLUDED' },
+    btnNext:       { id:'LANJUT KE PEMBAYARAN', en:'PROCEED TO PAYMENT' },
+    stockWarn:     { id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡', en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡' },
+    payTitle:      { id:'💸 TRANSFER KE', en:'💸 TRANSFER TO' },
+    payDesc:       { id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.', en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.' },
+    bankAN:        { id:'a/n dikonfirmasi via WA', en:'account holder confirmed via WA' },
+    lblUpload:     { id:'Upload Bukti Transfer *', en:'Upload Payment Proof *' },
+    uploadLabel:   { id:'TAP UNTUK PILIH FOTO', en:'TAP TO CHOOSE PHOTO' },
+    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 5MB', en:'Payment screenshot · JPG/PNG · Max 5MB' },
+    btnConfirm:    { id:'KONFIRMASI PEMBAYARAN', en:'CONFIRM PAYMENT' },
+    successTitle:  { id:'ORDER MASUK!', en:'ORDER RECEIVED!' },
+    successMsg:    { id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.', en:'Your order details and payment proof<br>have been received by the system.' },
+    sf1title:      { id:'BUKTI TRANSFER DITERIMA', en:'PAYMENT PROOF RECEIVED' },
+    sf1desc:       { id:'Data & foto bukti tersimpan di sistem admin', en:'Data & payment proof stored in our system' },
+    sf2title:      { id:'ADMIN SEDANG CEK PEMBAYARAN', en:'ADMIN IS VERIFYING PAYMENT' },
+    sf2desc:       { id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>', en:'Estimated confirmation within <strong style="color:var(--amber)">24 hours</strong>' },
+    sf3title:      { id:'NOTIF WA JIKA TERKONFIRMASI', en:'WHATSAPP NOTIFICATION UPON CONFIRMATION' },
+    sf3desc:       { id:'Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi', en:"You'll receive a WA message when payment is confirmed" },
+    sf4title:      { id:'PRODUKSI 1–2 HARI KERJA', en:'PRODUCTION 1–2 WORKING DAYS' },
+    sf4desc:       { id:'Dimulai setelah pembayaran terkonfirmasi', en:'Starts after payment is confirmed' },
+    successBoxTitle:{ id:'📋 DETAIL ORDER', en:'📋 ORDER DETAILS' },
+    howTitle:      { id:'ALUR ORDER', en:'ORDER FLOW' },
+    sc1title:      { id:'ISI FORM', en:'FILL FORM' },
+    sc1desc:       { id:'Lengkapi data diri, pilih ukuran & qty.', en:'Fill in your details, choose size & qty.' },
+    sc2title:      { id:'TRANSFER', en:'TRANSFER' },
+    sc2desc:       { id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.', en:'Transfer shirt total to GoPay/Dana. Shipping follows.' },
+    sc3title:      { id:'UPLOAD BUKTI', en:'UPLOAD PROOF' },
+    sc3desc:       { id:'Upload screenshot bukti transfer langsung di web.', en:'Upload transfer screenshot directly on the website.' },
+    sc4title:      { id:'PRODUKSI', en:'PRODUCTION' },
+    sc4desc:       { id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.', en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.' },
+    hashtags:      { id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN', en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN' },
+    shipText:      { id:'Pengiriman ke seluruh Indonesia', en:'Shipping to all of Indonesia' },
+    lblWarna:      { id:'Pilih Warna *', en:'Choose Color *' },
+    colorWaBtn:    { id:'Tanya stok', en:'Check stock' },
+    colorNote:     { id:'⚡ Tanyakan stok warna kaos terlebih dahulu sebelum memesan', en:'⚡ Please check color stock availability before ordering' },
+    ccHint:        { id:'Pilih kode negara jika bukan Indonesia', en:'Select country code if outside Indonesia' },
+    emailHint:     { id:'Untuk menerima konfirmasi order otomatis', en:'To receive automatic order confirmation' },
+    payInstrTitle: { id:'INSTRUKSI BAYAR', en:'PAYMENT INSTRUCTIONS' },
+    fnote:         { id:'Made with chaos in Bali · Limited Group Order Only', en:'Made with chaos in Bali · Limited Group Order Only' },
+  };
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (T[key]) el.innerHTML = T[key][lang] || T[key]['id'];
+  });
+
+  // Placeholders
+  const ph = lang === 'id' ? {
+    'f-nama'   : 'Nama untuk label pengiriman',
+    'f-email'  : 'email@kamu.com',
+    'f-phone'  : '81xxxxxxxx',
+    'f-alamat' : 'Jl. contoh No.1, Kel. ...',
+    'f-kota'   : 'Denpasar',
+    'f-kodepos': '80225',
+    'f-catatan': 'Opsional — warna preferensi, catatan khusus...',
+  } : {
+    'f-nama'   : 'Name for shipping label',
+    'f-email'  : 'your@email.com',
+    'f-phone'  : '81xxxxxxxx',
+    'f-alamat' : 'Full street address...',
+    'f-kota'   : 'City',
+    'f-kodepos': 'Postal Code',
+    'f-catatan': 'Optional — color preference, special notes...',
+  };
+  Object.entries(ph).forEach(([id, txt]) => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = txt;
+  });
+
+  // Update glitch data-text
+  document.querySelectorAll('.glitch').forEach(el => {
+    if (el.dataset.i18n === 'heroHl') el.dataset.text = T.heroHl[lang];
+  });
+  renderColors();
+}
+setLang('id');
+
+// ─── ANDROID BACK ────────────────────────────────────────────────
+window.addEventListener('popstate', function() {
+  const s2 = document.getElementById('step2');
+  const s3 = document.getElementById('step3');
+  if (s3 && s3.style.display !== 'none') { showStep(2); }
+  else if (s2 && s2.style.display !== 'none') { showStep(1); }
+});
+
+// ─── SR FALLBACK ─────────────────────────────────────────────────
 
 
 </script>
