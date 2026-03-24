@@ -691,7 +691,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .stock-warn{text-align:center;margin-top:12px;font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:3px;color:#e05050;text-transform:uppercase;animation:bp 1.5s infinite;}
 
 /* ─── STEP 2 ─── */
-#step1{display:block;}#step2{display:none;}
+#step2{display:none;}
 .order-card{border:2px solid var(--gold);background:rgba(61,26,8,.24);padding:16px;margin-bottom:16px;}
 @media(max-width:400px){.order-card{padding:12px;}}
 .order-num-big{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:32px;color:var(--amber);letter-spacing:4px;text-align:center;margin-bottom:2px;}
@@ -1439,191 +1439,155 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
     <!-- Step Bar -->
     <div class="step-bar">
-      <div class="sdot active" id="sd1"><div class="sdot-c">1</div><div class="sdot-l" data-i18n="stepForm">FORM</div></div>
+      <div class="sdot active" id="sd1"><div class="sdot-c">1</div><div class="sdot-l">FORM</div></div>
       <div class="sline" id="sl1"></div>
-      <div class="sdot" id="sd2"><div class="sdot-c">2</div><div class="sdot-l" data-i18n="stepBayar">BAYAR</div></div>
+      <div class="sdot" id="sd2"><div class="sdot-c">2</div><div class="sdot-l">BAYAR</div></div>
       <div class="sline" id="sl2"></div>
-      <div class="sdot" id="sd3"><div class="sdot-c">3</div><div class="sdot-l" data-i18n="stepUpload">UPLOAD</div></div>
+      <div class="sdot" id="sd3"><div class="sdot-c">3</div><div class="sdot-l">UPLOAD</div></div>
       <div class="sline" id="sl3"></div>
-      <div class="sdot" id="sd4"><div class="sdot-c">✓</div><div class="sdot-l" data-i18n="stepSelesai">SELESAI</div></div>
+      <div class="sdot" id="sd4"><div class="sdot-c">✓</div><div class="sdot-l">SELESAI</div></div>
     </div>
 
-    <!-- STEP 1 -->
+    <!-- ═══ STEP 1: FORM ═══ -->
     <div id="step1">
-      <h3 class="sec-title" style="margin-bottom:20px;" data-i18n="formTitle">FORM ORDER</h3>
+      <h3 class="sec-title" style="margin-bottom:20px;">FORM ORDER</h3>
 
       <div class="fg">
-        <label class="flbl" for="f-nama" data-i18n="lblNama">Nama Lengkap *</label>
-        <input class="finp" type="text" id="f-nama" placeholder="Nama untuk label pengiriman"
-               autocomplete="name" autocapitalize="words">
+        <label class="flbl" for="f-nama">Nama Lengkap *</label>
+        <input class="finp" type="text" id="f-nama" placeholder="Nama untuk label pengiriman" autocomplete="name">
       </div>
 
       <div class="fg">
-        <label class="flbl" data-i18n="lblPhone">Nomor WhatsApp *</label>
-        <div style="display:flex;gap:0;">
-          <select id="f-countrycode" class="finp" onchange="updatePhonePlaceholder()" style="width:auto;flex-shrink:0;padding-right:8px;padding-left:8px;cursor:pointer;background:#1a0f06;border-right:none;font-size:16px;min-width:90px;">
+        <label class="flbl" for="f-phone">Nomor WhatsApp *</label>
+        <div style="display:flex;">
+          <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 8px;background:#1a0f06;border-right:none;min-width:90px;cursor:pointer;">
             <option value="62">🇮🇩 +62</option>
             <option value="1">🇺🇸 +1</option>
             <option value="44">🇬🇧 +44</option>
             <option value="61">🇦🇺 +61</option>
             <option value="65">🇸🇬 +65</option>
             <option value="60">🇲🇾 +60</option>
-            <option value="31">🇳🇱 +31</option>
-            <option value="49">🇩🇪 +49</option>
-            <option value="33">🇫🇷 +33</option>
-            <option value="81">🇯🇵 +81</option>
-            <option value="82">🇰🇷 +82</option>
-            <option value="86">🇨🇳 +86</option>
-            <option value="91">🇮🇳 +91</option>
-            <option value="7">🇷🇺 +7</option>
-            <option value="55">🇧🇷 +55</option>
           </select>
-          <input class="finp" type="tel" id="f-phone"
-                 placeholder="81xxxxxxxx"
-                 inputmode="numeric" autocomplete="tel"
-                 style="flex:1;border-left:none;">
-        </div>
-        <div style="font-family:'Roboto',sans-serif;font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">
-          <span data-i18n="ccHint">Pilih kode negara jika bukan Indonesia</span>
+          <input class="finp" type="tel" id="f-phone" placeholder="81xxxxxxxx" inputmode="numeric" style="flex:1;border-left:none;">
         </div>
       </div>
 
       <div class="fg">
-        <label class="flbl" for="f-email" data-i18n="lblEmail">Email *</label>
-        <input class="finp" type="email" id="f-email"
-               placeholder="email@kamu.com"
-               inputmode="email" autocomplete="email"
-               autocapitalize="none" autocorrect="off">
-        <div style="font-family:'Roboto',sans-serif;font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">
-          <span data-i18n="emailHint">Untuk menerima konfirmasi order otomatis</span>
-        </div>
+        <label class="flbl" for="f-email">Email *</label>
+        <input class="finp" type="email" id="f-email" placeholder="email@kamu.com" inputmode="email" autocapitalize="none">
+        <div style="font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">Untuk konfirmasi order otomatis</div>
       </div>
 
       <div class="fg">
-        <label class="flbl" for="f-alamat" data-i18n="lblAlamat">Alamat Lengkap *</label>
-        <textarea class="finp" id="f-alamat" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan..."
-                  autocomplete="street-address"></textarea>
+        <label class="flbl" for="f-alamat">Alamat Lengkap *</label>
+        <textarea class="finp" id="f-alamat" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan..." style="min-height:72px;resize:vertical;"></textarea>
       </div>
 
       <div class="frow">
         <div class="fg">
-          <label class="flbl" for="f-kota" data-i18n="lblKota">Kota / Kabupaten *</label>
-          <input class="finp" type="text" id="f-kota" placeholder="Denpasar"
-                 autocomplete="address-level2" autocapitalize="words">
+          <label class="flbl" for="f-kota">Kota / Kabupaten *</label>
+          <input class="finp" type="text" id="f-kota" placeholder="Denpasar">
         </div>
         <div class="fg">
-          <label class="flbl" for="f-kodepos" data-i18n="lblKodePos">Kode Pos *</label>
-          <input class="finp" type="text" id="f-kodepos" placeholder="80361"
-                 maxlength="6" inputmode="numeric" autocomplete="postal-code">
+          <label class="flbl" for="f-kodepos">Kode Pos *</label>
+          <input class="finp" type="text" id="f-kodepos" placeholder="80361" maxlength="6" inputmode="numeric">
         </div>
       </div>
 
+      <!-- Pilih Ukuran -->
       <div class="fg">
-        <label class="flbl" data-i18n="lblUkuran">Pilih Ukuran *</label>
-        <div class="size-picker">
-          <button class="sopt" onclick="pickSize(this,'S',150000)">S<span class="sopt-price">150K</span></button>
-          <button class="sopt" onclick="pickSize(this,'M',150000)">M<span class="sopt-price">150K</span></button>
-          <button class="sopt active" onclick="pickSize(this,'L',150000)">L<span class="sopt-price">150K</span></button>
-          <button class="sopt" onclick="pickSize(this,'XL',150000)">XL<span class="sopt-price">150K</span></button>
-          <button class="sopt sp-size" onclick="pickSize(this,'XXL',170000)">XXL<span class="sopt-price">170K</span></button>
-          <button class="sopt sp-size" onclick="pickSize(this,'XXXL',170000)">XXXL<span class="sopt-price">170K</span></button>
+        <label class="flbl">Pilih Ukuran *</label>
+        <div class="size-picker" id="size-picker">
+          <button class="sopt active" data-size="S"    data-price="150000">S<span class="sopt-price">150K</span></button>
+          <button class="sopt"        data-size="M"    data-price="150000">M<span class="sopt-price">150K</span></button>
+          <button class="sopt"        data-size="L"    data-price="150000">L<span class="sopt-price">150K</span></button>
+          <button class="sopt"        data-size="XL"   data-price="150000">XL<span class="sopt-price">150K</span></button>
+          <button class="sopt sp-size" data-size="XXL"  data-price="170000">XXL<span class="sopt-price">170K</span></button>
+          <button class="sopt sp-size" data-size="XXXL" data-price="170000">XXXL<span class="sopt-price">170K</span></button>
         </div>
       </div>
 
+      <!-- Pilih Warna -->
       <div class="fg">
-        <label class="flbl" data-i18n="lblWarna">Pilih Warna *</label>
-        <div class="color-row">
-          <div id="color-picker"><!-- rendered by JS --></div>
-          <div class="color-wa-row">
-          <a class="color-wa-btn" data-i18n="colorWaBtn"
-             href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD+dulu+sebelum+order+%F0%9F%99%8F"
-             target="_blank" rel="noopener">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            TANYAKAN STOK
-          </a>
-        </div>
-        <p class="color-note" data-i18n="colorNote">⚡ Tanyakan stok warna kaos terlebih dahulu sebelum memesan</p>
+        <label class="flbl">Pilih Warna *</label>
+        <div id="color-picker" class="color-row"></div>
+        <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;">
+          ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
+        </p>
       </div>
 
+      <!-- Qty -->
       <div class="fg">
-        <label class="flbl" style="margin-bottom:9px;" data-i18n="lblQty">Jumlah</label>
+        <label class="flbl">Jumlah</label>
         <div class="qty-row">
-          <span class="qty-lbl">QTY</span>
           <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty(-1)" aria-label="Kurangi">−</button>
-            <input class="qty-num" id="qty-disp" type="number"
-                 value="1" min="1" max="100"
-                 inputmode="numeric" aria-label="Jumlah"
-                 oninput="onQtyInput(this)"
-                 onblur="onQtyBlur(this)">
-            <button class="qty-btn" onclick="changeQty(1)" aria-label="Tambah">+</button>
+            <button class="qty-btn" id="btn-minus" type="button">−</button>
+            <input class="qty-num" type="number" id="f-qty" value="1" min="1" max="100" inputmode="numeric">
+            <button class="qty-btn" id="btn-plus" type="button">+</button>
           </div>
         </div>
       </div>
-      <p id="qty-max-warn" style="
-        display:none;font-family:'Roboto',sans-serif;font-size:11px;
-        color:var(--amber);letter-spacing:1px;margin-top:6px;
-        animation:bp .8s ease-in-out infinite;
-      ">⚡ Maksimal 100 pcs per order</p>
 
       <div class="fg">
-        <label class="flbl" for="f-catatan" data-i18n="lblCatatan">Catatan (opsional)</label>
-        <input class="finp" type="text" id="f-catatan" placeholder="Request, titip salam, dll">
+        <label class="flbl" for="f-catatan">Catatan (opsional)</label>
+        <input class="finp" type="text" id="f-catatan" placeholder="Request warna, catatan khusus...">
       </div>
 
+      <!-- Total Box -->
       <div class="total-box">
-        <div class="trow"><span class="tkey" data-field="size">Ukuran</span><span class="tval" id="t-size">L</span></div>
-        <div class="trow"><span class="tkey" data-field="harga">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
-        <div class="trow"><span class="tkey" data-field="qty">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
+        <div class="trow"><span class="tkey">Ukuran</span><span class="tval" id="t-size">S</span></div>
+        <div class="trow"><span class="tkey">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
+        <div class="trow"><span class="tkey">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
         <hr class="tdiv">
         <div class="tbig" id="t-total">Rp 150.000</div>
-        <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKOS KIRIM</div>
+        <div class="tsub">BELUM TERMASUK ONGKOS KIRIM</div>
       </div>
 
-      <button class="btn-main ripple-wrap" id="btn1" onclick="goToStep2()">
-        <span id="btn1-txt" data-i18n="btnNext">LANJUT KE PEMBAYARAN</span>
-        <div class="spinner" id="sp1"></div>
+      <button class="btn-main" id="btn-next" type="button">
+        <span id="btn-next-txt">LANJUT KE PEMBAYARAN →</span>
       </button>
-      <p class="stock-warn" data-i18n="stockWarn">⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡</p>
-    </div>
+      <p class="stock-warn">⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡</p>
+    </div><!-- end step1 -->
 
-    <!-- STEP 2 -->
-    <div id="step2">
-      <h3 class="sec-title" style="margin-bottom:8px;" data-i18n="payInstrTitle">INSTRUKSI BAYAR</h3>
+    <!-- ═══ STEP 2: BAYAR & UPLOAD ═══ -->
+    <div id="step2" style="display:none;">
+      <h3 class="sec-title" style="margin-bottom:8px;">INSTRUKSI BAYAR</h3>
       <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.6;text-align:center;margin-bottom:18px;line-height:1.7;">
-        Simpan no. order, lalu transfer & upload bukti di bawah.
+        Simpan no. order, transfer, lalu upload bukti di bawah.
       </p>
 
+      <!-- Order Card -->
       <div class="order-card">
         <p style="font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-align:center;margin-bottom:4px;">NO. ORDER</p>
         <div class="order-num-big" id="r-ordernum">NPD-000000</div>
         <hr class="tdiv" style="margin:12px 0;">
-        <div class="orow"><span class="okey" id="okey-nama">Nama</span><span class="oval" id="r-nama">—</span></div>
-        <div class="orow"><span class="okey" id="okey-wa">No WA</span><span class="oval" id="r-phone">—</span></div>
+        <div class="orow"><span class="okey">Nama</span><span class="oval" id="r-nama">—</span></div>
+        <div class="orow"><span class="okey">No WA</span><span class="oval" id="r-phone">—</span></div>
         <div class="orow"><span class="okey">Email</span><span class="oval" id="r-email">—</span></div>
         <div class="orow"><span class="okey">Warna</span><span class="oval" id="r-warna">—</span></div>
-        <div class="orow"><span class="okey" id="okey-ukuran">Ukuran</span><span class="oval" id="r-size">—</span></div>
-        <div class="orow"><span class="okey" id="okey-qty">Qty</span><span class="oval" id="r-qty">—</span></div>
-        <div class="orow"><span class="okey" id="okey-kota">Kota</span><span class="oval" id="r-kota">—</span></div>
-        <div class="orow"><span class="okey" id="okey-harga">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
+        <div class="orow"><span class="okey">Ukuran</span><span class="oval" id="r-ukuran">—</span></div>
+        <div class="orow"><span class="okey">Qty</span><span class="oval" id="r-qty">—</span></div>
+        <div class="orow"><span class="okey">Kota</span><span class="oval" id="r-kota">—</span></div>
+        <div class="orow"><span class="okey">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
         <div class="orow" style="margin-top:6px;">
-          <span class="okey" id="okey-total" style="color:var(--amber)">TOTAL KAOS</span>
-          <span class="oval" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:20px;" id="r-total">—</span>
+          <span class="okey" style="color:var(--amber)">TOTAL</span>
+          <span class="oval" id="r-total" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:20px;">—</span>
         </div>
         <div class="orow">
-          <span class="okey" id="okey-ongkir">Ongkir</span>
-          <span class="oval" id="oval-ongkir" style="font-size:12px;opacity:.45;">Diinfo via WA setelah GO closing</span>
+          <span class="okey">Ongkir</span>
+          <span class="oval" style="font-size:12px;opacity:.45;">Diinfo via WA setelah GO closing</span>
         </div>
       </div>
 
+      <!-- Payment info -->
       <div class="pay-box">
-        <div class="pay-title" data-i18n="payTitle">💸 TRANSFER KE</div>
-        <p class="pay-desc" data-i18n="payDesc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
+        <div class="pay-title">💸 TRANSFER KE</div>
+        <p class="pay-desc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
 
-        <div class="bank-card" onclick="copyNum('7730320901','BCA')">
+        <div class="bank-card" id="bca-card">
           <div class="bank-name-lbl">🏦 BANK BCA</div>
           <div class="bank-num">7730320901</div>
-          <div class="bank-an" data-i18n="bankAN">a/n dikonfirmasi via WA</div>
+          <div class="bank-an">a/n dikonfirmasi via WA</div>
           <div class="bank-copy">⚡ TAP UNTUK COPY NOMOR REKENING</div>
         </div>
 
@@ -1633,7 +1597,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
           <div style="flex:1;height:1px;background:rgba(200,134,10,.2);"></div>
         </div>
 
-        <div class="bank-card" onclick="copyNum('081236869035','GoPay / Dana')">
+        <div class="bank-card" id="gopay-card">
           <div class="bank-name-lbl">📱 GOPAY / DANA</div>
           <div class="bank-num">0812-3686-9035</div>
           <div class="bank-an">a/n dikonfirmasi via WA</div>
@@ -1641,81 +1605,71 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         </div>
       </div>
 
-      <div class="fg" style="margin-top:4px;">
-        <label class="flbl" data-i18n="lblUpload">Upload Bukti Transfer *</label>
-        <div class="upload-area" id="upload-area">
-          <input type="file" id="bukti-file" accept="image/*" onchange="handleFile(this.files[0])">
+      <!-- Upload -->
+      <div class="fg" style="margin-top:16px;">
+        <label class="flbl">Upload Bukti Transfer *</label>
+        <label class="upload-area" id="upload-area" for="f-bukti">
+          <input type="file" id="f-bukti" accept="image/*" style="display:none;">
           <span class="upload-icon">📸</span>
-          <div class="upload-label" data-i18n="uploadLabel">TAP UNTUK PILIH FOTO</div>
-          <div class="upload-sub" data-i18n="uploadSub">Screenshot bukti transfer · JPG/PNG · Maks 5MB</div>
-        </div>
-        <div class="preview-wrap" id="preview-wrap" style="display:none;">
+          <div class="upload-label">TAP UNTUK PILIH FOTO</div>
+          <div class="upload-sub">Screenshot bukti transfer · JPG/PNG · Maks 5MB</div>
+        </label>
+        <div id="preview-wrap" style="display:none;margin-top:14px;text-align:center;">
           <img id="preview-img" class="preview-img" src="" alt="preview">
-          <div class="preview-name" id="preview-name"></div>
-          <button class="remove-btn" onclick="removeFile()">✕ HAPUS FOTO</button>
+          <div id="preview-name" class="preview-name"></div>
+          <button type="button" id="btn-remove" class="remove-btn">✕ HAPUS FOTO</button>
         </div>
-        <p class="upload-req" id="upload-req">⚡ Upload bukti transfer dulu ya!</p>
+        <p id="upload-req" style="display:none;font-family:'Roboto',sans-serif;font-size:12px;color:var(--red);text-align:center;margin-top:8px;">⚡ Upload bukti transfer dulu ya!</p>
       </div>
 
-      <button class="btn-main ripple-wrap" id="btn2" onclick="submitAll()" style="margin-top:18px;">
-        <span id="btn2-txt" data-i18n="btnConfirm">KONFIRMASI PEMBAYARAN</span>
-        <div class="spinner" id="sp2"></div>
+      <button class="btn-main" id="btn-submit" type="button" style="margin-top:18px;">
+        <span id="btn-submit-txt">KONFIRMASI PEMBAYARAN</span>
+        <div class="spinner" id="spinner-submit" style="display:none;"></div>
       </button>
       <p style="font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.6;text-align:center;margin-top:10px;letter-spacing:2px;">
         Admin verifikasi dalam 1×24 jam
       </p>
-    </div>
+    </div><!-- end step2 -->
 
-    <!-- STEP 3 SUCCESS -->
-    <div id="step3">
+    <!-- ═══ STEP 3: SUKSES ═══ -->
+    <div id="step3" style="display:none;text-align:center;padding:12px 0;">
       <span class="success-icon">✅</span>
-      <div class="success-title" data-i18n="successTitle">ORDER MASUK!</div>
-      <p class="success-msg" data-i18n="successMsg">
-        Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.
-      </p>
+      <div class="success-title">ORDER MASUK!</div>
+      <p class="success-msg">Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.</p>
 
-      <!-- Status flow -->
       <div style="margin-bottom:20px;">
-
-        <!-- Step 1: Done -->
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(45,106,45,.15);border:1px solid #3a9a3a;margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">✅</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;" data-i18n="sf1title">BUKTI TRANSFER DITERIMA</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="sf1desc">Data & foto bukti tersimpan di sistem admin</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;">BUKTI TRANSFER DITERIMA</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;">Data & foto bukti tersimpan di sistem admin</div>
           </div>
         </div>
-
-        <!-- Step 2: In Progress -->
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.4);margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">🔍</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:1px;color:var(--amber);" data-i18n="sf2title">ADMIN SEDANG CEK PEMBAYARAN</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="sf2desc">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--amber);">ADMIN SEDANG CEK PEMBAYARAN</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
           </div>
         </div>
-
-        <!-- Step 3: Waiting -->
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">📱</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="sf3title">NOTIF WA JIKA TERKONFIRMASI</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="sf3desc">Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;">NOTIF WA JIKA TERKONFIRMASI</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;">Kamu akan dapat WA saat pembayaran terkonfirmasi</div>
           </div>
         </div>
-
-        <!-- Step 4: Waiting -->
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);">
           <span style="font-size:20px;flex-shrink:0;">🏭</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="sf4title">PRODUKSI 1–2 HARI KERJA</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="sf4desc">Dimulai setelah pembayaran terkonfirmasi</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;">PRODUKSI 1–2 HARI KERJA</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;">Dimulai setelah pembayaran terkonfirmasi</div>
           </div>
         </div>
       </div>
 
       <div class="success-box">
-        <div class="success-box-title" data-i18n="successBoxTitle">📋 DETAIL ORDER</div>
+        <div class="success-box-title">📋 DETAIL ORDER</div>
         <ul>
           <li>No. order: <strong id="s-ordernum" style="color:var(--amber)">—</strong></li>
           <li>Bukti transfer tersimpan di sistem</li>
@@ -1723,23 +1677,19 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         </ul>
       </div>
 
-      <!-- WA RINGKASAN BUTTON -->
-      <a id="wa-summary-link" href="#" target="_blank" rel="noopener"
-         class="wa-summary-btn ripple-wrap">
-        <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      <a id="wa-summary-link" href="#" target="_blank" rel="noopener" class="wa-summary-btn">
+        <svg viewBox="0 0 24 24" fill="white" style="width:22px;height:22px;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         KIRIM RINGKASAN KE WHATSAPP-KU
       </a>
       <p class="wa-summary-note">Tap untuk simpan bukti order di WhatsApp kamu</p>
-
       <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.55;line-height:1.7;margin-top:16px;">
         Ada pertanyaan? Chat admin:<br>
-        <a href="https://wa.me/6281236869035" target="_blank" rel="noopener"
-           style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>
+        <a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>
       </p>
-    </div>
+    </div><!-- end step3 -->
 
-  </div>
-</section>
+  </div><!-- end form-inner -->
+</section><!-- end order-section -->
 
 <!-- HOW TO ORDER -->
 <section class="how-section" id="how-section">
@@ -1806,958 +1756,480 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   </div>
 </div>
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu5t5VqsezEVPBjREt0EqltP2W_EDzIwB-1Lh_HoWeYcpiaFEVea_pwLrDDtlbR-Yd/exec';
-const COLORS = [
-  { id:'hitam',  label:'HITAM',  swatch:'hitam',  status:'tersedia',
+// ═══════════════════════════════════════════════════════
+// MAIN SCRIPT — rebuilt to match new form HTML
+// ═══════════════════════════════════════════════════════
+
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu5t5VqsezEVPBjREt0EqltP2W_EDzIwB-1Lh_HoWeYcpiaFEVea_pwLrDDtlbR-Yd/exec';
+
+var COLORS = [
+  { id:'hitam',  label:'HITAM',  hex:'#111111',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png' },
-  { id:'putih',  label:'PUTIH',  swatch:'putih',  status:'terbatas',
+  { id:'putih',  label:'PUTIH',  hex:'#f5f5f0',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png' },
-  { id:'orange', label:'ORANGE', swatch:'orange', status:'tersedia',
+  { id:'orange', label:'ORANGE', hex:'#e86000',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png' },
 ];
 
-// ─── STATE ───────────────────────────────────────────────────────
-let selectedColor = '', selectedSize = 'L', imageBase64 = '', imageMime = '';
-let orderData = {};
-let currentLang = 'id';
+// ─── state ──────────────────────────────────────────────
+var SEL_COLOR = '';
+var SEL_SIZE  = 'S';
+var SEL_PRICE = 150000;
+var IMG_B64   = '';
+var IMG_MIME  = '';
+var ORDER     = {};
 
-// ─── LOADER ──────────────────────────────────────────────────────
-// Loader handled by inline script in <head>
-// Fallback call in case main script loads late
-if (window.hideLoader) setTimeout(window.hideLoader, 500);
+// ─── helpers ────────────────────────────────────────────
+function $(id) { return document.getElementById(id); }
 
-// ─── TOAST ───────────────────────────────────────────────────────
-function toast(msg, dur) {
-  const t = document.getElementById('toast');
+function toast(msg) {
+  var t = $('toast');
   if (!t) return;
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), dur || 2800);
+  t._t = setTimeout(function(){ t.classList.remove('show'); }, 2800);
 }
 
-// ─── RIPPLE ──────────────────────────────────────────────────────
-function addRipple(el, x, y) {
-  const r = document.createElement('div');
-  r.className = 'ripple-ring';
-  const rect = el.getBoundingClientRect();
-  r.style.left = (x - rect.left) + 'px';
-  r.style.top  = (y - rect.top)  + 'px';
-  el.appendChild(r);
-  setTimeout(() => r.remove(), 700);
-}
-document.addEventListener('click', function(e) {
-  const el = e.target.closest('.ripple-wrap');
-  if (el) addRipple(el, e.clientX, e.clientY);
-});
-document.addEventListener('touchstart', function(e) {
-  const el = e.target.closest('.ripple-wrap');
-  if (el && e.touches[0]) addRipple(el, e.touches[0].clientX, e.touches[0].clientY);
-}, {passive:true});
-
-// ─── SOUND ───────────────────────────────────────────────────────
-let _ac = null;
-function getAC() {
-  if (!_ac) {
-    try { _ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
-  }
-  if (_ac && _ac.state === 'suspended') _ac.resume();
-  return _ac;
-}
-function beep(freq, type, dur, vol) {
-  const ac = getAC(); if (!ac) return;
-  const o = ac.createOscillator(), g = ac.createGain();
-  o.type = type || 'sine'; o.frequency.setValueAtTime(freq, ac.currentTime);
-  o.frequency.exponentialRampToValueAtTime(freq * 0.5, ac.currentTime + dur);
-  g.gain.setValueAtTime(vol || 0.08, ac.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
-  o.connect(g); g.connect(ac.destination);
-  o.start(); o.stop(ac.currentTime + dur);
-}
-function sndClick()   { beep(880, 'sine',     0.08, 0.07); }
-function sndTick()    { beep(660, 'triangle', 0.05, 0.06); }
-function sndSuccess() {
-  [261.6, 329.6, 392, 523.3].forEach((f, i) => setTimeout(() => beep(f, 'sine', 0.15, 0.09), i * 120));
+function fmtRp(n) {
+  return 'Rp ' + Number(n).toLocaleString('id-ID');
 }
 
-// ─── COLOR PICKER ────────────────────────────────────────────────
+// ─── loader ─────────────────────────────────────────────
+if (window.hideLoader) window.hideLoader();
+
+// ─── COLOR PICKER ───────────────────────────────────────
 function renderColors() {
-  const wrap = document.getElementById('color-picker');
+  var wrap = $('color-picker');
   if (!wrap) return;
-  wrap.innerHTML = COLORS.map(c => {
-    const sw = c.swatch === 'hitam'  ? '#111111' :
-               c.swatch === 'putih'  ? '#f5f5f0' :
-               c.swatch === 'orange' ? '#e86000' : '#888';
-
-    const isActive = selectedColor === c.id;
-    return `<button class="copt ripple-wrap${isActive ? ' active' : ''}"
-      onclick="pickColor('${c.id}')"
-      onmouseenter="showColorPreview('${c.img}','${c.label}')"
-      onmouseleave="hideColorPreview()"
-      ontouchstart="onColorTouchStart('${c.img}','${c.label}')"
-      aria-label="${c.label}">
-      <span class="copt-swatch-wrap">
-        <span class="copt-swatch" style="background:${sw};${c.swatch==='putih'?'border:1.5px solid rgba(200,134,10,.3);':''}"></span>
-        ${isActive ? '<span class="copt-check">✓</span>' : ''}
-      </span>
-      <span class="copt-name">${currentLang==='en' ? (c.id==='hitam'?'BLACK':c.id==='putih'?'WHITE':c.id==='orange'?'ORANGE':c.label) : c.label}</span>
-
-    </button>`;
+  wrap.innerHTML = COLORS.map(function(c) {
+    var active = SEL_COLOR === c.id;
+    var border = c.id === 'putih' ? 'border:1.5px solid rgba(200,134,10,.4);' : '';
+    return '<button type="button" class="copt' + (active ? ' active' : '') + '"'
+      + ' onclick="pickColor(\'' + c.id + '\')" aria-label="' + c.label + '">'
+      + '<span class="copt-swatch-wrap">'
+      + '<span class="copt-swatch" style="background:' + c.hex + ';' + border + '"></span>'
+      + (active ? '<span class="copt-check">✓</span>' : '')
+      + '</span>'
+      + '<span class="copt-name">' + c.label + '</span>'
+      + '</button>';
   }).join('');
 }
 
-let _justPicked = false;
-let _isTouchDevice = false;
-
 function pickColor(id) {
-  selectedColor = id;
-  sndClick();
-  if (_isTouchDevice) {
-    // On touch: keep preview visible briefly so user can see it
-    renderColors();
-    setTimeout(() => { hideColorPreview(); }, 1200);
-  } else {
-    // On mouse: hide immediately, block re-show from re-render
-    _justPicked = true;
-    renderColors();
-    hideColorPreview();
-    setTimeout(() => { _justPicked = false; }, 600);
-  }
+  SEL_COLOR = id;
+  renderColors();
 }
-
-function getOrCreatePreviewPop() {
-  let pop = document.getElementById('color-preview-pop');
-  if (!pop) {
-    pop = document.createElement('div');
-    pop.id = 'color-preview-pop';
-    document.body.appendChild(pop);
-  }
-  return pop;
-}
-
-function onColorTouchStart(imgUrl, label) {
-  _isTouchDevice = true;
-  // No popup on mobile — disabled for better UX
-}
-
-function showColorPreview(imgUrl, label) {
-  if (_justPicked) return;
-  const pop = getOrCreatePreviewPop();
-  pop.innerHTML = `<div class="cpop-inner">
-    <img src="${imgUrl}" alt="${label}" loading="eager">
-    <span class="cpop-label">${label}</span>
-  </div>`;
-  pop.classList.add('visible');
-}
-
-function moveColorPreview(e) {
-  const pop = document.getElementById('color-preview-pop');
-  if (!pop || !pop.classList.contains('visible')) return;
-  const x = e.clientX, y = e.clientY;
-  const pw = 300, ph = 420;
-  // Stay within viewport
-  const lx = (x + 100 + pw > window.innerWidth) ? x - pw - 100 : x + 100;
-  const ly = Math.max(8, Math.min(window.innerHeight - ph - 8, y - ph/2));
-  pop.style.left = lx + 'px';
-  pop.style.top  = ly + 'px';
-  // Remove the translate-based positioning while following cursor
-  pop.style.transform = 'scale(1)';
-}
-
-function hideColorPreview() {
-  const pop = document.getElementById('color-preview-pop');
-  if (pop) {
-    pop.classList.remove('visible');
-    pop.style.transform = '';
-  }
-}
-
-// Global mousemove for cursor tracking
-document.addEventListener('mousemove', moveColorPreview);
 
 renderColors();
 
-// ─── FORM INIT ────────────────────────────────────────────────────
-(function(){
-  // Ensure step1 visible, step2/3 hidden
-  var s1=document.getElementById('step1');
-  var s2=document.getElementById('step2');
-  var s3=document.getElementById('step3');
-  if(s1) s1.style.display='block';
-  if(s2) s2.style.display='none';
-  if(s3) s3.style.display='none';
-  // Initialize price display
-  updatePrice();
-})();
-
-// ─── SIZE PICKER ─────────────────────────────────────────────────
-function pickSize(el, size, harga) {
-  document.querySelectorAll('.sopt').forEach(b => b?.classList.remove('active'));
-  el.classList.add('active');
-  selectedSize = size;
-  sndClick();
-  updatePrice();
-}
-
-// ─── QTY ─────────────────────────────────────────────────────────
-function getQty() { return Math.max(1, Math.min(100, parseInt(document.getElementById('qty-disp')?.value)||1)); }
-
-function changeQty(delta) {
-  const inp = document.getElementById('qty-disp');
-  if (!inp) return;
-  const curr = parseInt(inp.value) || 1;
-  const next = Math.max(1, Math.min(100, curr + delta));
-  inp.value  = next;
-  sndTick();
-  // Show/hide max warning
-  const w = document.getElementById('qty-max-warn');
-  if (w) w.style.display = next >= 100 ? 'block' : 'none';
-  updatePrice();
-}
-function updatePrice() {
-  const size  = selectedSize || 'L';
-  const harga = ['XXL','XXXL'].indexOf(size) >= 0 ? 170000 : 150000;
-  const qty   = getQty();
-  const total = harga * qty;
-  const _u = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-  _u('t-size',  size);
-  _u('t-harga', 'Rp ' + harga.toLocaleString('id-ID'));
-  _u('t-qty',   '× ' + qty + ' pcs');
-  _u('t-total', 'Rp ' + total.toLocaleString('id-ID'));
-  // Also update price-calc if it exists
-  const pc = document.getElementById('price-calc');
-  if (pc) pc.textContent = 'Rp ' + total.toLocaleString('id-ID');
-}
-function onQtyInput(e) {
-  const v = parseInt(e.value) || 1;
-  const w = document.getElementById('qty-max-warn');
-  if (w) w.style.display = v > 100 ? 'block' : 'none';
-  updatePrice();
-  sndTick();
-}
-function onQtyBlur(e) {
-  let v = parseInt(e.value) || 1;
-  if (v < 1)   v = 1;
-  if (v > 100) v = 100;
-  e.value = v;
-  const w = document.getElementById('qty-max-warn');
-  if (w) w.style.display = 'none';
-  updatePrice();
-}
-
-// ─── FILE UPLOAD ─────────────────────────────────────────────────
-function handleFile(file) {
-  if (!file || !file.type.startsWith('image/')) { toast('File harus berupa gambar!'); return; }
-  if (file.size > 5 * 1024 * 1024) { toast('Ukuran file maks 5MB!'); return; }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const result = e.target.result;
-    imageBase64 = result;
-    imageMime   = file.type;
-    const prev = document.getElementById('preview-img');
-    const lbl  = document.getElementById('preview-name');
-    const rmv  = document.querySelector('.remove-btn');
-    const wrap = document.getElementById('preview-wrap');
-    const req  = document.getElementById('upload-req');
-    if (prev) { prev.src = result; }
-    if (lbl)  lbl.textContent = file.name;
-    if (wrap) wrap.style.display = 'block';
-    if (req)  req.style.display = 'none';
-    toast('Foto berhasil dipilih ✅');
-  };
-  reader.readAsDataURL(file);
-}
-function removeFile() {
-  imageBase64 = ''; imageMime = '';
-  const prev = document.getElementById('preview-img');
-  const lbl  = document.getElementById('preview-name');
-  const wrap = document.getElementById('preview-wrap');
-  const inp  = document.getElementById('bukti-file');
-  const req  = document.getElementById('upload-req');
-  if (prev) { prev.src = ''; }
-  if (lbl)  lbl.textContent = '';
-  if (wrap) wrap.style.display = 'none';
-  if (inp)  inp.value = '';
-  if (req)  req.style.display = 'block';
-}
-// Drag & drop
-const uploadArea = document.getElementById('upload-area');
-if (uploadArea) {
-  uploadArea.addEventListener('dragover',  e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
-  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
-  uploadArea.addEventListener('drop', function(e) {
-    e.preventDefault(); uploadArea.classList.remove('drag-over');
-    handleFile(e.dataTransfer.files[0]);
+// ─── SIZE PICKER ────────────────────────────────────────
+document.querySelectorAll('#size-picker .sopt').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('#size-picker .sopt').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    SEL_SIZE  = btn.dataset.size;
+    SEL_PRICE = parseInt(btn.dataset.price, 10);
+    updateTotal();
   });
+});
+
+// ─── QTY ────────────────────────────────────────────────
+function getQty() {
+  return Math.max(1, Math.min(100, parseInt($('f-qty').value, 10) || 1));
 }
 
-// ─── VALIDATE FORM ───────────────────────────────────────────────
-function validate() {
-  if (!selectedColor) { toast('Pilih warna dulu!'); return false; }
-  if (!selectedSize)  { toast('Pilih ukuran dulu!'); return false; }
-  const fields = [
-    {id:'f-nama',    lbl:'NAMA'},
-    {id:'f-phone',   lbl:'NO. WA'},
-    {id:'f-email',   lbl:'EMAIL'},
-    {id:'f-alamat',  lbl:'ALAMAT'},
-    {id:'f-kota',    lbl:'KOTA'},
-    {id:'f-kodepos', lbl:'KODE POS'},
-  ];
-  for (const f of fields) {
-    const el = document.getElementById(f.id);
-    if (!el || !el.value.trim()) { toast('Lengkapi: ' + f.lbl); el && el.focus(); return false; }
+$('btn-minus').addEventListener('click', function() {
+  var q = getQty();
+  if (q > 1) { $('f-qty').value = q - 1; updateTotal(); }
+});
+
+$('btn-plus').addEventListener('click', function() {
+  var q = getQty();
+  if (q < 100) { $('f-qty').value = q + 1; updateTotal(); }
+});
+
+$('f-qty').addEventListener('input', function() {
+  var v = parseInt(this.value, 10);
+  if (!v || v < 1) this.value = 1;
+  if (v > 100)     this.value = 100;
+  updateTotal();
+});
+
+// ─── UPDATE TOTAL ───────────────────────────────────────
+function updateTotal() {
+  var qty = getQty();
+  $('t-size').textContent  = SEL_SIZE;
+  $('t-harga').textContent = fmtRp(SEL_PRICE);
+  $('t-qty').textContent   = '× ' + qty + ' pcs';
+  $('t-total').textContent = fmtRp(SEL_PRICE * qty);
+}
+
+updateTotal();
+
+// ─── STEP NAVIGATION ────────────────────────────────────
+function goToStep(n) {
+  $('step1').style.display = n === 1 ? 'block' : 'none';
+  $('step2').style.display = n === 2 ? 'block' : 'none';
+  $('step3').style.display = n === 3 ? 'block' : 'none';
+
+  for (var i = 1; i <= 4; i++) {
+    var dot = $('sd' + i);
+    if (!dot) continue;
+    dot.className = 'sdot' + (i < n ? ' done' : i === n ? ' active' : '');
   }
-  // Email format check
-  const emailEl = document.getElementById('f-email');
-  if (emailEl && emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
-    toast('FORMAT EMAIL TIDAK VALID!');
-    emailEl.focus();
-    emailEl.style.borderColor = '#c0392b';
-    setTimeout(() => emailEl.style.borderColor = '', 2000);
-    return false;
+  for (var j = 1; j <= 3; j++) {
+    var ln = $('sl' + j);
+    if (ln) ln.className = 'sline' + (j < n ? ' done' : '');
+  }
+
+  // scroll ke top of form section
+  var sec = $('order-section');
+  if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── VALIDATE STEP 1 ────────────────────────────────────
+function validate() {
+  if (!SEL_COLOR)           { toast('Pilih warna dulu!');        return false; }
+  if (!SEL_SIZE)            { toast('Pilih ukuran dulu!');       return false; }
+  if (!$('f-nama').value.trim())    { toast('Isi Nama dulu!');   $('f-nama').focus();    return false; }
+  if (!$('f-phone').value.trim())   { toast('Isi No. WA dulu!'); $('f-phone').focus();   return false; }
+  if (!$('f-email').value.trim())   { toast('Isi Email dulu!');  $('f-email').focus();   return false; }
+  if (!$('f-alamat').value.trim())  { toast('Isi Alamat dulu!'); $('f-alamat').focus();  return false; }
+  if (!$('f-kota').value.trim())    { toast('Isi Kota dulu!');   $('f-kota').focus();    return false; }
+  if (!$('f-kodepos').value.trim()) { toast('Isi Kode Pos!');    $('f-kodepos').focus(); return false; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('f-email').value.trim())) {
+    toast('Format email tidak valid!'); $('f-email').focus(); return false;
   }
   return true;
 }
 
-// ─── STEP 2 ──────────────────────────────────────────────────────
-function goToStep2() {
-  try {
+// ─── NEXT BUTTON (step1 → step2) ────────────────────────
+$('btn-next').addEventListener('click', function() {
   if (!validate()) return;
-  const cc    = document.getElementById('f-countrycode')?.value || '62';
-  const phone = document.getElementById('f-phone').value.trim().replace(/^0/, '');
-  const harga = ['XXL','XXXL'].indexOf(selectedSize) >= 0 ? 170000 : 150000;
-  const qty   = getQty();
-  orderData = {
+
+  var cc    = $('f-cc').value;
+  var phone = $('f-phone').value.trim().replace(/^0/, '');
+  var qty   = getQty();
+  var total = SEL_PRICE * qty;
+
+  ORDER = {
     orderNum    : 'NPD-' + Date.now().toString().slice(-6),
-    nama        : document.getElementById('f-nama').value.trim(),
-    phone       : document.getElementById('f-phone').value.trim(),
-    email       : document.getElementById('f-email').value.trim(),
-    alamat      : document.getElementById('f-alamat').value.trim(),
-    kota        : document.getElementById('f-kota').value.trim(),
-    kodePos     : document.getElementById('f-kodepos').value.trim(),
-    catatan     : document.getElementById('f-catatan')?.value.trim() || '',
-    warna       : selectedColor,
-    ukuran      : selectedSize,
+    nama        : $('f-nama').value.trim(),
+    phone       : $('f-phone').value.trim(),
+    email       : $('f-email').value.trim(),
+    alamat      : $('f-alamat').value.trim(),
+    kota        : $('f-kota').value.trim(),
+    kodePos     : $('f-kodepos').value.trim(),
+    catatan     : $('f-catatan').value.trim(),
+    warna       : SEL_COLOR,
+    ukuran      : SEL_SIZE,
     qty         : qty,
-    hargaPerPcs : harga,
+    hargaPerPcs : SEL_PRICE,
     countryCode : cc,
   };
-  // Fill order card
-  const _s = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-  _s('r-ordernum', orderData.orderNum);
-  _s('r-nama',     orderData.nama);
-  _s('r-warna',    orderData.warna.toUpperCase());
-  _s('r-ukuran',   orderData.ukuran);
-  _s('r-size',     orderData.ukuran);
-  _s('r-qty',      orderData.qty + ' pcs');
-  _s('r-phone',    orderData.phone);
-  _s('r-email',    orderData.email);
-  _s('r-kota',     orderData.kota);
-  _s('r-harga',    'Rp ' + harga.toLocaleString('id-ID'));
-  _s('r-total',    'Rp ' + (qty * harga).toLocaleString('id-ID'));
-  showStep(2);
-  history.pushState({step:2}, '', '');
-  } catch(err) { console.error('goToStep2 error:', err); toast('Error: '+err.message); }
-}
 
-// ─── STEP 3 / SUBMIT ─────────────────────────────────────────────
-async function submitAll() {
-  if (!imageBase64) {
-    const req = document.getElementById('upload-req');
-    if (req) { req.style.display='block'; req.style.color='#e87060'; }
+  // Isi order card
+  $('r-ordernum').textContent = ORDER.orderNum;
+  $('r-nama').textContent     = ORDER.nama;
+  $('r-phone').textContent    = ORDER.phone;
+  $('r-email').textContent    = ORDER.email;
+  $('r-warna').textContent    = ORDER.warna.toUpperCase();
+  $('r-ukuran').textContent   = ORDER.ukuran;
+  $('r-qty').textContent      = ORDER.qty + ' pcs';
+  $('r-kota').textContent     = ORDER.kota;
+  $('r-harga').textContent    = fmtRp(ORDER.hargaPerPcs);
+  $('r-total').textContent    = fmtRp(total);
+
+  goToStep(2);
+  history.pushState({ step: 2 }, '');
+});
+
+// ─── COPY NOMOR REKENING ────────────────────────────────
+$('bca-card').addEventListener('click', function() {
+  navigator.clipboard && navigator.clipboard.writeText('7730320901')
+    .then(function(){ toast('No. BCA disalin!'); });
+});
+$('gopay-card').addEventListener('click', function() {
+  navigator.clipboard && navigator.clipboard.writeText('081236869035')
+    .then(function(){ toast('No. GoPay/Dana disalin!'); });
+});
+
+// ─── FILE UPLOAD ────────────────────────────────────────
+$('f-bukti').addEventListener('change', function() {
+  var file = this.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/'))   { toast('File harus berupa gambar!'); return; }
+  if (file.size > 5 * 1024 * 1024)      { toast('Ukuran file maks 5MB!');     return; }
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    IMG_B64  = e.target.result;
+    IMG_MIME = file.type;
+
+    $('preview-img').src        = IMG_B64;
+    $('preview-name').textContent = file.name;
+    $('preview-wrap').style.display = 'block';
+    $('upload-req').style.display   = 'none';
+    toast('Foto berhasil dipilih ✅');
+  };
+  reader.readAsDataURL(file);
+});
+
+$('btn-remove').addEventListener('click', function() {
+  IMG_B64 = ''; IMG_MIME = '';
+  $('preview-img').src = '';
+  $('preview-name').textContent = '';
+  $('preview-wrap').style.display = 'none';
+  $('f-bukti').value = '';
+});
+
+// drag & drop
+var uploadArea = $('upload-area');
+uploadArea.addEventListener('dragover', function(e) {
+  e.preventDefault(); uploadArea.classList.add('drag-over');
+});
+uploadArea.addEventListener('dragleave', function() {
+  uploadArea.classList.remove('drag-over');
+});
+uploadArea.addEventListener('drop', function(e) {
+  e.preventDefault(); uploadArea.classList.remove('drag-over');
+  var file = e.dataTransfer.files[0];
+  if (file) {
+    $('f-bukti').files; // reference only
+    // trigger manually
+    var dt = new DataTransfer();
+    dt.items.add(file);
+    $('f-bukti').files = dt.files;
+    $('f-bukti').dispatchEvent(new Event('change'));
+  }
+});
+
+// ─── SUBMIT (step2 → step3) ─────────────────────────────
+$('btn-submit').addEventListener('click', function() {
+  if (!IMG_B64) {
     toast('Upload bukti transfer dulu!');
+    $('upload-req').style.display = 'block';
     return;
   }
-  const btn = document.getElementById('btn2');
-  const btntxt = document.getElementById('btn2-txt');
-  if (btn) btn.disabled = true;
-  if (btntxt) btntxt.textContent = 'MENGIRIM...';
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method  : 'POST',
-      headers : {'Content-Type': 'text/plain;charset=utf-8'},
-      body    : JSON.stringify({...orderData, imageData: imageBase64, imageMime}),
-      mode    : 'no-cors',
-    });
-  } catch(err) { console.log('Submit note:', err); }
-  const snum = document.getElementById('s-ordernum');
-  if (snum) snum.textContent = orderData.orderNum;
-  updateWASummaryLink(orderData);
-  setTimeout(sndSuccess, 300);
-  setTimeout(launchConfetti, 400);
-  showStep(3);
-  setStep(1,'done'); setStep(2,'done'); setStep(3,'done'); setStep(4,'active');
-}
 
-// ─── SHOW STEP ────────────────────────────────────────────────────
-function showStep(n) {
-  document.getElementById('step1').style.display = n===1 ? 'block' : 'none';
-  document.getElementById('step2').style.display = n===2 ? 'block' : 'none';
-  document.getElementById('step3').style.display = n===3 ? 'block' : 'none';
-  // Step bar
-  [1,2,3,4].forEach(i => {
-    const el = document.getElementById('sbar'+i);
-    if (!el) return;
-    el.classList.remove('active','done');
-    if (i < n) el.classList.add('done');
-    else if (i === n) el.classList.add('active');
+  $('btn-submit').disabled = true;
+  $('btn-submit-txt').textContent = 'MENGIRIM...';
+  $('spinner-submit').style.display = 'inline-block';
+
+  var payload = JSON.parse(JSON.stringify(ORDER));
+  payload.imageData = IMG_B64;
+  payload.imageMime = IMG_MIME;
+
+  fetch(APPS_SCRIPT_URL, {
+    method  : 'POST',
+    headers : { 'Content-Type': 'text/plain;charset=utf-8' },
+    body    : JSON.stringify(payload),
+    mode    : 'no-cors',
+  })
+  .catch(function(){}) // no-cors always throws, ignore
+  .finally(function() {
+    // Isi halaman sukses
+    $('s-ordernum').textContent = ORDER.orderNum;
+
+    var waMsg = [
+      '🧾 *RINGKASAN ORDER AWAS BAHAYA NPD*',
+      '─────────────────────',
+      '📋 No. Order : *' + ORDER.orderNum + '*',
+      '👤 Nama      : ' + ORDER.nama,
+      '📱 WA        : ' + ORDER.phone,
+      '📍 Kota      : ' + ORDER.kota,
+      '─────────────────────',
+      '👕 Warna     : ' + ORDER.warna.toUpperCase(),
+      '📏 Ukuran    : ' + ORDER.ukuran,
+      '🔢 Qty       : ' + ORDER.qty + ' pcs',
+      '💰 Total     : *' + fmtRp(ORDER.qty * ORDER.hargaPerPcs) + '*',
+      '─────────────────────',
+      '📦 Ongkir diinfo via WA',
+      '✅ Bukti transfer sudah dikirim ke admin.',
+      ORDER.catatan ? '📝 Catatan: ' + ORDER.catatan : '',
+    ].filter(Boolean).join('\n');
+
+    var waPhone = ORDER.phone.replace(/[^0-9]/g,'');
+    if (waPhone.charAt(0) === '0') waPhone = ORDER.countryCode + waPhone.slice(1);
+    else waPhone = ORDER.countryCode + waPhone;
+    $('wa-summary-link').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(waMsg);
+
+    // Confetti & sound
+    setTimeout(function(){ launchConfetti(); }, 200);
+    setTimeout(function(){ sndSuccess();    }, 300);
+
+    goToStep(3);
   });
-  window.scrollTo({top: document.getElementById('order-section').offsetTop - 16, behavior:'smooth'});
-}
-function setStep(n, state) { const el = document.getElementById('sd'+n); if (el) el.className = 'sdot ' + state; }
-function copyNum(num, label) {
-  navigator.clipboard?.writeText(num).then(() => toast(label + ' disalin!')).catch(() => toast(label + ': ' + num));
-}
+});
 
-// ─── WA SUMMARY ──────────────────────────────────────────────────
-function buildWASummary(data) {
-  const total = data.qty * data.hargaPerPcs;
-  const lines = [
-    '🧾 *RINGKASAN ORDER AWAS BAHAYA NPD*',
-    '━━━━━━━━━━━━━━━━━━━━━━',
-    `📋 No. Order : *${data.orderNum}*`,
-    `👤 Nama      : ${data.nama}`,
-    `📱 WhatsApp  : ${data.phone}`,
-    `📍 Kota      : ${data.kota}`,
-    `📬 Kode Pos  : ${data.kodePos}`,
-    '━━━━━━━━━━━━━━━━━━━━━━',
-    `👕 Warna     : ${(data.warna || '').toUpperCase()}`,
-    `📏 Ukuran    : ${data.ukuran}`,
-    `🔢 Qty       : ${data.qty} pcs`,
-    `💰 Harga/pcs : Rp ${data.hargaPerPcs.toLocaleString('id-ID')}`,
-    `💵 *TOTAL    : Rp ${total.toLocaleString('id-ID')}*`,
-    '━━━━━━━━━━━━━━━━━━━━━━',
-    '📦 Ongkir diinfo via WA setelah GO closing',
-    '⏱️ Produksi 1–2 hari kerja setelah pembayaran dikonfirmasi',
-    '',
-    data.catatan ? `📝 Catatan: ${data.catatan}` : '',
-    '',
-    '✅ Bukti transfer sudah dikirim ke admin.',
-    'Konfirmasi dalam 1×24 jam.',
-    '',
-    '🛒 orderkaosnpd.shop',
-  ].filter(l => l !== undefined);
-  return lines.join('\n');
-}
-function updateWASummaryLink(data) {
-  const link = document.getElementById('wa-summary-link');
-  if (!link) return;
-  const msg  = buildWASummary(data);
-  const phone = (data.phone || '').replace(/[^0-9]/g, '');
-  const cc    = document.getElementById('f-countrycode')?.value || '62';
-  const fullPhone = phone.startsWith('0') ? cc + phone.slice(1) : cc + phone;
-  link.href = `https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`;
-}
+// ─── ANDROID BACK ───────────────────────────────────────
+window.addEventListener('popstate', function() {
+  if ($('step2').style.display !== 'none') goToStep(1);
+  else if ($('step3').style.display !== 'none') goToStep(2);
+});
 
-// ─── CONFETTI ────────────────────────────────────────────────────
+// ─── CONFETTI ───────────────────────────────────────────
 function launchConfetti() {
-  const COUNT  = window.innerWidth < 600 ? 55 : 120;
-  const COLORS_C = ['#e8a020','#c8860a','#f0e0c0','#c0392b','#ffffff','#f5c030'];
-  const SHAPES = ['circle','rect','tri'];
-  for (let i = 0; i < COUNT; i++) {
-    setTimeout(() => {
-      const el     = document.createElement('div');
-      const shape  = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-      const color  = COLORS_C[Math.floor(Math.random() * COLORS_C.length)];
-      const size   = 6 + Math.random() * 10;
-      const left   = Math.random() * 100;
-      const delay  = Math.random() * 0.5;
-      const dur    = 2.5 + Math.random() * 2;
-      const swayDur = 1.5 + Math.random() * 1.5;
-      el.style.cssText = `
-        position:fixed;top:-20px;pointer-events:none;z-index:9999;
-        left:${left}vw;
-        width:${shape==='rect' ? size*2 : size}px;
-        height:${shape==='rect' ? size*.45 : size}px;
-        background:${color};
-        border-radius:${shape==='circle' ? '50%' : '2px'};
-        animation:
-          confettiFall ${dur}s ${delay}s ease-in forwards,
-          confettiSway ${swayDur}s ${delay}s ease-in-out infinite;
-      `;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), (dur + delay + 0.5) * 1000);
-    }, Math.random() * 600);
+  var COLS = ['#e8a020','#c8860a','#f0e0c0','#c0392b','#ffffff','#f5c030'];
+  for (var i = 0; i < 100; i++) {
+    (function(){
+      setTimeout(function() {
+        var el    = document.createElement('div');
+        var color = COLS[Math.floor(Math.random() * COLS.length)];
+        var size  = 7 + Math.random() * 8;
+        var dur   = 2.5 + Math.random() * 2;
+        var delay = Math.random() * 0.6;
+        el.style.cssText = 'position:fixed;top:-20px;pointer-events:none;z-index:9999;'
+          + 'left:' + (Math.random()*100) + 'vw;'
+          + 'width:' + size + 'px;height:' + (size*.45) + 'px;'
+          + 'background:' + color + ';border-radius:2px;'
+          + 'animation:confettiFall ' + dur + 's ' + delay + 's ease-in forwards,'
+          + 'confettiSway ' + (1.5+Math.random()) + 's ' + delay + 's ease-in-out infinite;';
+        document.body.appendChild(el);
+        setTimeout(function(){ el.remove(); }, (dur+delay+0.5)*1000);
+      }, Math.random() * 600);
+    })();
   }
 }
 
-// ─── LIGHTBOX ────────────────────────────────────────────────────
-const DETAIL_GALLERY = [
+// ─── SOUND ──────────────────────────────────────────────
+var _ac;
+function sndSuccess() {
+  try {
+    if (!_ac) _ac = new (window.AudioContext||window.webkitAudioContext)();
+    if (_ac.state==='suspended') _ac.resume();
+    [261.6,329.6,392,523.3].forEach(function(f,i){
+      setTimeout(function(){
+        var o=_ac.createOscillator(), g=_ac.createGain();
+        o.frequency.value=f; g.gain.setValueAtTime(.09,_ac.currentTime);
+        g.gain.exponentialRampToValueAtTime(.001,_ac.currentTime+.15);
+        o.connect(g); g.connect(_ac.destination);
+        o.start(); o.stop(_ac.currentTime+.15);
+      }, i*120);
+    });
+  } catch(e){}
+}
+
+// ─── HERO SLIDESHOW ─────────────────────────────────────
+var HS_TOTAL = 4, hsCur = 0, hsTimer;
+function hsGo(n) {
+  hsCur = (n + HS_TOTAL) % HS_TOTAL;
+  var track = document.getElementById('hs-track');
+  if (track) {
+    var w = document.querySelector('.hero-slide');
+    track.style.transform = 'translateX(-' + (hsCur * (w ? w.offsetWidth : window.innerWidth)) + 'px)';
+  }
+  document.querySelectorAll('.hs-dot').forEach(function(d,i){ d.classList.toggle('active', i===hsCur); });
+  var ctr = document.getElementById('hs-counter');
+  if (ctr) ctr.textContent = (hsCur+1) + ' / ' + HS_TOTAL;
+}
+function hsNav(d) { clearInterval(hsTimer); hsGo(hsCur+d); hsTimer=setInterval(function(){hsGo(hsCur+1);},4500); }
+hsTimer = setInterval(function(){ hsGo(hsCur+1); }, 4500);
+window.addEventListener('resize', function(){ hsGo(hsCur); });
+(function(){
+  var wrap = document.querySelector('.hero-slide-wrap'), sx=0;
+  if (!wrap) return;
+  wrap.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; clearInterval(hsTimer); },{passive:true});
+  wrap.addEventListener('touchend', function(e){
+    var dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>36) hsGo(hsCur+(dx<0?1:-1));
+    hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
+  },{passive:true});
+})();
+
+// expose globals for inline onclick
+window.hsNav = hsNav;
+window.hsGo  = hsGo;
+
+// ─── MARQUEE ────────────────────────────────────────────
+(function(){
+  var t = document.getElementById('marquee-track');
+  if (!t) return;
+  t.innerHTML += t.innerHTML + t.innerHTML;
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      var w = t.scrollWidth/3;
+      var s = document.createElement('style');
+      s.textContent = '@keyframes mqx{0%{transform:translateX(0)}100%{transform:translateX(-'+Math.round(w)+'px)}}';
+      document.head.appendChild(s);
+      t.style.animation = 'mqx '+(w/55)+'s linear infinite';
+    });
+  });
+})();
+
+// ─── SCROLL REVEAL ──────────────────────────────────────
+(function(){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.sr').forEach(function(el){ obs.observe(el); });
+})();
+
+// ─── HOW SECTION BARONG ─────────────────────────────────
+(function(){
+  var b=$('how-barong'), s=$('how-section');
+  if(!b||!s) return;
+  new IntersectionObserver(function(en){ if(en[0].isIntersecting){b.classList.add('visible');} },{threshold:.15}).observe(s);
+})();
+
+// ─── LIGHTBOX ───────────────────────────────────────────
+var DLB_IMGS = [
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
 ];
-let dlbIdx = 0, _dlbTX = 0, _dlbSX = 0;
-function dlbOpen(idx) {
-  dlbIdx = idx;
-  const dlb = document.getElementById('dlb');
-  if (dlb) { dlb.style.display = 'flex'; dlbRender(); }
-  document.addEventListener('keydown', dlbKey);
+var dlbIdx=0;
+function dlbOpen(i){ dlbIdx=i; var d=$('dlb'); if(d){d.style.display='flex'; dlbRender();} document.addEventListener('keydown',dlbKey); }
+function dlbClose(){ var d=$('dlb'); if(d) d.style.display='none'; document.removeEventListener('keydown',dlbKey); }
+function dlbNav(d){ dlbIdx=(dlbIdx+d+DLB_IMGS.length)%DLB_IMGS.length; dlbRender(); }
+function dlbGo(i){ dlbIdx=i; dlbRender(); }
+function dlbRender(){
+  var img=$('dlb-img'), ctr=$('dlb-counter'), dot=$('dlb-dots');
+  if(img) img.src=DLB_IMGS[dlbIdx];
+  if(ctr) ctr.textContent=(dlbIdx+1)+' / '+DLB_IMGS.length;
+  if(dot) dot.innerHTML=DLB_IMGS.map(function(_,i){ return '<button class="dlb-dot'+(i===dlbIdx?' active':'')+'" onclick="dlbGo('+i+');event.stopPropagation()"></button>'; }).join('');
 }
-function dlbClose() {
-  const dlb = document.getElementById('dlb');
-  if (dlb) dlb.style.display = 'none';
-  document.removeEventListener('keydown', dlbKey);
-}
-function dlbNav(d) { dlbIdx = (dlbIdx + d + DETAIL_GALLERY.length) % DETAIL_GALLERY.length; dlbRender(); }
-function dlbGo(i) { dlbIdx = i; dlbRender(); }
-function dlbRender() {
-  const img = document.getElementById('dlb-img');
-  const ctr = document.getElementById('dlb-counter');
-  const dot = document.getElementById('dlb-dots');
-  if (img) img.src = DETAIL_GALLERY[dlbIdx];
-  if (ctr) ctr.textContent = (dlbIdx+1) + ' / ' + DETAIL_GALLERY.length;
-  if (dot) dot.innerHTML = DETAIL_GALLERY.map((_,i) =>
-    `<button class="dlb-dot${i===dlbIdx?' active':''}" onclick="dlbGo(${i});event.stopPropagation()"></button>`
-  ).join('');
-  // Touch swipe
-  const wrap = document.getElementById('dlb-img-wrap');
-  if (wrap) {
-    wrap.ontouchstart = e => { _dlbSX = e.touches[0].clientX; };
-    wrap.ontouchend   = e => {
-      const dx = e.changedTouches[0].clientX - _dlbSX;
-      if (Math.abs(dx) > 40) dlbNav(dx < 0 ? 1 : -1);
-    };
-  }
-}
-function dlbKey(e) {
-  if (e.key === 'ArrowLeft')  dlbNav(-1);
-  if (e.key === 'ArrowRight') dlbNav(1);
-  if (e.key === 'Escape')     dlbClose();
-}
+function dlbKey(e){ if(e.key==='ArrowLeft') dlbNav(-1); if(e.key==='ArrowRight') dlbNav(1); if(e.key==='Escape') dlbClose(); }
+window.dlbOpen=dlbOpen; window.dlbClose=dlbClose; window.dlbNav=dlbNav; window.dlbGo=dlbGo;
 
-// ─── HERO SLIDESHOW ──────────────────────────────────────────────
-const HS_TOTAL = 4;
-let hsCur = 0, hsRaf = null, hsAuto = null;
-function hsGetW() {
-  const sl = document.querySelector('.hero-slide');
-  return sl ? sl.offsetWidth : window.innerWidth;
-}
-function hsSetPos(idx, instant) {
-  const track = document.getElementById('hs-track');
-  if (!track) return;
-  if (instant) track.style.transition = 'none';
-  track.style.transform = `translateX(-${idx * hsGetW()}px)`;
-  if (instant) requestAnimationFrame(() => { track.style.transition = ''; });
-}
-function hsGo(idx) {
-  hsCur = Math.max(0, Math.min(HS_TOTAL - 1, idx));
-  hsSetPos(hsCur);
-  document.querySelectorAll('.hs-dot').forEach((d,i) => d.classList.toggle('active', i===hsCur));
-  const ctr = document.getElementById('hs-counter');
-  if (ctr) ctr.textContent = (hsCur+1) + ' / ' + HS_TOTAL;
-}
-function hsNext() { hsGo((hsCur+1) % HS_TOTAL); }
-function hsPrev() { hsGo((hsCur - 1 + HS_TOTAL) % HS_TOTAL); }
-function hsNav(d)  { hsStopAuto(); hsGo((hsCur + d + HS_TOTAL) % HS_TOTAL); hsStartAuto(); }
-function hsStartAuto() { hsAuto = setInterval(hsNext, 4500); }
-function hsStopAuto()  { clearInterval(hsAuto); }
-
-// Touch/swipe
-let _hsSX = 0;
-const heroWrap = document.querySelector('.hero-wrap');
-if (heroWrap) {
-  heroWrap.addEventListener('touchstart', e => { _hsSX = e.touches[0].clientX; hsStopAuto(); }, {passive:true});
-  heroWrap.addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - _hsSX;
-    if (Math.abs(dx) > 36) { dx < 0 ? hsNext() : hsPrev(); }
-    hsStartAuto();
-  }, {passive:true});
-}
-// Resize
-window.addEventListener('resize', () => { hsSetPos(hsCur, true); });
-// IntersectionObserver to pause
-new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) hsStartAuto(); else hsStopAuto();
-}, {threshold:0.2}).observe(document.querySelector('.hero-wrap') || document.body);
-hsStartAuto();
-
-// ─── MARQUEE ─────────────────────────────────────────────────────
-function initMarquee() {
-  const track = document.getElementById('marquee-track');
-  if (!track) return;
-  const orig = track.innerHTML;
-  track.innerHTML = orig + orig + orig;
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    const oneLoopW = track.scrollWidth / 3;
-    const duration = oneLoopW / 55;
-    const styleEl  = document.createElement('style');
-    styleEl.textContent = `@keyframes marquee-px{0%{transform:translateX(0)}100%{transform:translateX(-${Math.round(oneLoopW)}px)}}`;
-    document.head.appendChild(styleEl);
-    track.style.animation = `marquee-px ${duration}s linear infinite`;
-  }));
-}
-initMarquee();
-
-// ─── SCROLL REVEAL ───────────────────────────────────────────────
+// ─── GLITCH EFFECTS ─────────────────────────────────────
 (function(){
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
-    });
-  }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+  function glitch(el){ if(!el) return; el.classList.add('glitch-on'); setTimeout(function(){ el.classList.remove('glitch-on'); },350); }
+  var pt=$('product-title'), hl=$('hero-hl');
+  if(pt){ pt.addEventListener('mouseenter',function(){glitch(pt);}); setInterval(function(){glitch(pt);},9000); }
+  if(hl){ setInterval(function(){glitch(hl);},7000); }
 })();
 
-// ─── HOW-SECTION BARONG ──────────────────────────────────────────
+// ─── FLOATING PARTICLES ─────────────────────────────────
 (function(){
-  const b = document.getElementById('how-barong');
-  const s = document.getElementById('how-section');
-  if (!b || !s) return;
-  const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { b.classList.add('visible'); obs.disconnect(); }
-  }, {threshold:0.15});
-  obs.observe(s);
-  if (s.getBoundingClientRect().top < window.innerHeight) b.classList.add('visible');
-})();
-
-// ─── PARALLAX — LERP ─────────────────────────────────────────────
-(function(){
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  // Title parallax + glitch
-  const titleEl = document.getElementById('product-title');
-  const spanEl  = titleEl ? titleEl.querySelector('span') : null;
-  const piLeft  = document.querySelector('.pi-left');
-  let tTX=0,tTY=0,tSX=0,tSY=0, cTX=0,cTY=0,cSX=0,cSY=0;
-  let titleHov=false, titleRaf=null, glitchTimer=null;
-
-  function tickTitle() {
-    cTX = lerp(cTX, tTX, 0.09); cTY = lerp(cTY, tTY, 0.09);
-    cSX = lerp(cSX, tSX, 0.07); cSY = lerp(cSY, tSY, 0.07);
-    if (titleEl) titleEl.style.transform = `translate(${cTX.toFixed(2)}px,${cTY.toFixed(2)}px)`;
-    if (spanEl)  spanEl.style.transform  = `translate(${cSX.toFixed(2)}px,${cSY.toFixed(2)}px)`;
-    const settled = Math.abs(cTX-tTX)<.05 && Math.abs(cTY-tTY)<.05;
-    if (!settled || titleHov) titleRaf = requestAnimationFrame(tickTitle);
-    else titleRaf = null;
-  }
-  function startGlitch() {
-    if (!titleEl) return;
-    titleEl.classList.add('glitch-on');
-    clearTimeout(glitchTimer);
-    glitchTimer = setTimeout(() => {
-      if (titleEl) titleEl.classList.remove('glitch-on');
-      if (titleHov) glitchTimer = setTimeout(startGlitch, 350 + Math.random() * 550);
-    }, 180 + Math.random() * 160);
-  }
-  if (piLeft && titleEl) {
-    piLeft.addEventListener('mousemove', function(e) {
-      const r = piLeft.getBoundingClientRect();
-      const dx = (e.clientX - r.left - r.width/2)  / (r.width/2);
-      const dy = (e.clientY - r.top  - r.height/2) / (r.height/2);
-      tTX = dx * -18; tTY = dy * -12; tSX = dx * -28; tSY = dy * -8;
-      if (!titleHov) { titleHov = true; startGlitch(); }
-      if (!titleRaf) titleRaf = requestAnimationFrame(tickTitle);
-    });
-    piLeft.addEventListener('mouseleave', function() {
-      tTX=0; tTY=0; tSX=0; tSY=0; titleHov=false;
-      clearTimeout(glitchTimer);
-      if (titleEl) titleEl.classList.remove('glitch-on');
-      if (!titleRaf) titleRaf = requestAnimationFrame(tickTitle);
-    });
-    piLeft.addEventListener('touchmove', function(e) {
-      const t=e.touches[0], r=piLeft.getBoundingClientRect();
-      const dx=(t.clientX-r.left-r.width/2)/(r.width/2);
-      const dy=(t.clientY-r.top-r.height/2)/(r.height/2);
-      tTX=dx*-14; tTY=dy*-9; tSX=dx*-22; tSY=dy*-6;
-      if (!titleHov) { titleHov=true; startGlitch(); }
-      if (!titleRaf) titleRaf=requestAnimationFrame(tickTitle);
-    },{passive:true});
-    piLeft.addEventListener('touchend', function() {
-      tTX=0; tTY=0; tSX=0; tSY=0; titleHov=false;
-      clearTimeout(glitchTimer);
-      if (titleEl) titleEl.classList.remove('glitch-on');
-      if (!titleRaf) titleRaf=requestAnimationFrame(tickTitle);
-    });
-  }
-
-  // Price parallax
-  const priceWrap = document.querySelector('.price-wrap');
-  const p150 = document.getElementById('price-150');
-  const p170 = document.getElementById('price-170');
-  if (!priceWrap || !p150 || !p170) return;
-  const nums = [
-    { el:p150, depth:28, fy:14, fs:1.12 },
-    { el:p170, depth:16, fy:10, fs:1.07 },
-  ];
-  const cur = nums.map(() => ({x:0,y:0,s:1}));
-  const tgt = nums.map(() => ({x:0,y:0,s:1}));
-  let hov=false, raf=null;
-
-  function shadowFor(x, y) {
-    const d = Math.sqrt(x*x + y*y) * 0.6;
-    const layers = [];
-    for (let n=1; n<=9; n++) {
-      const t  = n/9;
-      const sx = (x*t*0.35).toFixed(1);
-      const sy = (y*t*0.35 + d*t).toFixed(1);
-      const l  = Math.round(25 - n*2);
-      layers.push(`${sx}px ${sy}px 0 hsl(22,85%,${l}%)`);
-    }
-    layers.push(`0 ${(d*1.2).toFixed(0)}px ${(d*2.5).toFixed(0)}px rgba(232,160,32,.4)`);
-    return layers.join(',');
-  }
-  function tick() {
-    let active = false;
-    nums.forEach((n,i) => {
-      cur[i].x = lerp(cur[i].x, tgt[i].x, 0.08);
-      cur[i].y = lerp(cur[i].y, tgt[i].y, 0.08);
-      cur[i].s = lerp(cur[i].s, tgt[i].s, 0.08);
-      const {x,y,s} = cur[i];
-      n.el.style.transform = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(3)})`;
-      n.el.style.textShadow = (Math.abs(x)+Math.abs(y))>0.3 ? shadowFor(x,y) : '';
-      if (Math.abs(x-tgt[i].x)>.05||Math.abs(y-tgt[i].y)>.05||Math.abs(s-tgt[i].s)>.002) active=true;
-    });
-    if (active||hov) raf=requestAnimationFrame(tick);
-    else {
-      raf=null;
-      if (!hov) nums.forEach(n => { n.el.style.transform=''; n.el.style.textShadow=''; });
-    }
-  }
-  priceWrap.addEventListener('mousemove', function(e) {
-    const r = priceWrap.getBoundingClientRect();
-    const dx = (e.clientX-r.left-r.width/2)  / (r.width/2);
-    const dy = (e.clientY-r.top -r.height/2) / (r.height/2);
-    nums.forEach((n,i) => { tgt[i].x=dx*n.depth; tgt[i].y=dy*-n.fy; tgt[i].s=n.fs; });
-    hov=true;
-    if (!raf) raf=requestAnimationFrame(tick);
-  });
-  priceWrap.addEventListener('mouseleave', function() {
-    nums.forEach((_,i) => { tgt[i].x=0; tgt[i].y=0; tgt[i].s=1; });
-    hov=false;
-    if (!raf) raf=requestAnimationFrame(tick);
-  });
-})();
-
-// ─── GLITCH — hero headline ───────────────────────────────────────
-(function(){
-  const heroHl  = document.getElementById('hero-hl');
-  const headerEl= document.querySelector('header');
-  if (!heroHl || !headerEl) return;
-  let hx=0,hy=0, cx=0,cy=0, hov=false, hRaf=null, hGTimer=null;
-  function lerp(a,b,t){ return a+(b-a)*t; }
-  function tickHero() {
-    cx = lerp(cx, hx, 0.09); cy = lerp(cy, hy, 0.09);
-    heroHl.style.transform = `translate(${cx.toFixed(2)}px,${cy.toFixed(2)}px)`;
-    const settled = Math.abs(cx-hx)<.05 && Math.abs(cy-hy)<.05;
-    if (!settled || hov) hRaf = requestAnimationFrame(tickHero);
-    else hRaf = null;
-  }
-  function triggerHeroGlitch() {
-    if (!heroHl) return;
-    heroHl.classList.add('glitch-on');
-    clearTimeout(hGTimer);
-    hGTimer = setTimeout(() => {
-      if (heroHl) heroHl.classList.remove('glitch-on');
-      if (hov) hGTimer = setTimeout(triggerHeroGlitch, 380 + Math.random() * 700);
-    }, 160 + Math.random() * 200);
-  }
-  headerEl.addEventListener('mousemove', function(e) {
-    const r = headerEl.getBoundingClientRect();
-    const dx = (e.clientX-r.left-r.width/2)  / (r.width/2);
-    const dy = (e.clientY-r.top -r.height/2) / (r.height/2);
-    hx = dx * -16; hy = dy * -10;
-    if (!hov) { hov=true; triggerHeroGlitch(); }
-    if (!hRaf) hRaf = requestAnimationFrame(tickHero);
-  });
-  headerEl.addEventListener('mouseleave', function() {
-    hx=0; hy=0; hov=false;
-    clearTimeout(hGTimer);
-    if (heroHl) heroHl.classList.remove('glitch-on');
-    if (!hRaf) hRaf = requestAnimationFrame(tickHero);
-  });
-  headerEl.addEventListener('touchmove', function(e) {
-    const t=e.touches[0], r=headerEl.getBoundingClientRect();
-    const dx=(t.clientX-r.left-r.width/2)/(r.width/2);
-    const dy=(t.clientY-r.top-r.height/2)/(r.height/2);
-    hx=dx*-12; hy=dy*-8;
-    if (!hov){hov=true;triggerHeroGlitch();}
-    if (!hRaf) hRaf=requestAnimationFrame(tickHero);
-  },{passive:true});
-  headerEl.addEventListener('touchend', function() {
-    hx=0;hy=0;hov=false;
-    clearTimeout(hGTimer);
-    if (heroHl) heroHl.classList.remove('glitch-on');
-    if (!hRaf) hRaf=requestAnimationFrame(tickHero);
-  });
-  setInterval(() => { if (!hov) triggerHeroGlitch(); }, 7500 + Math.random()*3000);
-})();
-
-// ─── TYPEWRITER ──────────────────────────────────────────────────
-(function(){
-  const el = document.getElementById('tw-text');
-  if (!el) return;
-  const line1 = el.dataset.line1 || '';
-  const line2 = el.dataset.line2 || '';
-  const SPEED = 38, PAUSE_NEWLINE = 320;
-  let phase = 1, ci = 0;
-  function render(text) { el.innerHTML = text; }
-  function tick() {
-    if (phase === 1) {
-      ci++;
-      render(line1.slice(0, ci));
-      if (ci < line1.length) { setTimeout(tick, SPEED); }
-      else { phase = 2; ci = 0; setTimeout(tick, PAUSE_NEWLINE); }
-    } else {
-      ci++;
-      render(line1 + '<br><strong style="font-weight:600;color:var(--amber)">' + line2.slice(0, ci) + '</strong>');
-      if (ci < line2.length) setTimeout(tick, SPEED);
-    }
-  }
-  setTimeout(tick, 600);
-})();
-
-// ─── FLOATING PARTICLES ──────────────────────────────────────────
-(function(){
-  const bg = document.getElementById('particle-bg');
-  if (!bg) return;
-  const isMobile = window.innerWidth < 600;
-  const COUNT    = isMobile ? 20 : 35;
-  const COLORS_P = ['#e8a020','#e8a020','#c8860a','#f5c050','#d09018','#f0e0c0','#faf5ee'];
-  for (let i = 0; i < COUNT; i++) {
-    const el  = document.createElement('div');
-    el.className = 'ptc';
-    const size  = 1 + Math.random() * 1.8;
-    const left  = Math.random() * 100;
-    const dur   = 12 + Math.random() * 16;
-    const delay = -(Math.random() * dur);
-    const sway  = (Math.random() - .5) * 80;
-    const col   = COLORS_P[Math.floor(Math.random() * COLORS_P.length)];
-    const op    = 0.15 + Math.random() * 0.35;
-    const startY = Math.random() * 100;
-    el.style.cssText = `
-      width:${size}px;height:${size}px;
-      left:${left}vw;bottom:${startY}vh;
-      background:${col};opacity:${op};
-      --sx:${sway}px;
-      animation-duration:${dur}s;animation-delay:${delay}s;
-    `;
+  var bg=$('particle-bg'); if(!bg) return;
+  var N=window.innerWidth<600?20:35, C=['#e8a020','#c8860a','#f5c050','#d09018','#f0e0c0'];
+  for(var i=0;i<N;i++){
+    var el=document.createElement('div'); el.className='ptc';
+    var sz=1+Math.random()*1.8, dur=12+Math.random()*16, del=-(Math.random()*dur);
+    el.style.cssText='width:'+sz+'px;height:'+sz+'px;'
+      +'left:'+(Math.random()*100)+'vw;bottom:'+(Math.random()*100)+'vh;'
+      +'background:'+C[Math.floor(Math.random()*C.length)]+';'
+      +'opacity:'+(0.15+Math.random()*0.35)+';'
+      +'--sx:'+((Math.random()-.5)*80)+'px;'
+      +'animation-duration:'+dur+'s;animation-delay:'+del+'s;';
     bg.appendChild(el);
   }
 })();
 
-// ─── i18n ────────────────────────────────────────────────────────
-function setLang(lang) {
-  currentLang = lang;
-  document.getElementById('btn-id')?.classList.toggle('active', lang==='id');
-  document.getElementById('btn-en')?.classList.toggle('active', lang==='en');
-
-  const T = {
-    topTag:        { id:'⚡ Limited Drop — Bhuta Kala Modern ⚡', en:'⚡ Limited Drop — Bhuta Kala Modern ⚡' },
-    heroHl:        { id:'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>', en:'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>' },
-    heroDesc:      { id:'Orang tidak akan sadar dirinya NPD —<br><strong>kadang kita perlu merefleksikan diri kita sendiri.</strong>', en:'People never realize they have NPD —<br><strong>sometimes we need to reflect on ourselves.</strong>' },
-    warningBadge:  { id:'⚡ AWAS BAHAYA NPD', en:'⚡ BEWARE OF NPD' },
-    sym1:          { id:'EGOIS MAKSIMAL', en:'EXTREMELY SELFISH' },
-    sym2:          { id:'ANTI KRITIK', en:'CANNOT TAKE CRITICISM' },
-    sym3:          { id:'OTAK NGAMBUL', en:'PERPETUAL TANTRUM' },
-    productDesc:   { id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.', en:'Express yourself with a <strong style="color:var(--amber)">TAKSU</strong> shirt. Premium combed 24s — thick, substantial, collector vibes.' },
-    priceLbl:      { id:'⚡ harga group order ⚡', en:'⚡ group order pricing ⚡' },
-    priceNote:     { id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim', en:'<strong>Price per pcs</strong> · shipping not included' },
-    galleryTitle:  { id:'DETAIL KAOS', en:'SHIRT DETAILS' },
-    galleryNote:   { id:'Tap foto untuk memperbesar', en:'Tap photo to enlarge' },
-    sizeNote:      { id:'Cotton Combed 24s · ukuran dalam cm', en:'Cotton Combed 24s · measurements in cm' },
-    stepForm:      { id:'FORM', en:'FORM' },
-    stepBayar:     { id:'BAYAR', en:'PAY' },
-    stepUpload:    { id:'UPLOAD', en:'UPLOAD' },
-    stepSelesai:   { id:'SELESAI', en:'DONE' },
-    formTitle:     { id:'FORM ORDER', en:'ORDER FORM' },
-    lblNama:       { id:'Nama Lengkap *', en:'Full Name *' },
-    lblEmail:      { id:'Email *', en:'Email *' },
-    lblPhone:      { id:'Nomor WhatsApp *', en:'WhatsApp Number *' },
-    lblAlamat:     { id:'Alamat Lengkap *', en:'Full Address *' },
-    lblKota:       { id:'Kota / Kabupaten *', en:'City *' },
-    lblKodePos:    { id:'Kode Pos *', en:'Postal Code *' },
-    lblUkuran:     { id:'Pilih Ukuran *', en:'Choose Size *' },
-    lblQty:        { id:'Jumlah', en:'Quantity' },
-    lblCatatan:    { id:'Catatan (opsional)', en:'Notes (optional)' },
-    ongkirNote:    { id:'BELUM TERMASUK ONGKOS KIRIM', en:'SHIPPING NOT INCLUDED' },
-    btnNext:       { id:'LANJUT KE PEMBAYARAN', en:'PROCEED TO PAYMENT' },
-    stockWarn:     { id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡', en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡' },
-    payTitle:      { id:'💸 TRANSFER KE', en:'💸 TRANSFER TO' },
-    payDesc:       { id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.', en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.' },
-    bankAN:        { id:'a/n dikonfirmasi via WA', en:'account holder confirmed via WA' },
-    lblUpload:     { id:'Upload Bukti Transfer *', en:'Upload Payment Proof *' },
-    uploadLabel:   { id:'TAP UNTUK PILIH FOTO', en:'TAP TO CHOOSE PHOTO' },
-    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 5MB', en:'Payment screenshot · JPG/PNG · Max 5MB' },
-    btnConfirm:    { id:'KONFIRMASI PEMBAYARAN', en:'CONFIRM PAYMENT' },
-    successTitle:  { id:'ORDER MASUK!', en:'ORDER RECEIVED!' },
-    successMsg:    { id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.', en:'Your order details and payment proof<br>have been received by the system.' },
-    sf1title:      { id:'BUKTI TRANSFER DITERIMA', en:'PAYMENT PROOF RECEIVED' },
-    sf1desc:       { id:'Data & foto bukti tersimpan di sistem admin', en:'Data & payment proof stored in our system' },
-    sf2title:      { id:'ADMIN SEDANG CEK PEMBAYARAN', en:'ADMIN IS VERIFYING PAYMENT' },
-    sf2desc:       { id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>', en:'Estimated confirmation within <strong style="color:var(--amber)">24 hours</strong>' },
-    sf3title:      { id:'NOTIF WA JIKA TERKONFIRMASI', en:'WHATSAPP NOTIFICATION UPON CONFIRMATION' },
-    sf3desc:       { id:'Kamu akan dapat pesan WA saat pembayaran berhasil dikonfirmasi', en:"You'll receive a WA message when payment is confirmed" },
-    sf4title:      { id:'PRODUKSI 1–2 HARI KERJA', en:'PRODUCTION 1–2 WORKING DAYS' },
-    sf4desc:       { id:'Dimulai setelah pembayaran terkonfirmasi', en:'Starts after payment is confirmed' },
-    successBoxTitle:{ id:'📋 DETAIL ORDER', en:'📋 ORDER DETAILS' },
-    howTitle:      { id:'ALUR ORDER', en:'ORDER FLOW' },
-    sc1title:      { id:'ISI FORM', en:'FILL FORM' },
-    sc1desc:       { id:'Lengkapi data diri, pilih ukuran & qty.', en:'Fill in your details, choose size & qty.' },
-    sc2title:      { id:'TRANSFER', en:'TRANSFER' },
-    sc2desc:       { id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.', en:'Transfer shirt total to GoPay/Dana. Shipping follows.' },
-    sc3title:      { id:'UPLOAD BUKTI', en:'UPLOAD PROOF' },
-    sc3desc:       { id:'Upload screenshot bukti transfer langsung di web.', en:'Upload transfer screenshot directly on the website.' },
-    sc4title:      { id:'PRODUKSI', en:'PRODUCTION' },
-    sc4desc:       { id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.', en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.' },
-    hashtags:      { id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN', en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN' },
-    shipText:      { id:'Pengiriman ke seluruh Indonesia', en:'Shipping to all of Indonesia' },
-    lblWarna:      { id:'Pilih Warna *', en:'Choose Color *' },
-    colorWaBtn:    { id:'Tanya stok', en:'Check stock' },
-    colorNote:     { id:'⚡ Tanyakan stok warna kaos terlebih dahulu sebelum memesan', en:'⚡ Please check color stock availability before ordering' },
-    ccHint:        { id:'Pilih kode negara jika bukan Indonesia', en:'Select country code if outside Indonesia' },
-    emailHint:     { id:'Untuk menerima konfirmasi order otomatis', en:'To receive automatic order confirmation' },
-    payInstrTitle: { id:'INSTRUKSI BAYAR', en:'PAYMENT INSTRUCTIONS' },
-    fnote:         { id:'Made with chaos in Bali · Limited Group Order Only', en:'Made with chaos in Bali · Limited Group Order Only' },
-  };
-
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    if (T[key]) el.innerHTML = T[key][lang] || T[key]['id'];
-  });
-
-  // Placeholders
-  const ph = lang === 'id' ? {
-    'f-nama'   : 'Nama untuk label pengiriman',
-    'f-email'  : 'email@kamu.com',
-    'f-phone'  : '81xxxxxxxx',
-    'f-alamat' : 'Jl. contoh No.1, Kel. ...',
-    'f-kota'   : 'Denpasar',
-    'f-kodepos': '80225',
-    'f-catatan': 'Opsional — warna preferensi, catatan khusus...',
-  } : {
-    'f-nama'   : 'Name for shipping label',
-    'f-email'  : 'your@email.com',
-    'f-phone'  : '81xxxxxxxx',
-    'f-alamat' : 'Full street address...',
-    'f-kota'   : 'City',
-    'f-kodepos': 'Postal Code',
-    'f-catatan': 'Optional — color preference, special notes...',
-  };
-  Object.entries(ph).forEach(([id, txt]) => {
-    const el = document.getElementById(id);
-    if (el) el.placeholder = txt;
-  });
-
-  // Update glitch data-text
-  document.querySelectorAll('.glitch').forEach(el => {
-    if (el.dataset.i18n === 'heroHl') el.dataset.text = T.heroHl[lang];
-  });
-  renderColors();
-}
-setLang('id');
-
-// ─── ANDROID BACK ────────────────────────────────────────────────
-window.addEventListener('popstate', function() {
-  const s2 = document.getElementById('step2');
-  const s3 = document.getElementById('step3');
-  if (s3 && s3.style.display !== 'none') { showStep(2); }
-  else if (s2 && s2.style.display !== 'none') { showStep(1); }
-});
-
-// ─── SR FALLBACK ─────────────────────────────────────────────────
-
+// ─── TYPEWRITER ─────────────────────────────────────────
+(function(){
+  var el=$('tw-text'); if(!el) return;
+  var L1='Orang tidak akan sadar dirinya NPD —';
+  var L2='kadang kita perlu merefleksikan diri kita sendiri.';
+  var ci=0, phase=1;
+  function tick(){
+    if(phase===1){ ci++; el.innerHTML=L1.slice(0,ci); if(ci<L1.length) setTimeout(tick,38); else{phase=2;ci=0;setTimeout(tick,320);} }
+    else{ ci++; el.innerHTML=L1+'<br><strong style="color:var(--amber)">'+L2.slice(0,ci)+'</strong>'; if(ci<L2.length) setTimeout(tick,38); }
+  }
+  setTimeout(tick,700);
+})();
 
 </script>
 </body>
