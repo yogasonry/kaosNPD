@@ -691,7 +691,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .stock-warn{text-align:center;margin-top:12px;font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:3px;color:#e05050;text-transform:uppercase;animation:bp 1.5s infinite;}
 
 /* ─── STEP 2 ─── */
-#step2{display:none;}
+#step1{display:block;}#step2{display:none;}
 .order-card{border:2px solid var(--gold);background:rgba(61,26,8,.24);padding:16px;margin-bottom:16px;}
 @media(max-width:400px){.order-card{padding:12px;}}
 .order-num-big{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:32px;color:var(--amber);letter-spacing:4px;text-align:center;margin-bottom:2px;}
@@ -1644,12 +1644,12 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="fg" style="margin-top:4px;">
         <label class="flbl" data-i18n="lblUpload">Upload Bukti Transfer *</label>
         <div class="upload-area" id="upload-area">
-          <input type="file" id="bukti-file" accept="image/*" onchange="handleFile(this)">
+          <input type="file" id="bukti-file" accept="image/*" onchange="handleFile(this.files[0])">
           <span class="upload-icon">📸</span>
           <div class="upload-label" data-i18n="uploadLabel">TAP UNTUK PILIH FOTO</div>
           <div class="upload-sub" data-i18n="uploadSub">Screenshot bukti transfer · JPG/PNG · Maks 5MB</div>
         </div>
-        <div class="preview-wrap" id="preview-wrap">
+        <div class="preview-wrap" id="preview-wrap" style="display:none;">
           <img id="preview-img" class="preview-img" src="" alt="preview">
           <div class="preview-name" id="preview-name"></div>
           <button class="remove-btn" onclick="removeFile()">✕ HAPUS FOTO</button>
@@ -1818,7 +1818,7 @@ const COLORS = [
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────
-let selectedColor = '', selectedSize = '', imageBase64 = '', imageMime = '';
+let selectedColor = '', selectedSize = 'L', imageBase64 = '', imageMime = '';
 let orderData = {};
 let currentLang = 'id';
 
@@ -1978,16 +1978,27 @@ document.addEventListener('mousemove', moveColorPreview);
 
 renderColors();
 
+// ─── FORM INIT ────────────────────────────────────────────────────
+(function(){
+  // Ensure step1 visible, step2/3 hidden
+  var s1=document.getElementById('step1');
+  var s2=document.getElementById('step2');
+  var s3=document.getElementById('step3');
+  if(s1) s1.style.display='block';
+  if(s2) s2.style.display='none';
+  if(s3) s3.style.display='none';
+  // Initialize price display
+  updatePrice();
+})();
+
 // ─── SIZE PICKER ─────────────────────────────────────────────────
-document.querySelectorAll('.sopt').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.sopt').forEach(b => b?.classList.remove('active'));
-    this.classList.add('active');
-    selectedSize = this.dataset.size;
-    sndClick();
-    updatePrice();
-  });
-});
+function pickSize(el, size, harga) {
+  document.querySelectorAll('.sopt').forEach(b => b?.classList.remove('active'));
+  el.classList.add('active');
+  selectedSize = size;
+  sndClick();
+  updatePrice();
+}
 
 // ─── QTY ─────────────────────────────────────────────────────────
 function getQty() { return Math.max(1, Math.min(100, parseInt(document.getElementById('qty-disp')?.value)||1)); }
@@ -2005,12 +2016,18 @@ function changeQty(delta) {
   updatePrice();
 }
 function updatePrice() {
-  const size  = selectedSize || 'M';
+  const size  = selectedSize || 'L';
   const harga = ['XXL','XXXL'].indexOf(size) >= 0 ? 170000 : 150000;
   const qty   = getQty();
   const total = harga * qty;
-  const el    = document.getElementById('price-calc');
-  if (el) el.textContent = qty + ' × Rp ' + harga.toLocaleString('id-ID') + ' = Rp ' + total.toLocaleString('id-ID');
+  const _u = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  _u('t-size',  size);
+  _u('t-harga', 'Rp ' + harga.toLocaleString('id-ID'));
+  _u('t-qty',   '× ' + qty + ' pcs');
+  _u('t-total', 'Rp ' + total.toLocaleString('id-ID'));
+  // Also update price-calc if it exists
+  const pc = document.getElementById('price-calc');
+  if (pc) pc.textContent = 'Rp ' + total.toLocaleString('id-ID');
 }
 function onQtyInput(e) {
   const v = parseInt(e.value) || 1;
@@ -2038,26 +2055,31 @@ function handleFile(file) {
     const result = e.target.result;
     imageBase64 = result;
     imageMime   = file.type;
-    const prev = document.getElementById('upload-preview');
-    const lbl  = document.getElementById('upload-label-text');
-    const rmv  = document.getElementById('remove-file-btn');
-    if (prev) { prev.src = result; prev.style.display = 'block'; }
+    const prev = document.getElementById('preview-img');
+    const lbl  = document.getElementById('preview-name');
+    const rmv  = document.querySelector('.remove-btn');
+    const wrap = document.getElementById('preview-wrap');
+    const req  = document.getElementById('upload-req');
+    if (prev) { prev.src = result; }
     if (lbl)  lbl.textContent = file.name;
-    if (rmv)  rmv.style.display = 'inline-block';
+    if (wrap) wrap.style.display = 'block';
+    if (req)  req.style.display = 'none';
     toast('Foto berhasil dipilih ✅');
   };
   reader.readAsDataURL(file);
 }
 function removeFile() {
   imageBase64 = ''; imageMime = '';
-  const prev = document.getElementById('upload-preview');
-  const lbl  = document.getElementById('upload-label-text');
-  const rmv  = document.getElementById('remove-file-btn');
-  const inp  = document.getElementById('f-bukti');
-  if (prev) { prev.src = ''; prev.style.display = 'none'; }
-  if (lbl)  lbl.textContent = currentLang === 'en' ? 'TAP TO CHOOSE PHOTO' : 'TAP UNTUK PILIH FOTO';
-  if (rmv)  rmv.style.display = 'none';
+  const prev = document.getElementById('preview-img');
+  const lbl  = document.getElementById('preview-name');
+  const wrap = document.getElementById('preview-wrap');
+  const inp  = document.getElementById('bukti-file');
+  const req  = document.getElementById('upload-req');
+  if (prev) { prev.src = ''; }
+  if (lbl)  lbl.textContent = '';
+  if (wrap) wrap.style.display = 'none';
   if (inp)  inp.value = '';
+  if (req)  req.style.display = 'block';
 }
 // Drag & drop
 const uploadArea = document.getElementById('upload-area');
@@ -2100,6 +2122,7 @@ function validate() {
 
 // ─── STEP 2 ──────────────────────────────────────────────────────
 function goToStep2() {
+  try {
   if (!validate()) return;
   const cc    = document.getElementById('f-countrycode')?.value || '62';
   const phone = document.getElementById('f-phone').value.trim().replace(/^0/, '');
@@ -2121,23 +2144,35 @@ function goToStep2() {
     countryCode : cc,
   };
   // Fill order card
-  document.getElementById('r-ordernum').textContent  = orderData.orderNum;
-  document.getElementById('r-nama').textContent      = orderData.nama;
-  document.getElementById('r-warna').textContent     = orderData.warna.toUpperCase();
-  document.getElementById('r-ukuran').textContent    = orderData.ukuran;
-  document.getElementById('r-qty').textContent       = orderData.qty + ' pcs';
-  document.getElementById('r-phone').textContent     = orderData.phone;
-  document.getElementById('r-email').textContent     = orderData.email;
-  document.getElementById('r-total').textContent     = 'Rp ' + (qty * harga).toLocaleString('id-ID');
+  const _s = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  _s('r-ordernum', orderData.orderNum);
+  _s('r-nama',     orderData.nama);
+  _s('r-warna',    orderData.warna.toUpperCase());
+  _s('r-ukuran',   orderData.ukuran);
+  _s('r-size',     orderData.ukuran);
+  _s('r-qty',      orderData.qty + ' pcs');
+  _s('r-phone',    orderData.phone);
+  _s('r-email',    orderData.email);
+  _s('r-kota',     orderData.kota);
+  _s('r-harga',    'Rp ' + harga.toLocaleString('id-ID'));
+  _s('r-total',    'Rp ' + (qty * harga).toLocaleString('id-ID'));
   showStep(2);
   history.pushState({step:2}, '', '');
+  } catch(err) { console.error('goToStep2 error:', err); toast('Error: '+err.message); }
 }
 
 // ─── STEP 3 / SUBMIT ─────────────────────────────────────────────
 async function submitAll() {
-  if (!imageBase64) { toast('Upload bukti transfer dulu!'); return; }
-  const btn = document.getElementById('btn-confirm');
-  if (btn) { btn.disabled = true; btn.textContent = 'MENGIRIM...'; }
+  if (!imageBase64) {
+    const req = document.getElementById('upload-req');
+    if (req) { req.style.display='block'; req.style.color='#e87060'; }
+    toast('Upload bukti transfer dulu!');
+    return;
+  }
+  const btn = document.getElementById('btn2');
+  const btntxt = document.getElementById('btn2-txt');
+  if (btn) btn.disabled = true;
+  if (btntxt) btntxt.textContent = 'MENGIRIM...';
   try {
     await fetch(APPS_SCRIPT_URL, {
       method  : 'POST',
@@ -2146,7 +2181,8 @@ async function submitAll() {
       mode    : 'no-cors',
     });
   } catch(err) { console.log('Submit note:', err); }
-  document.getElementById('s-ordernum').textContent = orderData.orderNum;
+  const snum = document.getElementById('s-ordernum');
+  if (snum) snum.textContent = orderData.orderNum;
   updateWASummaryLink(orderData);
   setTimeout(sndSuccess, 300);
   setTimeout(launchConfetti, 400);
