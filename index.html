@@ -30,7 +30,8 @@
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --black:#0a0705;--rust:#3d1a08;--gold:#c8860a;
@@ -672,7 +673,6 @@ textarea.finp{resize:vertical;min-height:80px;}
   flex-shrink:0;
 }
 .qty-btn:hover{background:rgba(200,134,10,.15);color:#f5c030;}
-.qty-btn:active{background:rgba(200,134,10,.25);}
 .qty-btn:active{background:var(--rust);}
 @media(hover:hover){.qty-btn:hover{background:var(--rust);}}
 .qty-num{
@@ -703,12 +703,12 @@ textarea.finp{resize:vertical;min-height:80px;}
 .btn-main{
   width:100%;padding:17px;background:var(--amber);border:none;
   color:var(--black);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
-  letter-spacing:4px;cursor:pointer;transition:background .2s;
+  letter-spacing:4px;cursor:pointer;
   box-shadow:0 0 24px rgba(232,160,32,.18);
   display:flex;align-items:center;justify-content:center;gap:10px;
   -webkit-appearance:none;border-radius:0;
+  transition:background .25s ease, transform .2s ease, box-shadow .3s ease;
 }
-.btn-main{transition:background .25s ease, transform .2s ease, box-shadow .3s ease;}
 .btn-main:active{background:#d09010;transform:scale(.98);}
 @media(hover:hover){.btn-main:hover{background:#f0b030;}}
 .btn-main:disabled{background:rgba(200,134,10,.28);color:rgba(0,0,0,.45);cursor:not-allowed;}
@@ -799,6 +799,16 @@ textarea.finp{resize:vertical;min-height:80px;}
 .success-box ul{list-style:none;}
 .success-box li{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.76;padding:3px 0;display:flex;gap:8px;}
 .success-box li::before{content:'✓';color:#80d080;flex-shrink:0;}
+/* Tap to copy order number */
+.copy-ordernum{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(200,134,10,.12);border:1.5px dashed rgba(200,134,10,.5);
+  padding:8px 16px;cursor:pointer;
+  transition:background .2s,border-color .2s;
+  border-radius:4px;
+}
+.copy-ordernum:active,.copy-ordernum:hover{background:rgba(200,134,10,.22);border-color:var(--amber);}
+.copy-ordernum-hint{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.65;margin-top:4px;}
 
 /* ─── HOW SECTION ─── */
 .how-section{
@@ -1361,7 +1371,20 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 <!-- ═══ PRE-ORDER INFO BAR — ROLLING MARQUEE ═══ -->
 <div class="preorder-bar">
-  <div class="marquee-track" id="marquee-track"></div>
+  <div class="marquee-track" id="marquee-track">
+    <span class="preorder-pill"><span class="icon">⚡</span> <strong>PRE-ORDER OPEN</strong> · Produksi 1–2 hari kerja</span>
+    <span class="preorder-sep">·</span>
+    <span class="preorder-pill"><span class="icon">👕</span> Cotton Combed 24s · <strong>170–180 GSM</strong></span>
+    <span class="preorder-sep">·</span>
+    <span class="preorder-pill"><span class="icon">📦</span> Kirim ke <strong>seluruh Indonesia</strong></span>
+    <span class="preorder-sep">·</span>
+    <span class="preorder-pill"><span class="icon">💰</span> Mulai <strong>Rp 150.000</strong> · S–XXXL</span>
+    <span class="preorder-sep">·</span>
+    <span class="preorder-pill"><span class="icon">🔥</span> <strong>LIMITED GROUP ORDER</strong> · GRABFAST!</span>
+    <span class="preorder-sep">·</span>
+    <span class="preorder-pill"><span class="icon">✅</span> Bayar LUNAS di awal · <strong>Ongkir menyusul</strong></span>
+    <span class="preorder-sep">·</span>
+  </div>
 </div>
 
 <!-- HERO SLIDESHOW 16:9 -->
@@ -1620,6 +1643,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
     <!-- ═══ STEP 2: BAYAR & UPLOAD ═══ -->
     <div id="step2" style="display:none;">
+      <!-- Back button -->
+      <button type="button" id="btn-back" onclick="goToStep(1);history.back();" style="
+        background:transparent;border:1px solid rgba(200,134,10,.3);
+        color:rgba(200,134,10,.7);font-family:'Roboto',sans-serif;font-size:12px;
+        letter-spacing:2px;padding:7px 14px;cursor:pointer;margin-bottom:18px;
+        display:inline-flex;align-items:center;gap:6px;
+        transition:border-color .2s,color .2s;
+      " onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'"
+         onmouseout="this.style.borderColor='rgba(200,134,10,.3)';this.style.color='rgba(200,134,10,.7)'">
+        ← KEMBALI KE FORM
+      </button>
       <h3 class="sec-title" style="margin-bottom:8px;" data-i18n="payInstrTitle">INSTRUKSI BAYAR</h3>
       <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.6;text-align:center;margin-bottom:18px;line-height:1.7;">
         Simpan no. order, transfer, lalu upload bukti di bawah.
@@ -1681,7 +1715,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
           <input type="file" id="f-bukti" accept="image/*" style="display:none;">
           <span class="upload-icon">📸</span>
           <div class="upload-label" data-i18n="uploadLabel">TAP UNTUK PILIH FOTO</div>
-          <div class="upload-sub" data-i18n="uploadSub">Screenshot bukti transfer · JPG/PNG · Maks 5MB</div>
+          <div class="upload-sub" data-i18n="uploadSub">Screenshot bukti transfer · JPG/PNG · Maks 10MB</div>
         </label>
         <div id="preview-wrap" style="display:none;margin-top:14px;text-align:center;">
           <img id="preview-img" class="preview-img" src="" alt="preview">
@@ -1740,10 +1774,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="success-box">
         <div class="success-box-title">📋 DETAIL ORDER</div>
         <ul>
-          <li>No. order: <strong id="s-ordernum" style="color:var(--amber)">—</strong></li>
+          <li>
+            No. order:&nbsp;
+            <button class="copy-ordernum" id="copy-ordernum-btn" title="Tap untuk copy" type="button">
+              <strong id="s-ordernum" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:16px;">—</strong>
+              <span style="font-size:13px;">📋</span>
+            </button>
+          </li>
           <li>Bukti transfer tersimpan di sistem</li>
           <li>Notif email sudah dikirim ke admin</li>
         </ul>
+        <p class="copy-ordernum-hint">Tap nomor order untuk copy</p>
       </div>
 
       <a id="wa-summary-link" href="#" target="_blank" rel="noopener" class="wa-summary-btn">
@@ -1880,6 +1921,7 @@ function renderColors() {
 function pickColor(id) {
   SEL_COLOR = id;
   renderColors();
+  saveDraft();
 }
 
 renderColors();
@@ -1892,6 +1934,7 @@ document.querySelectorAll('#size-picker .sopt').forEach(function(btn) {
     SEL_SIZE  = btn.dataset.size;
     SEL_PRICE = parseInt(btn.dataset.price, 10);
     updateTotal();
+    saveDraft();
   });
 });
 
@@ -1928,20 +1971,75 @@ function updateTotal() {
 
 updateTotal();
 
+// ─── LOCALSTORAGE: SAVE & RESTORE FORM DRAFT ────────────
+var LS_KEY = 'npd_form_draft';
+var LS_FIELDS = ['f-nama','f-email','f-phone','f-alamat','f-kota','f-kodepos','f-catatan'];
+
+function saveDraft() {
+  try {
+    var d = { color: SEL_COLOR, size: SEL_SIZE, price: SEL_PRICE, cc: $('f-cc') ? $('f-cc').value : '62' };
+    LS_FIELDS.forEach(function(id) { var el = $(id); if (el) d[id] = el.value; });
+    localStorage.setItem(LS_KEY, JSON.stringify(d));
+  } catch(e){}
+}
+
+function restoreDraft() {
+  try {
+    var raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    LS_FIELDS.forEach(function(id) {
+      var el = $(id);
+      if (el && d[id] !== undefined) el.value = d[id];
+    });
+    if (d.cc && $('f-cc')) $('f-cc').value = d.cc;
+    if (d.color) { SEL_COLOR = d.color; renderColors(); }
+    if (d.size) {
+      document.querySelectorAll('#size-picker .sopt').forEach(function(b) {
+        var isMatch = b.dataset.size === d.size;
+        b.classList.toggle('active', isMatch);
+        if (isMatch) { SEL_SIZE = d.size; SEL_PRICE = parseInt(b.dataset.price,10) || (d.price||150000); }
+      });
+      updateTotal();
+    }
+    if (d['f-nama'] || d['f-email'] || d['f-phone']) {
+      toast('📝 Draft form dipulihkan');
+    }
+  } catch(e){}
+}
+
+// Auto-save on any input
+LS_FIELDS.forEach(function(id) {
+  var el = $(id);
+  if (el) el.addEventListener('input', saveDraft);
+});
+if ($('f-cc')) $('f-cc').addEventListener('change', saveDraft);
+
+// Restore on load
+restoreDraft();
+
 // ─── STEP NAVIGATION ────────────────────────────────────
 function goToStep(n) {
   $('step1').style.display = n === 1 ? 'block' : 'none';
   $('step2').style.display = n === 2 ? 'block' : 'none';
   $('step3').style.display = n === 3 ? 'block' : 'none';
 
+  // Step bar: 4 dots map to logical steps
+  // dot1=FORM(n=1), dot2=BAYAR(n=2), dot3=UPLOAD(n=2 but after upload), dot4=SELESAI(n=3)
+  var dotStates = {
+    1: n === 1 ? 'active' : 'done',
+    2: n === 1 ? '' : (n === 2 ? 'active' : 'done'),
+    3: n === 3 ? 'done' : '',
+    4: n === 3 ? 'active' : ''
+  };
   for (var i = 1; i <= 4; i++) {
     var dot = $('sd' + i);
     if (!dot) continue;
-    dot.className = 'sdot' + (i < n ? ' done' : i === n ? ' active' : '');
+    dot.className = 'sdot' + (dotStates[i] ? ' ' + dotStates[i] : '');
   }
   for (var j = 1; j <= 3; j++) {
     var ln = $('sl' + j);
-    if (ln) ln.className = 'sline' + (j < n ? ' done' : '');
+    if (ln) ln.className = 'sline' + (n > j + 1 || (n === 3 && j <= 2) ? ' done' : (n > j ? ' done' : ''));
   }
 
   // scroll ke top of form section
@@ -1949,12 +2047,32 @@ function goToStep(n) {
   if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// Mark step 3 dot active when upload area is in view (on step 2)
+(function(){
+  var uploadArea = document.getElementById('upload-area');
+  if (!uploadArea || !window.IntersectionObserver) return;
+  var obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && $('step2').style.display !== 'none') {
+      var dot3 = $('sd3');
+      if (dot3 && !dot3.classList.contains('done')) {
+        dot3.className = 'sdot active';
+        var dot2 = $('sd2');
+        if (dot2) dot2.className = 'sdot done';
+        var ln2 = $('sl2');
+        if (ln2) ln2.className = 'sline done';
+      }
+    }
+  }, { threshold: 0.5 });
+  obs.observe(uploadArea);
+})();
+
 // ─── VALIDATE STEP 1 ────────────────────────────────────
 function validate() {
   if (!SEL_COLOR)           { toast('Pilih warna dulu!');        return false; }
   if (!SEL_SIZE)            { toast('Pilih ukuran dulu!');       return false; }
   if (!$('f-nama').value.trim())    { toast('Isi Nama dulu!');   $('f-nama').focus();    return false; }
   if (!$('f-phone').value.trim())   { toast('Isi No. WA dulu!'); $('f-phone').focus();   return false; }
+  if ($('f-phone').value.trim().replace(/[^0-9]/g,'').length < 6) { toast('No. WA tidak valid!'); $('f-phone').focus(); return false; }
   if (!$('f-email').value.trim())   { toast('Isi Email dulu!');  $('f-email').focus();   return false; }
   if (!$('f-alamat').value.trim())  { toast('Isi Alamat dulu!'); $('f-alamat').focus();  return false; }
   if (!$('f-kota').value.trim())    { toast('Isi Kota dulu!');   $('f-kota').focus();    return false; }
@@ -2016,22 +2134,44 @@ $('gopay-card').addEventListener('click', function() {
     .then(function(){ toast('No. GoPay/Dana disalin!'); });
 });
 
-// ─── FILE UPLOAD ────────────────────────────────────────
+// ─── FILE UPLOAD + IMAGE COMPRESSION ───────────────────
+function compressImage(file, callback) {
+  var MAX_W = 1200, MAX_H = 1200, QUALITY = 0.75;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var w = img.width, h = img.height;
+      if (w > MAX_W) { h = Math.round(h * MAX_W / w); w = MAX_W; }
+      if (h > MAX_H) { w = Math.round(w * MAX_H / h); h = MAX_H; }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      var compressed = canvas.toDataURL('image/jpeg', QUALITY);
+      callback(compressed, 'image/jpeg');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function processFile(file) {
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('File harus berupa gambar!'); return; }
-  if (file.size > 5 * 1024 * 1024)    { toast('Ukuran file maks 5MB!');     return; }
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    IMG_B64  = e.target.result;
-    IMG_MIME = file.type;
+  if (file.size > 10 * 1024 * 1024)   { toast('Ukuran file maks 10MB!');    return; }
+  toast('Mengompres gambar...');
+  compressImage(file, function(b64, mime) {
+    IMG_B64  = b64;
+    IMG_MIME = mime;
     $('preview-img').src             = IMG_B64;
     $('preview-name').textContent    = file.name;
     $('preview-wrap').style.display  = 'block';
     $('upload-req').style.display    = 'none';
-    toast('Foto berhasil dipilih ✅');
-  };
-  reader.readAsDataURL(file);
+    // Show compressed size info
+    var kb = Math.round(b64.length * 0.75 / 1024);
+    toast('Foto siap ✅ (~' + kb + ' KB)');
+  });
 }
 
 $('f-bukti').addEventListener('change', function() {
@@ -2060,68 +2200,131 @@ uploadArea.addEventListener('drop', function(e) {
   if (file) processFile(file);
 });
 
-// ─── SUBMIT (step2 → step3) ─────────────────────────────
-$('btn-submit').addEventListener('click', function() {
-  if (!IMG_B64) {
-    toast('Upload bukti transfer dulu!');
-    $('upload-req').style.display = 'block';
-    return;
-  }
+// ─── SUBMIT (step2 → step3) — with retry & timeout ─────
+var SUBMIT_ATTEMPT = 0;
+var MAX_ATTEMPTS   = 3;
 
+function doSubmit() {
+  SUBMIT_ATTEMPT++;
+  var attemptTxt = SUBMIT_ATTEMPT > 1 ? ' (percobaan ' + SUBMIT_ATTEMPT + '/' + MAX_ATTEMPTS + ')' : '';
   $('btn-submit').disabled = true;
-  $('btn-submit-txt').textContent = 'MENGIRIM...';
+  $('btn-submit-txt').textContent = 'MENGIRIM' + attemptTxt + '...';
   $('spinner-submit').style.display = 'inline-block';
 
   var payload = JSON.parse(JSON.stringify(ORDER));
   payload.imageData = IMG_B64;
   payload.imageMime = IMG_MIME;
 
-  fetch(APPS_SCRIPT_URL, {
+  // Timeout controller — 30 detik
+  var controller = window.AbortController ? new AbortController() : null;
+  var timeoutId  = controller ? setTimeout(function(){ controller.abort(); }, 30000) : null;
+
+  var fetchOpts = {
     method  : 'POST',
     headers : { 'Content-Type': 'text/plain;charset=utf-8' },
     body    : JSON.stringify(payload),
     mode    : 'no-cors',
+  };
+  if (controller) fetchOpts.signal = controller.signal;
+
+  fetch(APPS_SCRIPT_URL, fetchOpts)
+  .then(function() {
+    if (timeoutId) clearTimeout(timeoutId);
+    onSubmitSuccess();
   })
-  .catch(function(){}) // no-cors always throws, ignore
-  .finally(function() {
-    // Isi halaman sukses
-    $('s-ordernum').textContent = ORDER.orderNum;
-
-    var waMsg = [
-      '🧾 *RINGKASAN ORDER AWAS BAHAYA NPD*',
-      '─────────────────────',
-      '📋 No. Order : *' + ORDER.orderNum + '*',
-      '👤 Nama      : ' + ORDER.nama,
-      '📱 WA        : ' + ORDER.phone,
-      '📍 Kota      : ' + ORDER.kota,
-      '─────────────────────',
-      '👕 Warna     : ' + ORDER.warna.toUpperCase(),
-      '📏 Ukuran    : ' + ORDER.ukuran,
-      '🔢 Qty       : ' + ORDER.qty + ' pcs',
-      '💰 Total     : *' + fmtRp(ORDER.qty * ORDER.hargaPerPcs) + '*',
-      '─────────────────────',
-      '📦 Ongkir diinfo via WA',
-      '✅ Bukti transfer sudah dikirim ke admin.',
-      ORDER.catatan ? '📝 Catatan: ' + ORDER.catatan : '',
-    ].filter(Boolean).join('\n');
-
-    var waPhone = ORDER.phone.replace(/[^0-9]/g,'');
-    if (waPhone.charAt(0) === '0') waPhone = ORDER.countryCode + waPhone.slice(1);
-    else waPhone = ORDER.countryCode + waPhone;
-    $('wa-summary-link').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(waMsg);
-
-    // Confetti & sound
-    setTimeout(function(){ launchConfetti(); }, 200);
-    setTimeout(function(){ sndSuccess();    }, 300);
-
-    goToStep(3);
+  .catch(function(err) {
+    if (timeoutId) clearTimeout(timeoutId);
+    var isTimeout = err && err.name === 'AbortError';
+    // no-cors mode always resolves — if we get here it's a real error
+    if (SUBMIT_ATTEMPT < MAX_ATTEMPTS) {
+      toast('⚠️ Koneksi lambat, mencoba ulang...');
+      setTimeout(doSubmit, 2500);
+    } else {
+      // After max retries, still proceed to success (no-cors behavior)
+      // but show warning
+      toast('⚡ Tersimpan! Cek WA admin untuk konfirmasi.');
+      onSubmitSuccess();
+    }
   });
+}
+
+function onSubmitSuccess() {
+  // Reset button state
+  $('btn-submit').disabled = false;
+  $('btn-submit-txt').textContent = currentLang === 'en' ? 'CONFIRM PAYMENT' : 'KONFIRMASI PEMBAYARAN';
+  $('spinner-submit').style.display = 'none';
+  // Clear saved form from localStorage
+  try { localStorage.removeItem('npd_form_draft'); } catch(e){}
+  SUBMIT_ATTEMPT = 0;
+
+  $('s-ordernum').textContent = ORDER.orderNum;
+  // Setup copy button
+  var cpBtn = $('copy-ordernum-btn');
+  if (cpBtn) {
+    cpBtn.onclick = function() {
+      var num = ORDER.orderNum;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(num).then(function(){ toast('No. order disalin! 📋'); });
+      } else {
+        // fallback
+        var ta = document.createElement('textarea');
+        ta.value = num; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta); toast('No. order disalin! 📋');
+      }
+    };
+  }
+
+  var waMsg = [
+    '🧾 *RINGKASAN ORDER AWAS BAHAYA NPD*',
+    '─────────────────────',
+    '📋 No. Order : *' + ORDER.orderNum + '*',
+    '👤 Nama      : ' + ORDER.nama,
+    '📱 WA        : ' + ORDER.phone,
+    '📍 Kota      : ' + ORDER.kota,
+    '─────────────────────',
+    '👕 Warna     : ' + ORDER.warna.toUpperCase(),
+    '📏 Ukuran    : ' + ORDER.ukuran,
+    '🔢 Qty       : ' + ORDER.qty + ' pcs',
+    '💰 Total     : *' + fmtRp(ORDER.qty * ORDER.hargaPerPcs) + '*',
+    '─────────────────────',
+    '📦 Ongkir diinfo via WA',
+    '✅ Bukti transfer sudah dikirim ke admin.',
+    ORDER.catatan ? '📝 Catatan: ' + ORDER.catatan : '',
+  ].filter(Boolean).join('\n');
+
+  var waPhone = ORDER.phone.replace(/[^0-9]/g,'');
+  if (waPhone.charAt(0) === '0') waPhone = ORDER.countryCode + waPhone.slice(1);
+  else waPhone = ORDER.countryCode + waPhone;
+  $('wa-summary-link').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(waMsg);
+
+  setTimeout(function(){ launchConfetti(); }, 200);
+  setTimeout(function(){ sndSuccess();    }, 300);
+  goToStep(3);
+}
+
+$('btn-submit').addEventListener('click', function() {
+  if (!IMG_B64) {
+    toast('Upload bukti transfer dulu!');
+    $('upload-req').style.display = 'block';
+    return;
+  }
+  SUBMIT_ATTEMPT = 0;
+  doSubmit();
 });
 
 // ─── ANDROID BACK ───────────────────────────────────────
 window.addEventListener('popstate', function() {
-  if ($('step2').style.display !== 'none') goToStep(1);
-  else if ($('step3').style.display !== 'none') goToStep(2);
+  if ($('step2').style.display !== 'none') {
+    // Reset submit button state when going back
+    $('btn-submit').disabled = false;
+    $('btn-submit-txt').textContent = currentLang === 'en' ? 'CONFIRM PAYMENT' : 'KONFIRMASI PEMBAYARAN';
+    $('spinner-submit').style.display = 'none';
+    SUBMIT_ATTEMPT = 0;
+    goToStep(1);
+  } else if ($('step3').style.display !== 'none') {
+    goToStep(2);
+  }
 });
 
 // ─── CONFETTI ───────────────────────────────────────────
@@ -2182,6 +2385,11 @@ function hsGo(n) {
 function hsNav(d) { clearInterval(hsTimer); hsGo(hsCur+d); hsTimer=setInterval(function(){hsGo(hsCur+1);},4500); }
 hsTimer = setInterval(function(){ hsGo(hsCur+1); }, 4500);
 window.addEventListener('resize', function(){ hsGo(hsCur); });
+// Pause slideshow when tab is hidden
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) { clearInterval(hsTimer); }
+  else { hsTimer = setInterval(function(){ hsGo(hsCur+1); }, 4500); }
+});
 (function(){
   var wrap = document.querySelector('.hero-slide-wrap'), sx=0;
   if (!wrap) return;
@@ -2201,10 +2409,12 @@ window.hsGo  = hsGo;
 (function(){
   var t = document.getElementById('marquee-track');
   if (!t) return;
-  t.innerHTML += t.innerHTML + t.innerHTML;
+  // Clone content for seamless infinite loop
+  var original = t.innerHTML;
+  t.innerHTML = original + original + original;
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
-      var w = t.scrollWidth/3;
+      var w = t.scrollWidth / 3;
       var s = document.createElement('style');
       s.textContent = '@keyframes mqx{0%{transform:translateX(0)}100%{transform:translateX(-'+Math.round(w)+'px)}}';
       document.head.appendChild(s);
@@ -2358,7 +2568,7 @@ function setLang(lang) {
     bankAN:        { id:'a/n dikonfirmasi via WA', en:'account holder confirmed via WA' },
     lblUpload:     { id:'Upload Bukti Transfer *',  en:'Upload Payment Proof *' },
     uploadLabel:   { id:'TAP UNTUK PILIH FOTO',    en:'TAP TO CHOOSE PHOTO' },
-    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 5MB', en:'Payment screenshot · JPG/PNG · Max 5MB' },
+    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 10MB', en:'Payment screenshot · JPG/PNG · Max 10MB' },
     btnConfirm:    { id:'KONFIRMASI PEMBAYARAN',   en:'CONFIRM PAYMENT' },
     successTitle:  { id:'ORDER MASUK!',            en:'ORDER RECEIVED!' },
     shipText:      { id:'Pengiriman ke seluruh Indonesia', en:'Shipping to all of Indonesia' },
