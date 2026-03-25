@@ -810,6 +810,21 @@ textarea.finp{resize:vertical;min-height:80px;}
 .copy-ordernum:active,.copy-ordernum:hover{background:rgba(200,134,10,.22);border-color:var(--amber);}
 .copy-ordernum-hint{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.65;margin-top:4px;}
 
+/* ─── BACK BUTTON (Step 2) ─── */
+.btn-back-form{
+  background:transparent;
+  border:1px solid rgba(200,134,10,.3);
+  color:rgba(200,134,10,.7);
+  font-family:'Roboto',sans-serif;font-size:12px;
+  letter-spacing:2px;padding:7px 14px;cursor:pointer;
+  margin-bottom:18px;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:border-color .2s,color .2s;
+}
+.btn-back-form:hover,.btn-back-form:active{
+  border-color:var(--amber);color:var(--amber);
+}
+
 /* ─── HOW SECTION ─── */
 .how-section{
   padding:48px 10px;
@@ -1365,26 +1380,13 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   </div>
   <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl" id="hero-hl" data-glitch="AWAS BAHAYA NPD." data-i18n="heroHl"><span class="glitch" data-text="AWAS BAHAYA">AWAS BAHAYA</span> <em class="glitch" data-text="NPD." style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
-  <p class="hero-desc" data-i18n="heroDesc"><span id="tw-text"></span><em class="typewriter-cursor">|</em></p>
+  <p class="hero-desc"><span id="tw-text"></span><em class="typewriter-cursor">|</em></p>
   <div style="height:14px"></div>
 </header>
 
 <!-- ═══ PRE-ORDER INFO BAR — ROLLING MARQUEE ═══ -->
 <div class="preorder-bar">
-  <div class="marquee-track" id="marquee-track">
-    <span class="preorder-pill"><span class="icon">⚡</span> <strong>PRE-ORDER OPEN</strong> · Produksi 1–2 hari kerja</span>
-    <span class="preorder-sep">·</span>
-    <span class="preorder-pill"><span class="icon">👕</span> Cotton Combed 24s · <strong>170–180 GSM</strong></span>
-    <span class="preorder-sep">·</span>
-    <span class="preorder-pill"><span class="icon">📦</span> Kirim ke <strong>seluruh Indonesia</strong></span>
-    <span class="preorder-sep">·</span>
-    <span class="preorder-pill"><span class="icon">💰</span> Mulai <strong>Rp 150.000</strong> · S–XXXL</span>
-    <span class="preorder-sep">·</span>
-    <span class="preorder-pill"><span class="icon">🔥</span> <strong>LIMITED GROUP ORDER</strong> · GRABFAST!</span>
-    <span class="preorder-sep">·</span>
-    <span class="preorder-pill"><span class="icon">✅</span> Bayar LUNAS di awal · <strong>Ongkir menyusul</strong></span>
-    <span class="preorder-sep">·</span>
-  </div>
+  <div class="marquee-track" id="marquee-track"></div>
 </div>
 
 <!-- HERO SLIDESHOW 16:9 -->
@@ -1406,16 +1408,28 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
            alt="AWAS BAHAYA NPD — Poster 4" loading="lazy">
     </div>
+    <!-- ═══ HERO SLIDE 5 — ganti URL di sini ═══ -->
+    <div class="hero-slide">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
+           alt="AWAS BAHAYA NPD — Poster 5" loading="lazy" id="hero-slide-5">
+    </div>
+    <!-- ═══ HERO SLIDE 6 — ganti URL di sini ═══ -->
+    <div class="hero-slide">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
+           alt="AWAS BAHAYA NPD — Poster 6" loading="lazy" id="hero-slide-6">
+    </div>
   </div>
-  <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Sebelumnya">&#8249;</button>
-  <button class="hs-btn hs-next" onclick="hsNav(1)" aria-label="Berikutnya">&#8250;</button>
+  <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Previous">&#8249;</button>
+  <button class="hs-btn hs-next" onclick="hsNav(1)" aria-label="Next">&#8250;</button>
   <div class="hs-dots">
     <button class="hs-dot active" onclick="hsGo(0)" aria-label="Slide 1"></button>
     <button class="hs-dot" onclick="hsGo(1)" aria-label="Slide 2"></button>
     <button class="hs-dot" onclick="hsGo(2)" aria-label="Slide 3"></button>
     <button class="hs-dot" onclick="hsGo(3)" aria-label="Slide 4"></button>
+    <button class="hs-dot" onclick="hsGo(4)" aria-label="Slide 5"></button>
+    <button class="hs-dot" onclick="hsGo(5)" aria-label="Slide 6"></button>
   </div>
-  <div class="hs-counter" id="hs-counter">1 / 4</div>
+  <div class="hs-counter" id="hs-counter">1 / 6</div>
 </div>
 
 <!-- PRODUCT INFO -->
@@ -1423,7 +1437,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="pi-left">
     <div class="warning-badge sr sr-left sr-delay1" data-i18n="warningBadge">⚡ AWAS BAHAYA NPD</div>
     <h2 class="product-title" id="product-title">NASKLENG<span>PERSONALITY DISORDER</span></h2>
-    <div class="material-tag sr sr-left sr-delay3">Cotton Combed 24s · 170–180 GSM<br>100% Cotton</div>
+    <div class="material-tag sr sr-left sr-delay3" data-i18n="materialTag">Cotton Combed 24s · 170–180 GSM<br>100% Cotton</div>
   </div>
   <div class="pi-right">
     <ul class="sym-list">
@@ -1450,7 +1464,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     </div>
   </div>
   <p class="price-note" data-i18n="priceNote"><strong>Harga per pcs</strong> · belum termasuk ongkos kirim</p>
-  <p class="price-note" style="margin-top:4px;font-size:11px;">Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing</p>
+  <p class="price-note" style="margin-top:4px;font-size:11px;" data-i18n="priceLblExtra">Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing</p>
 
   <!-- Indonesia Shipping Only -->
   <div class="shipping-badge" data-i18n-id="shippingBadge" data-i18n-en="shippingBadgeEn">
@@ -1502,15 +1516,15 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 <!-- SIZE CHART -->
 <section class="size-section sr sr-up">
-  <h3 class="sec-title">SIZE CHART</h3>
+  <h3 class="sec-title" data-i18n="sizeChartTitle">SIZE CHART</h3>
   <p class="sec-note" data-i18n="sizeNote">Cotton Combed 24s · ukuran dalam cm</p>
   <div class="size-section-card">
     <table class="chart-tbl">
       <thead><tr>
-        <th>Ukuran</th>
-        <th>Lebar<span class="unit">cm</span></th>
-        <th>Panjang<span class="unit">cm</span></th>
-        <th>Harga</th>
+        <th data-i18n="thUkuran">Ukuran</th>
+        <th><span data-i18n="thLebar">Lebar</span><span class="unit">cm</span></th>
+        <th><span data-i18n="thPanjang">Panjang</span><span class="unit">cm</span></th>
+        <th data-i18n="thHarga">Harga</th>
       </tr></thead>
       <tbody>
         <tr><td>S</td><td>45</td><td>65</td><td class="pc">150K</td></tr>
@@ -1521,7 +1535,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <tr><td>XXXL</td><td>60</td><td>80</td><td class="pc sp">170K</td></tr>
       </tbody>
     </table>
-    <p class="chart-note">Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.</p>
+    <p class="chart-note" data-i18n="chartNote">Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.</p>
   </div>
 </section>
 
@@ -1567,7 +1581,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="fg">
         <label class="flbl" for="f-email" data-i18n="lblEmail">Email *</label>
         <input class="finp" type="email" id="f-email" placeholder="email@kamu.com" inputmode="email" autocapitalize="none">
-        <div style="font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;">Untuk konfirmasi order otomatis</div>
+        <div style="font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;" data-i18n="emailHint">Untuk konfirmasi order otomatis</div>
       </div>
 
       <div class="fg">
@@ -1603,7 +1617,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="fg">
         <label class="flbl" data-i18n="lblWarna">Pilih Warna *</label>
         <div id="color-picker"></div>
-        <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;">
+        <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;" data-i18n="colorNote">
           ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
         </p>
       </div>
@@ -1627,9 +1641,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
       <!-- Total Box -->
       <div class="total-box">
-        <div class="trow"><span class="tkey">Ukuran</span><span class="tval" id="t-size">S</span></div>
-        <div class="trow"><span class="tkey">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
-        <div class="trow"><span class="tkey">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
+        <div class="trow"><span class="tkey" data-i18n="totalSize">Ukuran</span><span class="tval" id="t-size">S</span></div>
+        <div class="trow"><span class="tkey" data-i18n="totalHarga">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
+        <div class="trow"><span class="tkey" data-i18n="totalQty">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
         <hr class="tdiv">
         <div class="tbig" id="t-total">Rp 150.000</div>
         <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKOS KIRIM</div>
@@ -1644,67 +1658,60 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <!-- ═══ STEP 2: BAYAR & UPLOAD ═══ -->
     <div id="step2" style="display:none;">
       <!-- Back button -->
-      <button type="button" id="btn-back" onclick="goToStep(1);history.back();" style="
-        background:transparent;border:1px solid rgba(200,134,10,.3);
-        color:rgba(200,134,10,.7);font-family:'Roboto',sans-serif;font-size:12px;
-        letter-spacing:2px;padding:7px 14px;cursor:pointer;margin-bottom:18px;
-        display:inline-flex;align-items:center;gap:6px;
-        transition:border-color .2s,color .2s;
-      " onmouseover="this.style.borderColor='var(--amber)';this.style.color='var(--amber)'"
-         onmouseout="this.style.borderColor='rgba(200,134,10,.3)';this.style.color='rgba(200,134,10,.7)'">
-        ← KEMBALI KE FORM
+      <button type="button" id="btn-back" onclick="goToStep(1);history.back();" class="btn-back-form">
+        ← <span data-i18n="backToForm">KEMBALI KE FORM</span>
       </button>
       <h3 class="sec-title" style="margin-bottom:8px;" data-i18n="payInstrTitle">INSTRUKSI BAYAR</h3>
-      <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.6;text-align:center;margin-bottom:18px;line-height:1.7;">
+      <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.6;text-align:center;margin-bottom:18px;line-height:1.7;" data-i18n="step2Subtitle">
         Simpan no. order, transfer, lalu upload bukti di bawah.
       </p>
 
       <!-- Order Card -->
       <div class="order-card">
-        <p style="font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-align:center;margin-bottom:4px;">NO. ORDER</p>
+        <p style="font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-align:center;margin-bottom:4px;" data-i18n="orderNumLabel">NO. ORDER</p>
         <div class="order-num-big" id="r-ordernum">NPD-000000</div>
         <hr class="tdiv" style="margin:12px 0;">
-        <div class="orow"><span class="okey">Nama</span><span class="oval" id="r-nama">—</span></div>
-        <div class="orow"><span class="okey">No WA</span><span class="oval" id="r-phone">—</span></div>
+        <div class="orow"><span class="okey" data-i18n="oNama">Nama</span><span class="oval" id="r-nama">—</span></div>
+        <div class="orow"><span class="okey" data-i18n="oWA">No WA</span><span class="oval" id="r-phone">—</span></div>
         <div class="orow"><span class="okey">Email</span><span class="oval" id="r-email">—</span></div>
-        <div class="orow"><span class="okey">Warna</span><span class="oval" id="r-warna">—</span></div>
-        <div class="orow"><span class="okey">Ukuran</span><span class="oval" id="r-ukuran">—</span></div>
+        <div class="orow"><span class="okey" data-i18n="oWarna">Warna</span><span class="oval" id="r-warna">—</span></div>
+        <div class="orow"><span class="okey" data-i18n="oUkuran">Ukuran</span><span class="oval" id="r-ukuran">—</span></div>
         <div class="orow"><span class="okey">Qty</span><span class="oval" id="r-qty">—</span></div>
-        <div class="orow"><span class="okey">Kota</span><span class="oval" id="r-kota">—</span></div>
-        <div class="orow"><span class="okey">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
+        <div class="orow"><span class="okey" data-i18n="oKota">Kota</span><span class="oval" id="r-kota">—</span></div>
+        <div class="orow"><span class="okey" data-i18n="oHarga">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
         <div class="orow" style="margin-top:6px;">
-          <span class="okey" style="color:var(--amber)">TOTAL</span>
+          <span class="okey" style="color:var(--amber)" data-i18n="oTotal">TOTAL</span>
           <span class="oval" id="r-total" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:20px;">—</span>
         </div>
         <div class="orow">
-          <span class="okey">Ongkir</span>
-          <span class="oval" style="font-size:12px;opacity:.45;">Diinfo via WA setelah GO closing</span>
+          <span class="okey" data-i18n="oOngkir">Ongkir</span>
+          <span class="oval" style="font-size:12px;opacity:.45;" data-i18n="oOngkirVal">Diinfo via WA setelah GO closing</span>
         </div>
       </div>
 
       <!-- Payment info -->
       <div class="pay-box">
         <div class="pay-title" data-i18n="payTitle">💸 TRANSFER KE</div>
-        <p class="pay-desc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
+        <p class="pay-desc" data-i18n="payDesc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
 
         <div class="bank-card" id="bca-card">
           <div class="bank-name-lbl">🏦 BANK BCA</div>
           <div class="bank-num">7730320901</div>
-          <div class="bank-an">a/n dikonfirmasi via WA</div>
-          <div class="bank-copy">⚡ TAP UNTUK COPY NOMOR REKENING</div>
+          <div class="bank-an" data-i18n="bankAN">a/n dikonfirmasi via WA</div>
+          <div class="bank-copy" data-i18n="bcaCopy">⚡ TAP UNTUK COPY NOMOR REKENING</div>
         </div>
 
         <div style="display:flex;align-items:center;gap:10px;margin:10px 0;">
           <div style="flex:1;height:1px;background:rgba(200,134,10,.2);"></div>
-          <span style="font-family:'Roboto',sans-serif;font-size:11px;color:var(--gold);opacity:.6;letter-spacing:2px;">ATAU</span>
+          <span style="font-family:'Roboto',sans-serif;font-size:11px;color:var(--gold);opacity:.6;letter-spacing:2px;" data-i18n="orLabel">ATAU</span>
           <div style="flex:1;height:1px;background:rgba(200,134,10,.2);"></div>
         </div>
 
         <div class="bank-card" id="gopay-card">
           <div class="bank-name-lbl">📱 GOPAY / DANA</div>
           <div class="bank-num">0812-3686-9035</div>
-          <div class="bank-an">a/n dikonfirmasi via WA</div>
-          <div class="bank-copy">⚡ TAP UNTUK COPY NOMOR</div>
+          <div class="bank-an" data-i18n="bankAN">a/n dikonfirmasi via WA</div>
+          <div class="bank-copy" data-i18n="gopayCopy">⚡ TAP UNTUK COPY NOMOR</div>
         </div>
       </div>
 
@@ -1720,16 +1727,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <div id="preview-wrap" style="display:none;margin-top:14px;text-align:center;">
           <img id="preview-img" class="preview-img" src="" alt="preview">
           <div id="preview-name" class="preview-name"></div>
-          <button type="button" id="btn-remove" class="remove-btn">✕ HAPUS FOTO</button>
+          <button type="button" id="btn-remove" class="remove-btn" data-i18n="removeBtn">✕ HAPUS FOTO</button>
         </div>
-        <p id="upload-req" style="display:none;font-family:'Roboto',sans-serif;font-size:12px;color:var(--red);text-align:center;margin-top:8px;">⚡ Upload bukti transfer dulu ya!</p>
+        <p id="upload-req" style="display:none;font-family:'Roboto',sans-serif;font-size:12px;color:var(--red);text-align:center;margin-top:8px;" data-i18n="uploadReq">⚡ Upload bukti transfer dulu ya!</p>
       </div>
 
       <button class="btn-main" id="btn-submit" type="button" style="margin-top:18px;">
         <span id="btn-submit-txt" data-i18n="btnConfirm">KONFIRMASI PEMBAYARAN</span>
         <div class="spinner" id="spinner-submit" style="display:none;"></div>
       </button>
-      <p style="font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.6;text-align:center;margin-top:10px;letter-spacing:2px;">
+      <p style="font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.6;text-align:center;margin-top:10px;letter-spacing:2px;" data-i18n="adminVerif">
         Admin verifikasi dalam 1×24 jam
       </p>
     </div><!-- end step2 -->
@@ -1738,61 +1745,61 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <div id="step3" style="display:none;text-align:center;padding:12px 0;">
       <span class="success-icon">✅</span>
       <div class="success-title" data-i18n="successTitle">ORDER MASUK!</div>
-      <p class="success-msg">Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.</p>
+      <p class="success-msg" data-i18n="successMsg">Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.</p>
 
       <div style="margin-bottom:20px;">
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(45,106,45,.15);border:1px solid #3a9a3a;margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">✅</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;">BUKTI TRANSFER DITERIMA</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;">Data & foto bukti tersimpan di sistem admin</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;" data-i18n="s3t1">BUKTI TRANSFER DITERIMA</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="s3d1">Data & foto bukti tersimpan di sistem admin</div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.4);margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">🔍</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--amber);">ADMIN SEDANG CEK PEMBAYARAN</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--amber);" data-i18n="s3t2">ADMIN SEDANG CEK PEMBAYARAN</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="s3d2">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);margin-bottom:8px;">
           <span style="font-size:20px;flex-shrink:0;">📱</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;">NOTIF WA JIKA TERKONFIRMASI</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;">Kamu akan dapat WA saat pembayaran terkonfirmasi</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="s3t3">NOTIF WA JIKA TERKONFIRMASI</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="s3d3">Kamu akan dapat WA saat pembayaran terkonfirmasi</div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);">
           <span style="font-size:20px;flex-shrink:0;">🏭</span>
           <div style="text-align:left;">
-            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;">PRODUKSI 1–2 HARI KERJA</div>
-            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;">Dimulai setelah pembayaran terkonfirmasi</div>
+            <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="s3t4">PRODUKSI 1–2 HARI KERJA</div>
+            <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="s3d4">Dimulai setelah pembayaran terkonfirmasi</div>
           </div>
         </div>
       </div>
 
       <div class="success-box">
-        <div class="success-box-title">📋 DETAIL ORDER</div>
+        <div class="success-box-title" data-i18n="detailOrderTitle">📋 DETAIL ORDER</div>
         <ul>
           <li>
-            No. order:&nbsp;
+            <span data-i18n="orderNumPrefix">No. order:</span>&nbsp;
             <button class="copy-ordernum" id="copy-ordernum-btn" title="Tap untuk copy" type="button">
               <strong id="s-ordernum" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:16px;">—</strong>
               <span style="font-size:13px;">📋</span>
             </button>
           </li>
-          <li>Bukti transfer tersimpan di sistem</li>
-          <li>Notif email sudah dikirim ke admin</li>
+          <li data-i18n="successLi1">Bukti transfer tersimpan di sistem</li>
+          <li data-i18n="successLi2">Notif email sudah dikirim ke admin</li>
         </ul>
-        <p class="copy-ordernum-hint">Tap nomor order untuk copy</p>
+        <p class="copy-ordernum-hint" data-i18n="copyHint">Tap nomor order untuk copy</p>
       </div>
 
       <a id="wa-summary-link" href="#" target="_blank" rel="noopener" class="wa-summary-btn">
         <svg viewBox="0 0 24 24" fill="white" style="width:22px;height:22px;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        KIRIM RINGKASAN KE WHATSAPP-KU
+        <span data-i18n="waSummaryBtn">KIRIM RINGKASAN KE WHATSAPP-KU</span>
       </a>
-      <p class="wa-summary-note">Tap untuk simpan bukti order di WhatsApp kamu</p>
-      <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.55;line-height:1.7;margin-top:16px;">
+      <p class="wa-summary-note" data-i18n="waSummaryNote">Tap untuk simpan bukti order di WhatsApp kamu</p>
+      <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.55;line-height:1.7;margin-top:16px;" data-i18n="askAdmin">
         Ada pertanyaan? Chat admin:<br>
         <a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>
       </p>
@@ -1845,10 +1852,10 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <div class="toast" id="toast"></div>
 
 <div class="wa-float">
-  <div class="wa-float-tooltip">Tanya admin via WA</div>
+  <div class="wa-float-tooltip" data-i18n="waTooltip">Tanya admin via WA</div>
   <a class="wa-float-btn" id="wa-float-btn"
      href="https://wa.me/6281236869035?text=Halo%2C%20aku%20mau%20tanya-tanya%20dulu%20soal%20kaos%20AWAS%20BAHAYA%20NPD%20boleh%3F%20%F0%9F%98%8A"
-     target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+     target="_blank" rel="noopener" aria-label="Chat via WhatsApp">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
     </svg>
@@ -1858,768 +1865,629 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <!-- BARONG LOADING SCREEN -->
 <script>
 // ═══════════════════════════════════════════════════════
-// MAIN SCRIPT — rebuilt to match new form HTML
+// MAIN SCRIPT — AWAS BAHAYA NPD
 // ═══════════════════════════════════════════════════════
 
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu5t5VqsezEVPBjREt0EqltP2W_EDzIwB-1Lh_HoWeYcpiaFEVea_pwLrDDtlbR-Yd/exec';
 
+// ─── COLORS — bilingual labels ──────────────────────────
 var COLORS = [
-  { id:'hitam',  label:'HITAM',  hex:'#111111',
+  { id:'hitam',  label:{ id:'HITAM',  en:'BLACK'  }, hex:'#111111',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png' },
-  { id:'putih',  label:'PUTIH',  hex:'#f5f5f0',
+  { id:'putih',  label:{ id:'PUTIH',  en:'WHITE'  }, hex:'#f5f5f0',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png' },
-  { id:'orange', label:'ORANGE', hex:'#e86000',
+  { id:'orange', label:{ id:'ORANGE', en:'ORANGE' }, hex:'#e86000',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png' },
 ];
 
-// ─── state ──────────────────────────────────────────────
-var SEL_COLOR = '';
-var SEL_SIZE  = 'S';
-var SEL_PRICE = 150000;
-var IMG_B64   = '';
-var IMG_MIME  = '';
-var ORDER     = {};
+// ─── GLOBAL STATE ───────────────────────────────────────
+var SEL_COLOR      = '';
+var SEL_SIZE       = 'S';
+var SEL_PRICE      = 150000;
+var IMG_B64        = '';
+var IMG_MIME       = '';
+var ORDER          = {};
+var currentLang    = 'id';
+var _pushStateDone = false;
 
-// ─── helpers ────────────────────────────────────────────
+// ─── HELPERS ────────────────────────────────────────────
 function $(id) { return document.getElementById(id); }
 
+var TOAST_MSGS = {
+  pickColor    : { id:'Pilih warna dulu!',          en:'Please choose a color first!' },
+  pickSize     : { id:'Pilih ukuran dulu!',         en:'Please choose a size first!' },
+  fillNama     : { id:'Isi Nama dulu!',             en:'Please fill in your name!' },
+  fillPhone    : { id:'Isi No. WA dulu!',           en:'Please fill in your WhatsApp number!' },
+  invalidPhone : { id:'No. WA tidak valid!',        en:'Invalid WhatsApp number!' },
+  fillEmail    : { id:'Isi Email dulu!',            en:'Please fill in your email!' },
+  fillAlamat   : { id:'Isi Alamat dulu!',           en:'Please fill in your address!' },
+  fillKota     : { id:'Isi Kota dulu!',             en:'Please fill in your city!' },
+  fillKodepos  : { id:'Isi Kode Pos!',              en:'Please fill in your postal code!' },
+  invalidEmail : { id:'Format email tidak valid!',  en:'Invalid email format!' },
+  noUpload     : { id:'Upload bukti transfer dulu!',en:'Please upload payment proof first!' },
+  compressing  : { id:'Mengompres gambar...',       en:'Compressing image...' },
+  draftRestored: { id:'📝 Draft form dipulihkan',   en:'📝 Form draft restored' },
+  retrying     : { id:'⚠️ Koneksi lambat, mencoba ulang...', en:'⚠️ Slow connection, retrying...' },
+  savedWarn    : { id:'⚡ Tersimpan! Cek WA admin untuk konfirmasi.', en:'⚡ Saved! Check WA admin to confirm.' },
+  bcaCopied    : { id:'No. BCA disalin!',           en:'BCA number copied!' },
+  gopayCopied  : { id:'No. GoPay/Dana disalin!',    en:'GoPay/Dana number copied!' },
+  orderCopied  : { id:'No. order disalin! 📋',      en:'Order number copied! 📋' },
+  notImage     : { id:'File harus berupa gambar!',  en:'File must be an image!' },
+  tooLarge     : { id:'Ukuran file maks 10MB!',     en:'File size max 10MB!' },
+  imgReady     : { id:'Foto siap ✅',               en:'Photo ready ✅' },
+};
+
+function t(key) { var m = TOAST_MSGS[key]; return m ? (m[currentLang] || m.id) : key; }
+
 function toast(msg) {
-  var t = $('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+  var el = $('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('show'); }, 2800);
 }
 
-function fmtRp(n) {
-  return 'Rp ' + Number(n).toLocaleString('id-ID');
+function fmtRp(n) { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
+
+function debounce(fn, ms) {
+  var timer;
+  return function() { clearTimeout(timer); timer = setTimeout(fn, ms); };
 }
 
-// ─── loader ─────────────────────────────────────────────
 if (window.hideLoader) window.hideLoader();
 
+// ─── MARQUEE ────────────────────────────────────────────
+var MARQUEE_PILLS = {
+  id: [
+    { icon:'⚡', text:'<strong>PRE-ORDER OPEN</strong> · Produksi 1–2 hari kerja' },
+    { icon:'👕', text:'Cotton Combed 24s · <strong>170–180 GSM</strong>' },
+    { icon:'📦', text:'Kirim ke <strong>seluruh Indonesia</strong>' },
+    { icon:'💰', text:'Mulai <strong>Rp 150.000</strong> · S–XXXL' },
+    { icon:'🔥', text:'<strong>LIMITED GROUP ORDER</strong> · GRABFAST!' },
+    { icon:'✅', text:'Bayar LUNAS di awal · <strong>Ongkir menyusul</strong>' },
+  ],
+  en: [
+    { icon:'⚡', text:'<strong>PRE-ORDER OPEN</strong> · Production 1–2 working days' },
+    { icon:'👕', text:'Cotton Combed 24s · <strong>170–180 GSM</strong>' },
+    { icon:'📦', text:'Ships to <strong>all of Indonesia</strong>' },
+    { icon:'💰', text:'Starting <strong>Rp 150,000</strong> · S–XXXL' },
+    { icon:'🔥', text:'<strong>LIMITED GROUP ORDER</strong> · GRABFAST!' },
+    { icon:'✅', text:'Full payment upfront · <strong>Shipping follows</strong>' },
+  ]
+};
+var _marqueeStyle = null;
+function buildMarquee(lang) {
+  var track = $('marquee-track');
+  if (!track) return;
+  var pills = MARQUEE_PILLS[lang] || MARQUEE_PILLS.id;
+  var html = pills.map(function(p) {
+    return '<span class="preorder-pill"><span class="icon">' + p.icon + '</span> ' + p.text + '</span><span class="preorder-sep">·</span>';
+  }).join('');
+  track.innerHTML = html + html + html;
+  track.style.animation = 'none';
+  if (_marqueeStyle && _marqueeStyle.parentNode) _marqueeStyle.parentNode.removeChild(_marqueeStyle);
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      var w = Math.round(track.scrollWidth / 3);
+      if (!w) return;
+      _marqueeStyle = document.createElement('style');
+      _marqueeStyle.textContent = '@keyframes mqx{0%{transform:translateX(0)}100%{transform:translateX(-' + w + 'px)}}';
+      document.head.appendChild(_marqueeStyle);
+      track.style.animation = 'mqx ' + (w / 55) + 's linear infinite';
+    });
+  });
+}
+
+// ─── TYPEWRITER ─────────────────────────────────────────
+var TW_TEXT = {
+  id: { L1:'Orang tidak akan sadar dirinya NPD —', L2:'kadang kita perlu merefleksikan diri kita sendiri.' },
+  en: { L1:'People rarely realize they have NPD —', L2:'sometimes we need to reflect on ourselves.' }
+};
+var _twTimer;
+function startTypewriter(lang) {
+  clearTimeout(_twTimer);
+  var el = $('tw-text'); if (!el) return;
+  var data = TW_TEXT[lang] || TW_TEXT.id;
+  el.innerHTML = '';
+  var ci = 0, phase = 1;
+  function tick() {
+    if (phase === 1) {
+      ci++; el.innerHTML = data.L1.slice(0, ci);
+      if (ci < data.L1.length) { _twTimer = setTimeout(tick, 38); }
+      else { phase = 2; ci = 0; _twTimer = setTimeout(tick, 320); }
+    } else {
+      ci++; el.innerHTML = data.L1 + '<br><strong style="color:var(--amber)">' + data.L2.slice(0, ci) + '</strong>';
+      if (ci < data.L2.length) _twTimer = setTimeout(tick, 38);
+    }
+  }
+  _twTimer = setTimeout(tick, 700);
+}
+
 // ─── COLOR PICKER ───────────────────────────────────────
+function getColorLabel(c) {
+  return (c.label && typeof c.label === 'object') ? (c.label[currentLang] || c.label.id) : c.label;
+}
 function renderColors() {
-  var wrap = $('color-picker');
-  if (!wrap) return;
+  var wrap = $('color-picker'); if (!wrap) return;
   wrap.innerHTML = COLORS.map(function(c) {
     var active = SEL_COLOR === c.id;
-    var border = c.id === 'putih'  ? 'border:1.5px solid rgba(200,134,10,.4);outline:2px solid rgba(200,134,10,.3);outline-offset:2px;' :
-               c.id === 'hitam' ? 'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);' : '';
-    return '<button type="button" class="copt' + (active ? ' active' : '') + '"'
-      + ' onclick="pickColor(\'' + c.id + '\')" aria-label="' + c.label + '">'
-      + '<span class="copt-swatch-wrap">'
-      + '<span class="copt-swatch" style="background:' + c.hex + ';' + border + '"></span>'
-      + (active ? '<span class="copt-check">✓</span>' : '')
-      + '</span>'
-      + '<span class="copt-name">' + c.label + '</span>'
-      + '</button>';
+    var label  = getColorLabel(c);
+    var sx = c.id === 'putih'
+      ? 'border:1.5px solid rgba(200,134,10,.4);outline:2px solid rgba(200,134,10,.3);outline-offset:2px;'
+      : c.id === 'hitam'
+        ? 'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);'
+        : '';
+    return '<button type="button" class="copt' + (active ? ' active' : '') + '" onclick="pickColor(\'' + c.id + '\')" aria-label="' + label + '">' +
+      '<span class="copt-swatch-wrap"><span class="copt-swatch" style="background:' + c.hex + ';' + sx + '"></span>' +
+      (active ? '<span class="copt-check">✓</span>' : '') + '</span>' +
+      '<span class="copt-name">' + label + '</span></button>';
   }).join('');
 }
-
 function pickColor(id) {
-  SEL_COLOR = id;
-  renderColors();
-  saveDraft();
+  if (!COLORS.some(function(c){ return c.id === id; })) return;
+  SEL_COLOR = id; renderColors(); saveDraft();
 }
-
-renderColors();
+window.pickColor = pickColor;
 
 // ─── SIZE PICKER ────────────────────────────────────────
 document.querySelectorAll('#size-picker .sopt').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('#size-picker .sopt').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('#size-picker .sopt').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
-    SEL_SIZE  = btn.dataset.size;
-    SEL_PRICE = parseInt(btn.dataset.price, 10);
-    updateTotal();
-    saveDraft();
+    SEL_SIZE = btn.dataset.size; SEL_PRICE = parseInt(btn.dataset.price, 10);
+    updateTotal(); saveDraft();
   });
 });
 
 // ─── QTY ────────────────────────────────────────────────
-function getQty() {
-  return Math.max(1, Math.min(100, parseInt($('f-qty').value, 10) || 1));
-}
-
-$('btn-minus').addEventListener('click', function() {
-  var q = getQty();
-  if (q > 1) { $('f-qty').value = q - 1; updateTotal(); }
-});
-
-$('btn-plus').addEventListener('click', function() {
-  var q = getQty();
-  if (q < 100) { $('f-qty').value = q + 1; updateTotal(); }
-});
-
-$('f-qty').addEventListener('input', function() {
-  var v = parseInt(this.value, 10);
-  if (!v || v < 1) this.value = 1;
-  if (v > 100)     this.value = 100;
-  updateTotal();
+function getQty() { var v = parseInt($('f-qty').value, 10); return isNaN(v) ? 1 : Math.max(1, Math.min(100, v)); }
+$('btn-minus').addEventListener('click', function(){ var q=getQty(); if(q>1){$('f-qty').value=q-1;updateTotal();saveDraft();} });
+$('btn-plus').addEventListener('click',  function(){ var q=getQty(); if(q<100){$('f-qty').value=q+1;updateTotal();saveDraft();} });
+$('f-qty').addEventListener('input', function(){
+  var v=parseInt(this.value,10); if(isNaN(v)||v<1)this.value=1; if(v>100)this.value=100; updateTotal(); saveDraft();
 });
 
 // ─── UPDATE TOTAL ───────────────────────────────────────
 function updateTotal() {
-  var qty = getQty();
-  $('t-size').textContent  = SEL_SIZE;
-  $('t-harga').textContent = fmtRp(SEL_PRICE);
-  $('t-qty').textContent   = '× ' + qty + ' pcs';
-  $('t-total').textContent = fmtRp(SEL_PRICE * qty);
+  var qty=getQty(), ts=$('t-size'), th=$('t-harga'), tq=$('t-qty'), tt=$('t-total');
+  if(ts) ts.textContent=SEL_SIZE;
+  if(th) th.textContent=fmtRp(SEL_PRICE);
+  if(tq) tq.textContent='× '+qty+' pcs';
+  if(tt) tt.textContent=fmtRp(SEL_PRICE*qty);
 }
 
-updateTotal();
-
-// ─── LOCALSTORAGE: SAVE & RESTORE FORM DRAFT ────────────
-var LS_KEY = 'npd_form_draft';
-var LS_FIELDS = ['f-nama','f-email','f-phone','f-alamat','f-kota','f-kodepos','f-catatan'];
-
-function saveDraft() {
+// ─── LOCALSTORAGE DRAFT ─────────────────────────────────
+var LS_KEY    = 'npd_form_draft';
+var LS_FIELDS = ['f-nama','f-email','f-phone','f-alamat','f-kota','f-kodepos','f-catatan','f-qty'];
+var saveDraft = debounce(function() {
   try {
-    var d = { color: SEL_COLOR, size: SEL_SIZE, price: SEL_PRICE, cc: $('f-cc') ? $('f-cc').value : '62' };
-    LS_FIELDS.forEach(function(id) { var el = $(id); if (el) d[id] = el.value; });
+    var cc=$('f-cc'), d={color:SEL_COLOR,size:SEL_SIZE,price:SEL_PRICE,cc:cc?cc.value:'62'};
+    LS_FIELDS.forEach(function(id){ var el=$(id); if(el) d[id]=el.value; });
     localStorage.setItem(LS_KEY, JSON.stringify(d));
   } catch(e){}
-}
+}, 300);
 
 function restoreDraft() {
   try {
-    var raw = localStorage.getItem(LS_KEY);
-    if (!raw) return;
-    var d = JSON.parse(raw);
-    LS_FIELDS.forEach(function(id) {
-      var el = $(id);
-      if (el && d[id] !== undefined) el.value = d[id];
-    });
-    if (d.cc && $('f-cc')) $('f-cc').value = d.cc;
-    if (d.color) { SEL_COLOR = d.color; renderColors(); }
-    if (d.size) {
-      document.querySelectorAll('#size-picker .sopt').forEach(function(b) {
-        var isMatch = b.dataset.size === d.size;
-        b.classList.toggle('active', isMatch);
-        if (isMatch) { SEL_SIZE = d.size; SEL_PRICE = parseInt(b.dataset.price,10) || (d.price||150000); }
+    var raw=localStorage.getItem(LS_KEY); if(!raw) return;
+    var d=JSON.parse(raw);
+    LS_FIELDS.forEach(function(id){ var el=$(id); if(el&&d[id]!==undefined&&d[id]!=='') el.value=d[id]; });
+    var cc=$('f-cc'); if(cc&&d.cc) cc.value=d.cc;
+    if(d.color&&COLORS.some(function(c){return c.id===d.color;})){SEL_COLOR=d.color;renderColors();}
+    if(d.size){
+      document.querySelectorAll('#size-picker .sopt').forEach(function(b){
+        var match=b.dataset.size===d.size; b.classList.toggle('active',match);
+        if(match){SEL_SIZE=d.size;SEL_PRICE=parseInt(b.dataset.price,10)||d.price||150000;}
       });
-      updateTotal();
     }
-    if (d['f-nama'] || d['f-email'] || d['f-phone']) {
-      toast('📝 Draft form dipulihkan');
-    }
+    updateTotal();
+    if(d['f-nama']||d['f-email']||d['f-phone']) setTimeout(function(){toast(t('draftRestored'));},800);
   } catch(e){}
 }
-
-// Auto-save on any input
-LS_FIELDS.forEach(function(id) {
-  var el = $(id);
-  if (el) el.addEventListener('input', saveDraft);
-});
-if ($('f-cc')) $('f-cc').addEventListener('change', saveDraft);
-
-// Restore on load
-restoreDraft();
+LS_FIELDS.forEach(function(id){ var el=$(id); if(el) el.addEventListener('input',saveDraft); });
+var ccEl=$('f-cc'); if(ccEl) ccEl.addEventListener('change',saveDraft);
 
 // ─── STEP NAVIGATION ────────────────────────────────────
 function goToStep(n) {
-  $('step1').style.display = n === 1 ? 'block' : 'none';
-  $('step2').style.display = n === 2 ? 'block' : 'none';
-  $('step3').style.display = n === 3 ? 'block' : 'none';
-
-  // Step bar: 4 dots map to logical steps
-  // dot1=FORM(n=1), dot2=BAYAR(n=2), dot3=UPLOAD(n=2 but after upload), dot4=SELESAI(n=3)
-  var dotStates = {
-    1: n === 1 ? 'active' : 'done',
-    2: n === 1 ? '' : (n === 2 ? 'active' : 'done'),
-    3: n === 3 ? 'done' : '',
-    4: n === 3 ? 'active' : ''
-  };
-  for (var i = 1; i <= 4; i++) {
-    var dot = $('sd' + i);
-    if (!dot) continue;
-    dot.className = 'sdot' + (dotStates[i] ? ' ' + dotStates[i] : '');
-  }
-  for (var j = 1; j <= 3; j++) {
-    var ln = $('sl' + j);
-    if (ln) ln.className = 'sline' + (n > j + 1 || (n === 3 && j <= 2) ? ' done' : (n > j ? ' done' : ''));
-  }
-
-  // scroll ke top of form section
-  var sec = $('order-section');
-  if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var s1=$('step1'),s2=$('step2'),s3=$('step3');
+  if(s1) s1.style.display=n===1?'block':'none';
+  if(s2) s2.style.display=n===2?'block':'none';
+  if(s3) s3.style.display=n===3?'block':'none';
+  var states={1:n===1?'active':'done',2:n<2?'':n===2?'active':'done',3:n===3?'done':'',4:n===3?'active':''};
+  for(var i=1;i<=4;i++){var dot=$('sd'+i);if(dot)dot.className='sdot'+(states[i]?' '+states[i]:'');}
+  for(var j=1;j<=3;j++){var ln=$('sl'+j);if(ln)ln.className='sline'+(n>j+1||(n===3&&j<=2)?' done':n>j?' done':'');}
+  var sec=$('order-section'); if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
 }
-
-// Mark step 3 dot active when upload area is in view (on step 2)
 (function(){
-  var uploadArea = document.getElementById('upload-area');
-  if (!uploadArea || !window.IntersectionObserver) return;
-  var obs = new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting && $('step2').style.display !== 'none') {
-      var dot3 = $('sd3');
-      if (dot3 && !dot3.classList.contains('done')) {
-        dot3.className = 'sdot active';
-        var dot2 = $('sd2');
-        if (dot2) dot2.className = 'sdot done';
-        var ln2 = $('sl2');
-        if (ln2) ln2.className = 'sline done';
-      }
-    }
-  }, { threshold: 0.5 });
-  obs.observe(uploadArea);
+  var ua=$('upload-area'); if(!ua||!window.IntersectionObserver) return;
+  new IntersectionObserver(function(entries){
+    if(!entries[0].isIntersecting) return;
+    var s2=$('step2'); if(!s2||s2.style.display==='none') return;
+    var d3=$('sd3'),d2=$('sd2'),l2=$('sl2');
+    if(d3&&!d3.classList.contains('done')){d3.className='sdot active';if(d2)d2.className='sdot done';if(l2)l2.className='sline done';}
+  },{threshold:0.5}).observe(ua);
 })();
 
-// ─── VALIDATE STEP 1 ────────────────────────────────────
+// ─── VALIDATE ───────────────────────────────────────────
 function validate() {
-  if (!SEL_COLOR)           { toast('Pilih warna dulu!');        return false; }
-  if (!SEL_SIZE)            { toast('Pilih ukuran dulu!');       return false; }
-  if (!$('f-nama').value.trim())    { toast('Isi Nama dulu!');   $('f-nama').focus();    return false; }
-  if (!$('f-phone').value.trim())   { toast('Isi No. WA dulu!'); $('f-phone').focus();   return false; }
-  if ($('f-phone').value.trim().replace(/[^0-9]/g,'').length < 6) { toast('No. WA tidak valid!'); $('f-phone').focus(); return false; }
-  if (!$('f-email').value.trim())   { toast('Isi Email dulu!');  $('f-email').focus();   return false; }
-  if (!$('f-alamat').value.trim())  { toast('Isi Alamat dulu!'); $('f-alamat').focus();  return false; }
-  if (!$('f-kota').value.trim())    { toast('Isi Kota dulu!');   $('f-kota').focus();    return false; }
-  if (!$('f-kodepos').value.trim()) { toast('Isi Kode Pos!');    $('f-kodepos').focus(); return false; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('f-email').value.trim())) {
-    toast('Format email tidak valid!'); $('f-email').focus(); return false;
-  }
+  if(!SEL_COLOR){toast(t('pickColor'));return false;}
+  if(!SEL_SIZE) {toast(t('pickSize')); return false;}
+  var nama=$('f-nama'),phone=$('f-phone'),email=$('f-email'),alamat=$('f-alamat'),kota=$('f-kota'),kodepos=$('f-kodepos');
+  if(!nama.value.trim())   {toast(t('fillNama'));   nama.focus();   return false;}
+  if(!phone.value.trim())  {toast(t('fillPhone'));  phone.focus();  return false;}
+  if(phone.value.trim().replace(/[^0-9]/g,'').length<6){toast(t('invalidPhone'));phone.focus();return false;}
+  if(!email.value.trim())  {toast(t('fillEmail'));  email.focus();  return false;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){toast(t('invalidEmail'));email.focus();return false;}
+  if(!alamat.value.trim()) {toast(t('fillAlamat')); alamat.focus(); return false;}
+  if(!kota.value.trim())   {toast(t('fillKota'));   kota.focus();   return false;}
+  if(!kodepos.value.trim()){toast(t('fillKodepos'));kodepos.focus();return false;}
   return true;
 }
 
-// ─── NEXT BUTTON (step1 → step2) ────────────────────────
+// ─── NEXT BUTTON ────────────────────────────────────────
 $('btn-next').addEventListener('click', function() {
-  if (!validate()) return;
-
-  var cc    = $('f-cc').value;
-  var phone = $('f-phone').value.trim().replace(/^0/, '');
-  var qty   = getQty();
-  var total = SEL_PRICE * qty;
-
-  ORDER = {
-    orderNum    : 'NPD-' + Date.now().toString().slice(-6),
-    nama        : $('f-nama').value.trim(),
-    phone       : $('f-phone').value.trim(),
-    email       : $('f-email').value.trim(),
-    alamat      : $('f-alamat').value.trim(),
-    kota        : $('f-kota').value.trim(),
-    kodePos     : $('f-kodepos').value.trim(),
-    catatan     : $('f-catatan').value.trim(),
-    warna       : SEL_COLOR,
-    ukuran      : SEL_SIZE,
-    qty         : qty,
-    hargaPerPcs : SEL_PRICE,
-    countryCode : cc,
+  if(!validate()) return;
+  var qty=getQty();
+  ORDER={
+    orderNum   :'NPD-'+Date.now().toString().slice(-6),
+    nama       :$('f-nama').value.trim(),   phone      :$('f-phone').value.trim(),
+    email      :$('f-email').value.trim(),  alamat     :$('f-alamat').value.trim(),
+    kota       :$('f-kota').value.trim(),   kodePos    :$('f-kodepos').value.trim(),
+    catatan    :$('f-catatan').value.trim(),warna      :SEL_COLOR,
+    ukuran     :SEL_SIZE,                   qty        :qty,
+    hargaPerPcs:SEL_PRICE,                  countryCode:$('f-cc').value,
   };
-
-  // Isi order card
-  $('r-ordernum').textContent = ORDER.orderNum;
-  $('r-nama').textContent     = ORDER.nama;
-  $('r-phone').textContent    = ORDER.phone;
-  $('r-email').textContent    = ORDER.email;
-  $('r-warna').textContent    = ORDER.warna.toUpperCase();
-  $('r-ukuran').textContent   = ORDER.ukuran;
-  $('r-qty').textContent      = ORDER.qty + ' pcs';
-  $('r-kota').textContent     = ORDER.kota;
-  $('r-harga').textContent    = fmtRp(ORDER.hargaPerPcs);
-  $('r-total').textContent    = fmtRp(total);
-
+  $('r-ordernum').textContent=ORDER.orderNum;
+  $('r-nama').textContent=ORDER.nama;       $('r-phone').textContent=ORDER.phone;
+  $('r-email').textContent=ORDER.email;     $('r-warna').textContent=ORDER.warna.toUpperCase();
+  $('r-ukuran').textContent=ORDER.ukuran;   $('r-qty').textContent=ORDER.qty+' pcs';
+  $('r-kota').textContent=ORDER.kota;       $('r-harga').textContent=fmtRp(ORDER.hargaPerPcs);
+  $('r-total').textContent=fmtRp(ORDER.hargaPerPcs*qty);
   goToStep(2);
-  history.pushState({ step: 2 }, '');
+  if(!_pushStateDone){history.pushState({step:2},'');_pushStateDone=true;}
 });
 
-// ─── COPY NOMOR REKENING ────────────────────────────────
-$('bca-card').addEventListener('click', function() {
-  navigator.clipboard && navigator.clipboard.writeText('7730320901')
-    .then(function(){ toast('No. BCA disalin!'); });
-});
-$('gopay-card').addEventListener('click', function() {
-  navigator.clipboard && navigator.clipboard.writeText('081236869035')
-    .then(function(){ toast('No. GoPay/Dana disalin!'); });
-});
+// ─── COPY BANK ──────────────────────────────────────────
+$('bca-card').addEventListener('click',   function(){ navigator.clipboard&&navigator.clipboard.writeText('7730320901').then(function(){toast(t('bcaCopied'));}); });
+$('gopay-card').addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('081236869035').then(function(){toast(t('gopayCopied'));}); });
 
-// ─── FILE UPLOAD + IMAGE COMPRESSION ───────────────────
-function compressImage(file, callback) {
-  var MAX_W = 1200, MAX_H = 1200, QUALITY = 0.75;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var img = new Image();
-    img.onload = function() {
-      var w = img.width, h = img.height;
-      if (w > MAX_W) { h = Math.round(h * MAX_W / w); w = MAX_W; }
-      if (h > MAX_H) { w = Math.round(w * MAX_H / h); h = MAX_H; }
-      var canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      var compressed = canvas.toDataURL('image/jpeg', QUALITY);
-      callback(compressed, 'image/jpeg');
+// ─── IMAGE COMPRESSION ──────────────────────────────────
+function compressImage(file, cb) {
+  var MAX=1200, Q=0.75, reader=new FileReader();
+  reader.onerror=function(){cb(null,null,'read_error');};
+  reader.onload=function(e){
+    var img=new Image();
+    img.onerror=function(){cb(null,null,'decode_error');};
+    img.onload=function(){
+      try{
+        var w=img.width,h=img.height;
+        if(w>MAX){h=Math.round(h*MAX/w);w=MAX;} if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+        var canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        var b64=canvas.toDataURL('image/jpeg',Q);
+        if(!b64||b64.length<100){cb(null,null,'canvas_empty');return;}
+        cb(b64,'image/jpeg',null);
+      }catch(err){cb(null,null,err.message);}
     };
-    img.src = e.target.result;
+    img.src=e.target.result;
   };
   reader.readAsDataURL(file);
 }
-
+function showPreview(name, src) {
+  var pw=$('preview-wrap'),pi=$('preview-img'),pn=$('preview-name'),ur=$('upload-req');
+  if(pi) pi.src=src; if(pn) pn.textContent=name;
+  if(pw) pw.style.display='block'; if(ur) ur.style.display='none';
+}
 function processFile(file) {
-  if (!file) return;
-  if (!file.type.startsWith('image/')) { toast('File harus berupa gambar!'); return; }
-  if (file.size > 10 * 1024 * 1024)   { toast('Ukuran file maks 10MB!');    return; }
-  toast('Mengompres gambar...');
-  compressImage(file, function(b64, mime) {
-    IMG_B64  = b64;
-    IMG_MIME = mime;
-    $('preview-img').src             = IMG_B64;
-    $('preview-name').textContent    = file.name;
-    $('preview-wrap').style.display  = 'block';
-    $('upload-req').style.display    = 'none';
-    // Show compressed size info
-    var kb = Math.round(b64.length * 0.75 / 1024);
-    toast('Foto siap ✅ (~' + kb + ' KB)');
-  });
-}
-
-$('f-bukti').addEventListener('change', function() {
-  if (this.files[0]) processFile(this.files[0]);
-});
-
-$('btn-remove').addEventListener('click', function() {
-  IMG_B64 = ''; IMG_MIME = '';
-  $('preview-img').src = '';
-  $('preview-name').textContent = '';
-  $('preview-wrap').style.display = 'none';
-  $('f-bukti').value = '';
-});
-
-// drag & drop
-var uploadArea = $('upload-area');
-uploadArea.addEventListener('dragover', function(e) {
-  e.preventDefault(); uploadArea.classList.add('drag-over');
-});
-uploadArea.addEventListener('dragleave', function() {
-  uploadArea.classList.remove('drag-over');
-});
-uploadArea.addEventListener('drop', function(e) {
-  e.preventDefault(); uploadArea.classList.remove('drag-over');
-  var file = e.dataTransfer.files[0];
-  if (file) processFile(file);
-});
-
-// ─── SUBMIT (step2 → step3) — with retry & timeout ─────
-var SUBMIT_ATTEMPT = 0;
-var MAX_ATTEMPTS   = 3;
-
-function doSubmit() {
-  SUBMIT_ATTEMPT++;
-  var attemptTxt = SUBMIT_ATTEMPT > 1 ? ' (percobaan ' + SUBMIT_ATTEMPT + '/' + MAX_ATTEMPTS + ')' : '';
-  $('btn-submit').disabled = true;
-  $('btn-submit-txt').textContent = 'MENGIRIM' + attemptTxt + '...';
-  $('spinner-submit').style.display = 'inline-block';
-
-  var payload = JSON.parse(JSON.stringify(ORDER));
-  payload.imageData = IMG_B64;
-  payload.imageMime = IMG_MIME;
-
-  // Timeout controller — 30 detik
-  var controller = window.AbortController ? new AbortController() : null;
-  var timeoutId  = controller ? setTimeout(function(){ controller.abort(); }, 30000) : null;
-
-  var fetchOpts = {
-    method  : 'POST',
-    headers : { 'Content-Type': 'text/plain;charset=utf-8' },
-    body    : JSON.stringify(payload),
-    mode    : 'no-cors',
-  };
-  if (controller) fetchOpts.signal = controller.signal;
-
-  fetch(APPS_SCRIPT_URL, fetchOpts)
-  .then(function() {
-    if (timeoutId) clearTimeout(timeoutId);
-    onSubmitSuccess();
-  })
-  .catch(function(err) {
-    if (timeoutId) clearTimeout(timeoutId);
-    var isTimeout = err && err.name === 'AbortError';
-    // no-cors mode always resolves — if we get here it's a real error
-    if (SUBMIT_ATTEMPT < MAX_ATTEMPTS) {
-      toast('⚠️ Koneksi lambat, mencoba ulang...');
-      setTimeout(doSubmit, 2500);
-    } else {
-      // After max retries, still proceed to success (no-cors behavior)
-      // but show warning
-      toast('⚡ Tersimpan! Cek WA admin untuk konfirmasi.');
-      onSubmitSuccess();
+  if(!file) return;
+  if(!file.type.startsWith('image/')){toast(t('notImage'));return;}
+  if(file.size>10*1024*1024){toast(t('tooLarge'));return;}
+  toast(t('compressing'));
+  compressImage(file, function(b64,mime,err){
+    if(err||!b64){
+      var r=new FileReader(); r.onload=function(e){IMG_B64=e.target.result;IMG_MIME=file.type;showPreview(file.name,IMG_B64);toast(t('imgReady'));};
+      r.readAsDataURL(file); return;
     }
+    IMG_B64=b64; IMG_MIME=mime; showPreview(file.name,b64);
+    toast(t('imgReady')+' (~'+Math.round(b64.length*0.75/1024)+' KB)');
   });
 }
+$('f-bukti').addEventListener('change', function(){ if(this.files[0]) processFile(this.files[0]); });
+$('btn-remove').addEventListener('click', function(){
+  IMG_B64='';IMG_MIME='';
+  var pi=$('preview-img'),pn=$('preview-name'),pw=$('preview-wrap'),fb=$('f-bukti');
+  if(pi)pi.src='';if(pn)pn.textContent='';if(pw)pw.style.display='none';if(fb)fb.value='';
+});
+var uaEl=$('upload-area');
+if(uaEl){
+  uaEl.addEventListener('dragover', function(e){e.preventDefault();uaEl.classList.add('drag-over');});
+  uaEl.addEventListener('dragleave',function(){uaEl.classList.remove('drag-over');});
+  uaEl.addEventListener('drop',     function(e){e.preventDefault();uaEl.classList.remove('drag-over');var f=e.dataTransfer&&e.dataTransfer.files[0];if(f)processFile(f);});
+}
 
-function onSubmitSuccess() {
-  // Reset button state
-  $('btn-submit').disabled = false;
-  $('btn-submit-txt').textContent = currentLang === 'en' ? 'CONFIRM PAYMENT' : 'KONFIRMASI PEMBAYARAN';
-  $('spinner-submit').style.display = 'none';
-  // Clear saved form from localStorage
-  try { localStorage.removeItem('npd_form_draft'); } catch(e){}
-  SUBMIT_ATTEMPT = 0;
-
-  $('s-ordernum').textContent = ORDER.orderNum;
-  // Setup copy button
-  var cpBtn = $('copy-ordernum-btn');
-  if (cpBtn) {
-    cpBtn.onclick = function() {
-      var num = ORDER.orderNum;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(num).then(function(){ toast('No. order disalin! 📋'); });
-      } else {
-        // fallback
-        var ta = document.createElement('textarea');
-        ta.value = num; ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
-        document.body.removeChild(ta); toast('No. order disalin! 📋');
-      }
-    };
-  }
-
-  var waMsg = [
-    '🧾 *RINGKASAN ORDER AWAS BAHAYA NPD*',
+// ─── SUBMIT ─────────────────────────────────────────────
+var SUBMIT_ATTEMPT=0, MAX_ATTEMPTS=3;
+function resetSubmitBtn(){
+  var btn=$('btn-submit'),txt=$('btn-submit-txt'),sp=$('spinner-submit');
+  if(btn)btn.disabled=false;
+  if(txt)txt.textContent=currentLang==='en'?'CONFIRM PAYMENT':'KONFIRMASI PEMBAYARAN';
+  if(sp)sp.style.display='none';
+}
+function doSubmit(){
+  SUBMIT_ATTEMPT++;
+  var retry=SUBMIT_ATTEMPT>1?(currentLang==='en'?' (attempt ':' (percobaan ')+SUBMIT_ATTEMPT+'/'+MAX_ATTEMPTS+')':''  ;
+  var btn=$('btn-submit'),txt=$('btn-submit-txt'),sp=$('spinner-submit');
+  if(btn)btn.disabled=true;
+  if(txt)txt.textContent=(currentLang==='en'?'SENDING':'MENGIRIM')+retry+'...';
+  if(sp)sp.style.display='inline-block';
+  var payload=JSON.parse(JSON.stringify(ORDER));
+  payload.imageData=IMG_B64; payload.imageMime=IMG_MIME;
+  var ctrl=window.AbortController?new AbortController():null;
+  var tid=ctrl?setTimeout(function(){ctrl.abort();},30000):null;
+  var opts={method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),mode:'no-cors'};
+  if(ctrl)opts.signal=ctrl.signal;
+  fetch(APPS_SCRIPT_URL,opts)
+  .then(function(){if(tid)clearTimeout(tid);onSubmitSuccess();})
+  .catch(function(){
+    if(tid)clearTimeout(tid);
+    if(SUBMIT_ATTEMPT<MAX_ATTEMPTS){toast(t('retrying'));setTimeout(doSubmit,2500);}
+    else{toast(t('savedWarn'));onSubmitSuccess();}
+  });
+}
+function onSubmitSuccess(){
+  resetSubmitBtn(); SUBMIT_ATTEMPT=0; _pushStateDone=false;
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  var son=$('s-ordernum'); if(son) son.textContent=ORDER.orderNum;
+  var cpBtn=$('copy-ordernum-btn');
+  if(cpBtn) cpBtn.onclick=function(){
+    var num=ORDER.orderNum;
+    if(navigator.clipboard){navigator.clipboard.writeText(num).then(function(){toast(t('orderCopied'));});}
+    else{var ta=document.createElement('textarea');ta.value=num;ta.style.cssText='position:fixed;opacity:0;';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(t('orderCopied'));}catch(e){}document.body.removeChild(ta);}
+  };
+  var isEn=currentLang==='en';
+  var waMsg=[
+    '🧾 *'+(isEn?'ORDER SUMMARY — AWAS BAHAYA NPD':'RINGKASAN ORDER AWAS BAHAYA NPD')+'*',
     '─────────────────────',
-    '📋 No. Order : *' + ORDER.orderNum + '*',
-    '👤 Nama      : ' + ORDER.nama,
-    '📱 WA        : ' + ORDER.phone,
-    '📍 Kota      : ' + ORDER.kota,
+    (isEn?'📋 Order No.  : *':'📋 No. Order : *')+ORDER.orderNum+'*',
+    (isEn?'👤 Name       : ':'👤 Nama      : ')+ORDER.nama,
+    (isEn?'📱 WA         : ':'📱 WA        : ')+ORDER.phone,
+    (isEn?'📍 City       : ':'📍 Kota      : ')+ORDER.kota,
     '─────────────────────',
-    '👕 Warna     : ' + ORDER.warna.toUpperCase(),
-    '📏 Ukuran    : ' + ORDER.ukuran,
-    '🔢 Qty       : ' + ORDER.qty + ' pcs',
-    '💰 Total     : *' + fmtRp(ORDER.qty * ORDER.hargaPerPcs) + '*',
+    (isEn?'👕 Color      : ':'👕 Warna     : ')+ORDER.warna.toUpperCase(),
+    (isEn?'📏 Size       : ':'📏 Ukuran    : ')+ORDER.ukuran,
+    (isEn?'🔢 Qty        : ':'🔢 Qty       : ')+ORDER.qty+' pcs',
+    (isEn?'💰 Total      : *':'💰 Total     : *')+fmtRp(ORDER.qty*ORDER.hargaPerPcs)+'*',
     '─────────────────────',
-    '📦 Ongkir diinfo via WA',
-    '✅ Bukti transfer sudah dikirim ke admin.',
-    ORDER.catatan ? '📝 Catatan: ' + ORDER.catatan : '',
+    isEn?'📦 Shipping notified via WA':'📦 Ongkir diinfo via WA',
+    isEn?'✅ Payment proof sent to admin.':'✅ Bukti transfer sudah dikirim ke admin.',
+    ORDER.catatan?(isEn?'📝 Note: ':'📝 Catatan: ')+ORDER.catatan:'',
   ].filter(Boolean).join('\n');
-
-  var waPhone = ORDER.phone.replace(/[^0-9]/g,'');
-  if (waPhone.charAt(0) === '0') waPhone = ORDER.countryCode + waPhone.slice(1);
-  else waPhone = ORDER.countryCode + waPhone;
-  $('wa-summary-link').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(waMsg);
-
-  setTimeout(function(){ launchConfetti(); }, 200);
-  setTimeout(function(){ sndSuccess();    }, 300);
+  var wp=ORDER.phone.replace(/[^0-9]/g,'');
+  if(wp.charAt(0)==='0') wp=ORDER.countryCode+wp.slice(1); else if(!wp.startsWith(ORDER.countryCode)) wp=ORDER.countryCode+wp;
+  var waLink=$('wa-summary-link'); if(waLink) waLink.href='https://wa.me/'+wp+'?text='+encodeURIComponent(waMsg);
+  setTimeout(function(){launchConfetti();},200); setTimeout(function(){sndSuccess();},300);
   goToStep(3);
 }
-
-$('btn-submit').addEventListener('click', function() {
-  if (!IMG_B64) {
-    toast('Upload bukti transfer dulu!');
-    $('upload-req').style.display = 'block';
-    return;
-  }
-  SUBMIT_ATTEMPT = 0;
-  doSubmit();
+$('btn-submit').addEventListener('click',function(){
+  if(!IMG_B64){toast(t('noUpload'));var ur=$('upload-req');if(ur)ur.style.display='block';return;}
+  SUBMIT_ATTEMPT=0; doSubmit();
 });
 
-// ─── ANDROID BACK ───────────────────────────────────────
-window.addEventListener('popstate', function() {
-  if ($('step2').style.display !== 'none') {
-    // Reset submit button state when going back
-    $('btn-submit').disabled = false;
-    $('btn-submit-txt').textContent = currentLang === 'en' ? 'CONFIRM PAYMENT' : 'KONFIRMASI PEMBAYARAN';
-    $('spinner-submit').style.display = 'none';
-    SUBMIT_ATTEMPT = 0;
-    goToStep(1);
-  } else if ($('step3').style.display !== 'none') {
-    goToStep(2);
-  }
+// ─── BACK / POPSTATE ────────────────────────────────────
+window.addEventListener('popstate',function(){
+  var s2=$('step2'),s3=$('step3');
+  if(s2&&s2.style.display!=='none'){resetSubmitBtn();SUBMIT_ATTEMPT=0;_pushStateDone=false;goToStep(1);}
+  else if(s3&&s3.style.display!=='none') goToStep(2);
 });
 
 // ─── CONFETTI ───────────────────────────────────────────
-function launchConfetti() {
-  var COLS = ['#e8a020','#c8860a','#f0e0c0','#c0392b','#ffffff','#f5c030'];
-  for (var i = 0; i < 100; i++) {
-    (function(){
-      setTimeout(function() {
-        var el    = document.createElement('div');
-        var color = COLS[Math.floor(Math.random() * COLS.length)];
-        var size  = 7 + Math.random() * 8;
-        var dur   = 2.5 + Math.random() * 2;
-        var delay = Math.random() * 0.6;
-        el.style.cssText = 'position:fixed;top:-20px;pointer-events:none;z-index:9999;'
-          + 'left:' + (Math.random()*100) + 'vw;'
-          + 'width:' + size + 'px;height:' + (size*.45) + 'px;'
-          + 'background:' + color + ';border-radius:2px;'
-          + 'animation:confettiFall ' + dur + 's ' + delay + 's ease-in forwards,'
-          + 'confettiSway ' + (1.5+Math.random()) + 's ' + delay + 's ease-in-out infinite;';
-        document.body.appendChild(el);
-        setTimeout(function(){ el.remove(); }, (dur+delay+0.5)*1000);
-      }, Math.random() * 600);
-    })();
-  }
+function launchConfetti(){
+  var COLS=['#e8a020','#c8860a','#f0e0c0','#c0392b','#ffffff','#f5c030'];
+  for(var i=0;i<100;i++){(function(){
+    setTimeout(function(){
+      var el=document.createElement('div'),color=COLS[Math.floor(Math.random()*COLS.length)],size=7+Math.random()*8,dur=2.5+Math.random()*2,delay=Math.random()*0.6;
+      el.style.cssText='position:fixed;top:-20px;pointer-events:none;z-index:9999;left:'+(Math.random()*100)+'vw;width:'+size+'px;height:'+(size*0.45)+'px;background:'+color+';border-radius:2px;animation:confettiFall '+dur+'s '+delay+'s ease-in forwards,confettiSway '+(1.5+Math.random())+'s '+delay+'s ease-in-out infinite;';
+      document.body.appendChild(el);
+      setTimeout(function(){if(el.parentNode)el.remove();},(dur+delay+0.5)*1000);
+    },Math.random()*600);
+  })();}
 }
 
 // ─── SOUND ──────────────────────────────────────────────
 var _ac;
-function sndSuccess() {
-  try {
-    if (!_ac) _ac = new (window.AudioContext||window.webkitAudioContext)();
-    if (_ac.state==='suspended') _ac.resume();
+function sndSuccess(){
+  try{
+    if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();
+    if(_ac.state==='suspended')_ac.resume();
     [261.6,329.6,392,523.3].forEach(function(f,i){
-      setTimeout(function(){
-        var o=_ac.createOscillator(), g=_ac.createGain();
-        o.frequency.value=f; g.gain.setValueAtTime(.09,_ac.currentTime);
-        g.gain.exponentialRampToValueAtTime(.001,_ac.currentTime+.15);
-        o.connect(g); g.connect(_ac.destination);
-        o.start(); o.stop(_ac.currentTime+.15);
-      }, i*120);
+      setTimeout(function(){var o=_ac.createOscillator(),g=_ac.createGain();o.frequency.value=f;g.gain.setValueAtTime(.09,_ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,_ac.currentTime+.15);o.connect(g);g.connect(_ac.destination);o.start();o.stop(_ac.currentTime+.15);},i*120);
     });
-  } catch(e){}
+  }catch(e){}
 }
 
 // ─── HERO SLIDESHOW ─────────────────────────────────────
-var HS_TOTAL = 4, hsCur = 0, hsTimer;
-function hsGo(n) {
-  hsCur = (n + HS_TOTAL) % HS_TOTAL;
-  var track = document.getElementById('hs-track');
-  if (track) {
-    var w = document.querySelector('.hero-slide');
-    track.style.transform = 'translateX(-' + (hsCur * (w ? w.offsetWidth : window.innerWidth)) + 'px)';
-  }
-  document.querySelectorAll('.hs-dot').forEach(function(d,i){ d.classList.toggle('active', i===hsCur); });
-  var ctr = document.getElementById('hs-counter');
-  if (ctr) ctr.textContent = (hsCur+1) + ' / ' + HS_TOTAL;
+var HS_TOTAL=6, hsCur=0, hsTimer;
+function hsGo(n){
+  hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
+  var track=$('hs-track'),slide=document.querySelector('.hero-slide');
+  if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
+  document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i===hsCur);});
+  var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
 }
-function hsNav(d) { clearInterval(hsTimer); hsGo(hsCur+d); hsTimer=setInterval(function(){hsGo(hsCur+1);},4500); }
-hsTimer = setInterval(function(){ hsGo(hsCur+1); }, 4500);
-window.addEventListener('resize', function(){ hsGo(hsCur); });
-// Pause slideshow when tab is hidden
-document.addEventListener('visibilitychange', function() {
-  if (document.hidden) { clearInterval(hsTimer); }
-  else { hsTimer = setInterval(function(){ hsGo(hsCur+1); }, 4500); }
-});
+function hsNav(d){clearInterval(hsTimer);hsGo(hsCur+d);hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);}
+hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
+window.addEventListener('resize',debounce(function(){hsGo(hsCur);},150));
+document.addEventListener('visibilitychange',function(){if(document.hidden)clearInterval(hsTimer);else hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);});
 (function(){
-  var wrap = document.querySelector('.hero-slide-wrap'), sx=0;
-  if (!wrap) return;
-  wrap.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; clearInterval(hsTimer); },{passive:true});
-  wrap.addEventListener('touchend', function(e){
-    var dx=e.changedTouches[0].clientX-sx;
-    if(Math.abs(dx)>36) hsGo(hsCur+(dx<0?1:-1));
-    hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
-  },{passive:true});
+  var wrap=document.querySelector('.hero-slide-wrap'),sx=0; if(!wrap) return;
+  wrap.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;clearInterval(hsTimer);},{passive:true});
+  wrap.addEventListener('touchend',  function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>36)hsGo(hsCur+(dx<0?1:-1));hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);},{passive:true});
 })();
-
-// expose globals for inline onclick
-window.hsNav = hsNav;
-window.hsGo  = hsGo;
-
-// ─── MARQUEE ────────────────────────────────────────────
-(function(){
-  var t = document.getElementById('marquee-track');
-  if (!t) return;
-  // Clone content for seamless infinite loop
-  var original = t.innerHTML;
-  t.innerHTML = original + original + original;
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      var w = t.scrollWidth / 3;
-      var s = document.createElement('style');
-      s.textContent = '@keyframes mqx{0%{transform:translateX(0)}100%{transform:translateX(-'+Math.round(w)+'px)}}';
-      document.head.appendChild(s);
-      t.style.animation = 'mqx '+(w/55)+'s linear infinite';
-    });
-  });
-})();
+window.hsNav=hsNav; window.hsGo=hsGo;
 
 // ─── SCROLL REVEAL ──────────────────────────────────────
 (function(){
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
-  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.sr').forEach(function(el){ obs.observe(el); });
+  if(!window.IntersectionObserver) return;
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.sr').forEach(function(el){obs.observe(el);});
 })();
 
 // ─── HOW SECTION BARONG ─────────────────────────────────
 (function(){
-  var b=$('how-barong'), s=$('how-section');
-  if(!b||!s) return;
-  new IntersectionObserver(function(en){ if(en[0].isIntersecting){b.classList.add('visible');} },{threshold:.15}).observe(s);
+  var b=$('how-barong'),s=$('how-section'); if(!b||!s||!window.IntersectionObserver) return;
+  new IntersectionObserver(function(en){if(en[0].isIntersecting)b.classList.add('visible');},{threshold:.15}).observe(s);
 })();
 
 // ─── LIGHTBOX ───────────────────────────────────────────
-var DLB_IMGS = [
+var DLB_IMGS=[
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
 ];
 var dlbIdx=0;
-function dlbOpen(i){ dlbIdx=i; var d=$('dlb'); if(d){d.style.display='flex'; dlbRender();} document.addEventListener('keydown',dlbKey); }
-function dlbClose(){ var d=$('dlb'); if(d) d.style.display='none'; document.removeEventListener('keydown',dlbKey); }
-function dlbNav(dir){ dlbIdx=(dlbIdx+dir+DLB_IMGS.length)%DLB_IMGS.length; dlbRender(); }
-function dlbGo(i){ dlbIdx=i; dlbRender(); }
+function dlbOpen(i){dlbIdx=i;var d=$('dlb');if(d){d.style.display='flex';dlbRender();}document.addEventListener('keydown',dlbKey);}
+function dlbClose(){var d=$('dlb');if(d)d.style.display='none';document.removeEventListener('keydown',dlbKey);}
+function dlbNav(dir){dlbIdx=(dlbIdx+dir+DLB_IMGS.length)%DLB_IMGS.length;dlbRender();}
+function dlbGo(i){dlbIdx=i;dlbRender();}
 function dlbRender(){
-  var img=$('dlb-img'), ctr=$('dlb-counter'), dot=$('dlb-dots');
-  if(img) img.src=DLB_IMGS[dlbIdx];
-  if(ctr) ctr.textContent=(dlbIdx+1)+' / '+DLB_IMGS.length;
-  if(dot) dot.innerHTML=DLB_IMGS.map(function(_,i){ return '<button class="dlb-dot'+(i===dlbIdx?' active':'')+'" onclick="dlbGo('+i+');event.stopPropagation()"></button>'; }).join('');
+  var img=$('dlb-img'),ctr=$('dlb-counter'),dot=$('dlb-dots');
+  if(img)img.src=DLB_IMGS[dlbIdx];
+  if(ctr)ctr.textContent=(dlbIdx+1)+' / '+DLB_IMGS.length;
+  if(dot)dot.innerHTML=DLB_IMGS.map(function(_,i){return '<button class="dlb-dot'+(i===dlbIdx?' active':'')+'" onclick="dlbGo('+i+');event.stopPropagation()"></button>';}).join('');
 }
-function dlbKey(e){ if(e.key==='ArrowLeft') dlbNav(-1); if(e.key==='ArrowRight') dlbNav(1); if(e.key==='Escape') dlbClose(); }
-
-// Attach event listeners ke tombol lightbox
+function dlbKey(e){if(e.key==='ArrowLeft')dlbNav(-1);if(e.key==='ArrowRight')dlbNav(1);if(e.key==='Escape')dlbClose();}
 (function(){
-  var close = $('dlb-close');
-  var prev  = $('dlb-prev');
-  var next  = $('dlb-next');
-  var dlb   = $('dlb');
-  if(close) close.addEventListener('click', function(e){ e.stopPropagation(); dlbClose(); });
-  if(prev)  prev.addEventListener('click',  function(e){ e.stopPropagation(); dlbNav(-1); });
-  if(next)  next.addEventListener('click',  function(e){ e.stopPropagation(); dlbNav(1);  });
-  // Klik backdrop (luar gambar) juga menutup
-  if(dlb)   dlb.addEventListener('click', function(e){ if(e.target===dlb) dlbClose(); });
-
-  // Touch swipe di lightbox
+  var close=$('dlb-close'),prev=$('dlb-prev'),next=$('dlb-next'),dlb=$('dlb');
+  if(close)close.addEventListener('click',function(e){e.stopPropagation();dlbClose();});
+  if(prev)prev.addEventListener('click',function(e){e.stopPropagation();dlbNav(-1);});
+  if(next)next.addEventListener('click',function(e){e.stopPropagation();dlbNav(1);});
+  if(dlb)dlb.addEventListener('click',function(e){if(e.target===dlb)dlbClose();});
   var sx=0;
   if(dlb){
-    dlb.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; },{passive:true});
-    dlb.addEventListener('touchend',   function(e){
-      var dx=e.changedTouches[0].clientX-sx;
-      if(Math.abs(dx)>40) dlbNav(dx<0?1:-1);
-    },{passive:true});
+    dlb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+    dlb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)dlbNav(dx<0?1:-1);},{passive:true});
   }
 })();
+window.dlbOpen=dlbOpen;window.dlbClose=dlbClose;window.dlbNav=dlbNav;window.dlbGo=dlbGo;
 
-window.dlbOpen=dlbOpen; window.dlbClose=dlbClose; window.dlbNav=dlbNav; window.dlbGo=dlbGo;
-
-// ─── GLITCH EFFECTS ─────────────────────────────────────
+// ─── GLITCH ─────────────────────────────────────────────
 (function(){
-  function glitch(el){ if(!el) return; el.classList.add('glitch-on'); setTimeout(function(){ el.classList.remove('glitch-on'); },350); }
-  var pt=$('product-title'), hl=$('hero-hl');
-  if(pt){ pt.addEventListener('mouseenter',function(){glitch(pt);}); setInterval(function(){glitch(pt);},9000); }
-  if(hl){ setInterval(function(){glitch(hl);},7000); }
+  function glitch(el){if(!el)return;el.classList.add('glitch-on');setTimeout(function(){el.classList.remove('glitch-on');},350);}
+  var pt=$('product-title'),hl=$('hero-hl');
+  if(pt){pt.addEventListener('mouseenter',function(){glitch(pt);});setInterval(function(){glitch(pt);},9000);}
+  if(hl){setInterval(function(){glitch(hl);},7000);}
 })();
 
-// ─── FLOATING PARTICLES ─────────────────────────────────
+// ─── PARTICLES ──────────────────────────────────────────
 (function(){
   var bg=$('particle-bg'); if(!bg) return;
   var N=window.innerWidth<600?20:35, C=['#e8a020','#c8860a','#f5c050','#d09018','#f0e0c0'];
   for(var i=0;i<N;i++){
     var el=document.createElement('div'); el.className='ptc';
-    var sz=1+Math.random()*1.8, dur=12+Math.random()*16, del=-(Math.random()*dur);
-    el.style.cssText='width:'+sz+'px;height:'+sz+'px;'
-      +'left:'+(Math.random()*100)+'vw;bottom:'+(Math.random()*100)+'vh;'
-      +'background:'+C[Math.floor(Math.random()*C.length)]+';'
-      +'opacity:'+(0.15+Math.random()*0.35)+';'
-      +'--sx:'+((Math.random()-.5)*80)+'px;'
-      +'animation-duration:'+dur+'s;animation-delay:'+del+'s;';
+    var sz=1+Math.random()*1.8,dur=12+Math.random()*16,del=-(Math.random()*dur);
+    el.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'vw;bottom:'+(Math.random()*100)+'vh;background:'+C[Math.floor(Math.random()*C.length)]+';opacity:'+(0.15+Math.random()*0.35)+';--sx:'+((Math.random()-0.5)*80)+'px;animation-duration:'+dur+'s;animation-delay:'+del+'s;';
     bg.appendChild(el);
   }
 })();
 
-// ─── TYPEWRITER ─────────────────────────────────────────
-(function(){
-  var el=$('tw-text'); if(!el) return;
-  var L1='Orang tidak akan sadar dirinya NPD —';
-  var L2='kadang kita perlu merefleksikan diri kita sendiri.';
-  var ci=0, phase=1;
-  function tick(){
-    if(phase===1){ ci++; el.innerHTML=L1.slice(0,ci); if(ci<L1.length) setTimeout(tick,38); else{phase=2;ci=0;setTimeout(tick,320);} }
-    else{ ci++; el.innerHTML=L1+'<br><strong style="color:var(--amber)">'+L2.slice(0,ci)+'</strong>'; if(ci<L2.length) setTimeout(tick,38); }
-  }
-  setTimeout(tick,700);
-})();
-
-// ─── i18n / LANGUAGE TOGGLE ────────────────────────────
-var currentLang = 'id';
-
-function setLang(lang) {
-  currentLang = lang;
-  var btnId = $('btn-id'), btnEn = $('btn-en');
-  if(btnId) btnId.classList.toggle('active', lang==='id');
-  if(btnEn) btnEn.classList.toggle('active', lang==='en');
-
-  var T = {
-    topTag:        { id:'⚡ Limited Drop — Bhuta Kala Modern ⚡', en:'⚡ Limited Drop — Bhuta Kala Modern ⚡' },
-    heroHl:        { id:'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>', en:'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>' },
-    warningBadge:  { id:'⚡ AWAS BAHAYA NPD', en:'⚡ BEWARE OF NPD' },
-    sym1:          { id:'EGOIS MAKSIMAL',  en:'EXTREMELY SELFISH' },
-    sym2:          { id:'ANTI KRITIK',     en:'CANNOT TAKE CRITICISM' },
-    sym3:          { id:'OTAK NGAMBUL',    en:'PERPETUAL TANTRUM' },
-    productDesc:   { id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.',
-                     en:'Express yourself with a <strong style="color:var(--amber)">TAKSU</strong> shirt. Premium combed 24s — thick, substantial, collector vibes.' },
-    priceLbl:      { id:'⚡ harga group order ⚡',           en:'⚡ group order pricing ⚡' },
-    priceNote:     { id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim', en:'<strong>Price per pcs</strong> · shipping not included' },
-    galleryTitle:  { id:'DETAIL KAOS',    en:'SHIRT DETAILS' },
-    galleryNote:   { id:'Tap foto untuk memperbesar', en:'Tap photo to enlarge' },
-    sizeNote:      { id:'Cotton Combed 24s · ukuran dalam cm', en:'Cotton Combed 24s · measurements in cm' },
-    stepForm:      { id:'FORM',    en:'FORM' },
-    stepBayar:     { id:'BAYAR',   en:'PAY' },
-    stepUpload:    { id:'UPLOAD',  en:'UPLOAD' },
-    stepSelesai:   { id:'SELESAI', en:'DONE' },
-    formTitle:     { id:'FORM ORDER',    en:'ORDER FORM' },
-    lblNama:       { id:'Nama Lengkap *',      en:'Full Name *' },
-    lblEmail:      { id:'Email *',             en:'Email *' },
-    lblPhone:      { id:'Nomor WhatsApp *',    en:'WhatsApp Number *' },
-    lblAlamat:     { id:'Alamat Lengkap *',    en:'Full Address *' },
-    lblKota:       { id:'Kota / Kabupaten *',  en:'City *' },
-    lblKodePos:    { id:'Kode Pos *',          en:'Postal Code *' },
-    lblUkuran:     { id:'Pilih Ukuran *',      en:'Choose Size *' },
-    lblWarna:      { id:'Pilih Warna *',       en:'Choose Color *' },
-    lblQty:        { id:'Jumlah',              en:'Quantity' },
-    lblCatatan:    { id:'Catatan (opsional)',   en:'Notes (optional)' },
-    ongkirNote:    { id:'BELUM TERMASUK ONGKOS KIRIM', en:'SHIPPING NOT INCLUDED' },
-    btnNext:       { id:'LANJUT KE PEMBAYARAN →', en:'PROCEED TO PAYMENT →' },
-    stockWarn:     { id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡', en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡' },
-    payInstrTitle: { id:'INSTRUKSI BAYAR',     en:'PAYMENT INSTRUCTIONS' },
-    payTitle:      { id:'💸 TRANSFER KE',      en:'💸 TRANSFER TO' },
-    payDesc:       { id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',
-                     en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.' },
-    bankAN:        { id:'a/n dikonfirmasi via WA', en:'account holder confirmed via WA' },
-    lblUpload:     { id:'Upload Bukti Transfer *',  en:'Upload Payment Proof *' },
-    uploadLabel:   { id:'TAP UNTUK PILIH FOTO',    en:'TAP TO CHOOSE PHOTO' },
-    uploadSub:     { id:'Screenshot bukti transfer · JPG/PNG · Maks 10MB', en:'Payment screenshot · JPG/PNG · Max 10MB' },
-    btnConfirm:    { id:'KONFIRMASI PEMBAYARAN',   en:'CONFIRM PAYMENT' },
-    successTitle:  { id:'ORDER MASUK!',            en:'ORDER RECEIVED!' },
-    shipText:      { id:'Pengiriman ke seluruh Indonesia', en:'Shipping to all of Indonesia' },
-    howTitle:      { id:'ALUR ORDER',  en:'ORDER FLOW' },
-    sc1title:      { id:'ISI FORM',    en:'FILL FORM' },
-    sc1desc:       { id:'Lengkapi data diri, pilih ukuran & qty.', en:'Fill in your details, choose size & qty.' },
-    sc2title:      { id:'TRANSFER',    en:'TRANSFER' },
-    sc2desc:       { id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.', en:'Transfer shirt total to GoPay/Dana. Shipping follows.' },
-    sc3title:      { id:'UPLOAD BUKTI', en:'UPLOAD PROOF' },
-    sc3desc:       { id:'Upload screenshot bukti transfer langsung di web.', en:'Upload transfer screenshot directly on the website.' },
-    sc4title:      { id:'PRODUKSI',    en:'PRODUCTION' },
-    sc4desc:       { id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.',
-                     en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.' },
-    hashtags:      { id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN', en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN' },
-    fnote:         { id:'Made with chaos in Bali · Limited Group Order Only', en:'Made with chaos in Bali · Limited Group Order Only' },
-    priceLblExtra: { id:'Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing', en:'Full payment upfront · Shipping notified after GO closes' },
-    colorNote:     { id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',
-                     en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" style="color:var(--amber);">Check color stock first</a> before ordering' },
+// ─── i18n ────────────────────────────────────────────────
+function setLang(lang){
+  currentLang=lang;
+  var btnId=$('btn-id'),btnEn=$('btn-en');
+  if(btnId)btnId.classList.toggle('active',lang==='id');
+  if(btnEn)btnEn.classList.toggle('active',lang==='en');
+  var T={
+    topTag:       {id:'⚡ Limited Drop — Bhuta Kala Modern ⚡',en:'⚡ Limited Drop — Bhuta Kala Modern ⚡'},
+    heroHl:       {id:'AWAS BAHAYA <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>',en:'BEWARE OF <em style="display:inline;font-style:normal;color:var(--amber)">NPD.</em>'},
+    warningBadge: {id:'⚡ AWAS BAHAYA NPD',en:'⚡ BEWARE OF NPD'},
+    sym1:         {id:'EGOIS MAKSIMAL',en:'EXTREMELY SELFISH'},
+    sym2:         {id:'ANTI KRITIK',en:'CANNOT TAKE CRITICISM'},
+    sym3:         {id:'OTAK NGAMBUL',en:'PERPETUAL TANTRUM'},
+    productDesc:  {id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.',en:'Express yourself with a <strong style="color:var(--amber)">TAKSU</strong> shirt. Premium combed 24s — thick, substantial, collector vibes.'},
+    priceLbl:     {id:'⚡ harga group order ⚡',en:'⚡ group order pricing ⚡'},
+    priceNote:    {id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',en:'<strong>Price per pcs</strong> · shipping not included'},
+    priceLblExtra:{id:'Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing',en:'Full payment upfront · Shipping notified after GO closes'},
+    galleryTitle: {id:'DETAIL KAOS',en:'SHIRT DETAILS'},
+    galleryNote:  {id:'Tap foto untuk memperbesar',en:'Tap photo to enlarge'},
+    sizeChartTitle:{id:'SIZE CHART',en:'SIZE CHART'},
+    sizeNote:     {id:'Cotton Combed 24s · ukuran dalam cm',en:'Cotton Combed 24s · measurements in cm'},
+    thUkuran:     {id:'Ukuran',en:'Size'},thLebar:{id:'Lebar',en:'Width'},thPanjang:{id:'Panjang',en:'Length'},thHarga:{id:'Harga',en:'Price'},
+    chartNote:    {id:'Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.',en:'Cotton Combed 24s · 170–180 gsm · thick, premium feel.<br>XXL &amp; XXXL priced higher due to more fabric used.'},
+    materialTag:  {id:'Cotton Combed 24s · 170–180 GSM<br>100% Cotton',en:'Cotton Combed 24s · 170–180 GSM<br>100% Cotton'},
+    shipText:     {id:'Pengiriman ke seluruh Indonesia',en:'Shipping to all of Indonesia'},
+    stepForm:     {id:'FORM',en:'FORM'},stepBayar:{id:'BAYAR',en:'PAY'},stepUpload:{id:'UPLOAD',en:'UPLOAD'},stepSelesai:{id:'SELESAI',en:'DONE'},
+    formTitle:    {id:'FORM ORDER',en:'ORDER FORM'},
+    lblNama:      {id:'Nama Lengkap *',en:'Full Name *'},lblEmail:{id:'Email *',en:'Email *'},
+    lblPhone:     {id:'Nomor WhatsApp *',en:'WhatsApp Number *'},lblAlamat:{id:'Alamat Lengkap *',en:'Full Address *'},
+    lblKota:      {id:'Kota / Kabupaten *',en:'City *'},lblKodePos:{id:'Kode Pos *',en:'Postal Code *'},
+    lblUkuran:    {id:'Pilih Ukuran *',en:'Choose Size *'},lblWarna:{id:'Pilih Warna *',en:'Choose Color *'},
+    lblQty:       {id:'Jumlah',en:'Quantity'},lblCatatan:{id:'Catatan (opsional)',en:'Notes (optional)'},
+    emailHint:    {id:'Untuk konfirmasi order otomatis',en:'For automatic order confirmation'},
+    ongkirNote:   {id:'BELUM TERMASUK ONGKOS KIRIM',en:'SHIPPING NOT INCLUDED'},
+    btnNext:      {id:'LANJUT KE PEMBAYARAN →',en:'PROCEED TO PAYMENT →'},
+    stockWarn:    {id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡'},
+    totalSize:    {id:'Ukuran',en:'Size'},totalHarga:{id:'Harga/pcs',en:'Price/pcs'},totalQty:{id:'Qty',en:'Qty'},
+    backToForm:   {id:'KEMBALI KE FORM',en:'BACK TO FORM'},
+    payInstrTitle:{id:'INSTRUKSI BAYAR',en:'PAYMENT INSTRUCTIONS'},
+    step2Subtitle:{id:'Simpan no. order, transfer, lalu upload bukti di bawah.',en:'Save your order number, transfer, then upload proof below.'},
+    orderNumLabel:{id:'NO. ORDER',en:'ORDER NO.'},
+    oNama:{id:'Nama',en:'Name'},oWA:{id:'No WA',en:'WhatsApp'},oWarna:{id:'Warna',en:'Color'},oUkuran:{id:'Ukuran',en:'Size'},
+    oKota:{id:'Kota',en:'City'},oHarga:{id:'Harga/pcs',en:'Price/pcs'},oTotal:{id:'TOTAL',en:'TOTAL'},
+    oOngkir:{id:'Ongkir',en:'Shipping'},oOngkirVal:{id:'Diinfo via WA setelah GO closing',en:'Notified via WA after GO closes'},
+    payTitle:     {id:'💸 TRANSFER KE',en:'💸 TRANSFER TO'},
+    payDesc:      {id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.'},
+    bankAN:       {id:'a/n dikonfirmasi via WA',en:'account holder confirmed via WA'},
+    bcaCopy:      {id:'⚡ TAP UNTUK COPY NOMOR REKENING',en:'⚡ TAP TO COPY ACCOUNT NUMBER'},
+    gopayCopy:    {id:'⚡ TAP UNTUK COPY NOMOR',en:'⚡ TAP TO COPY NUMBER'},
+    orLabel:      {id:'ATAU',en:'OR'},
+    lblUpload:    {id:'Upload Bukti Transfer *',en:'Upload Payment Proof *'},
+    uploadLabel:  {id:'TAP UNTUK PILIH FOTO',en:'TAP TO CHOOSE PHOTO'},
+    uploadSub:    {id:'Screenshot bukti transfer · JPG/PNG · Maks 10MB',en:'Payment screenshot · JPG/PNG · Max 10MB'},
+    removeBtn:    {id:'✕ HAPUS FOTO',en:'✕ REMOVE PHOTO'},
+    uploadReq:    {id:'⚡ Upload bukti transfer dulu ya!',en:'⚡ Please upload your payment proof first!'},
+    btnConfirm:   {id:'KONFIRMASI PEMBAYARAN',en:'CONFIRM PAYMENT'},
+    adminVerif:   {id:'Admin verifikasi dalam 1×24 jam',en:'Admin verifies within 1×24 hours'},
+    successTitle: {id:'ORDER MASUK!',en:'ORDER RECEIVED!'},
+    successMsg:   {id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.',en:'Your order details and payment proof<br>have been received by the system.'},
+    s3t1:{id:'BUKTI TRANSFER DITERIMA',en:'PAYMENT PROOF RECEIVED'},
+    s3d1:{id:'Data & foto bukti tersimpan di sistem admin',en:'Data & proof photo saved in admin system'},
+    s3t2:{id:'ADMIN SEDANG CEK PEMBAYARAN',en:'ADMIN IS VERIFYING PAYMENT'},
+    s3d2:{id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>',en:'Estimated confirmation within <strong style="color:var(--amber)">1×24 hours</strong>'},
+    s3t3:{id:'NOTIF WA JIKA TERKONFIRMASI',en:'WA NOTIFICATION WHEN CONFIRMED'},
+    s3d3:{id:'Kamu akan dapat WA saat pembayaran terkonfirmasi',en:'You will receive a WA when payment is confirmed'},
+    s3t4:{id:'PRODUKSI 1–2 HARI KERJA',en:'PRODUCTION 1–2 WORKING DAYS'},
+    s3d4:{id:'Dimulai setelah pembayaran terkonfirmasi',en:'Starts after payment is confirmed'},
+    detailOrderTitle:{id:'📋 DETAIL ORDER',en:'📋 ORDER DETAILS'},
+    orderNumPrefix:{id:'No. order:',en:'Order no.:'},
+    successLi1:   {id:'Bukti transfer tersimpan di sistem',en:'Payment proof saved in the system'},
+    successLi2:   {id:'Notif email sudah dikirim ke admin',en:'Email notification sent to admin'},
+    copyHint:     {id:'Tap nomor order untuk copy',en:'Tap order number to copy'},
+    waSummaryBtn: {id:'KIRIM RINGKASAN KE WHATSAPP-KU',en:'SEND SUMMARY TO MY WHATSAPP'},
+    waSummaryNote:{id:'Tap untuk simpan bukti order di WhatsApp kamu',en:'Tap to save your order proof on WhatsApp'},
+    askAdmin:     {id:'Ada pertanyaan? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>',en:'Have questions? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>'},
+    howTitle:     {id:'ALUR ORDER',en:'ORDER FLOW'},
+    sc1title:{id:'ISI FORM',en:'FILL FORM'},sc1desc:{id:'Lengkapi data diri, pilih ukuran & qty.',en:'Fill in your details, choose size & qty.'},
+    sc2title:{id:'TRANSFER',en:'TRANSFER'},sc2desc:{id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.',en:'Transfer shirt total to GoPay/Dana. Shipping follows.'},
+    sc3title:{id:'UPLOAD BUKTI',en:'UPLOAD PROOF'},sc3desc:{id:'Upload screenshot bukti transfer langsung di web.',en:'Upload transfer screenshot directly on the website.'},
+    sc4title:{id:'PRODUKSI',en:'PRODUCTION'},sc4desc:{id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.',en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.'},
+    hashtags:     {id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN',en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN'},
+    fnote:        {id:'Made with chaos in Bali · Limited Group Order Only',en:'Made with chaos in Bali · Limited Group Order Only'},
+    waTooltip:    {id:'Tanya admin via WA',en:'Chat admin via WA'},
+    colorNote:    {id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" style="color:var(--amber);">Check color stock first</a> before ordering'},
   };
-
-  document.querySelectorAll('[data-i18n]').forEach(function(el) {
-    var key = el.dataset.i18n;
-    if (T[key]) el.innerHTML = T[key][lang] || T[key]['id'];
-  });
-
-  // Update placeholders
-  var ph = lang === 'id' ? {
-    'f-nama'   : 'Nama untuk label pengiriman',
-    'f-email'  : 'email@kamu.com',
-    'f-phone'  : '81xxxxxxxx',
-    'f-alamat' : 'Jl. contoh No.1, Kel. ...',
-    'f-kota'   : 'Denpasar',
-    'f-kodepos': '80225',
-    'f-catatan': 'Opsional — catatan khusus...',
-  } : {
-    'f-nama'   : 'Name for shipping label',
-    'f-email'  : 'your@email.com',
-    'f-phone'  : '81xxxxxxxx',
-    'f-alamat' : 'Full street address, district...',
-    'f-kota'   : 'City',
-    'f-kodepos': 'Postal Code',
-    'f-catatan': 'Optional — special notes...',
-  };
-  Object.keys(ph).forEach(function(id) {
-    var el = $(id);
-    if(el) el.placeholder = ph[id];
-  });
-
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(T[key])el.innerHTML=T[key][lang]||T[key].id;});
+  var ph=lang==='id'?{'f-nama':'Nama untuk label pengiriman','f-email':'email@kamu.com','f-phone':'81xxxxxxxx','f-alamat':'Jl. contoh No.1, Kel. ...','f-kota':'Denpasar','f-kodepos':'80225','f-catatan':'Opsional — catatan khusus...'}:{'f-nama':'Name for shipping label','f-email':'your@email.com','f-phone':'81xxxxxxxx','f-alamat':'Full street address, district...','f-kota':'City','f-kodepos':'Postal Code','f-catatan':'Optional — special notes...'};
+  Object.keys(ph).forEach(function(id){var el=$(id);if(el)el.placeholder=ph[id];});
   renderColors();
+  startTypewriter(lang);
+  buildMarquee(lang);
 }
 
+// ─── INIT ────────────────────────────────────────────────
+renderColors();
+updateTotal();
+restoreDraft();
 setLang('id');
 
 </script>
