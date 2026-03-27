@@ -931,7 +931,52 @@ textarea.finp{resize:vertical;min-height:80px;}
 .order-item-entry:last-child{border-bottom:none;}
 .order-item-desc{color:var(--cream);}
 .order-item-price{color:var(--amber);flex-shrink:0;padding-left:8px;}
-.btn-back-form{
+/* ─── SUCCESS ACTION BUTTONS ─── */
+.success-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+  margin-bottom:8px;
+}
+@media(max-width:360px){
+  .success-actions{ grid-template-columns:1fr; }
+}
+.btn-back-home{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 12px;
+  background:transparent;
+  border:2px solid rgba(200,134,10,.4);
+  color:var(--amber);
+  font-family:'Rubik Dirt',sans-serif;font-size:13px;
+  letter-spacing:2px;cursor:pointer;
+  text-decoration:none;
+  transition:border-color .2s,background .2s,transform .15s;
+}
+.btn-back-home:hover,.btn-back-home:active{
+  border-color:var(--amber);
+  background:rgba(200,134,10,.08);
+}
+.btn-back-home:active{ transform:scale(.97); }
+.btn-order-again{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 12px;
+  background:var(--amber);
+  border:2px solid var(--amber);
+  color:var(--black);
+  font-family:'Rubik Dirt',sans-serif;font-size:13px;
+  letter-spacing:2px;cursor:pointer;
+  text-decoration:none;
+  transition:background .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 4px 16px rgba(232,160,32,.25);
+}
+.btn-order-again:hover{
+  background:#f0b030;
+  box-shadow:0 6px 20px rgba(232,160,32,.4);
+}
+.btn-order-again:active{ transform:scale(.97);background:#d09010; }
+
+/* ─── BACK BUTTON (Step 2) ─── */
   background:transparent;
   border:1px solid rgba(200,134,10,.3);
   color:rgba(200,134,10,.7);
@@ -2097,6 +2142,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <span data-i18n="waSummaryBtn">KIRIM RINGKASAN KE WHATSAPP-KU</span>
       </a>
       <p class="wa-summary-note" data-i18n="waSummaryNote">Tap untuk simpan bukti order di WhatsApp kamu</p>
+
+      <!-- Action Buttons -->
+      <div class="success-actions">
+        <a href="#" onclick="scrollToTop();return false;" class="btn-back-home" id="btn-back-home">
+          🏠 <span data-i18n="btnBackHome">KEMBALI KE ATAS</span>
+        </a>
+        <button type="button" class="btn-order-again" id="btn-order-again">
+          🔄 <span data-i18n="btnOrderAgain">ORDER LAGI</span>
+        </button>
+      </div>
+
       <p style="font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.55;line-height:1.7;margin-top:16px;" data-i18n="askAdmin">
         Ada pertanyaan? Chat admin:<br>
         <a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>
@@ -2755,8 +2811,12 @@ function doSubmit(){
   if(btn)btn.disabled=true;
   if(txt)txt.textContent=(currentLang==='en'?'SENDING':'MENGIRIM')+retryLabel+'...';
   if(sp)sp.style.display='inline-block';
-  var payload=JSON.parse(JSON.stringify(ORDER));
-  payload.imageData=IMG_B64; payload.imageMime=IMG_MIME;
+  var payload = JSON.parse(JSON.stringify(ORDER));
+  // Hapus items array dari payload — berat & tidak diperlukan server
+  // Semua info multi-item sudah ada di field catatan dan itemsStr
+  delete payload.items;
+  payload.imageData = IMG_B64;
+  payload.imageMime = IMG_MIME;
   var ctrl=window.AbortController?new AbortController():null;
   var tid=ctrl?setTimeout(function(){ctrl.abort();},30000):null;
   var opts={method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),mode:'no-cors'};
@@ -3022,6 +3082,8 @@ function setLang(lang){
     copyHint:     {id:'Tap nomor order untuk copy',en:'Tap order number to copy'},
     waSummaryBtn: {id:'KIRIM RINGKASAN KE WHATSAPP-KU',en:'SEND SUMMARY TO MY WHATSAPP'},
     waSummaryNote:{id:'Tap untuk simpan bukti order di WhatsApp kamu',en:'Tap to save your order proof on WhatsApp'},
+    btnBackHome:  {id:'KEMBALI KE ATAS',en:'BACK TO TOP'},
+    btnOrderAgain:{id:'ORDER LAGI',en:'ORDER AGAIN'},
     askAdmin:     {id:'Ada pertanyaan? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>',en:'Have questions? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>'},
     howTitle:     {id:'ALUR ORDER',en:'ORDER FLOW'},
     sc1title:{id:'ISI FORM',en:'FILL FORM'},sc1desc:{id:'Lengkapi data diri, pilih ukuran & qty.',en:'Fill in your details, choose size & qty.'},
@@ -3042,7 +3104,37 @@ function setLang(lang){
   renderItems();
 }
 
-// ─── INIT ────────────────────────────────────────────────
+// ─── BACK TO TOP ────────────────────────────────────────
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.scrollToTop = scrollToTop;
+
+// ─── ORDER AGAIN ────────────────────────────────────────
+(function() {
+  var btnAgain = $('btn-order-again');
+  if (!btnAgain) return;
+  btnAgain.addEventListener('click', function() {
+    // Reset ITEMS ke kondisi awal
+    _itemCounter = 1;
+    ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:1 }];
+    // Clear upload state
+    clearUploadState();
+    // Reset submit state
+    resetSubmitBtn();
+    SUBMIT_ATTEMPT = 0;
+    _pushStateDone  = false;
+    // Clear localStorage draft
+    try { localStorage.removeItem(LS_KEY); } catch(e) {}
+    // Render fresh items
+    renderItems();
+    // Go back to step 1
+    goToStep(1);
+    // Scroll to order section
+    var sec = $('order-section');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
 restoreDraft();
 setLang('id');
 
