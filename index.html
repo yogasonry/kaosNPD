@@ -810,7 +810,127 @@ textarea.finp{resize:vertical;min-height:80px;}
 .copy-ordernum:active,.copy-ordernum:hover{background:rgba(200,134,10,.22);border-color:var(--amber);}
 .copy-ordernum-hint{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.65;margin-top:4px;}
 
-/* ─── BACK BUTTON (Step 2) ─── */
+/* ─── MULTI-ITEM ROWS ─── */
+.items-container{
+  display:flex;flex-direction:column;gap:12px;
+  margin-bottom:4px;
+}
+.item-row{
+  background:rgba(61,26,8,.18);
+  border:1.5px solid rgba(200,134,10,.22);
+  border-radius:8px;
+  padding:14px 14px 12px;
+  position:relative;
+  transition:border-color .2s;
+}
+.item-row:first-child .btn-remove-item{ display:none; }/* item pertama tidak bisa dihapus */
+.item-row-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.item-row-num{
+  font-family:'Rubik Dirt',sans-serif;font-size:11px;
+  color:var(--amber);letter-spacing:2px;
+}
+.btn-remove-item{
+  background:rgba(139,26,10,.5);border:1px solid rgba(139,26,10,.6);
+  color:var(--cream);font-size:11px;letter-spacing:1px;
+  padding:4px 10px;cursor:pointer;border-radius:4px;
+  transition:background .2s;line-height:1;
+}
+.btn-remove-item:hover,.btn-remove-item:active{background:var(--red);}
+
+/* compact size picker inside row */
+.item-row .size-picker{
+  grid-template-columns:repeat(6,1fr);
+  gap:5px;
+  margin-bottom:10px;
+}
+@media(max-width:380px){
+  .item-row .size-picker{grid-template-columns:repeat(3,1fr);}
+}
+.item-row .sopt{
+  font-size:12px;
+  min-height:42px;
+  padding:6px 1px;
+}
+/* compact color picker inside row */
+.item-row #color-picker,
+.item-row .color-picker-row{
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  margin-bottom:0;
+}
+.item-row .copt{
+  padding:10px 6px 8px;
+}
+.item-row .copt-swatch-wrap{
+  width:28px;height:28px;
+}
+.item-row .copt-name{font-size:9px;}
+
+/* qty row inside item */
+.item-row .item-qty-row{
+  display:flex;align-items:center;gap:10px;
+  margin-top:10px;
+}
+.item-row .item-qty-label{
+  font-family:'Rubik Dirt',sans-serif;font-size:11px;
+  color:var(--gold);letter-spacing:1px;flex-shrink:0;
+}
+.item-row .item-subtotal{
+  margin-left:auto;
+  font-family:'Rubik Dirt',sans-serif;font-size:14px;
+  color:var(--amber);
+}
+
+/* add item button */
+.btn-add-item{
+  width:100%;padding:13px;
+  background:transparent;
+  border:2px dashed rgba(200,134,10,.35);
+  color:var(--amber);
+  font-family:'Rubik Dirt',sans-serif;font-size:13px;
+  letter-spacing:3px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:border-color .2s,background .2s;
+  border-radius:4px;
+  margin-bottom:4px;
+}
+.btn-add-item:hover,.btn-add-item:active{
+  border-color:var(--amber);background:rgba(200,134,10,.07);
+}
+.btn-add-item:disabled{
+  opacity:.35;cursor:not-allowed;
+}
+
+/* items summary in total box */
+.items-summary{
+  margin-bottom:8px;
+}
+.item-sum-row{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Roboto',sans-serif;font-size:12px;
+  color:var(--cream);opacity:.75;
+  padding:3px 0;
+  border-bottom:1px dashed rgba(200,134,10,.1);
+}
+.item-sum-row:last-child{border-bottom:none;}
+.item-sum-desc{flex:1;}
+.item-sum-price{flex-shrink:0;color:var(--gold);}
+
+/* order card items list (step 2) */
+.order-items-list{
+  margin:4px 0 8px;
+}
+.order-item-entry{
+  display:flex;justify-content:space-between;
+  font-size:13px;padding:5px 0;
+  border-bottom:1px dashed rgba(200,134,10,.1);
+}
+.order-item-entry:last-child{border-bottom:none;}
+.order-item-desc{color:var(--cream);}
+.order-item-price{color:var(--amber);flex-shrink:0;padding-left:8px;}
 .btn-back-form{
   background:transparent;
   border:1px solid rgba(200,134,10,.3);
@@ -1796,50 +1916,31 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         </div>
       </div>
 
-      <!-- Pilih Ukuran -->
+      <!-- ═══ MULTI-ITEM VARIASI ═══ -->
       <div class="fg">
-        <label class="flbl" data-i18n="lblUkuran">Pilih Ukuran *</label>
-        <div class="size-picker" id="size-picker">
-          <button class="sopt active" data-size="S"    data-price="150000">S<span class="sopt-price">150K</span></button>
-          <button class="sopt"        data-size="M"    data-price="150000">M<span class="sopt-price">150K</span></button>
-          <button class="sopt"        data-size="L"    data-price="150000">L<span class="sopt-price">150K</span></button>
-          <button class="sopt"        data-size="XL"   data-price="150000">XL<span class="sopt-price">150K</span></button>
-          <button class="sopt sp-size" data-size="XXL"  data-price="170000">XXL<span class="sopt-price">170K</span></button>
-          <button class="sopt sp-size" data-size="XXXL" data-price="170000">XXXL<span class="sopt-price">170K</span></button>
+        <label class="flbl" data-i18n="lblVariasi">Pilih Ukuran &amp; Warna *</label>
+        <div class="items-container" id="items-container">
+          <!-- Item rows rendered by JS -->
         </div>
-      </div>
-
-      <!-- Pilih Warna -->
-      <div class="fg">
-        <label class="flbl" data-i18n="lblWarna">Pilih Warna *</label>
-        <div id="color-picker"></div>
+        <button type="button" class="btn-add-item" id="btn-add-item">
+          <span style="font-size:18px;line-height:1;">+</span>
+          <span data-i18n="btnAddItem">TAMBAH WARNA/UKURAN LAIN</span>
+        </button>
         <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;" data-i18n="colorNote">
           ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
         </p>
       </div>
 
-      <!-- Qty -->
-      <div class="fg">
-        <label class="flbl" data-i18n="lblQty">Jumlah</label>
-        <div class="qty-row">
-          <div class="qty-ctrl">
-            <button class="qty-btn" id="btn-minus" type="button">−</button>
-            <input class="qty-num" type="number" id="f-qty" value="1" min="1" max="100" inputmode="numeric">
-            <button class="qty-btn" id="btn-plus" type="button">+</button>
-          </div>
-        </div>
-      </div>
-
       <div class="fg">
         <label class="flbl" for="f-catatan" data-i18n="lblCatatan">Catatan (opsional)</label>
-        <input class="finp" type="text" id="f-catatan" placeholder="Request warna, catatan khusus...">
+        <input class="finp" type="text" id="f-catatan" placeholder="Request khusus, catatan pengiriman...">
       </div>
 
       <!-- Total Box -->
       <div class="total-box">
-        <div class="trow"><span class="tkey" data-i18n="totalSize">Ukuran</span><span class="tval" id="t-size">S</span></div>
-        <div class="trow"><span class="tkey" data-i18n="totalHarga">Harga/pcs</span><span class="tval" id="t-harga">Rp 150.000</span></div>
-        <div class="trow"><span class="tkey" data-i18n="totalQty">Qty</span><span class="tval" id="t-qty">× 1 pcs</span></div>
+        <div class="items-summary" id="items-summary">
+          <!-- rendered by JS -->
+        </div>
         <hr class="tdiv">
         <div class="tbig" id="t-total">Rp 150.000</div>
         <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKOS KIRIM</div>
@@ -1870,11 +1971,12 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <div class="orow"><span class="okey" data-i18n="oNama">Nama</span><span class="oval" id="r-nama">—</span></div>
         <div class="orow"><span class="okey" data-i18n="oWA">No WA</span><span class="oval" id="r-phone">—</span></div>
         <div class="orow"><span class="okey">Email</span><span class="oval" id="r-email">—</span></div>
-        <div class="orow"><span class="okey" data-i18n="oWarna">Warna</span><span class="oval" id="r-warna">—</span></div>
-        <div class="orow"><span class="okey" data-i18n="oUkuran">Ukuran</span><span class="oval" id="r-ukuran">—</span></div>
-        <div class="orow"><span class="okey">Qty</span><span class="oval" id="r-qty">—</span></div>
         <div class="orow"><span class="okey" data-i18n="oKota">Kota</span><span class="oval" id="r-kota">—</span></div>
-        <div class="orow"><span class="okey" data-i18n="oHarga">Harga/pcs</span><span class="oval" id="r-harga">—</span></div>
+        <!-- Items list -->
+        <div class="orow" style="flex-direction:column;align-items:flex-start;gap:6px;">
+          <span class="okey" data-i18n="oItems">Item</span>
+          <div class="order-items-list" id="r-items-list"></div>
+        </div>
         <div class="orow" style="margin-top:6px;">
           <span class="okey" style="color:var(--amber)" data-i18n="oTotal">TOTAL</span>
           <span class="oval" id="r-total" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:20px;">—</span>
@@ -2064,7 +2166,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 // MAIN SCRIPT — AWAS BAHAYA NPD
 // ═══════════════════════════════════════════════════════
 
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu5t5VqsezEVPBjREt0EqltP2W_EDzIwB-1Lh_HoWeYcpiaFEVea_pwLrDDtlbR-Yd/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzs9hU1u8fhrKgdGAlNTuFji4gi-HKkAeVGf2obpPqtaHX-jTG329-SBZizj8P8LjWP/exec';
 
 // ─── COLORS — bilingual labels ──────────────────────────
 var COLORS = [
@@ -2200,69 +2302,220 @@ function startTypewriter(lang) {
   _twTimer = setTimeout(tick, 700);
 }
 
-// ─── COLOR PICKER ───────────────────────────────────────
-// saveDraft declared below — forward reference safe via var hoisting
-// but debounce wrapper is assigned as var, so we need a safe shim here
+// ─── COLOR HELPERS ───────────────────────────────────────
+function getColorLabel(c) {
+  return (c.label && typeof c.label === 'object') ? (c.label[currentLang] || c.label.id) : (c.label || '');
+}
+
+// saveDraft declared below as debounced var — safe shim for early calls
 function _saveDraftSafe() { if (typeof saveDraft === 'function') saveDraft(); }
 
-function getColorLabel(c) {
-  return (c.label && typeof c.label === 'object') ? (c.label[currentLang] || c.label.id) : c.label;
+// ─── ITEM STATE ─────────────────────────────────────────
+// Each item: { id, color, size, price, qty }
+var ITEMS = [];
+var _itemCounter = 0;
+var MAX_ITEMS = 5;
+
+var SIZES = [
+  { size:'S',    price:150000 },
+  { size:'M',    price:150000 },
+  { size:'L',    price:150000 },
+  { size:'XL',   price:150000 },
+  { size:'XXL',  price:170000 },
+  { size:'XXXL', price:170000 },
+];
+
+function priceForSize(size) {
+  var s = SIZES.find(function(x){ return x.size === size; });
+  return s ? s.price : 150000;
 }
-function renderColors() {
-  var wrap = $('color-picker'); if (!wrap) return;
-  wrap.innerHTML = COLORS.map(function(c) {
-    var active = SEL_COLOR === c.id;
-    var label  = getColorLabel(c);
+
+// ─── RENDER ONE ITEM ROW ─────────────────────────────────
+function renderItemRow(item) {
+  var isFirst = ITEMS.indexOf(item) === 0;
+  var rowNum  = ITEMS.indexOf(item) + 1;
+  var label   = currentLang === 'en' ? 'ITEM ' : 'ITEM ';
+
+  // Size buttons HTML
+  var sizesHtml = SIZES.map(function(s) {
+    var active = item.size === s.size;
+    var sp     = s.price > 150000 ? ' sp-size' : '';
+    return '<button type="button" class="sopt' + (active ? ' active' : '') + sp + '"'
+      + ' onclick="itemPickSize(\'' + item.id + '\',\'' + s.size + '\',' + s.price + ')">'
+      + s.size + '<span class="sopt-price">' + (s.price === 150000 ? '150K' : '170K') + '</span>'
+      + '</button>';
+  }).join('');
+
+  // Color buttons HTML
+  var colorsHtml = COLORS.map(function(c) {
+    var active = item.color === c.id;
+    var lbl    = getColorLabel(c);
     var sx = c.id === 'putih'
       ? 'border:1.5px solid rgba(200,134,10,.4);outline:2px solid rgba(200,134,10,.3);outline-offset:2px;'
       : c.id === 'hitam'
-        ? 'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);'
+        ? 'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;'
         : '';
-    return '<button type="button" class="copt' + (active ? ' active' : '') + '" onclick="pickColor(\'' + c.id + '\')" aria-label="' + label + '">' +
-      '<span class="copt-swatch-wrap"><span class="copt-swatch" style="background:' + c.hex + ';' + sx + '"></span>' +
-      (active ? '<span class="copt-check">✓</span>' : '') + '</span>' +
-      '<span class="copt-name">' + label + '</span></button>';
+    return '<button type="button" class="copt' + (active ? ' active' : '') + '"'
+      + ' onclick="itemPickColor(\'' + item.id + '\',\'' + c.id + '\')" aria-label="' + lbl + '">'
+      + '<span class="copt-swatch-wrap">'
+      + '<span class="copt-swatch" style="background:' + c.hex + ';' + sx + '"></span>'
+      + (active ? '<span class="copt-check">✓</span>' : '')
+      + '</span>'
+      + '<span class="copt-name">' + lbl + '</span>'
+      + '</button>';
   }).join('');
-}
-function pickColor(id) {
-  if (!COLORS.some(function(c){ return c.id === id; })) return;
-  SEL_COLOR = id; renderColors(); _saveDraftSafe();
-}
-window.pickColor = pickColor;
 
-// ─── SIZE PICKER ────────────────────────────────────────
-document.querySelectorAll('#size-picker .sopt').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('#size-picker .sopt').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    SEL_SIZE = btn.dataset.size; SEL_PRICE = parseInt(btn.dataset.price, 10);
-    updateTotal(); saveDraft();
-  });
-});
+  var subtotal = fmtRp(item.price * item.qty);
+  var removeLabel = currentLang === 'en' ? '✕ REMOVE' : '✕ HAPUS';
+  var qtyLabel    = currentLang === 'en' ? 'QTY' : 'QTY';
+  var itemLabel   = (currentLang === 'en' ? 'ITEM ' : 'ITEM ') + rowNum;
 
-// ─── QTY ────────────────────────────────────────────────
-function getQty() { var v = parseInt($('f-qty').value, 10); return isNaN(v) ? 1 : Math.max(1, Math.min(100, v)); }
-$('btn-minus').addEventListener('click', function(){ var q=getQty(); if(q>1){$('f-qty').value=q-1;updateTotal();saveDraft();} });
-$('btn-plus').addEventListener('click',  function(){ var q=getQty(); if(q<100){$('f-qty').value=q+1;updateTotal();saveDraft();} });
-$('f-qty').addEventListener('input', function(){
-  var v=parseInt(this.value,10); if(isNaN(v)||v<1)this.value=1; if(v>100)this.value=100; updateTotal(); saveDraft();
-});
-
-// ─── UPDATE TOTAL ───────────────────────────────────────
-function updateTotal() {
-  var qty=getQty(), ts=$('t-size'), th=$('t-harga'), tq=$('t-qty'), tt=$('t-total');
-  if(ts) ts.textContent=SEL_SIZE;
-  if(th) th.textContent=fmtRp(SEL_PRICE);
-  if(tq) tq.textContent='× '+qty+' pcs';
-  if(tt) tt.textContent=fmtRp(SEL_PRICE*qty);
+  return '<div class="item-row" id="item-row-' + item.id + '">'
+    + '<div class="item-row-header">'
+    +   '<span class="item-row-num">' + itemLabel + '</span>'
+    +   (!isFirst ? '<button type="button" class="btn-remove-item" onclick="removeItem(\'' + item.id + '\')">' + removeLabel + '</button>' : '')
+    + '</div>'
+    // Size picker
+    + '<div style="margin-bottom:10px;">'
+    +   '<div style="font-family:\'Rubik Dirt\',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;" data-item-label="size-' + item.id + '">'
+    +   (currentLang === 'en' ? 'SIZE' : 'UKURAN') + '</div>'
+    +   '<div class="size-picker">' + sizesHtml + '</div>'
+    + '</div>'
+    // Color picker
+    + '<div style="margin-bottom:0;">'
+    +   '<div style="font-family:\'Rubik Dirt\',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;" data-item-label="color-' + item.id + '">'
+    +   (currentLang === 'en' ? 'COLOR' : 'WARNA') + '</div>'
+    +   '<div class="copt-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">' + colorsHtml + '</div>'
+    + '</div>'
+    // Qty + subtotal
+    + '<div class="item-qty-row">'
+    +   '<span class="item-qty-label">' + qtyLabel + '</span>'
+    +   '<div class="qty-row" style="margin:0;">'
+    +     '<div class="qty-ctrl">'
+    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(\'' + item.id + '\',-1)">−</button>'
+    +       '<input class="qty-num" type="number" value="' + item.qty + '" min="1" max="99" inputmode="numeric"'
+    +         ' id="item-qty-' + item.id + '"'
+    +         ' onchange="itemQtyInput(\'' + item.id + '\',this.value)"'
+    +         ' oninput="itemQtyInput(\'' + item.id + '\',this.value)">'
+    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(\'' + item.id + '\',1)">+</button>'
+    +     '</div>'
+    +   '</div>'
+    +   '<span class="item-subtotal">' + subtotal + '</span>'
+    + '</div>'
+    + '</div>';
 }
+
+// ─── RENDER ALL ITEMS ────────────────────────────────────
+function renderItems() {
+  var container = $('items-container');
+  if (!container) return;
+  container.innerHTML = ITEMS.map(renderItemRow).join('');
+  // Update add button state
+  var addBtn = $('btn-add-item');
+  if (addBtn) addBtn.disabled = ITEMS.length >= MAX_ITEMS;
+  // Update total
+  updateTotalMulti();
+  _saveDraftSafe();
+}
+
+// ─── TOTAL CALCULATION ───────────────────────────────────
+function calcGrandTotal() {
+  return ITEMS.reduce(function(sum, item) {
+    return sum + (item.price * item.qty);
+  }, 0);
+}
+
+function updateTotalMulti() {
+  var summary = $('items-summary');
+  var totalEl = $('t-total');
+  if (summary) {
+    summary.innerHTML = ITEMS.map(function(item, i) {
+      var lbl = getColorLabel(COLORS.find(function(c){ return c.id === item.color; }) || COLORS[0]);
+      var desc = (item.color ? lbl : '—') + ' · ' + item.size + ' × ' + item.qty + ' pcs';
+      var price = fmtRp(item.price * item.qty);
+      return '<div class="item-sum-row">'
+        + '<span class="item-sum-desc">' + desc + '</span>'
+        + '<span class="item-sum-price">' + price + '</span>'
+        + '</div>';
+    }).join('');
+  }
+  if (totalEl) totalEl.textContent = fmtRp(calcGrandTotal());
+}
+
+// ─── ITEM ACTIONS ────────────────────────────────────────
+function addItem() {
+  if (ITEMS.length >= MAX_ITEMS) return;
+  _itemCounter++;
+  ITEMS.push({ id: 'item' + _itemCounter, color: '', size: 'S', price: 150000, qty: 1 });
+  renderItems();
+  // Scroll new item into view
+  setTimeout(function() {
+    var last = $('item-row-item' + _itemCounter);
+    if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 80);
+}
+
+function removeItem(id) {
+  ITEMS = ITEMS.filter(function(item) { return item.id !== id; });
+  renderItems();
+}
+
+function itemPickSize(id, size, price) {
+  var item = ITEMS.find(function(x){ return x.id === id; });
+  if (!item) return;
+  item.size  = size;
+  item.price = price;
+  renderItems();
+}
+
+function itemPickColor(id, colorId) {
+  if (!COLORS.some(function(c){ return c.id === colorId; })) return;
+  var item = ITEMS.find(function(x){ return x.id === id; });
+  if (!item) return;
+  item.color = colorId;
+  renderItems();
+}
+
+function itemQtyChange(id, delta) {
+  var item = ITEMS.find(function(x){ return x.id === id; });
+  if (!item) return;
+  var newQty = Math.max(1, Math.min(99, item.qty + delta));
+  item.qty = newQty;
+  renderItems();
+}
+
+function itemQtyInput(id, val) {
+  var item = ITEMS.find(function(x){ return x.id === id; });
+  if (!item) return;
+  var v = parseInt(val, 10);
+  item.qty = isNaN(v) ? 1 : Math.max(1, Math.min(99, v));
+  updateTotalMulti();
+  _saveDraftSafe();
+}
+
+// Expose to window for onclick
+window.addItem        = addItem;
+window.removeItem     = removeItem;
+window.itemPickSize   = itemPickSize;
+window.itemPickColor  = itemPickColor;
+window.itemQtyChange  = itemQtyChange;
+window.itemQtyInput   = itemQtyInput;
+
+// ─── INIT FIRST ITEM ────────────────────────────────────
+_itemCounter = 1;
+ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:1 }];
+renderItems();
+
+// Bind add button
+var addItemBtn = $('btn-add-item');
+if (addItemBtn) addItemBtn.addEventListener('click', addItem);
 
 // ─── LOCALSTORAGE DRAFT ─────────────────────────────────
 var LS_KEY    = 'npd_form_draft';
-var LS_FIELDS = ['f-nama','f-email','f-phone','f-alamat','f-kota','f-kodepos','f-catatan','f-qty'];
+var LS_FIELDS = ['f-nama','f-email','f-phone','f-alamat','f-kota','f-kodepos','f-catatan'];
 var saveDraft = debounce(function() {
   try {
-    var cc=$('f-cc'), d={color:SEL_COLOR,size:SEL_SIZE,price:SEL_PRICE,cc:cc?cc.value:'62'};
+    var cc=$('f-cc'), d={items:ITEMS, cc:cc?cc.value:'62'};
     LS_FIELDS.forEach(function(id){ var el=$(id); if(el) d[id]=el.value; });
     localStorage.setItem(LS_KEY, JSON.stringify(d));
   } catch(e){}
@@ -2274,14 +2527,28 @@ function restoreDraft() {
     var d=JSON.parse(raw);
     LS_FIELDS.forEach(function(id){ var el=$(id); if(el&&d[id]!==undefined&&d[id]!=='') el.value=d[id]; });
     var cc=$('f-cc'); if(cc&&d.cc) cc.value=d.cc;
-    if(d.color&&COLORS.some(function(c){return c.id===d.color;})){SEL_COLOR=d.color;renderColors();}
-    if(d.size){
-      document.querySelectorAll('#size-picker .sopt').forEach(function(b){
-        var match=b.dataset.size===d.size; b.classList.toggle('active',match);
-        if(match){SEL_SIZE=d.size;SEL_PRICE=parseInt(b.dataset.price,10)||d.price||150000;}
+    // Restore items
+    if(d.items && Array.isArray(d.items) && d.items.length > 0) {
+      var validColors = COLORS.map(function(c){ return c.id; });
+      ITEMS = d.items.filter(function(item){
+        return item.id && item.size && item.qty > 0;
+      }).map(function(item){
+        return {
+          id    : item.id,
+          color : validColors.indexOf(item.color) >= 0 ? item.color : '',
+          size  : item.size,
+          price : priceForSize(item.size),
+          qty   : Math.max(1, Math.min(99, parseInt(item.qty,10)||1))
+        };
       });
+      if(ITEMS.length === 0) {
+        ITEMS = [{id:'item1',color:'',size:'S',price:150000,qty:1}];
+      }
+      _itemCounter = Math.max.apply(null, ITEMS.map(function(x){
+        return parseInt(x.id.replace('item',''),10)||1;
+      }));
+      renderItems();
     }
-    updateTotal();
     if(d['f-nama']||d['f-email']||d['f-phone']) setTimeout(function(){toast(t('draftRestored'));},800);
   } catch(e){}
 }
@@ -2311,8 +2578,18 @@ function goToStep(n) {
 
 // ─── VALIDATE ───────────────────────────────────────────
 function validate() {
-  if(!SEL_COLOR){toast(t('pickColor'));return false;}
-  if(!SEL_SIZE) {toast(t('pickSize')); return false;}
+  // Validate each item has color selected
+  for (var i = 0; i < ITEMS.length; i++) {
+    if (!ITEMS[i].color) {
+      var msg = currentLang === 'en'
+        ? 'Please choose a color for Item ' + (i+1) + '!'
+        : 'Pilih warna untuk Item ' + (i+1) + '!';
+      toast(msg);
+      var row = $('item-row-' + ITEMS[i].id);
+      if (row) row.scrollIntoView({ behavior:'smooth', block:'center' });
+      return false;
+    }
+  }
   var nama=$('f-nama'),phone=$('f-phone'),email=$('f-email'),alamat=$('f-alamat'),kota=$('f-kota'),kodepos=$('f-kodepos');
   if(!nama.value.trim())   {toast(t('fillNama'));   nama.focus();   return false;}
   if(!phone.value.trim())  {toast(t('fillPhone'));  phone.focus();  return false;}
@@ -2328,22 +2605,76 @@ function validate() {
 // ─── NEXT BUTTON ────────────────────────────────────────
 $('btn-next').addEventListener('click', function() {
   if(!validate()) return;
-  var qty=getQty();
-  ORDER={
-    orderNum   :'NPD-'+Date.now().toString().slice(-6),
-    nama       :$('f-nama').value.trim(),   phone      :$('f-phone').value.trim(),
-    email      :$('f-email').value.trim(),  alamat     :$('f-alamat').value.trim(),
-    kota       :$('f-kota').value.trim(),   kodePos    :$('f-kodepos').value.trim(),
-    catatan    :$('f-catatan').value.trim(),warna      :SEL_COLOR,
-    ukuran     :SEL_SIZE,                   qty        :qty,
-    hargaPerPcs:SEL_PRICE,                  countryCode:$('f-cc').value,
+
+  var grandTotal = calcGrandTotal();
+  var totalQty   = ITEMS.reduce(function(s,x){ return s+x.qty; }, 0);
+  var userCatatan = $('f-catatan').value.trim();
+
+  // Build items detail string
+  var itemsStr = ITEMS.map(function(item, i) {
+    var lbl = getColorLabel(COLORS.find(function(c){ return c.id === item.color; }) || COLORS[0]);
+    return (i+1) + '. ' + lbl + ' ' + item.size + ' x' + item.qty + ' (' + fmtRp(item.price*item.qty) + ')';
+  }).join(' | ');
+
+  // Merge detail variasi ke catatan jika lebih dari 1 item
+  // → Layout spreadsheet tidak berubah, detail tetap terbaca admin
+  var catatanFinal = '';
+  if (ITEMS.length > 1) {
+    catatanFinal = '[MULTI] ' + itemsStr;
+    if (userCatatan) catatanFinal += ' | Catatan: ' + userCatatan;
+  } else {
+    catatanFinal = userCatatan;
+  }
+
+  // Single-item compat: gunakan item pertama untuk kolom warna/ukuran/harga di sheet
+  var firstItem = ITEMS[0];
+  var firstLabel = getColorLabel(COLORS.find(function(c){ return c.id === firstItem.color; }) || COLORS[0]);
+
+  ORDER = {
+    orderNum    : 'NPD-' + Date.now().toString().slice(-6),
+    nama        : $('f-nama').value.trim(),
+    phone       : $('f-phone').value.trim(),
+    email       : $('f-email').value.trim(),
+    alamat      : $('f-alamat').value.trim(),
+    kota        : $('f-kota').value.trim(),
+    kodePos     : $('f-kodepos').value.trim(),
+    catatan     : catatanFinal,           // ← variasi multi-item masuk sini
+    countryCode : $('f-cc').value,
+    items       : ITEMS.map(function(item) {
+      var lbl = getColorLabel(COLORS.find(function(c){ return c.id === item.color; }) || COLORS[0]);
+      return { warna: item.color, warnaLabel: lbl, ukuran: item.size, qty: item.qty, harga: item.price };
+    }),
+    itemsStr    : itemsStr,
+    totalQty    : totalQty,
+    grandTotal  : grandTotal,
+    // Kolom sheet tetap pakai item pertama + total qty + grand total
+    warna       : firstLabel,
+    ukuran      : ITEMS.length > 1
+                    ? ITEMS.map(function(x){ return x.size; }).join('+')
+                    : firstItem.size,
+    qty         : totalQty,
+    hargaPerPcs : firstItem.price,
   };
-  $('r-ordernum').textContent=ORDER.orderNum;
-  $('r-nama').textContent=ORDER.nama;       $('r-phone').textContent=ORDER.phone;
-  $('r-email').textContent=ORDER.email;     $('r-warna').textContent=ORDER.warna.toUpperCase();
-  $('r-ukuran').textContent=ORDER.ukuran;   $('r-qty').textContent=ORDER.qty+' pcs';
-  $('r-kota').textContent=ORDER.kota;       $('r-harga').textContent=fmtRp(ORDER.hargaPerPcs);
-  $('r-total').textContent=fmtRp(ORDER.hargaPerPcs*qty);
+
+  // Fill order card
+  $('r-ordernum').textContent = ORDER.orderNum;
+  $('r-nama').textContent     = ORDER.nama;
+  $('r-phone').textContent    = ORDER.phone;
+  $('r-email').textContent    = ORDER.email;
+  $('r-kota').textContent     = ORDER.kota;
+  $('r-total').textContent    = fmtRp(grandTotal);
+
+  // Build items list in order card
+  var itemsList = $('r-items-list');
+  if (itemsList) {
+    itemsList.innerHTML = ORDER.items.map(function(item) {
+      return '<div class="order-item-entry">'
+        + '<span class="order-item-desc">' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs</span>'
+        + '<span class="order-item-price">' + fmtRp(item.harga * item.qty) + '</span>'
+        + '</div>';
+    }).join('');
+  }
+
   goToStep(2);
   if(!_pushStateDone){history.pushState({step:2},'');_pushStateDone=true;}
 });
@@ -2448,24 +2779,28 @@ function onSubmitSuccess(){
     if(navigator.clipboard){navigator.clipboard.writeText(num).then(function(){toast(t('orderCopied'));});}
     else{var ta=document.createElement('textarea');ta.value=num;ta.style.cssText='position:fixed;opacity:0;';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(t('orderCopied'));}catch(e){}document.body.removeChild(ta);}
   };
-  var isEn=currentLang==='en';
-  var waMsg=[
-    '🧾 *'+(isEn?'ORDER SUMMARY — AWAS BAHAYA NPD':'RINGKASAN ORDER AWAS BAHAYA NPD')+'*',
+  var isEn = currentLang === 'en';
+  // Build items lines
+  var itemLines = ORDER.items.map(function(item, i) {
+    return (isEn ? '  ' : '  ') + (i+1) + '. ' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs = ' + fmtRp(item.harga * item.qty);
+  });
+  var waMsg = [
+    '🧾 *' + (isEn ? 'ORDER SUMMARY — AWAS BAHAYA NPD' : 'RINGKASAN ORDER AWAS BAHAYA NPD') + '*',
     '─────────────────────',
-    (isEn?'📋 Order No.  : *':'📋 No. Order : *')+ORDER.orderNum+'*',
-    (isEn?'👤 Name       : ':'👤 Nama      : ')+ORDER.nama,
-    (isEn?'📱 WA         : ':'📱 WA        : ')+ORDER.phone,
-    (isEn?'📍 City       : ':'📍 Kota      : ')+ORDER.kota,
+    (isEn ? '📋 Order No.  : *' : '📋 No. Order : *') + ORDER.orderNum + '*',
+    (isEn ? '👤 Name       : ' : '👤 Nama      : ') + ORDER.nama,
+    (isEn ? '📱 WA         : ' : '📱 WA        : ') + ORDER.phone,
+    (isEn ? '📍 City       : ' : '📍 Kota      : ') + ORDER.kota,
     '─────────────────────',
-    (isEn?'👕 Color      : ':'👕 Warna     : ')+ORDER.warna.toUpperCase(),
-    (isEn?'📏 Size       : ':'📏 Ukuran    : ')+ORDER.ukuran,
-    (isEn?'🔢 Qty        : ':'🔢 Qty       : ')+ORDER.qty+' pcs',
-    (isEn?'💰 Total      : *':'💰 Total     : *')+fmtRp(ORDER.qty*ORDER.hargaPerPcs)+'*',
+    (isEn ? '👕 Items:' : '👕 Item:'),
+  ].concat(itemLines).concat([
     '─────────────────────',
-    isEn?'📦 Shipping notified via WA':'📦 Ongkir diinfo via WA',
-    isEn?'✅ Payment proof sent to admin.':'✅ Bukti transfer sudah dikirim ke admin.',
+    (isEn ? '💰 Grand Total: *' : '💰 Total     : *') + fmtRp(ORDER.grandTotal) + '*',
+    '─────────────────────',
+    isEn ? '📦 Shipping notified via WA' : '📦 Ongkir diinfo via WA',
+    isEn ? '✅ Payment proof sent to admin.' : '✅ Bukti transfer sudah dikirim ke admin.',
     ORDER.catatan ? ((isEn ? '📝 Note: ' : '📝 Catatan: ') + ORDER.catatan) : '',
-  ].filter(Boolean).join('\n');
+  ]).filter(Boolean).join('\n');
   var wp=ORDER.phone.replace(/[^0-9]/g,'');
   if(wp.charAt(0)==='0') wp=ORDER.countryCode+wp.slice(1); else if(!wp.startsWith(ORDER.countryCode)) wp=ORDER.countryCode+wp;
   var waLink=$('wa-summary-link'); if(waLink) waLink.href='https://wa.me/'+wp+'?text='+encodeURIComponent(waMsg);
@@ -2636,7 +2971,11 @@ function setLang(lang){
     shipText:     {id:'Pengiriman ke seluruh Indonesia',en:'Shipping to all of Indonesia'},
     stepForm:     {id:'FORM',en:'FORM'},stepBayar:{id:'BAYAR',en:'PAY'},stepUpload:{id:'UPLOAD',en:'UPLOAD'},stepSelesai:{id:'SELESAI',en:'DONE'},
     formTitle:    {id:'FORM ORDER',en:'ORDER FORM'},
-    lblNama:      {id:'Nama Lengkap *',en:'Full Name *'},lblEmail:{id:'Email *',en:'Email *'},
+    lblVariasi:   {id:'Pilih Ukuran & Warna *',en:'Choose Size & Color *'},
+    btnAddItem:   {id:'TAMBAH WARNA/UKURAN LAIN',en:'ADD ANOTHER COLOR/SIZE'},
+    oItems:       {id:'Item',en:'Items'},
+    lblNama:      {id:'Nama Lengkap *',en:'Full Name *'},
+    lblEmail:     {id:'Email *',en:'Email *'},
     lblPhone:     {id:'Nomor WhatsApp *',en:'WhatsApp Number *'},lblAlamat:{id:'Alamat Lengkap *',en:'Full Address *'},
     lblKota:      {id:'Kota / Kabupaten *',en:'City *'},lblKodePos:{id:'Kode Pos *',en:'Postal Code *'},
     lblUkuran:    {id:'Pilih Ukuran *',en:'Choose Size *'},lblWarna:{id:'Pilih Warna *',en:'Choose Color *'},
@@ -2697,14 +3036,13 @@ function setLang(lang){
   document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(T[key])el.innerHTML=T[key][lang]||T[key].id;});
   var ph=lang==='id'?{'f-nama':'Nama untuk label pengiriman','f-email':'email@kamu.com','f-phone':'81xxxxxxxx','f-alamat':'Jl. contoh No.1, Kel. ...','f-kota':'Denpasar','f-kodepos':'80225','f-catatan':'Opsional — catatan khusus...'}:{'f-nama':'Name for shipping label','f-email':'your@email.com','f-phone':'81xxxxxxxx','f-alamat':'Full street address, district...','f-kota':'City','f-kodepos':'Postal Code','f-catatan':'Optional — special notes...'};
   Object.keys(ph).forEach(function(id){var el=$(id);if(el)el.placeholder=ph[id];});
-  renderColors();
   startTypewriter(lang);
   buildMarquee(lang);
+  // Re-render item rows — handles color labels in new language
+  renderItems();
 }
 
 // ─── INIT ────────────────────────────────────────────────
-renderColors();
-updateTotal();
 restoreDraft();
 setLang('id');
 
