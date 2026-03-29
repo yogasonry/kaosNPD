@@ -2,7 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0705">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤘</text></svg>">
 <meta name="description" content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern. Cotton Combed 24s. Limited Group Order.">
@@ -14,8 +17,8 @@
 <meta property="og:site_name"   content="AWAS BAHAYA NPD">
 <meta property="og:title"       content="⚡ AWAS BAHAYA NPD — Bhuta Kala Modern">
 <meta property="og:description" content="Kaos Cotton Combed 24s premium. S–XXXL. Mulai 150K. Pre-order — produksi 1-2 hari. GRABFAST sebelum kehabisan! 🔥">
-<meta property="og:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png">
-<meta property="og:image:url"   content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png">
+<meta property="og:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774415260/Hero-5_fz9ile.png">
+<meta property="og:image:url"   content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774415260/Hero-5_fz9ile.png">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type"  content="image/jpeg">
@@ -26,7 +29,7 @@
 <meta name="twitter:site"        content="@awasnpd">
 <meta name="twitter:title"       content="⚡ AWAS BAHAYA NPD — Bhuta Kala Modern">
 <meta name="twitter:description" content="Kaos Cotton Combed 24s premium. S–XXXL. Mulai 150K. Pre-order sekarang! 🔥">
-<meta name="twitter:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png">
+<meta name="twitter:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774415260/Hero-5_fz9ile.png">
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1578,9 +1581,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .ads-infeed-video-wrap video{
   width:100%;
   height:100%;
-  object-fit:contain;
+  object-fit:cover;
+  object-position:center center;
   display:block;
-  background:#000;
 }
 /* Play overlay */
 .ads-infeed-play{
@@ -1646,6 +1649,62 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 }
 .ads-infeed-cta:hover{background:#f0b030;}
 .ads-infeed-cta:active{transform:scale(.97);}
+
+/* ─── MOBILE OPTIMIZATIONS ─────────────────────────────── */
+
+/* Touch action on sliders/carousels */
+.hero-slide-wrap,
+.hero-track         { touch-action: pan-y; }
+.size-picker,
+#color-picker       { touch-action: manipulation; }
+
+/* Larger touch targets on small buttons */
+.hs-btn             { min-width:36px; min-height:44px; }
+.dlb-nav-btn        { min-width:40px; min-height:52px; }
+.hs-dot             { min-width:20px; min-height:20px; padding:5px; width:7px; height:7px; background-clip:content-box; }
+
+/* Smooth momentum scroll iOS */
+.hero-slide-wrap    { -webkit-overflow-scrolling:touch; }
+
+/* Prevent text selection on tap-heavy elements */
+.sopt, .copt, .qty-btn, .btn-main, .hs-btn, .hs-dot {
+  -webkit-user-select:none; user-select:none;
+}
+
+/* Better tap feedback - remove grey flash */
+.sopt:active   { transform:scale(.95); background:rgba(200,134,10,.15); }
+.copt:active   { transform:scale(.96); }
+
+/* Keyboard pushes content up on iOS — extra padding bottom */
+@media(max-width:599px){
+  .form-section { padding-bottom:120px; }
+  /* Step 2 upload area — bigger tap zone on mobile */
+  .upload-area  { padding:36px 16px; }
+  /* Video section tighter on mobile */
+  .ads-infeed-section { padding:0 10px 8px; }
+  /* Qty row wider tap */
+  .qty-btn      { width:52px; height:52px; }
+  /* Success page */
+  .success-title { font-size:clamp(24px,8vw,36px); }
+}
+
+/* Safe area for notch/home bar */
+@supports(padding:max(0px)){
+  footer {
+    padding-bottom:max(16px, env(safe-area-inset-bottom));
+  }
+  .wa-float {
+    bottom:max(20px, calc(env(safe-area-inset-bottom) + 12px));
+  }
+}
+
+/* iOS Safari — prevent bounce on fixed elements */
+#shimmer-loader { overscroll-behavior:none; }
+
+/* Improve scroll performance */
+.particle-bg    { will-change:auto; }
+.hero-track     { will-change:transform; }
+
 </style>
 <script>
 // Loader — isolated script, runs independently of main JS
@@ -1927,7 +1986,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="fg">
         <label class="flbl" for="f-phone" data-i18n="lblPhone">Nomor WhatsApp *</label>
         <div style="display:flex;">
-          <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 8px;background:#1a0f06;border-right:none;min-width:90px;cursor:pointer;">
+          <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 8px;background:#1a0f06;border-right:none;min-width:90px;cursor:pointer;font-size:16px;">
             <option value="62">🇮🇩 +62</option>
             <option value="1">🇺🇸 +1</option>
             <option value="44">🇬🇧 +44</option>
@@ -2061,7 +2120,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <!-- Upload -->
       <div class="fg" style="margin-top:16px;">
         <label class="flbl" data-i18n="lblUpload">Upload Bukti Transfer *</label>
-        <label class="upload-area" id="upload-area">
+        <label class="upload-area" id="upload-area" aria-label="Upload bukti transfer">
           <input type="file" id="f-bukti" accept="image/*" style="display:none;">
           <span class="upload-icon">📸</span>
           <div class="upload-label" data-i18n="uploadLabel">TAP UNTUK PILIH FOTO</div>
@@ -2605,7 +2664,7 @@ function restoreDraft() {
       }));
       renderItems();
     }
-    if(d['f-nama']||d['f-email']||d['f-phone']) setTimeout(function(){toast(t('draftRestored'));},800);
+    // draft dipulihkan secara silent
   } catch(e){}
 }
 LS_FIELDS.forEach(function(id){ var el=$(id); if(el) el.addEventListener('input',saveDraft); });
@@ -3132,10 +3191,11 @@ window.scrollToTop = scrollToTop;
     goToStep(1);
     // Scroll to order section
     var sec = $('order-section');
-    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (sec) { setTimeout(function(){ sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }
   });
 })();
 restoreDraft();
+window.setLang = setLang;
 setLang('id');
 
 
