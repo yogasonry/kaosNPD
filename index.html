@@ -835,6 +835,10 @@ textarea.finp{resize:vertical;min-height:80px;}
   font-family:'Rubik Dirt',sans-serif;font-size:11px;
   color:var(--amber);letter-spacing:2px;
 }
+.item-section-label{
+  font-family:'Rubik Dirt',sans-serif;font-size:10px;
+  letter-spacing:2px;color:var(--gold);margin-bottom:6px;
+}
 .btn-remove-item{
   background:rgba(139,26,10,.5);border:1px solid rgba(139,26,10,.6);
   color:var(--cream);font-size:11px;letter-spacing:1px;
@@ -1882,13 +1886,13 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <!-- DETAIL LIGHTBOX — catalog photos only -->
 <div id="dlb" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9000;flex-direction:column;align-items:center;justify-content:center;padding:12px;">
   <!-- Close -->
-  <button id="dlb-close" style="position:fixed;top:14px;right:14px;width:40px;height:40px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">✕</button>
+  <button id="dlb-close" style="position:fixed;top:14px;right:14px;width:48px;height:48px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">✕</button>
   <!-- Image container -->
   <div id="dlb-wrap" style="position:relative;width:100%;max-width:min(94vw,700px);display:flex;align-items:center;justify-content:center;">
     <!-- Prev -->
     <button id="dlb-prev" class="dlb-nav-btn dlb-prev-btn">&#8249;</button>
-    <!-- Image -->
-    <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;">
+    <!-- Image — transition & will-change untuk smooth fade -->
+    <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;will-change:opacity;transition:opacity .25s;background:rgba(255,255,255,.03);">
     <!-- Next -->
     <button id="dlb-next" class="dlb-nav-btn dlb-next-btn">&#8250;</button>
   </div>
@@ -1948,11 +1952,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <th data-i18n="thHarga">Harga</th>
       </tr></thead>
       <tbody>
-        <tr><td>S</td>   <td>47</td><td>67</td><td>19</td>  <td class="pc">150K</td></tr>
-        <tr><td>M</td>   <td>50</td><td>70</td><td>19.5</td><td class="pc">150K</td></tr>
-        <tr><td>L</td>   <td>53</td><td>73</td><td>20</td>  <td class="pc">150K</td></tr>
-        <tr><td>XL</td>  <td>56</td><td>75</td><td>20.5</td><td class="pc">150K</td></tr>
-        <tr><td>XXL</td> <td>59</td><td>77</td><td>21</td>  <td class="pc sp">170K</td></tr>
+        <tr><td>S</td><td>47</td><td>67</td><td>19</td><td class="pc">150K</td></tr>
+        <tr><td>M</td><td>50</td><td>70</td><td>19.5</td><td class="pc">150K</td></tr>
+        <tr><td>L</td><td>53</td><td>73</td><td>20</td><td class="pc">150K</td></tr>
+        <tr><td>XL</td><td>56</td><td>75</td><td>20.5</td><td class="pc">150K</td></tr>
+        <tr><td>XXL</td><td>59</td><td>77</td><td>21</td><td class="pc sp">170K</td></tr>
         <tr><td>XXXL</td><td>62</td><td>80</td><td>21.5</td><td class="pc sp">170K</td></tr>
       </tbody>
     </table>
@@ -2450,19 +2454,19 @@ function priceForSize(size) {
 function renderItemRow(item) {
   var isFirst = ITEMS.indexOf(item) === 0;
   var rowNum  = ITEMS.indexOf(item) + 1;
-  var label   = currentLang === 'en' ? 'ITEM ' : 'ITEM ';
+  var iid     = item.id;
 
-  // Size buttons HTML
+  // Size buttons — use &apos; for quotes inside HTML attrs set via innerHTML
   var sizesHtml = SIZES.map(function(s) {
     var active = item.size === s.size;
     var sp     = s.price > 150000 ? ' sp-size' : '';
     return '<button type="button" class="sopt' + (active ? ' active' : '') + sp + '"'
-      + ' onclick="itemPickSize(\'' + item.id + '\',\'' + s.size + '\',' + s.price + ')">'
+      + ' onclick="itemPickSize(&apos;' + iid + '&apos;,&apos;' + s.size + '&apos;,' + s.price + ')">'
       + s.size + '<span class="sopt-price">' + (s.price === 150000 ? '150K' : '170K') + '</span>'
       + '</button>';
   }).join('');
 
-  // Color buttons HTML
+  // Color buttons
   var colorsHtml = COLORS.map(function(c) {
     var active = item.color === c.id;
     var lbl    = getColorLabel(c);
@@ -2472,48 +2476,45 @@ function renderItemRow(item) {
         ? 'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;'
         : '';
     return '<button type="button" class="copt' + (active ? ' active' : '') + '"'
-      + ' onclick="itemPickColor(\'' + item.id + '\',\'' + c.id + '\')" aria-label="' + lbl + '">'
+      + ' onclick="itemPickColor(&apos;' + iid + '&apos;,&apos;' + c.id + '&apos;)" aria-label="' + lbl + '">'
       + '<span class="copt-swatch-wrap">'
       + '<span class="copt-swatch" style="background:' + c.hex + ';' + sx + '"></span>'
-      + (active ? '<span class="copt-check">✓</span>' : '')
+      + (active ? '<span class="copt-check">\u2713</span>' : '')
       + '</span>'
       + '<span class="copt-name">' + lbl + '</span>'
       + '</button>';
   }).join('');
 
-  var subtotal = fmtRp(item.price * item.qty);
-  var removeLabel = currentLang === 'en' ? '✕ REMOVE' : '✕ HAPUS';
-  var qtyLabel    = currentLang === 'en' ? 'QTY' : 'QTY';
-  var itemLabel   = (currentLang === 'en' ? 'ITEM ' : 'ITEM ') + rowNum;
+  var subtotal    = fmtRp(item.price * item.qty);
+  var removeLabel = currentLang === 'en' ? '\u2715 REMOVE' : '\u2715 HAPUS';
+  var qtyLabel    = 'QTY';
+  var itemLabel   = 'ITEM ' + rowNum;
+  var sizeLabel   = currentLang === 'en' ? 'SIZE'  : 'UKURAN';
+  var colorLabel  = currentLang === 'en' ? 'COLOR' : 'WARNA';
 
-  return '<div class="item-row" id="item-row-' + item.id + '">'
+  return '<div class="item-row" id="item-row-' + iid + '">'
     + '<div class="item-row-header">'
     +   '<span class="item-row-num">' + itemLabel + '</span>'
-    +   (!isFirst ? '<button type="button" class="btn-remove-item" onclick="removeItem(\'' + item.id + '\')">' + removeLabel + '</button>' : '')
+    +   (!isFirst ? '<button type="button" class="btn-remove-item" onclick="removeItem(&apos;' + iid + '&apos;)">' + removeLabel + '</button>' : '')
     + '</div>'
-    // Size picker
     + '<div style="margin-bottom:10px;">'
-    +   '<div style="font-family:\'Rubik Dirt\',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;" data-item-label="size-' + item.id + '">'
-    +   (currentLang === 'en' ? 'SIZE' : 'UKURAN') + '</div>'
+    +   '<div class="item-section-label">' + sizeLabel + '</div>'
     +   '<div class="size-picker">' + sizesHtml + '</div>'
     + '</div>'
-    // Color picker
     + '<div style="margin-bottom:0;">'
-    +   '<div style="font-family:\'Rubik Dirt\',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;" data-item-label="color-' + item.id + '">'
-    +   (currentLang === 'en' ? 'COLOR' : 'WARNA') + '</div>'
+    +   '<div class="item-section-label">' + colorLabel + '</div>'
     +   '<div class="copt-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">' + colorsHtml + '</div>'
     + '</div>'
-    // Qty + subtotal
     + '<div class="item-qty-row">'
     +   '<span class="item-qty-label">' + qtyLabel + '</span>'
     +   '<div class="qty-row" style="margin:0;">'
     +     '<div class="qty-ctrl">'
-    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(\'' + item.id + '\',-1)">−</button>'
+    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(&apos;' + iid + '&apos;,-1)">\u2212</button>'
     +       '<input class="qty-num" type="number" value="' + item.qty + '" min="1" max="99" inputmode="numeric"'
-    +         ' id="item-qty-' + item.id + '"'
-    +         ' onchange="itemQtyInput(\'' + item.id + '\',this.value)"'
-    +         ' oninput="itemQtyInput(\'' + item.id + '\',this.value)">'
-    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(\'' + item.id + '\',1)">+</button>'
+    +         ' id="item-qty-' + iid + '"'
+    +         ' onchange="itemQtyInput(&apos;' + iid + '&apos;,this.value)"'
+    +         ' oninput="itemQtyInput(&apos;' + iid + '&apos;,this.value)">'
+    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(&apos;' + iid + '&apos;,1)">+</button>'
     +     '</div>'
     +   '</div>'
     +   '<span class="item-subtotal">' + subtotal + '</span>'
@@ -3014,20 +3015,84 @@ window.hsNav=hsNav; window.hsGo=hsGo;
 
 // ─── LIGHTBOX ───────────────────────────────────────────
 var DLB_IMGS=[
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/q_100,f_png/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto:best,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto:best,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
 ];
 var dlbIdx=0;
-function dlbOpen(i){dlbIdx=i;var d=$('dlb');if(d){d.style.display='flex';dlbRender();}document.addEventListener('keydown',dlbKey);}
-function dlbClose(){var d=$('dlb');if(d)d.style.display='none';document.removeEventListener('keydown',dlbKey);}
-function dlbNav(dir){dlbIdx=(dlbIdx+dir+DLB_IMGS.length)%DLB_IMGS.length;dlbRender();}
-function dlbGo(i){dlbIdx=i;dlbRender();}
-function dlbRender(){
-  var img=$('dlb-img'),ctr=$('dlb-counter'),dot=$('dlb-dots');
-  if(img)img.src=DLB_IMGS[dlbIdx];
-  if(ctr)ctr.textContent=(dlbIdx+1)+' / '+DLB_IMGS.length;
-  if(dot)dot.innerHTML=DLB_IMGS.map(function(_,i){return '<button class="dlb-dot'+(i===dlbIdx?' active':'')+'" onclick="dlbGo('+i+');event.stopPropagation()"></button>';}).join('');
+var _dlbCache={};  // preload cache
+
+// Preload satu gambar ke cache
+function _dlbPreload(idx) {
+  if (idx < 0 || idx >= DLB_IMGS.length) return;
+  if (_dlbCache[idx]) return;
+  var img = new Image();
+  img.src = DLB_IMGS[idx];
+  _dlbCache[idx] = img;
+}
+
+function dlbOpen(i) {
+  dlbIdx = i;
+  var d = $('dlb');
+  if (d) { d.style.display = 'flex'; dlbRender(); }
+  document.addEventListener('keydown', dlbKey);
+  // Preload semua gambar saat lightbox dibuka
+  DLB_IMGS.forEach(function(_, j) { _dlbPreload(j); });
+}
+function dlbClose() {
+  var d = $('dlb');
+  if (d) d.style.display = 'none';
+  document.removeEventListener('keydown', dlbKey);
+}
+function dlbNav(dir) { dlbIdx = (dlbIdx + dir + DLB_IMGS.length) % DLB_IMGS.length; dlbRender(); }
+function dlbGo(i)    { dlbIdx = i; dlbRender(); }
+
+function dlbRender() {
+  var imgEl = $('dlb-img');
+  var ctr   = $('dlb-counter');
+  var dot   = $('dlb-dots');
+
+  if (ctr) ctr.textContent = (dlbIdx + 1) + ' / ' + DLB_IMGS.length;
+  if (dot) dot.innerHTML = DLB_IMGS.map(function(_, i) {
+    return '<button class="dlb-dot' + (i === dlbIdx ? ' active' : '') + '" onclick="dlbGo(' + i + ');event.stopPropagation()"></button>';
+  }).join('');
+
+  if (!imgEl) return;
+
+  var url = DLB_IMGS[dlbIdx];
+
+  // Kalau sudah di cache dan loaded — langsung tampil
+  if (_dlbCache[dlbIdx] && _dlbCache[dlbIdx].complete) {
+    imgEl.style.opacity = '0';
+    imgEl.src = url;
+    imgEl.style.transition = 'opacity .25s';
+    setTimeout(function() { imgEl.style.opacity = '1'; }, 20);
+    // Preload next & prev
+    _dlbPreload((dlbIdx + 1) % DLB_IMGS.length);
+    _dlbPreload((dlbIdx - 1 + DLB_IMGS.length) % DLB_IMGS.length);
+    return;
+  }
+
+  // Belum di cache — tampilkan spinner, load, lalu fade in
+  imgEl.style.opacity   = '0.3';
+  imgEl.style.transition = 'none';
+
+  var newImg    = new Image();
+  newImg.onload = function() {
+    _dlbCache[dlbIdx] = newImg;
+    if (DLB_IMGS[dlbIdx] !== url) return; // user sudah pindah slide
+    imgEl.src              = url;
+    imgEl.style.transition = 'opacity .25s';
+    imgEl.style.opacity    = '1';
+    // Preload neighbours
+    _dlbPreload((dlbIdx + 1) % DLB_IMGS.length);
+    _dlbPreload((dlbIdx - 1 + DLB_IMGS.length) % DLB_IMGS.length);
+  };
+  newImg.onerror = function() {
+    imgEl.style.opacity = '1'; // tetap tampilkan walau error
+  };
+  newImg.src = url;
+  imgEl.src  = url; // set langsung juga supaya browser mulai load
 }
 function dlbKey(e){if(e.key==='ArrowLeft')dlbNav(-1);if(e.key==='ArrowRight')dlbNav(1);if(e.key==='Escape')dlbClose();}
 (function(){
@@ -3086,7 +3151,7 @@ function setLang(lang){
     sizeChartTitle:{id:'SIZE CHART',en:'SIZE CHART'},
     sizeNote:     {id:'Cotton Combed 24s · ukuran dalam cm',en:'Cotton Combed 24s · measurements in cm'},
     thUkuran:     {id:'Ukuran',en:'Size'},thLebar:{id:'Lebar Dada',en:'Chest Width'},thPanjang:{id:'Panjang',en:'Length'},thLengan:{id:'Lengan',en:'Sleeve'},thHarga:{id:'Harga',en:'Price'},
-    chartNote:    {id:'Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.<br>Toleransi ukuran 1–2.5 cm.',en:'Cotton Combed 24s · 170–180 gsm · thick, premium feel.<br>XXL &amp; XXXL priced higher due to more fabric used.<br>Size tolerance 1–2.5 cm.'},
+    chartNote:    {id:'Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.',en:'Cotton Combed 24s · 170–180 gsm · thick, premium feel.<br>XXL &amp; XXXL priced higher due to more fabric used.'},
     materialTag:  {id:'Cotton Combed 24s · 170–180 GSM<br>100% Cotton',en:'Cotton Combed 24s · 170–180 GSM<br>100% Cotton'},
     shipText:     {id:'Pengiriman ke seluruh Indonesia',en:'Shipping to all of Indonesia'},
     stepForm:     {id:'FORM',en:'FORM'},stepBayar:{id:'BAYAR',en:'PAY'},stepUpload:{id:'UPLOAD',en:'UPLOAD'},stepSelesai:{id:'SELESAI',en:'DONE'},
