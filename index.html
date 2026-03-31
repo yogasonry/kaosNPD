@@ -1665,7 +1665,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* Larger touch targets on small buttons */
 .hs-btn             { min-width:36px; min-height:44px; }
 .dlb-nav-btn        { min-width:40px; min-height:52px; }
-.hs-dot             { min-width:20px; min-height:20px; padding:5px; width:7px; height:7px; background-clip:content-box; }
+.hs-dot             { width:8px; height:8px; padding:0; border:6px solid transparent; box-sizing:content-box; background-clip:padding-box; }
 
 /* Smooth momentum scroll iOS */
 .hero-slide-wrap    { -webkit-overflow-scrolling:touch; }
@@ -2564,8 +2564,8 @@ function addItem() {
   if (ITEMS.length >= MAX_ITEMS) return;
   _itemCounter++;
   ITEMS.push({ id: 'item' + _itemCounter, color: '', size: 'S', price: 150000, qty: 1 });
+  sndAddItem();
   renderItems();
-  // Scroll new item into view
   setTimeout(function() {
     var last = $('item-row-item' + _itemCounter);
     if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -2574,6 +2574,7 @@ function addItem() {
 
 function removeItem(id) {
   ITEMS = ITEMS.filter(function(item) { return item.id !== id; });
+  sndRemoveItem();
   renderItems();
 }
 
@@ -2582,6 +2583,7 @@ function itemPickSize(id, size, price) {
   if (!item) return;
   item.size  = size;
   item.price = price;
+  sndSize();
   renderItems();
 }
 
@@ -2590,6 +2592,7 @@ function itemPickColor(id, colorId) {
   var item = ITEMS.find(function(x){ return x.id === id; });
   if (!item) return;
   item.color = colorId;
+  sndColor();
   renderItems();
 }
 
@@ -2598,6 +2601,7 @@ function itemQtyChange(id, delta) {
   if (!item) return;
   var newQty = Math.max(1, Math.min(99, item.qty + delta));
   item.qty = newQty;
+  sndQty();
   renderItems();
 }
 
@@ -2970,6 +2974,43 @@ function launchConfetti(){
 
 // ─── SOUND ──────────────────────────────────────────────
 var _ac;
+// ─── SOUND ──────────────────────────────────────────────
+var _ac;
+
+function _acInit() {
+  try {
+    if (!_ac) _ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (_ac.state === 'suspended') _ac.resume();
+  } catch(e) {}
+}
+
+function _playTone(freq, dur, vol) {
+  try {
+    _acInit();
+    if (!_ac) return;
+    var o = _ac.createOscillator();
+    var g = _ac.createGain();
+    o.type = 'sine';
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(vol || 0.07, _ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, _ac.currentTime + (dur || 0.08));
+    o.connect(g); g.connect(_ac.destination);
+    o.start(); o.stop(_ac.currentTime + (dur || 0.08));
+  } catch(e) {}
+}
+
+function sndSize()  { _playTone(440, 0.07, 0.06); }
+function sndColor() { _playTone(520, 0.07, 0.06); }
+function sndQty()   { _playTone(600, 0.05, 0.05); }
+function sndAddItem() {
+  _playTone(440, 0.07, 0.06);
+  setTimeout(function(){ _playTone(560, 0.07, 0.06); }, 80);
+}
+function sndRemoveItem() {
+  _playTone(320, 0.07, 0.05);
+  setTimeout(function(){ _playTone(240, 0.08, 0.04); }, 80);
+}
+
 function sndSuccess(){
   try{
     if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();
