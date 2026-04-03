@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0705">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤘</text></svg>">
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_64,h_64,c_pad,b_rgb:0a0705,e_negate,q_auto,f_png/v1774191326/barong_bali_line_art_ke9x3y.png">
 <meta name="description" content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern. Cotton Combed 24s. Limited Group Order.">
 <title>AWAS BAHAYA NPD — Bhuta Kala Modern</title>
 
@@ -43,7 +43,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--cream);font-family:'Roboto',sans-serif;overflow-x:hidden;position:relative;z-index:0;}
+body{background:var(--black);color:var(--cream);font-family:'Roboto',sans-serif;overflow-x:hidden;}
 
 /* grain — z-index 1 so it never blocks anything */
 body::before{
@@ -454,30 +454,75 @@ header{
 /* ─── ORDER FORM ─── */
 .form-section{
   background:linear-gradient(180deg,var(--black),#160c05,var(--black));
-  border-top:2px solid rgba(200,134,10,.18);padding:36px 14px 80px;
+  border-top:2px solid rgba(200,134,10,.18);
+  padding:32px 14px 140px; /* 140px bottom for sticky CTA */
 }
-@media(max-width:400px){.form-section{padding:28px 10px 80px;}}
+@media(max-width:400px){.form-section{padding:20px 10px 130px;}}
 .form-inner{max-width:520px;margin:0 auto;}
 
-/* Step bar */
-.step-bar{display:flex;justify-content:center;align-items:flex-start;margin-bottom:32px;gap:0;}
-.sdot{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;}
-.sdot-c{
-  width:36px;height:36px;border-radius:50%;
-  border:2px solid rgba(200,134,10,.25);display:flex;align-items:center;justify-content:center;
-  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:15px;color:rgba(200,134,10,.3);transition:all .4s;
+/* ─── STEP BAR — pill redesign ─────────────────────── */
+.step-bar{
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:24px;gap:0;
+  background:rgba(200,134,10,.07);
+  border:1.5px solid rgba(200,134,10,.2);
+  border-radius:999px;
+  padding:5px 8px;
 }
-.sdot.active .sdot-c{border-color:var(--amber);color:var(--black);background:var(--amber);}
-.sdot.done .sdot-c{border-color:#3a9a3a;color:#fff;background:#3a9a3a;}
-.sdot-l{font-family:'Roboto',sans-serif;font-size:9px;color:rgba(200,134,10,.65);margin-top:4px;letter-spacing:1px;text-align:center;white-space:nowrap;}
-.sdot.active .sdot-l,.sdot.done .sdot-l{color:var(--gold);}
-.sline{flex:1;height:2px;background:rgba(200,134,10,.16);margin-top:18px;min-width:6px;max-width:50px;transition:background .4s;}
-@media(max-width:360px){.sdot-l{display:none;}.sline{min-width:4px;}}
-.sline.done{background:#3a9a3a;}
+.sdot{
+  display:flex;align-items:center;gap:5px;
+  flex:0 0 auto;border-radius:999px;
+  padding:5px 10px;
+  transition:background .3s;
+}
+.sdot.active{ background:var(--amber); }
+.sdot-c{
+  width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Anton SC',sans-serif;font-size:10px;letter-spacing:0;
+  border:1.5px solid rgba(200,134,10,.45);
+  color:rgba(200,134,10,.6);background:transparent;
+  transition:all .3s;flex-shrink:0;
+}
+.sdot.active .sdot-c{border-color:rgba(0,0,0,.35);color:var(--black);}
+.sdot.done   .sdot-c{border-color:#3a9a3a;color:#3a9a3a;}
+.sdot-l{
+  font-family:'Rubik Dirt',sans-serif;font-size:9px;
+  color:rgba(200,134,10,.55);letter-spacing:1.5px;white-space:nowrap;
+  transition:color .3s;
+}
+.sdot.active .sdot-l{color:var(--black);}
+.sdot.done   .sdot-l{color:rgba(58,154,58,.9);}
+@media(max-width:400px){.sdot-l{display:none;}.sdot{padding:5px 7px;}}
+.sline{flex:1;height:1.5px;background:rgba(200,134,10,.18);min-width:4px;max-width:24px;transition:background .4s;}
+.sline.done{background:rgba(58,154,58,.5);}
+
+/* ─── SECTION CARDS (Opsi A) ────────────────────────── */
+.form-section-card{
+  background:rgba(255,255,255,.025);
+  border:1.5px solid rgba(200,134,10,.2);
+  border-radius:12px;
+  padding:18px 16px 14px;
+  margin-bottom:12px;
+}
+.form-card-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid rgba(200,134,10,.1);
+}
+.form-card-icon{display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;flex-shrink:0;}
+.form-card-title{
+  font-family:'Rubik Dirt',sans-serif;font-size:12px;
+  letter-spacing:3px;color:var(--amber);
+}
+.form-card-sub{
+  font-family:'Roboto',sans-serif;font-size:10px;
+  color:var(--cream);opacity:.4;letter-spacing:1px;margin-top:1px;
+}
 
 /* Inputs — 16px minimum to prevent iOS zoom */
-.fg{margin-bottom:14px;}
-.flbl{display:block;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;color:var(--gold);margin-bottom:5px;}
+.fg{margin-bottom:12px;}
+.flbl{display:block;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;opacity:.8;}
 .finp{
   width:100%;background:rgba(255,255,255,.04);
   border:2px solid rgba(200,134,10,.22);color:var(--cream);
@@ -693,31 +738,68 @@ textarea.finp{resize:vertical;min-height:80px;}
 .qty-num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
 
 /* Total */
-.total-box{background:rgba(200,134,10,.07);border:2px solid rgba(200,134,10,.26);padding:14px 16px;margin:16px 0;}
-@media(max-width:400px){.total-box{padding:10px 12px;}}
-.trow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;}
-.tkey{font-family:'Roboto',sans-serif;font-size:13px;letter-spacing:2px;color:var(--gold);font-weight:300;}
-.tval{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);}
-.tdiv{border:none;border-top:1px solid rgba(200,134,10,.18);margin:10px 0;}
-.tbig{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:34px;color:var(--white);text-align:center;margin-top:6px;}
-.tsub{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.35;text-align:center;margin-top:4px;letter-spacing:2px;}
-
-/* CTA button */
-.btn-main{
-  width:100%;padding:17px;background:var(--amber);border:none;
-  color:var(--black);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:22px;
-  letter-spacing:4px;cursor:pointer;
-  box-shadow:0 0 24px rgba(232,160,32,.18);
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  -webkit-appearance:none;border-radius:0;
-  transition:background .25s ease, transform .2s ease, box-shadow .3s ease;
+/* total-box — sekarang hanya summary di dalam card, CTA di sticky bar */
+.total-box{
+  background:transparent;
+  border:none;
+  padding:0;margin:0;
 }
-.btn-main:active{background:#d09010;transform:scale(.98);}
-@media(hover:hover){.btn-main:hover{background:#f0b030;}}
-.btn-main:disabled{background:rgba(200,134,10,.28);color:rgba(0,0,0,.45);cursor:not-allowed;}
-.spinner{display:none;width:22px;height:22px;border:3px solid rgba(0,0,0,.2);border-top-color:var(--black);border-radius:50%;animation:spin .8s linear infinite;}
+.trow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;}
+.tkey{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:1.5px;color:var(--gold);font-weight:300;opacity:.8;}
+.tval{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);}
+.tdiv{border:none;border-top:1px solid rgba(200,134,10,.15);margin:8px 0;}
+.tbig{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:var(--white);}
+.tsub{font-family:'Roboto',sans-serif;font-size:10px;color:var(--cream);opacity:.3;letter-spacing:2px;}
+
+/* ─── STICKY CTA BAR (Opsi C) ───────────────────────── */
+.sticky-cta{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  background:linear-gradient(0deg,#0a0705 0%,rgba(10,7,5,.97) 85%,transparent 100%);
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  display:none; /* shown by JS when step1 visible */
+}
+.sticky-cta-inner{
+  max-width:520px;margin:0 auto;
+  display:flex;align-items:center;gap:12px;
+}
+.sticky-cta-total{
+  flex:1;min-width:0;
+}
+.sticky-cta-label{
+  font-family:'Roboto',sans-serif;font-size:10px;
+  letter-spacing:2px;color:var(--gold);opacity:.6;
+  white-space:nowrap;
+}
+.sticky-cta-amount{
+  font-family:'Rubik Dirt',sans-serif;font-size:22px;
+  color:var(--amber);line-height:1.1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sticky-cta-sub{
+  font-family:'Roboto',sans-serif;font-size:9px;
+  letter-spacing:1.5px;color:var(--cream);opacity:.3;
+}
+
+/* CTA button inside sticky bar */
+.btn-main{
+  flex-shrink:0;
+  padding:15px 20px;background:var(--amber);border:none;
+  color:var(--black);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:16px;
+  letter-spacing:3px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(232,160,32,.3);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  -webkit-appearance:none;border-radius:4px;
+  transition:background .25s, transform .2s, box-shadow .3s;
+  white-space:nowrap;
+}
+.btn-main:active{background:#d09010;transform:scale(.97);}
+@media(hover:hover){.btn-main:hover{background:#f0b030;box-shadow:0 6px 24px rgba(232,160,32,.4);}}
+.btn-main:disabled{background:rgba(200,134,10,.28);color:rgba(0,0,0,.45);cursor:not-allowed;box-shadow:none;}
+/* Full-width btn-main when NOT inside sticky (step2 submit, etc) */
+.btn-main.full-width{width:100%;border-radius:0;font-size:20px;padding:17px;}
+.spinner{display:none;width:20px;height:20px;border:3px solid rgba(0,0,0,.2);border-top-color:var(--black);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.stock-warn{text-align:center;margin-top:12px;font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:3px;color:#e05050;text-transform:uppercase;animation:bp 1.5s infinite;}
+.stock-warn{text-align:center;margin-top:10px;font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:3px;color:#e05050;text-transform:uppercase;animation:bp 1.5s infinite;}
 
 /* ─── STEP 2 ─── */
 #step2{display:none;}
@@ -755,7 +837,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .upload-area:hover,.upload-area:active,.upload-area.drag-over{
   border-color:var(--amber);background:rgba(200,134,10,.1);
 }
-.upload-icon{font-size:38px;display:block;margin-bottom:10px;pointer-events:none;}
+.upload-icon{display:flex;justify-content:center;margin-bottom:10px;pointer-events:none;}
 .upload-label{
   font-family:'Rubik Dirt',sans-serif;font-weight:400;
   font-size:clamp(14px,4vw,18px);letter-spacing:2px;
@@ -793,7 +875,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 
 /* ─── STEP 3 SUCCESS ─── */
 #step3{display:none;text-align:center;padding:12px 0;}
-.success-icon{font-size:56px;display:block;margin-bottom:14px;animation:pop .5s cubic-bezier(.34,1.56,.64,1);}
+.success-icon{display:flex;justify-content:center;margin-bottom:14px;animation:pop .5s cubic-bezier(.34,1.56,.64,1);}
 @keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
 .success-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:36px;color:var(--amber);letter-spacing:4px;margin-bottom:10px;}
 .success-msg{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);opacity:.7;line-height:1.8;max-width:380px;margin:0 auto 20px;}
@@ -984,6 +1066,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .btn-order-again:active{ transform:scale(.97);background:#d09010; }
 
 /* ─── BACK BUTTON (Step 2) ─── */
+.btn-back-form{
   background:transparent;
   border:1px solid rgba(200,134,10,.3);
   color:rgba(200,134,10,.7);
@@ -1475,6 +1558,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   right:max(16px, env(safe-area-inset-right, 16px));
   z-index:8000;
   display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+  transition:bottom .3s cubic-bezier(.25,.46,.45,.94);
+}
+/* Naik otomatis saat sticky CTA bar muncul */
+.wa-float.sticky-up{
+  bottom:calc(84px + env(safe-area-inset-bottom, 0px));
 }
 .wa-float-btn{
   width:56px;height:56px;background:#25d366;border-radius:50%;
@@ -1700,6 +1788,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   .wa-float {
     bottom:max(20px, calc(env(safe-area-inset-bottom) + 12px));
   }
+  .wa-float.sticky-up {
+    bottom:max(84px, calc(env(safe-area-inset-bottom) + 84px));
+  }
 }
 
 /* iOS Safari — prevent bounce on fixed elements */
@@ -1762,13 +1853,13 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <!-- Mute toggle -->
 
 
-<!-- HEADER<!-- HEADER -->
+<!-- HEADER -->
 <header>
   <!-- Language toggle — part of header layout -->
   <div class="lang-bar">
-    <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">🇮🇩 ID</button>
+    <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">ID</button>
     <span class="ctrl-sep">|</span>
-    <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+    <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">EN</button>
   </div>
   <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl" id="hero-hl" data-glitch="AWAS BAHAYA NPD." data-i18n="heroHl"><span class="glitch" data-text="AWAS BAHAYA">AWAS BAHAYA</span> <em class="glitch" data-text="NPD." style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
@@ -1858,9 +1949,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
   <!-- Indonesia Shipping Only -->
   <div class="shipping-badge" data-i18n-id="shippingBadge" data-i18n-en="shippingBadgeEn">
-    <span class="ship-flag">🇮🇩</span>
+    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="11" fill="#CE1126"/><rect y="3.5" width="16" height="4" fill="#fff"/><rect y="3.5" width="16" height="4" fill="none"/><rect width="16" height="3.5" fill="#CE1126"/></svg></span>
     <span class="ship-text" id="ship-text" data-i18n="shipText">Pengiriman ke seluruh Indonesia</span>
-    <span class="ship-flag">🇮🇩</span>
+    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="11" fill="#CE1126"/><rect y="3.5" width="16" height="4" fill="#fff"/><rect width="16" height="3.5" fill="#CE1126"/></svg></span>
   </div>
 </div>
 
@@ -1925,7 +2016,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <div class="ads-infeed-play-icon">▶</div>
       </div>
       <!-- Fullscreen button (desktop only) -->
-      <button class="ads-infeed-expand" type="button" aria-label="Fullscreen">⛶ FULLSCREEN</button>
+      <button class="ads-infeed-expand" type="button" aria-label="Fullscreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> FULLSCREEN</button>
     </div>
     <div class="ads-infeed-footer">
       <div class="ads-infeed-title">AWAS BAHAYA NPD ⚡<br>
@@ -1981,56 +2072,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
     <!-- ═══ STEP 1: FORM ═══ -->
     <div id="step1">
-      <h3 class="sec-title" style="margin-bottom:20px;" data-i18n="formTitle">FORM ORDER</h3>
 
-      <div class="fg">
-        <label class="flbl" for="f-nama" data-i18n="lblNama">Nama Lengkap *</label>
-        <input class="finp" type="text" id="f-nama" placeholder="Nama untuk label pengiriman" autocomplete="name">
-      </div>
-
-      <div class="fg">
-        <label class="flbl" for="f-phone" data-i18n="lblPhone">Nomor WhatsApp *</label>
-        <div style="display:flex;">
-          <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 8px;background:#1a0f06;border-right:none;min-width:90px;cursor:pointer;font-size:16px;">
-            <option value="62">🇮🇩 +62</option>
-            <option value="1">🇺🇸 +1</option>
-            <option value="44">🇬🇧 +44</option>
-            <option value="61">🇦🇺 +61</option>
-            <option value="65">🇸🇬 +65</option>
-            <option value="60">🇲🇾 +60</option>
-          </select>
-          <input class="finp" type="tel" id="f-phone" placeholder="81xxxxxxxx" inputmode="numeric" style="flex:1;border-left:none;">
+      <!-- CARD 1 — PESANANMU -->
+      <div class="form-section-card">
+        <div class="form-card-header">
+          <span class="form-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></span>
+          <div>
+            <div class="form-card-title" data-i18n="cardOrder">PESANANMU</div>
+            <div class="form-card-sub" data-i18n="cardOrderSub">Pilih warna, ukuran &amp; jumlah</div>
+          </div>
         </div>
-      </div>
-
-      <div class="fg">
-        <label class="flbl" for="f-email" data-i18n="lblEmail">Email *</label>
-        <input class="finp" type="email" id="f-email" placeholder="email@kamu.com" inputmode="email" autocapitalize="none">
-        <div style="font-size:10px;color:var(--gold);opacity:.6;margin-top:4px;letter-spacing:1px;" data-i18n="emailHint">Untuk konfirmasi order otomatis</div>
-      </div>
-
-      <div class="fg">
-        <label class="flbl" for="f-alamat" data-i18n="lblAlamat">Alamat Lengkap *</label>
-        <textarea class="finp" id="f-alamat" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan..." style="min-height:72px;resize:vertical;"></textarea>
-      </div>
-
-      <div class="frow">
-        <div class="fg">
-          <label class="flbl" for="f-kota" data-i18n="lblKota">Kota / Kabupaten *</label>
-          <input class="finp" type="text" id="f-kota" placeholder="Denpasar">
-        </div>
-        <div class="fg">
-          <label class="flbl" for="f-kodepos" data-i18n="lblKodePos">Kode Pos *</label>
-          <input class="finp" type="text" id="f-kodepos" placeholder="80361" maxlength="6" inputmode="numeric">
-        </div>
-      </div>
-
-      <!-- ═══ MULTI-ITEM VARIASI ═══ -->
-      <div class="fg">
-        <label class="flbl" data-i18n="lblVariasi">Pilih Ukuran &amp; Warna *</label>
-        <div class="items-container" id="items-container">
-          <!-- Item rows rendered by JS -->
-        </div>
+        <div class="items-container" id="items-container"></div>
         <button type="button" class="btn-add-item" id="btn-add-item">
           <span style="font-size:18px;line-height:1;">+</span>
           <span data-i18n="btnAddItem">TAMBAH WARNA/UKURAN LAIN</span>
@@ -2038,26 +2090,73 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;" data-i18n="colorNote">
           ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
         </p>
-      </div>
-
-      <div class="fg">
-        <label class="flbl" for="f-catatan" data-i18n="lblCatatan">Catatan (opsional)</label>
-        <input class="finp" type="text" id="f-catatan" placeholder="Request khusus, catatan pengiriman...">
-      </div>
-
-      <!-- Total Box -->
-      <div class="total-box">
-        <div class="items-summary" id="items-summary">
-          <!-- rendered by JS -->
+        <div class="total-box" style="margin-top:14px;">
+          <div class="items-summary" id="items-summary"></div>
+          <hr class="tdiv">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+            <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKIR</div>
+            <div class="tbig" id="t-total">Rp 0</div>
+          </div>
         </div>
-        <hr class="tdiv">
-        <div class="tbig" id="t-total">Rp 150.000</div>
-        <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKOS KIRIM</div>
       </div>
 
-      <button class="btn-main" id="btn-next" type="button">
-        <span id="btn-next-txt" data-i18n="btnNext">LANJUT KE PEMBAYARAN →</span>
-      </button>
+      <!-- CARD 2 — DATA KAMU -->
+      <div class="form-section-card">
+        <div class="form-card-header">
+          <span class="form-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <div>
+            <div class="form-card-title" data-i18n="cardData">DATA KAMU</div>
+            <div class="form-card-sub" data-i18n="cardDataSub">Untuk konfirmasi &amp; pengiriman</div>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="flbl" for="f-nama" data-i18n="lblNama">Nama Lengkap *</label>
+          <input class="finp" type="text" id="f-nama" placeholder="Nama untuk label pengiriman" autocomplete="name">
+        </div>
+        <div class="fg">
+          <label class="flbl" for="f-phone" data-i18n="lblPhone">Nomor WhatsApp *</label>
+          <div style="display:flex;">
+            <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 8px;background:#1a0f06;border-right:none;min-width:90px;cursor:pointer;font-size:16px;">
+              <option value="62">ID +62</option>
+              <option value="1">US +1</option>
+              <option value="44">UK +44</option>
+              <option value="61">AU +61</option>
+              <option value="65">SG +65</option>
+              <option value="60">MY +60</option>
+            </select>
+            <input class="finp" type="tel" id="f-phone" placeholder="81xxxxxxxx" inputmode="numeric" style="flex:1;border-left:none;" autocomplete="tel">
+          </div>
+        </div>
+        <div class="fg">
+          <label class="flbl" for="f-email" data-i18n="lblEmail">Email *</label>
+          <input class="finp" type="email" id="f-email" placeholder="email@kamu.com" inputmode="email" autocapitalize="none" autocomplete="email">
+          <div style="font-size:10px;color:var(--gold);opacity:.5;margin-top:4px;letter-spacing:1px;" data-i18n="emailHint">Untuk konfirmasi order otomatis</div>
+        </div>
+        <div class="fg">
+          <label class="flbl" for="f-alamat" data-i18n="lblAlamat">Alamat Lengkap *</label>
+          <textarea class="finp" id="f-alamat" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan..." style="min-height:72px;resize:vertical;" autocomplete="street-address"></textarea>
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="flbl" for="f-kota" data-i18n="lblKota">Kota / Kabupaten *</label>
+            <input class="finp" type="text" id="f-kota" placeholder="Denpasar">
+          </div>
+          <div class="fg">
+            <label class="flbl" for="f-kodepos" data-i18n="lblKodePos">Kode Pos *</label>
+            <input class="finp" type="text" id="f-kodepos" placeholder="80361" maxlength="6" inputmode="numeric">
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:0;">
+          <label class="flbl" for="f-catatan" data-i18n="lblCatatan">Catatan (opsional)</label>
+          <input class="finp" type="text" id="f-catatan" placeholder="Request khusus, catatan pengiriman...">
+        </div>
+
+        <!-- Tombol bayar ke-2 — di dalam card, full width -->
+        <button class="btn-main full-width" id="btn-next-2" type="button" style="margin-top:18px;">
+          <span data-i18n="btnNext">BAYAR →</span>
+        </button>
+      </div>
+
       <p class="stock-warn" data-i18n="stockWarn">⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡</p>
     </div><!-- end step1 -->
 
@@ -2098,11 +2197,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
       <!-- Payment info -->
       <div class="pay-box">
-        <div class="pay-title" data-i18n="payTitle">💸 TRANSFER KE</div>
+        <div class="pay-title" data-i18n="payTitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> TRANSFER KE</div>
         <p class="pay-desc" data-i18n="payDesc">Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.</p>
 
         <div class="bank-card" id="bca-card">
-          <div class="bank-name-lbl">🏦 BANK BCA</div>
+          <div class="bank-name-lbl"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 10 12 3 21 10"/><rect x="3" y="10" width="18" height="11"/><line x1="7" y1="10" x2="7" y2="21"/><line x1="12" y1="10" x2="12" y2="21"/><line x1="17" y1="10" x2="17" y2="21"/></svg> BANK BCA</div>
           <div class="bank-num">7730320901</div>
           <div class="bank-an" data-i18n="bankAN">a/n dikonfirmasi via WA</div>
           <div class="bank-copy" data-i18n="bcaCopy">⚡ TAP UNTUK COPY NOMOR REKENING</div>
@@ -2115,7 +2214,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         </div>
 
         <div class="bank-card" id="gopay-card">
-          <div class="bank-name-lbl">📱 GOPAY / DANA</div>
+          <div class="bank-name-lbl"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="var(--amber)"/></svg> GOPAY / DANA</div>
           <div class="bank-num">0812-3686-9035</div>
           <div class="bank-an" data-i18n="bankAN">a/n dikonfirmasi via WA</div>
           <div class="bank-copy" data-i18n="gopayCopy">⚡ TAP UNTUK COPY NOMOR</div>
@@ -2127,7 +2226,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <label class="flbl" data-i18n="lblUpload">Upload Bukti Transfer *</label>
         <label class="upload-area" id="upload-area" aria-label="Upload bukti transfer">
           <input type="file" id="f-bukti" accept="image/*" style="display:none;">
-          <span class="upload-icon">📸</span>
+          <span class="upload-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
           <div class="upload-label" data-i18n="uploadLabel">TAP UNTUK PILIH FOTO</div>
           <div class="upload-sub" data-i18n="uploadSub">Screenshot bukti transfer · JPG/PNG · Maks 10MB</div>
         </label>
@@ -2139,7 +2238,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <p id="upload-req" style="display:none;font-family:'Roboto',sans-serif;font-size:12px;color:var(--red);text-align:center;margin-top:8px;" data-i18n="uploadReq">⚡ Upload bukti transfer dulu ya!</p>
       </div>
 
-      <button class="btn-main" id="btn-submit" type="button" style="margin-top:18px;">
+      <button class="btn-main full-width" id="btn-submit" type="button" style="margin-top:18px;">
         <span id="btn-submit-txt" data-i18n="btnConfirm">KONFIRMASI PEMBAYARAN</span>
         <div class="spinner" id="spinner-submit" style="display:none;"></div>
       </button>
@@ -2150,34 +2249,34 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
     <!-- ═══ STEP 3: SUKSES ═══ -->
     <div id="step3" style="display:none;text-align:center;padding:12px 0;">
-      <span class="success-icon">✅</span>
+      <span class="success-icon"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
       <div class="success-title" data-i18n="successTitle">ORDER MASUK!</div>
       <p class="success-msg" data-i18n="successMsg">Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.</p>
 
       <div style="margin-bottom:20px;">
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(45,106,45,.15);border:1px solid #3a9a3a;margin-bottom:8px;">
-          <span style="font-size:20px;flex-shrink:0;">✅</span>
+          <span style="flex-shrink:0;display:flex;align-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#80d080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
           <div style="text-align:left;">
             <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;" data-i18n="s3t1">BUKTI TRANSFER DITERIMA</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="s3d1">Data & foto bukti tersimpan di sistem admin</div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.4);margin-bottom:8px;">
-          <span style="font-size:20px;flex-shrink:0;">🔍</span>
+          <span style="flex-shrink:0;display:flex;align-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           <div style="text-align:left;">
             <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--amber);" data-i18n="s3t2">ADMIN SEDANG CEK PEMBAYARAN</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.7;margin-top:2px;" data-i18n="s3d2">Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong></div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);margin-bottom:8px;">
-          <span style="font-size:20px;flex-shrink:0;">📱</span>
+          <span style="flex-shrink:0;display:flex;align-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="var(--amber)"/></svg></span>
           <div style="text-align:left;">
             <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="s3t3">NOTIF WA JIKA TERKONFIRMASI</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="s3d3">Kamu akan dapat WA saat pembayaran terkonfirmasi</div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);">
-          <span style="font-size:20px;flex-shrink:0;">🏭</span>
+          <span style="flex-shrink:0;display:flex;align-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
           <div style="text-align:left;">
             <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:var(--cream);opacity:.7;" data-i18n="s3t4">PRODUKSI 1–2 HARI KERJA</div>
             <div style="font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.55;margin-top:2px;" data-i18n="s3d4">Dimulai setelah pembayaran terkonfirmasi</div>
@@ -2186,16 +2285,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       </div>
 
       <div class="success-box">
-        <div class="success-box-title" data-i18n="detailOrderTitle">📋 DETAIL ORDER</div>
+        <div class="success-box-title" data-i18n="detailOrderTitle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DETAIL ORDER</div>
         <ul>
           <li>
             <span data-i18n="orderNumPrefix">No. order:</span>&nbsp;
             <button class="copy-ordernum" id="copy-ordernum-btn" title="Tap untuk copy" type="button">
               <strong id="s-ordernum" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:16px;">—</strong>
-              <span style="font-size:13px;">📋</span>
+              <span style="display:inline-flex;align-items:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span>
             </button>
           </li>
-          <li data-i18n="successLi1">Bukti transfer tersimpan di sistem</li>
+          <li style="list-style:none">✓ <span data-i18n="successLi1">Bukti transfer tersimpan di sistem</li>
           <li data-i18n="successLi2">Notif email sudah dikirim ke admin</li>
         </ul>
         <p class="copy-ordernum-hint" data-i18n="copyHint">Tap nomor order untuk copy</p>
@@ -2210,10 +2309,10 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <!-- Action Buttons -->
       <div class="success-actions">
         <a href="#" onclick="scrollToTop();return false;" class="btn-back-home" id="btn-back-home">
-          🏠 <span data-i18n="btnBackHome">KEMBALI KE ATAS</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> <span data-i18n="btnBackHome">KEMBALI KE ATAS</span>
         </a>
         <button type="button" class="btn-order-again" id="btn-order-again">
-          🔄 <span data-i18n="btnOrderAgain">ORDER LAGI</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg> <span data-i18n="btnOrderAgain">ORDER LAGI</span>
         </button>
       </div>
 
@@ -2224,6 +2323,21 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     </div><!-- end step3 -->
 
   </div><!-- end form-inner -->
+
+  <!-- ═══ STICKY CTA BAR (Opsi C) — hanya tampil di step1 ═══ -->
+  <div class="sticky-cta" id="sticky-cta">
+    <div class="sticky-cta-inner">
+      <div class="sticky-cta-total">
+        <div class="sticky-cta-label" data-i18n="totalLbl">TOTAL PESANAN</div>
+        <div class="sticky-cta-amount" id="sticky-total">Rp 0</div>
+        <div class="sticky-cta-sub" data-i18n="ongkirNote">BELUM TERMASUK ONGKIR</div>
+      </div>
+      <button class="btn-main" id="btn-next" type="button">
+        <span id="btn-next-txt" data-i18n="btnNext">BAYAR →</span>
+      </button>
+    </div>
+  </div>
+
 </section><!-- end order-section -->
 
 <!-- HOW TO ORDER -->
@@ -2324,15 +2438,15 @@ var TOAST_MSGS = {
   invalidEmail : { id:'Format email tidak valid!',  en:'Invalid email format!' },
   noUpload     : { id:'Upload bukti transfer dulu!',en:'Please upload payment proof first!' },
   compressing  : { id:'Mengompres gambar...',       en:'Compressing image...' },
-  draftRestored: { id:'📝 Draft form dipulihkan',   en:'📝 Form draft restored' },
-  retrying     : { id:'⚠️ Koneksi lambat, mencoba ulang...', en:'⚠️ Slow connection, retrying...' },
+  draftRestored: { id:'Draft form dipulihkan',   en:'Form draft restored' },
+  retrying     : { id:'Koneksi lambat, mencoba ulang...', en:'Slow connection, retrying...' },
   savedWarn    : { id:'⚡ Tersimpan! Cek WA admin untuk konfirmasi.', en:'⚡ Saved! Check WA admin to confirm.' },
   bcaCopied    : { id:'No. BCA disalin!',           en:'BCA number copied!' },
   gopayCopied  : { id:'No. GoPay/Dana disalin!',    en:'GoPay/Dana number copied!' },
-  orderCopied  : { id:'No. order disalin! 📋',      en:'Order number copied! 📋' },
+  orderCopied  : { id:'No. order disalin!',      en:'Order number copied!' },
   notImage     : { id:'File harus berupa gambar!',  en:'File must be an image!' },
   tooLarge     : { id:'Ukuran file maks 10MB!',     en:'File size max 10MB!' },
-  imgReady     : { id:'Foto siap ✅',               en:'Photo ready ✅' },
+  imgReady     : { id:'Foto siap ✓',               en:'Photo ready ✓' },
 };
 
 function t(key) { var m = TOAST_MSGS[key]; return m ? (m[currentLang] || m.id) : key; }
@@ -2359,19 +2473,19 @@ if (window.hideLoader) window.hideLoader();
 var MARQUEE_PILLS = {
   id: [
     { icon:'⚡', text:'<strong>PRE-ORDER OPEN</strong> · Produksi 1–2 hari kerja' },
-    { icon:'👕', text:'Cotton Combed 24s · <strong>170–180 GSM</strong>' },
-    { icon:'📦', text:'Kirim ke <strong>seluruh Indonesia</strong>' },
-    { icon:'💰', text:'Mulai <strong>Rp 150.000</strong> · S–XXXL' },
-    { icon:'🔥', text:'<strong>LIMITED GROUP ORDER</strong> · GRABFAST!' },
-    { icon:'✅', text:'Bayar LUNAS di awal · <strong>Ongkir menyusul</strong>' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>', text:'Cotton Combed 24s · <strong>170–180 GSM</strong>' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>', text:'Kirim ke <strong>seluruh Indonesia</strong>' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>', text:'Mulai <strong>Rp 150.000</strong> · S–XXXL' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', text:'<strong>LIMITED GROUP ORDER</strong> · GRABFAST!' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>', text:'Bayar LUNAS di awal · <strong>Ongkir menyusul</strong>' },
   ],
   en: [
     { icon:'⚡', text:'<strong>PRE-ORDER OPEN</strong> · Production 1–2 working days' },
-    { icon:'👕', text:'Cotton Combed 24s · <strong>170–180 GSM</strong>' },
-    { icon:'📦', text:'Ships to <strong>all of Indonesia</strong>' },
-    { icon:'💰', text:'Starting <strong>Rp 150,000</strong> · S–XXXL' },
-    { icon:'🔥', text:'<strong>LIMITED GROUP ORDER</strong> · GRABFAST!' },
-    { icon:'✅', text:'Full payment upfront · <strong>Shipping follows</strong>' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>', text:'Cotton Combed 24s · <strong>170–180 GSM</strong>' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>', text:'Ships to <strong>all of Indonesia</strong>' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>', text:'Starting <strong>Rp 150,000</strong> · S–XXXL' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', text:'<strong>LIMITED GROUP ORDER</strong> · GRABFAST!' },
+    { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>', text:'Full payment upfront · <strong>Shipping follows</strong>' },
   ]
 };
 var _marqueeStyle = null;
@@ -2599,7 +2713,7 @@ function itemPickColor(id, colorId) {
 function itemQtyChange(id, delta) {
   var item = ITEMS.find(function(x){ return x.id === id; });
   if (!item) return;
-  var newQty = Math.max(1, Math.min(99, item.qty + delta));
+  var newQty = Math.max(0, Math.min(99, item.qty + delta));
   item.qty = newQty;
   sndQty();
   renderItems();
@@ -2609,7 +2723,7 @@ function itemQtyInput(id, val) {
   var item = ITEMS.find(function(x){ return x.id === id; });
   if (!item) return;
   var v = parseInt(val, 10);
-  item.qty = isNaN(v) ? 1 : Math.max(1, Math.min(99, v));
+  item.qty = isNaN(v) ? 0 : Math.max(0, Math.min(99, v));
   updateTotalMulti();
   _saveDraftSafe();
 }
@@ -2624,7 +2738,7 @@ window.itemQtyInput   = itemQtyInput;
 
 // ─── INIT FIRST ITEM ────────────────────────────────────
 _itemCounter = 1;
-ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:1 }];
+ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:0 }];
 renderItems();
 
 // Bind add button
@@ -2659,7 +2773,7 @@ function restoreDraft() {
           color : validColors.indexOf(item.color) >= 0 ? item.color : '',
           size  : item.size,
           price : priceForSize(item.size),
-          qty   : Math.max(1, Math.min(99, parseInt(item.qty,10)||1))
+          qty   : Math.max(0, Math.min(99, parseInt(item.qty,10)||0))
         };
       });
       if(ITEMS.length === 0) {
@@ -2800,6 +2914,13 @@ $('btn-next').addEventListener('click', function() {
   if(!_pushStateDone){history.pushState({step:2},'');_pushStateDone=true;}
 });
 
+// btn-next-2 (tombol ke-2 di bawah card Data Kamu) — delegate ke btn-next
+(function(){
+  var btn2 = $('btn-next-2');
+  var btn1 = $('btn-next');
+  if(btn2 && btn1) btn2.addEventListener('click', function(){ btn1.click(); });
+})();
+
 // ─── COPY BANK ──────────────────────────────────────────
 $('bca-card').addEventListener('click',   function(){ navigator.clipboard&&navigator.clipboard.writeText('7730320901').then(function(){toast(t('bcaCopied'));}); });
 $('gopay-card').addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('081236869035').then(function(){toast(t('gopayCopied'));}); });
@@ -2865,8 +2986,7 @@ function resetSubmitBtn(){
   if(btn)btn.disabled=false;
   if(txt)txt.textContent=currentLang==='en'?'CONFIRM PAYMENT':'KONFIRMASI PEMBAYARAN';
   if(sp)sp.style.display='none';
-}
-function doSubmit(){
+}function doSubmit(){
   SUBMIT_ATTEMPT++;
   var retryLabel = '';
   if (SUBMIT_ATTEMPT > 1) {
@@ -2910,21 +3030,21 @@ function onSubmitSuccess(){
     return (isEn ? '  ' : '  ') + (i+1) + '. ' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs = ' + fmtRp(item.harga * item.qty);
   });
   var waMsg = [
-    '🧾 *' + (isEn ? 'ORDER SUMMARY — AWAS BAHAYA NPD' : 'RINGKASAN ORDER AWAS BAHAYA NPD') + '*',
+    '*' + (isEn ? 'ORDER SUMMARY — AWAS BAHAYA NPD' : 'RINGKASAN ORDER AWAS BAHAYA NPD') + '*',
     '─────────────────────',
-    (isEn ? '📋 Order No.  : *' : '📋 No. Order : *') + ORDER.orderNum + '*',
-    (isEn ? '👤 Name       : ' : '👤 Nama      : ') + ORDER.nama,
-    (isEn ? '📱 WA         : ' : '📱 WA        : ') + ORDER.phone,
-    (isEn ? '📍 City       : ' : '📍 Kota      : ') + ORDER.kota,
+    (isEn ? 'Order No.  : *' : 'No. Order : *') + ORDER.orderNum + '*',
+    (isEn ? 'Name       : ' : 'Nama      : ') + ORDER.nama,
+    (isEn ? 'WA         : ' : 'WA        : ') + ORDER.phone,
+    (isEn ? '   City       : ' : '   Kota      : ') + ORDER.kota,
     '─────────────────────',
-    (isEn ? '👕 Items:' : '👕 Item:'),
+    (isEn ? 'Items:' : 'Item:'),
   ].concat(itemLines).concat([
     '─────────────────────',
-    (isEn ? '💰 Grand Total: *' : '💰 Total     : *') + fmtRp(ORDER.grandTotal) + '*',
+    (isEn ? 'Grand Total: *' : 'Total     : *') + fmtRp(ORDER.grandTotal) + '*',
     '─────────────────────',
-    isEn ? '📦 Shipping notified via WA' : '📦 Ongkir diinfo via WA',
+    isEn ? 'Shipping notified via WA' : 'Ongkir diinfo via WA',
     isEn ? '✅ Payment proof sent to admin.' : '✅ Bukti transfer sudah dikirim ke admin.',
-    ORDER.catatan ? ((isEn ? '📝 Note: ' : '📝 Catatan: ') + ORDER.catatan) : '',
+    ORDER.catatan ? ((isEn ? 'Note: ' : 'Catatan: ') + ORDER.catatan) : '',
   ]).filter(Boolean).join('\n');
   var wp=ORDER.phone.replace(/[^0-9]/g,'');
   if(wp.charAt(0)==='0') wp=ORDER.countryCode+wp.slice(1); else if(!wp.startsWith(ORDER.countryCode)) wp=ORDER.countryCode+wp;
@@ -2972,8 +3092,6 @@ function launchConfetti(){
   })();}
 }
 
-// ─── SOUND ──────────────────────────────────────────────
-var _ac;
 // ─── SOUND ──────────────────────────────────────────────
 var _ac;
 
@@ -3200,6 +3318,11 @@ function setLang(lang){
     lblVariasi:   {id:'Pilih Ukuran & Warna *',en:'Choose Size & Color *'},
     btnAddItem:   {id:'TAMBAH WARNA/UKURAN LAIN',en:'ADD ANOTHER COLOR/SIZE'},
     oItems:       {id:'Item',en:'Items'},
+    cardOrder:    {id:'PESANANMU',           en:'YOUR ORDER'},
+    cardOrderSub: {id:'Pilih warna, ukuran & jumlah', en:'Choose color, size & quantity'},
+    cardData:     {id:'DATA KAMU',           en:'YOUR INFO'},
+    cardDataSub:  {id:'Untuk konfirmasi & pengiriman', en:'For confirmation & delivery'},
+    totalLbl:     {id:'TOTAL PESANAN',       en:'ORDER TOTAL'},
     lblNama:      {id:'Nama Lengkap *',en:'Full Name *'},
     lblEmail:     {id:'Email *',en:'Email *'},
     lblPhone:     {id:'Nomor WhatsApp *',en:'WhatsApp Number *'},lblAlamat:{id:'Alamat Lengkap *',en:'Full Address *'},
@@ -3208,7 +3331,7 @@ function setLang(lang){
     lblQty:       {id:'Jumlah',en:'Quantity'},lblCatatan:{id:'Catatan (opsional)',en:'Notes (optional)'},
     emailHint:    {id:'Untuk konfirmasi order otomatis',en:'For automatic order confirmation'},
     ongkirNote:   {id:'BELUM TERMASUK ONGKOS KIRIM',en:'SHIPPING NOT INCLUDED'},
-    btnNext:      {id:'LANJUT KE PEMBAYARAN →',en:'PROCEED TO PAYMENT →'},
+    btnNext:      {id:'BAYAR →',en:'PAY →'},
     stockWarn:    {id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡'},
     totalSize:    {id:'Ukuran',en:'Size'},totalHarga:{id:'Harga/pcs',en:'Price/pcs'},totalQty:{id:'Qty',en:'Qty'},
     backToForm:   {id:'KEMBALI KE FORM',en:'BACK TO FORM'},
@@ -3218,7 +3341,7 @@ function setLang(lang){
     oNama:{id:'Nama',en:'Name'},oWA:{id:'No WA',en:'WhatsApp'},oWarna:{id:'Warna',en:'Color'},oUkuran:{id:'Ukuran',en:'Size'},
     oKota:{id:'Kota',en:'City'},oHarga:{id:'Harga/pcs',en:'Price/pcs'},oTotal:{id:'TOTAL',en:'TOTAL'},
     oOngkir:{id:'Ongkir',en:'Shipping'},oOngkirVal:{id:'Diinfo via WA setelah GO closing',en:'Notified via WA after GO closes'},
-    payTitle:     {id:'💸 TRANSFER KE',en:'💸 TRANSFER TO'},
+    payTitle:     {id:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> TRANSFER KE',en:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> TRANSFER TO'},
     payDesc:      {id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.'},
     bankAN:       {id:'a/n dikonfirmasi via WA',en:'account holder confirmed via WA'},
     bcaCopy:      {id:'⚡ TAP UNTUK COPY NOMOR REKENING',en:'⚡ TAP TO COPY ACCOUNT NUMBER'},
@@ -3241,7 +3364,7 @@ function setLang(lang){
     s3d3:{id:'Kamu akan dapat WA saat pembayaran terkonfirmasi',en:'You will receive a WA when payment is confirmed'},
     s3t4:{id:'PRODUKSI 1–2 HARI KERJA',en:'PRODUCTION 1–2 WORKING DAYS'},
     s3d4:{id:'Dimulai setelah pembayaran terkonfirmasi',en:'Starts after payment is confirmed'},
-    detailOrderTitle:{id:'📋 DETAIL ORDER',en:'📋 ORDER DETAILS'},
+    detailOrderTitle:{id:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DETAIL ORDER',en:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> ORDER DETAILS'},
     orderNumPrefix:{id:'No. order:',en:'Order no.:'},
     successLi1:   {id:'Bukti transfer tersimpan di sistem',en:'Payment proof saved in the system'},
     successLi2:   {id:'Notif email sudah dikirim ke admin',en:'Email notification sent to admin'},
@@ -3283,7 +3406,7 @@ window.scrollToTop = scrollToTop;
   btnAgain.addEventListener('click', function() {
     // Reset ITEMS ke kondisi awal
     _itemCounter = 1;
-    ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:1 }];
+    ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:0 }];
     // Clear upload state
     clearUploadState();
     // Reset submit state
@@ -3301,6 +3424,46 @@ window.scrollToTop = scrollToTop;
     if (sec) { setTimeout(function(){ sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }
   });
 })();
+// ─── STICKY CTA ─────────────────────────────────────────
+(function() {
+  var bar = $('sticky-cta');
+  if (!bar) return;
+
+  function syncStickyTotal() {
+    var el  = $('sticky-total');
+    var src = $('t-total');
+    if (el && src) el.textContent = src.textContent;
+  }
+
+  function updateStickyBar() {
+    var s1 = $('step1');
+    var visible = s1 && s1.style.display !== 'none';
+    bar.style.display = visible ? 'block' : 'none';
+    if (visible) syncStickyTotal();
+    // Naikan WA float supaya tidak overlap sticky CTA
+    var waFloat = document.querySelector('.wa-float');
+    if (waFloat) waFloat.classList.toggle('sticky-up', !!visible);
+  }
+
+  // Patch goToStep to update sticky bar
+  var _origGoTo = goToStep;
+  goToStep = function(n) {
+    _origGoTo(n);
+    setTimeout(updateStickyBar, 20);
+  };
+  window.goToStep = goToStep;
+
+  // Patch updateTotalMulti to sync sticky total
+  var _origTotal = updateTotalMulti;
+  updateTotalMulti = function() {
+    _origTotal();
+    syncStickyTotal();
+  };
+
+  // Init on load
+  updateStickyBar();
+})();
+
 restoreDraft();
 window.setLang = setLang;
 setLang('id');
