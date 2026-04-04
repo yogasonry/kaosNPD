@@ -1383,7 +1383,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   opacity:1;
   transition:opacity .7s cubic-bezier(.4,0,.2,1);
   overflow:hidden;
-  animation:loaderAutoHide .5s ease forwards 4s;
+  /* hide dikendalikan JS — tidak ada CSS auto-hide */
 }
 /* radial glow background di loader */
 #shimmer-loader::before{
@@ -1409,10 +1409,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 @keyframes glowPulse{
   0%,100%{opacity:.7;} 50%{opacity:1;}
 }
-@keyframes loaderAutoHide{
-  0%{opacity:1;pointer-events:all;}
-  100%{opacity:0;pointer-events:none;visibility:hidden;}
-}
+/* loaderAutoHide keyframe dihapus */
 #shimmer-loader.hiding{
   opacity:0;pointer-events:none;
   transition:opacity .7s cubic-bezier(.4,0,.2,1);
@@ -1803,29 +1800,35 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 </style>
 <script>
-// Loader — isolated script, runs independently of main JS
+// Loader — minimum 2.5s visible, lalu fade smooth
 (function(){
-  function hide(){
-    var l=document.getElementById('shimmer-loader');
-    if(!l||l._done)return;
-    l._done=true;
-    l.style.transition='opacity .5s ease';
-    l.style.opacity='0';
-    l.style.pointerEvents='none';
-    setTimeout(function(){
-      if(l.parentNode){ l.style.display='none'; }
-    },600);
+  var MIN_MS = 2500;
+  var t0     = Date.now();
+  var _done  = false;
+  var _timer = null;
+
+  function doHide(){
+    if(_done) return; _done = true;
+    var l = document.getElementById('shimmer-loader');
+    if(!l) return;
+    l.classList.add('hiding');
+    setTimeout(function(){ l.style.display='none'; }, 850);
   }
-  // Multiple trigger points
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',function(){ hide(); });
-  } else {
-    hide();
+
+  function tryHide(){
+    if(_done) return;
+    var wait = MIN_MS - (Date.now() - t0);
+    if(wait <= 0){ doHide(); }
+    else { clearTimeout(_timer); _timer = setTimeout(doHide, wait); }
   }
-  window.addEventListener('load', hide);
-  // Absolute hard cap: 2s
-  setTimeout(hide, 2000);
-  window.hideLoader = hide;
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', tryHide);
+  } else { tryHide(); }
+
+  window.addEventListener('load', tryHide);
+  setTimeout(doHide, 5000); // hard cap 5s
+  window.hideLoader = tryHide;
 })();
 </script>
 </head>
