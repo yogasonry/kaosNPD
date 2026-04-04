@@ -149,28 +149,31 @@ header{
 .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .hs-btn{
   position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(10,7,5,.6);border:1px solid rgba(200,134,10,.35);
+  background:rgba(10,7,5,.45);border:1px solid rgba(200,134,10,.25);
   color:var(--amber);font-family:'Anton SC',sans-serif;
-  font-size:18px;width:28px;height:40px;
+  font-size:14px;width:20px;height:32px;
   cursor:pointer;z-index:10;
   display:flex;align-items:center;justify-content:center;transition:all .2s;
 }
 @media(min-width:600px){
-  .hs-btn{font-size:24px;width:36px;height:52px;}
+  .hs-btn{font-size:24px;width:36px;height:52px;background:rgba(10,7,5,.6);border-color:rgba(200,134,10,.35);}
 }
 .hs-btn:active,.hs-btn:hover{background:var(--rust);border-color:var(--amber);}
 .hs-prev{left:0;border-left:none;}
 .hs-next{right:0;border-right:none;}
 .hs-dots{
-  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-  display:flex;gap:8px;z-index:10;
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  display:flex;gap:6px;z-index:10;
 }
 .hs-dot{
-  width:9px;height:9px;border-radius:50%;
+  width:5px;height:5px;border-radius:50%;
   background:rgba(200,134,10,.35);border:1px solid rgba(200,134,10,.5);
   cursor:pointer;transition:all .25s;padding:0;
 }
-.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.25);}
+@media(min-width:600px){
+  .hs-dot{width:7px;height:7px;}
+}
+.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.2);}
 .hs-counter{
   position:absolute;top:10px;right:12px;
   background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.4);
@@ -1771,9 +1774,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 #color-picker       { touch-action: manipulation; }
 
 /* Larger touch targets on small buttons */
-.hs-btn             { min-width:36px; min-height:44px; }
+.hs-btn             { min-width:20px; min-height:32px; }
 .dlb-nav-btn        { min-width:40px; min-height:52px; }
-.hs-dot             { width:8px; height:8px; padding:0; border:6px solid transparent; box-sizing:content-box; background-clip:padding-box; }
+.hs-dot             { width:5px; height:5px; padding:5px; border:1px solid rgba(200,134,10,.5); box-sizing:content-box; background-clip:content-box; }
 
 /* Momentum scroll iOS (handled by touch-action) */
 
@@ -1885,9 +1888,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <header>
   <!-- Language toggle — part of header layout -->
   <div class="lang-bar">
-    <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">ID</button>
+    <button class="ctrl-btn active" id="btn-id" onclick="setLang('id')">🇮🇩 ID</button>
     <span class="ctrl-sep">|</span>
-    <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="ctrl-btn" id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
   </div>
   <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl" id="hero-hl" data-glitch="AWAS BAHAYA NPD." data-i18n="heroHl"><span class="glitch" data-text="AWAS BAHAYA">AWAS BAHAYA</span> <em class="glitch" data-text="NPD." style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
@@ -1912,15 +1915,15 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
            alt="AWAS BAHAYA NPD — Poster 2" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775312278/NPD_Series_Hero_2_nh25rv.jpg"
            alt="AWAS BAHAYA NPD — Poster 3" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774184001/Mockup_NPD_qmx1jm.png"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775312287/NPD_Series_Hero_1_aslmlx.jpg"
            alt="AWAS BAHAYA NPD — Poster 4" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774184824/Hero-2_ocxqcn.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311252/HOODIE_Mockup_zxsxkc.jpg"
            alt="AWAS BAHAYA NPD — Poster 5" loading="lazy">
     </div>
     <div class="hero-slide">
