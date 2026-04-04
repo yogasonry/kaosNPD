@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0705">
-<link rel="icon" type="image/png" href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_64,h_64,c_pad,b_rgb:0a0705,e_negate,q_auto,f_png/v1774191326/barong_bali_line_art_ke9x3y.png">
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_64,h_64,c_fit,e_make_transparent:10,e_colorize:100,co_rgb:c8860a,q_auto,f_png/v1774191326/barong_bali_line_art_ke9x3y.png">
 <meta name="description" content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern. Cotton Combed 24s. Limited Group Order.">
 <title>AWAS BAHAYA NPD — Bhuta Kala Modern</title>
 
@@ -31,6 +31,7 @@
 <meta name="twitter:description" content="Kaos Cotton Combed 24s premium. S–XXXL. Mulai 150K. Pre-order sekarang! 🔥">
 <meta name="twitter:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774415260/Hero-5_fz9ile.png">
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -43,7 +44,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--cream);font-family:'Roboto',sans-serif;overflow-x:hidden;}
+body{background:var(--black);color:var(--cream);font-family:'Roboto',sans-serif;overflow-x:hidden;overscroll-behavior-y:contain;}
 
 /* grain — z-index 1 so it never blocks anything */
 body::before{
@@ -54,7 +55,7 @@ body::before{
 /* ─── HEADER ─── */
 header{
   text-align:center;padding:20px 16px 0;
-  background:radial-gradient(ellipse at top,#2e1206 0%,var(--black) 68%);
+  background:radial-gradient(ellipse 60% 40% at top,#2e1206 0%,var(--black) 100%);
   border-bottom:3px solid var(--gold);overflow:hidden;position:relative;
 }
 @media(max-width:480px){
@@ -1188,7 +1189,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* toast — max-width so it doesn't overflow mobile */
 .toast{
   position:fixed;
-  bottom:calc(96px + env(safe-area-inset-bottom, 0px));
+  bottom:calc(100px + env(safe-area-inset-bottom, 0px));
   left:50%;
   transform:translateX(-50%) translateY(120px);
   background:var(--amber);color:var(--black);
@@ -1755,12 +1756,12 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .dlb-nav-btn        { min-width:40px; min-height:52px; }
 .hs-dot             { width:8px; height:8px; padding:0; border:6px solid transparent; box-sizing:content-box; background-clip:padding-box; }
 
-/* Smooth momentum scroll iOS */
-.hero-slide-wrap    { -webkit-overflow-scrolling:touch; }
+/* Momentum scroll iOS (handled by touch-action) */
 
 /* Prevent text selection on tap-heavy elements */
-.sopt, .copt, .qty-btn, .btn-main, .hs-btn, .hs-dot {
+.sopt, .copt, .qty-btn, .btn-main, .hs-btn, .hs-dot, .btn-add-item, .btn-remove-item, .bank-card {
   -webkit-user-select:none; user-select:none;
+  touch-action:manipulation;
 }
 
 /* Better tap feedback - remove grey flash */
@@ -2677,7 +2678,7 @@ function updateTotalMulti() {
 function addItem() {
   if (ITEMS.length >= MAX_ITEMS) return;
   _itemCounter++;
-  ITEMS.push({ id: 'item' + _itemCounter, color: '', size: 'S', price: 150000, qty: 1 });
+  ITEMS.push({ id: 'item' + _itemCounter, color: '', size: 'S', price: 150000, qty: 0 });
   sndAddItem();
   renderItems();
   setTimeout(function() {
@@ -2777,7 +2778,7 @@ function restoreDraft() {
         };
       });
       if(ITEMS.length === 0) {
-        ITEMS = [{id:'item1',color:'',size:'S',price:150000,qty:1}];
+        ITEMS = [{id:'item1',color:'',size:'S',price:150000,qty:0}];
       }
       _itemCounter = Math.max.apply(null, ITEMS.map(function(x){
         return parseInt(x.id.replace('item',''),10)||1;
@@ -2813,9 +2814,16 @@ function goToStep(n) {
 
 // ─── VALIDATE ───────────────────────────────────────────
 function validate() {
-  // Validate each item has color selected
+  // Validate total qty > 0
+  var totalQtyCheck = ITEMS.reduce(function(s,x){ return s+x.qty; }, 0);
+  if (totalQtyCheck === 0) {
+    var zeroMsg = currentLang === 'en' ? 'Please add at least 1 item!' : 'Tambah minimal 1 item dulu!';
+    toast(zeroMsg);
+    return false;
+  }
+  // Validate each item: if qty > 0, must have color
   for (var i = 0; i < ITEMS.length; i++) {
-    if (!ITEMS[i].color) {
+    if (ITEMS[i].qty > 0 && !ITEMS[i].color) {
       var msg = currentLang === 'en'
         ? 'Please choose a color for Item ' + (i+1) + '!'
         : 'Pilih warna untuk Item ' + (i+1) + '!';
@@ -2838,9 +2846,12 @@ function validate() {
 }
 
 // ─── NEXT BUTTON ────────────────────────────────────────
-$('btn-next').addEventListener('click', function() {
+(function(){ var _bn=$('btn-next'); if(!_bn) return; _bn.addEventListener('click', function() {
   if(!validate()) return;
 
+  // Filter out items with qty=0 before building order
+  ITEMS = ITEMS.filter(function(item){ return item.qty > 0; });
+  if(ITEMS.length === 0) return; // safety net
   var grandTotal = calcGrandTotal();
   var totalQty   = ITEMS.reduce(function(s,x){ return s+x.qty; }, 0);
   var userCatatan = $('f-catatan').value.trim();
@@ -2912,7 +2923,7 @@ $('btn-next').addEventListener('click', function() {
 
   goToStep(2);
   if(!_pushStateDone){history.pushState({step:2},'');_pushStateDone=true;}
-});
+}); })();
 
 // btn-next-2 (tombol ke-2 di bawah card Data Kamu) — delegate ke btn-next
 (function(){
@@ -2922,8 +2933,8 @@ $('btn-next').addEventListener('click', function() {
 })();
 
 // ─── COPY BANK ──────────────────────────────────────────
-$('bca-card').addEventListener('click',   function(){ navigator.clipboard&&navigator.clipboard.writeText('7730320901').then(function(){toast(t('bcaCopied'));}); });
-$('gopay-card').addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('081236869035').then(function(){toast(t('gopayCopied'));}); });
+(function(){ var el=$('bca-card'); if(el) el.addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('7730320901').then(function(){toast(t('bcaCopied'));}); }); })();
+(function(){ var el=$('gopay-card'); if(el) el.addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('081236869035').then(function(){toast(t('gopayCopied'));}); }); })();
 
 // ─── IMAGE COMPRESSION ──────────────────────────────────
 function compressImage(file, cb) {
@@ -2966,12 +2977,12 @@ function processFile(file) {
     toast(t('imgReady')+' (~'+Math.round(b64.length*0.75/1024)+' KB)');
   });
 }
-$('f-bukti').addEventListener('change', function(){ if(this.files[0]) processFile(this.files[0]); });
-$('btn-remove').addEventListener('click', function(){
+(function(){ var el=$('f-bukti'); if(el) el.addEventListener('change', function(){ if(this.files[0]) processFile(this.files[0]); }); })();
+(function(){ var _br=$('btn-remove'); if(!_br) return; _br.addEventListener('click', function(){
   IMG_B64='';IMG_MIME='';
   var pi=$('preview-img'),pn=$('preview-name'),pw=$('preview-wrap'),fb=$('f-bukti');
   if(pi)pi.src='';if(pn)pn.textContent='';if(pw)pw.style.display='none';if(fb)fb.value='';
-});
+}); })();
 var uaEl=$('upload-area');
 if(uaEl){
   uaEl.addEventListener('dragover', function(e){e.preventDefault();uaEl.classList.add('drag-over');});
@@ -3052,10 +3063,10 @@ function onSubmitSuccess(){
   setTimeout(function(){launchConfetti();},200); setTimeout(function(){sndSuccess();},300);
   goToStep(3);
 }
-$('btn-submit').addEventListener('click',function(){
+(function(){ var _bs=$('btn-submit'); if(!_bs) return; _bs.addEventListener('click',function(){
   if(!IMG_B64){toast(t('noUpload'));var ur=$('upload-req');if(ur)ur.style.display='block';return;}
   SUBMIT_ATTEMPT=0; doSubmit();
-});
+}); })();
 
 // ─── BACK / POPSTATE ────────────────────────────────────
 function clearUploadState() {
