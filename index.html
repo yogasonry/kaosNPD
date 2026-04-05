@@ -557,7 +557,7 @@ select.finp{
 select.finp option{background:#1a0f06;color:var(--cream);}
 textarea.finp{resize:vertical;min-height:80px;}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:440px){.frow{grid-template-columns:1fr;}}
+@media(max-width:480px){.frow{grid-template-columns:1fr;}}
 
 /* Color picker */
 /* ─── COLOR PICKER ─── */
@@ -1980,9 +1980,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
   <!-- Indonesia Shipping Only -->
   <div class="shipping-badge" data-i18n-id="shippingBadge" data-i18n-en="shippingBadgeEn">
-    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="11" fill="#CE1126"/><rect y="3.5" width="16" height="4" fill="#fff"/><rect y="3.5" width="16" height="4" fill="none"/><rect width="16" height="3.5" fill="#CE1126"/></svg></span>
+    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="5.5" fill="#CE1126"/><rect y="5.5" width="16" height="5.5" fill="#ffffff"/></svg></span>
     <span class="ship-text" id="ship-text" data-i18n="shipText">Pengiriman ke seluruh Indonesia</span>
-    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="11" fill="#CE1126"/><rect y="3.5" width="16" height="4" fill="#fff"/><rect width="16" height="3.5" fill="#CE1126"/></svg></span>
+    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="5.5" fill="#CE1126"/><rect y="5.5" width="16" height="5.5" fill="#ffffff"/></svg></span>
   </div>
 </div>
 
@@ -2119,7 +2119,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
           <span data-i18n="btnAddItem">TAMBAH WARNA/UKURAN LAIN</span>
         </button>
         <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;" data-i18n="colorNote">
-          ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
+          ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" rel="noopener noreferrer" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
         </p>
         <div class="total-box" style="margin-top:14px;">
           <div class="items-summary" id="items-summary"></div>
@@ -2827,10 +2827,10 @@ function goToStep(n) {
   if(s1) s1.style.display=n===1?'block':'none';
   if(s2) s2.style.display=n===2?'block':'none';
   if(s3) s3.style.display=n===3?'block':'none';
-  var states={1:n===1?'active':'done',2:n<2?'':n===2?'active':'done',3:n===3?'done':'',4:n===3?'active':''};
+  var states={1:n===1?'active':'done',2:n<2?'':n===2?'active':'done',3:n<3?'':n===3?'active':'done',4:n===3?'active':''};
   for(var i=1;i<=4;i++){var dot=$('sd'+i);if(dot)dot.className='sdot'+(states[i]?' '+states[i]:'');}
-  for(var j=1;j<=3;j++){var ln=$('sl'+j);if(ln)ln.className='sline'+(n>j+1||(n===3&&j<=2)?' done':n>j?' done':'');}
-  var sec=$('order-section'); if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+  for(var j=1;j<=3;j++){var ln=$('sl'+j);if(ln)ln.className='sline'+(n>j?' done':'');}
+  var sec=$('order-section'); if(sec) setTimeout(function(){ sec.scrollIntoView({behavior:'smooth',block:'start'}); },80);
 }
 (function(){
   var ua=$('upload-area'); if(!ua||!window.IntersectionObserver) return;
@@ -2990,8 +2990,10 @@ function compressImage(file, cb) {
 }
 function showPreview(name, src) {
   var pw=$('preview-wrap'),pi=$('preview-img'),pn=$('preview-name'),ur=$('upload-req');
-  if(pi) pi.src=src; if(pn) pn.textContent=name;
-  if(pw) pw.style.display='block'; if(ur) ur.style.display='none';
+  if(pi){ pi.src=''; pi.src=src; }
+  if(pn) pn.textContent=name;
+  if(pw){ pw.removeAttribute('style'); pw.style.cssText='margin-top:14px;text-align:center;'; }
+  if(ur) ur.style.display='none';
 }
 function processFile(file) {
   if(!file) return;
@@ -3067,7 +3069,7 @@ function onSubmitSuccess(){
   };
   var isEn = currentLang === 'en';
   // Build items lines
-  var itemLines = ORDER.items.map(function(item, i) {
+  var itemLines = (ORDER.items || []).map(function(item, i) {
     return (isEn ? '  ' : '  ') + (i+1) + '. ' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs = ' + fmtRp(item.harga * item.qty);
   });
   var waMsg = [
@@ -3158,15 +3160,15 @@ function _playTone(freq, dur, vol) {
   } catch(e) {}
 }
 
-function sndSize()  { _playTone(440, 0.07, 0.06); }
-function sndColor() { _playTone(520, 0.07, 0.06); }
-function sndQty()   { _playTone(600, 0.05, 0.05); }
+function sndSize()  { _acInit(); _playTone(440, 0.07, 0.06); }
+function sndColor() { _acInit(); _playTone(520, 0.07, 0.06); }
+function sndQty()   { _acInit(); _playTone(600, 0.05, 0.05); }
 function sndAddItem() {
-  _playTone(440, 0.07, 0.06);
+  _acInit(); _playTone(440, 0.07, 0.06);
   setTimeout(function(){ _playTone(560, 0.07, 0.06); }, 80);
 }
 function sndRemoveItem() {
-  _playTone(320, 0.07, 0.05);
+  _acInit(); _playTone(320, 0.07, 0.05);
   setTimeout(function(){ _playTone(240, 0.08, 0.04); }, 80);
 }
 
@@ -3184,8 +3186,10 @@ function sndSuccess(){
 var HS_TOTAL=6, hsCur=0, hsTimer;
 function hsGo(n){
   hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
-  var track=$('hs-track'),slide=document.querySelector('.hero-slide');
-  if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
+  var track=$('hs-track');
+  var wrap=track&&track.parentElement;
+  var slideW=wrap?wrap.offsetWidth:window.innerWidth;
+  if(track) track.style.transform='translateX(-'+(hsCur*slideW)+'px)';
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
 }
@@ -3423,7 +3427,7 @@ function setLang(lang){
     hashtags:     {id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN',en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN'},
     fnote:        {id:'Made with chaos in Bali · Limited Group Order Only',en:'Made with chaos in Bali · Limited Group Order Only'},
     waTooltip:    {id:'Tanya admin via WA',en:'Chat admin via WA'},
-    colorNote:    {id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" style="color:var(--amber);">Check color stock first</a> before ordering'},
+    colorNote:    {id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" rel="noopener noreferrer" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" rel="noopener noreferrer" style="color:var(--amber);">Check color stock first</a> before ordering'},
   };
   document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(T[key])el.innerHTML=T[key][lang]||T[key].id;});
   var ph=lang==='id'?{'f-nama':'Nama untuk label pengiriman','f-email':'email@kamu.com','f-phone':'81xxxxxxxx','f-alamat':'Jl. contoh No.1, Kel. ...','f-kota':'Denpasar','f-kodepos':'80225','f-catatan':'Opsional — catatan khusus...'}:{'f-nama':'Name for shipping label','f-email':'your@email.com','f-phone':'81xxxxxxxx','f-alamat':'Full street address, district...','f-kota':'City','f-kodepos':'Postal Code','f-catatan':'Optional — special notes...'};
@@ -3517,49 +3521,34 @@ setLang('id');
   var wrap = v && v.closest('.ads-infeed-video-wrap');
   var play = wrap && wrap.querySelector('.ads-infeed-play');
   var exp  = wrap && wrap.querySelector('.ads-infeed-expand');
-
   if (!v) return;
-
-  // IntersectionObserver — autoplay/pause saat scroll
-  if (window.IntersectionObserver) {
-    var obs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) {
-        v.play().catch(function(){});
-        if (play) play.classList.add('hidden');
-      } else {
-        v.pause();
-        if (play) play.classList.remove('hidden');
-      }
-    }, { threshold: 0.5 });
-    obs.observe(v);
+  v.muted = true;
+  v.setAttribute('playsinline','');
+  v.setAttribute('webkit-playsinline','');
+  function tryPlay(){
+    var p=v.play();
+    if(p&&typeof p.then==='function'){
+      p.then(function(){ if(play) play.classList.add('hidden'); })
+       .catch(function(){ if(play) play.classList.remove('hidden'); });
+    } else { if(play) play.classList.add('hidden'); }
   }
-
-  // Tap on video wrap — toggle play/pause
-  if (wrap) {
-    wrap.addEventListener('click', function() {
-      if (v.paused) {
-        v.play().catch(function(){});
-        if (play) play.classList.add('hidden');
-      } else {
-        v.pause();
-        if (play) play.classList.remove('hidden');
-      }
-    });
+  if(window.IntersectionObserver){
+    new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ tryPlay(); }
+      else{ v.pause(); if(play) play.classList.remove('hidden'); }
+    },{threshold:0.5}).observe(v);
   }
-
-  // Expand button — fullscreen native
-  if (exp) {
-    exp.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (v.requestFullscreen)            v.requestFullscreen();
-      else if (v.webkitEnterFullscreen)   v.webkitEnterFullscreen(); // iOS Safari
-      else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
-    });
-  }
-
-  // Hide play overlay saat video mulai
-  v.addEventListener('play',  function(){ if (play) play.classList.add('hidden'); });
-  v.addEventListener('pause', function(){ if (play) play.classList.remove('hidden'); });
+  if(wrap){ wrap.addEventListener('click',function(){
+    if(v.paused){ tryPlay(); } else{ v.pause(); if(play) play.classList.remove('hidden'); }
+  }); }
+  if(exp){ exp.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(v.requestFullscreen) v.requestFullscreen();
+    else if(v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+    else if(v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+  }); }
+  v.addEventListener('play', function(){ if(play) play.classList.add('hidden'); });
+  v.addEventListener('pause',function(){ if(play) play.classList.remove('hidden'); });
 })();
 
 </script>
