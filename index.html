@@ -379,7 +379,7 @@ header{
 
 .gal-item{
   flex-shrink:0;
-  width:clamp(160px,42vw,220px);
+  width:clamp(180px,46vw,240px);
   aspect-ratio:3/4;
   position:relative;overflow:hidden;cursor:zoom-in;
   border:1.5px solid rgba(200,134,10,.18);
@@ -603,24 +603,32 @@ header{
 }
 .cart-item-remove{
   background:none;border:none;cursor:pointer;
-  color:rgba(200,134,10,.3);font-size:14px;padding:2px 4px;
+  color:rgba(200,134,10,.3);font-size:14px;
+  /* touch target min 44px agar mudah di-tap di mobile */
+  min-width:44px;min-height:44px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0;
   transition:color .2s;flex-shrink:0;line-height:1;
+  -webkit-tap-highlight-color:transparent;
 }
 .cart-item-remove:hover{color:rgba(200,60,30,.7);}
 .cart-qty-ctrl{
   display:flex;align-items:center;gap:6px;margin-top:6px;
 }
 .cart-qty-btn{
-  width:26px;height:26px;border-radius:50%;
+  width:36px;height:36px;border-radius:50%;
   background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.25);
-  color:var(--amber);font-size:14px;cursor:pointer;
+  color:var(--amber);font-size:16px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .2s;flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
 }
 .cart-qty-btn:hover{background:rgba(200,134,10,.2);}
+.cart-qty-btn:active{background:rgba(200,134,10,.35);}
 .cart-qty-num{
   font-family:'Anton SC',sans-serif;font-size:14px;
-  color:var(--cream);min-width:24px;text-align:center;
+  color:var(--cream);min-width:28px;text-align:center;
 }
 .cart-total-row{
   padding:14px 16px;
@@ -1092,8 +1100,10 @@ textarea.finp{resize:vertical;min-height:80px;}
 .btn-remove-item{
   background:rgba(139,26,10,.5);border:1px solid rgba(139,26,10,.6);
   color:var(--cream);font-size:11px;letter-spacing:1px;
-  padding:4px 10px;cursor:pointer;border-radius:4px;
+  padding:8px 12px;cursor:pointer;border-radius:4px;
   transition:background .2s;line-height:1;
+  min-height:36px;display:inline-flex;align-items:center;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 .btn-remove-item:hover,.btn-remove-item:active{background:var(--red);}
 
@@ -2204,14 +2214,14 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:14px;
-  max-width:480px;
+  max-width:520px;
   margin:0 auto;
 }
 @media(min-width:700px){
   .katalog-grid{
     grid-template-columns:repeat(4,1fr);
-    max-width:860px;
-    gap:16px;
+    max-width:960px;
+    gap:20px;
   }
 }
 .katalog-section{ text-align:center; }
@@ -2241,11 +2251,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   box-shadow:0 0 0 2px rgba(200,134,10,.25), 0 8px 28px rgba(200,134,10,.18);
 }
 
-/* Card image — 4:5 portrait, fills 100% of grid cell */
+/* Card image — 3:4 portrait lebih tinggi */
 .kat-img-wrap{
   position:relative;
   width:100%;
-  aspect-ratio:4/5;
+  aspect-ratio:3/4;
   overflow:hidden;
   background:rgba(10,5,2,.6);
   flex-shrink:0;
@@ -2297,19 +2307,20 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 /* Card info */
 .kat-info{
-  padding:12px 12px 14px;
+  padding:12px 14px 16px;
   flex:1; display:flex; flex-direction:column; justify-content:space-between;
   min-height:72px;
 }
 .kat-name{
   font-family:'Rubik Dirt',sans-serif; font-weight:400;
-  font-size:clamp(13px,3.5vw,17px);
+  font-size:clamp(13px,3.5vw,20px);
   color:var(--white); letter-spacing:1px;
   line-height:1.2; margin-bottom:5px;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .kat-price{
-  font-family:'Roboto',sans-serif; font-size:11px;
+  font-family:'Roboto',sans-serif;
+  font-size:clamp(11px,2vw,13px);
   font-weight:600; color:var(--amber); letter-spacing:.3px;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
@@ -2707,15 +2718,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* Prev / Next arrows */
 .kat-slider-btn{
   position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(10,7,5,.65); backdrop-filter:blur(4px);
+  background:rgba(10,7,5,.65);
   border:1px solid rgba(200,134,10,.3);
   color:var(--amber); font-size:20px;
-  width:32px; height:48px;
+  width:40px; height:60px;
   cursor:pointer; z-index:10;
   display:flex; align-items:center; justify-content:center;
   transition:background .2s, border-color .2s;
   -webkit-user-select:none; user-select:none;
   touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 .kat-slider-btn:active,.kat-slider-btn:hover{
   background:var(--rust); border-color:var(--amber);
@@ -2945,7 +2957,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       "@type": "Product",
       "name": "Kaos NPD Classic",
       "description": "Design original AWAS BAHAYA NPD. Bahan Cotton Combed 24s premium 170-180 GSM. Tersedia warna Hitam, Putih, Orange. Ukuran S hingga XXXL.",
-      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg",
       "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
       "material": "Cotton Combed 24s 170-180 GSM",
       "offers": {
@@ -2961,7 +2973,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       "@type": "Product",
       "name": "Hoodie NPD",
       "description": "Hoodie premium AWAS BAHAYA NPD. Bahan Fleece 240gsm. Warna Hitam. Ukuran S hingga 2XL.",
-      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282259/Hoodie_All_hfzum1.jpg",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282259/Hoodie_All_hfzum1.jpg",
       "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
       "material": "Fleece 240gsm",
       "offers": {
@@ -2976,7 +2988,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       "@type": "Product",
       "name": "NPD Series",
       "description": "Seri terbatas AWAS BAHAYA NPD dengan design eksklusif. Tersedia Mebakti Kapah (Merah Maroon) dan Rahajeng Sabar (Abu-abu). Cotton Combed 24s.",
-      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg",
       "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
       "material": "Cotton Combed 24s",
       "offers": {
@@ -2992,7 +3004,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       "@type": "Product",
       "name": "Tumbler NPD",
       "description": "Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD. One Size, warna Hitam.",
-      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg",
       "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
       "material": "Stainless Steel",
       "offers": {
@@ -3078,8 +3090,24 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
            alt="AWAS BAHAYA NPD — Poster 5" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545379/HeroSeries-3_pwocld.jpg"
            alt="AWAS BAHAYA NPD — Poster 6" loading="lazy">
+    </div>
+    <div class="hero-slide">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545380/Hero-Tumbler_wnuvru.jpg"
+           alt="AWAS BAHAYA NPD — Poster 7" loading="lazy">
+    </div>
+    <div class="hero-slide">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545502/Hero-Hoodie-1_zqa31a.jpg"
+           alt="AWAS BAHAYA NPD — Poster 8" loading="lazy">
+    </div>
+    <div class="hero-slide">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
+           alt="AWAS BAHAYA NPD — Poster 9" loading="lazy">
+    </div>
+    <div class="hero-slide">
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
+           alt="AWAS BAHAYA NPD — Poster 10" loading="lazy">
     </div>
   </div>
   <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Slide sebelumnya">&#8249;</button>
@@ -3091,12 +3119,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <button class="hs-dot" onclick="hsGo(3)" aria-label="Slide 4"></button>
     <button class="hs-dot" onclick="hsGo(4)" aria-label="Slide 5"></button>
     <button class="hs-dot" onclick="hsGo(5)" aria-label="Slide 6"></button>
+    <button class="hs-dot" onclick="hsGo(6)" aria-label="Slide 7"></button>
+    <button class="hs-dot" onclick="hsGo(7)" aria-label="Slide 8"></button>
+    <button class="hs-dot" onclick="hsGo(8)" aria-label="Slide 9"></button>
+    <button class="hs-dot" onclick="hsGo(9)" aria-label="Slide 10"></button>
   </div>
-  <div class="hs-counter" id="hs-counter">1 / 6</div>
+  <div class="hs-counter" id="hs-counter">1 / 10</div>
 </div>
 
 <!-- ═══ KATALOG PRODUK ═══ -->
-<div class="katalog-section sr sr-up" id="katalog-section" style="max-width:860px;margin:0 auto;padding:32px 16px 28px;border-bottom:2px solid rgba(200,134,10,.15);">
+<div class="katalog-section sr sr-up" id="katalog-section" style="max-width:1000px;margin:0 auto;padding:36px 20px 32px;border-bottom:2px solid rgba(200,134,10,.15);">
+  <style>@media(max-width:699px){#katalog-section{padding:24px 12px 24px!important;}}</style>
   <p style="font-family:'Roboto',sans-serif;font-size:9px;letter-spacing:5px;color:var(--gold);opacity:.65;text-transform:uppercase;text-align:center;margin-bottom:20px;">⚡ Koleksi Bhuta Kala Modern ⚡</p>
   <div id="katalog-grid" class="katalog-grid"></div>
 </div>
@@ -3643,9 +3676,9 @@ var KATALOG = [
     material:'Cotton Combed 24s · 170–180 GSM · 100% Cotton',
     desc:'Design original AWAS BAHAYA NPD. Bahan premium combed 24s — tebal, berisi, collector vibes. Multi warna tersedia.',
     foto:[
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
     ],
     designs:null,
     sizeChart:{
@@ -3664,7 +3697,7 @@ var KATALOG = [
     status:'tersedia', warnaTetap:'Hitam', sizeTetap:null,
     material:'Fleece 240gsm · Unisex · 1 Warna',
     desc:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 1 warna.',
-    foto:['https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282259/Hoodie_All_hfzum1.jpg'],
+    foto:['https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282259/Hoodie_All_hfzum1.jpg'],
     designs:null,
     sizeChart:{
       headers:['Size','Lebar Dada','Panjang','Lengan'],
@@ -3683,14 +3716,14 @@ var KATALOG = [
     material:'Cotton Combed 24s · Pilih Design · Warna per design',
     desc:'Seri terbatas dengan design eksklusif. Mebakti Kapah (Merah Maroon) · Rahajeng Sabar (Abu-abu).',
     foto:[
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775471996/NPD_Mebakti_Kapah_Detail_zkob9i.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775471996/NPD_Rahajeng_Sabar_Detail_xsspd9.jpg'
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775471996/NPD_Mebakti_Kapah_Detail_zkob9i.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775471996/NPD_Rahajeng_Sabar_Detail_xsspd9.jpg'
     ],
     designs:[
-      {id:'mebakti-kapah',  nama:'Mebakti Kapah',  warna:'maroon',  warnaHex:'#5c1a1a', warnaLabel:'Merah Maroon', foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg'},
-      {id:'rahajeng-sabar', nama:'Rahajeng Sabar', warna:'abu-abu',  warnaHex:'#6b6b6b', warnaLabel:'Abu-abu',      foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg'}
+      {id:'mebakti-kapah',  nama:'Mebakti Kapah',  warna:'maroon',  warnaHex:'#5c1a1a', warnaLabel:'Merah Maroon', foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg'},
+      {id:'rahajeng-sabar', nama:'Rahajeng Sabar', warna:'abu-abu',  warnaHex:'#6b6b6b', warnaLabel:'Abu-abu',      foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg'}
     ],
     sizeChart:{
       headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],
@@ -3709,8 +3742,8 @@ var KATALOG = [
     material:'Stainless Steel · One Size · 1 Warna',
     desc:'Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD.',
     foto:[
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg'
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg'
     ],
     designs:null, sizeChart:null,
     sizes:['One Size']
@@ -4180,7 +4213,7 @@ function katAddToOrder() {
   // Color guard: only for Classic (no designs, no warnaTetap)
   if(!p.warnaTetap && !p.designs && !_katColor) { toast('Pilih warna dulu!'); return; }
   if(ITEMS.filter(function(x){return x.qty>0||x.produkId;}).length >= MAX_ITEMS) {
-    showToast&&showToast(currentLang==='id'?'Maks '+MAX_ITEMS+' item per order':'Max '+MAX_ITEMS+' items per order');
+    toast(currentLang==='id'?'Maks '+MAX_ITEMS+' item per order':'Max '+MAX_ITEMS+' items per order');
     return;
   }
 
@@ -4337,7 +4370,7 @@ function cartRemoveItem(id) {
 function cartGoCheckout() {
   var activeItems=ITEMS.filter(function(x){return x.qty>0&&x.produkId;});
   if(activeItems.length===0){
-    showToast&&showToast(currentLang==='id'?'Pilih produk dulu!':'Select a product first!');
+    toast(currentLang==='id'?'Pilih produk dulu!':'Select a product first!');
     return;
   }
   ITEMS=activeItems;
@@ -4689,7 +4722,17 @@ var LS_KEY    = 'npd_form_draft';
 var LS_FIELDS = ['f-nama','f-email','f-phone','f-alamat','f-kota','f-kodepos','f-catatan'];
 var saveDraft = debounce(function() {
   try {
-    var cc=$('f-cc'), d={items:ITEMS, cc:cc?cc.value:'62'};
+    var cc=$('f-cc');
+    // Strip hargaFn (function) dan allSizes yang bisa di-rebuild dari KATALOG
+    var safeItems = ITEMS.map(function(item){
+      return {
+        id:item.id, produkId:item.produkId, produkNama:item.produkNama,
+        designId:item.designId, color:item.color, colorLabel:item.colorLabel||'',
+        size:item.size, price:item.price, qty:item.qty,
+        warnaTetap:item.warnaTetap, sizeTetap:item.sizeTetap
+      };
+    });
+    var d={items:safeItems, cc:cc?cc.value:'62'};
     LS_FIELDS.forEach(function(id){ var el=$(id); if(el) d[id]=el.value; });
     localStorage.setItem(LS_KEY, JSON.stringify(d));
   } catch(e){}
@@ -5129,7 +5172,7 @@ function sndSuccess(){
 }
 
 // ─── HERO SLIDESHOW ─────────────────────────────────────
-var HS_TOTAL=6, hsCur=0, hsTimer;
+var HS_TOTAL=10, hsCur=0, hsTimer;
 function hsGo(n){
   hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
   var track=$('hs-track'),slide=document.querySelector('.hero-slide');
