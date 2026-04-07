@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="loader-active">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -31,6 +31,7 @@
 <meta name="twitter:description" content="Kaos Cotton Combed 24s premium. S–XXXL. Mulai 150K. Pre-order sekarang! 🔥">
 <meta name="twitter:image"       content="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774415260/Hero-5_fz9ile.png">
 <meta name="twitter:image:alt"   content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern">
+<link rel="canonical" href="https://orderkaos-npd.pages.dev">
 <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,14 +46,8 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--cream);font-family:'Roboto',sans-serif;overflow-x:hidden;overscroll-behavior-y:contain;}
-/* Lock html+body saat loader aktif — cegah semua reflow yang bisa geser fixed element */
-html.loader-active,
-body.loader-active{
-  overflow:hidden !important;
-  height:100% !important;
-  position:fixed !important;
-  width:100% !important;
-}
+/* Saat loader aktif, lock scroll body supaya tidak ada layout shift */
+body.loader-active{overflow:hidden;height:100%;}
 
 /* grain — z-index 1 so it never blocks anything */
 body::before{
@@ -75,7 +70,6 @@ header{
   line-height:.92;color:var(--white);letter-spacing:1px;
   text-shadow:3px 3px 0 #000,0 0 40px rgba(200,134,10,.3);
   animation:flicker 6s infinite;
-  will-change:transform;
   display:inline-block;
   cursor:default;
   position:relative;
@@ -149,31 +143,28 @@ header{
 .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .hs-btn{
   position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(10,7,5,.45);border:1px solid rgba(200,134,10,.25);
+  background:rgba(10,7,5,.6);border:1px solid rgba(200,134,10,.35);
   color:var(--amber);font-family:'Anton SC',sans-serif;
-  font-size:14px;width:20px;height:32px;
+  font-size:18px;width:28px;height:40px;
   cursor:pointer;z-index:10;
   display:flex;align-items:center;justify-content:center;transition:all .2s;
 }
 @media(min-width:600px){
-  .hs-btn{font-size:24px;width:36px;height:52px;background:rgba(10,7,5,.6);border-color:rgba(200,134,10,.35);}
+  .hs-btn{font-size:24px;width:36px;height:52px;}
 }
 .hs-btn:active,.hs-btn:hover{background:var(--rust);border-color:var(--amber);}
 .hs-prev{left:0;border-left:none;}
 .hs-next{right:0;border-right:none;}
 .hs-dots{
-  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-  display:flex;gap:6px;z-index:10;
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:10;
 }
 .hs-dot{
-  width:5px;height:5px;border-radius:50%;
+  width:9px;height:9px;border-radius:50%;
   background:rgba(200,134,10,.35);border:1px solid rgba(200,134,10,.5);
   cursor:pointer;transition:all .25s;padding:0;
 }
-@media(min-width:600px){
-  .hs-dot{width:7px;height:7px;}
-}
-.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.2);}
+.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.25);}
 .hs-counter{
   position:absolute;top:10px;right:12px;
   background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.4);
@@ -194,6 +185,7 @@ header{
 .pi-left{border-right:1px solid rgba(200,134,10,.15);}
 @media(max-width:580px){.pi-left{border-right:none;border-bottom:1px solid rgba(200,134,10,.15);padding:16px 16px 14px;}}
 @media(max-width:580px){.pi-right{padding:14px 16px 16px;}}
+@media(max-width:580px){.product-info{border-bottom:none;}}
 
 .warning-badge{
   display:inline-block;
@@ -256,7 +248,7 @@ header{
   font-size:clamp(28px,5.5vw,54px);
   line-height:1.05;color:var(--white);
   text-shadow:3px 3px 0 var(--rust);
-  cursor:default;will-change:transform;
+  cursor:default;
   display:inline-block;
   position:relative;
   overflow:visible;
@@ -307,8 +299,6 @@ header{
 .product-title span{
   color:var(--amber);display:block;font-size:.72em;
   margin-top:4px;line-height:1.1;
-  will-change:transform;
-  display:block;
 }
 .material-tag{
   display:inline-block;margin:10px 0 0;
@@ -371,23 +361,47 @@ header{
 .divider{width:100%;max-width:540px;margin:16px auto;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:divPulse 3s ease-in-out infinite;}
 @keyframes divPulse{0%,100%{opacity:.6;transform:scaleX(.9);}50%{opacity:1;transform:scaleX(1);}}
 
-/* ─── GALLERY ─── */
-.gallery-section{max-width:860px;margin:0 auto;padding:0 10px 32px;}
+/* ─── BRAND GALLERY — horizontal scroll strip ─── */
+.gallery-section{max-width:860px;margin:0 auto;padding:0 0 32px;}
 .sec-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(22px,5vw,34px);color:var(--amber);letter-spacing:3px;text-align:center;margin-bottom:5px;}
 .sec-note{text-align:center;font-family:'Roboto',sans-serif;font-size:12px;color:var(--gold);opacity:.82;letter-spacing:2px;margin-bottom:16px;}
-.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-@media(max-width:400px){.gallery-grid{grid-template-columns:repeat(3,1fr);gap:6px;}}
-.gal-item{
-  position:relative;overflow:hidden;cursor:zoom-in;
-  border:2px solid rgba(200,134,10,.18);
-  transition:border-color .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease;
-  aspect-ratio:3/4;
+
+.gallery-strip{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:0 16px 12px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; /* Firefox */
 }
-@media(hover:hover){.gal-item:hover{transform:scale(1.02);box-shadow:0 8px 30px rgba(200,134,10,.15);}}
+.gallery-strip::-webkit-scrollbar{ display:none; }
+
+.gal-item{
+  flex-shrink:0;
+  width:clamp(120px,28vw,200px);
+  aspect-ratio:3/4;
+  position:relative;overflow:hidden;cursor:zoom-in;
+  border:1.5px solid rgba(200,134,10,.18);
+  border-radius:8px;
+  scroll-snap-align:start;
+  transition:border-color .3s, transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+@media(hover:hover){.gal-item:hover{transform:scale(1.03);border-color:var(--amber);}}
 .gal-item:active{border-color:var(--amber);}
-@media(hover:hover){.gal-item:hover{border-color:var(--amber);}}
 .gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
 @media(hover:hover){.gal-item:hover img{transform:scale(1.07);}}
+
+/* Scroll hint fade on right edge */
+.gallery-strip-wrap{
+  position:relative;
+}
+.gallery-strip-wrap::after{
+  content:'';
+  position:absolute; top:0; right:0; bottom:12px;
+  width:48px; pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(10,7,5,.85));
+}
 
 
 /* ─── DETAIL LIGHTBOX ─── */
@@ -472,14 +486,14 @@ header{
 @media(max-width:400px){.form-section{padding:20px 10px 130px;}}
 .form-inner{max-width:520px;margin:0 auto;}
 
-/* ─── STEP BAR — pill redesign ─────────────────────── */
+/* ─── STEP BAR — 5 steps ─────────────────────────────── */
 .step-bar{
   display:flex;justify-content:center;align-items:center;
-  margin-bottom:24px;gap:0;
-  background:rgba(200,134,10,.07);
-  border:1.5px solid rgba(200,134,10,.2);
+  margin-bottom:28px;gap:0;
+  background:rgba(200,134,10,.06);
+  border:1.5px solid rgba(200,134,10,.18);
   border-radius:999px;
-  padding:5px 8px;
+  padding:6px 10px;
 }
 .sdot{
   display:flex;align-items:center;gap:5px;
@@ -505,9 +519,151 @@ header{
 }
 .sdot.active .sdot-l{color:var(--black);}
 .sdot.done   .sdot-l{color:rgba(58,154,58,.9);}
-@media(max-width:400px){.sdot-l{display:none;}.sdot{padding:5px 7px;}}
-.sline{flex:1;height:1.5px;background:rgba(200,134,10,.18);min-width:4px;max-width:24px;transition:background .4s;}
+@media(max-width:440px){.sdot-l{display:none;}.sdot{padding:5px 7px;}}
+.sline{flex:1;height:1.5px;background:rgba(200,134,10,.15);min-width:4px;max-width:20px;transition:background .4s;}
 .sline.done{background:rgba(58,154,58,.5);}
+
+/* ─── CART SUMMARY SECTION ─────────────────────────────── */
+.cart-summary-section{
+  max-width:860px;margin:0 auto;
+  padding:0 16px 32px;
+}
+@media(max-width:480px){.cart-summary-section{padding:0 12px 28px;}}
+.cart-summary-wrap{
+  border:1.5px solid rgba(200,134,10,.2);
+  border-radius:10px;
+  background:rgba(18,13,9,.95);
+  overflow:hidden;
+}
+.cart-summary-header{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px;
+  border-bottom:1px solid rgba(200,134,10,.12);
+  background:rgba(61,26,8,.25);
+}
+.cart-summary-icon{flex-shrink:0;}
+.cart-summary-title{
+  font-family:'Rubik Dirt',sans-serif;font-size:14px;
+  color:var(--white);letter-spacing:2px;flex:1;
+}
+.cart-summary-count{
+  font-family:'Roboto',sans-serif;font-size:10px;
+  letter-spacing:2px;color:var(--amber);
+  background:rgba(200,134,10,.12);
+  border:1px solid rgba(200,134,10,.25);
+  border-radius:999px;padding:2px 10px;
+}
+.cart-empty-state{
+  padding:28px 16px;text-align:center;
+}
+.cart-empty-icon{
+  width:48px;height:48px;margin:0 auto 12px;opacity:.2;
+}
+.cart-empty-txt{
+  font-family:'Roboto',sans-serif;font-size:12px;
+  letter-spacing:2px;color:rgba(200,134,10,.4);
+  text-transform:uppercase;margin-bottom:6px;
+}
+.cart-empty-hint{
+  font-size:11px;color:rgba(200,134,10,.25);letter-spacing:1px;
+}
+.cart-items-list{padding:8px 0;}
+.cart-item-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(61,26,8,.4);
+  transition:background .2s;
+}
+.cart-item-row:last-child{border-bottom:none;}
+.cart-item-row:hover{background:rgba(200,134,10,.04);}
+.cart-item-num{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.25);
+  font-family:'Anton SC',sans-serif;font-size:10px;
+  color:var(--amber);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+.cart-item-body{flex:1;min-width:0;}
+.cart-item-name{
+  font-family:'Roboto',sans-serif;font-size:12px;font-weight:500;
+  color:var(--cream);margin-bottom:4px;letter-spacing:.5px;
+}
+.cart-item-details{
+  display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;
+}
+.cart-item-tag{
+  font-size:9px;letter-spacing:1.5px;
+  background:rgba(61,26,8,.5);border:1px solid rgba(200,134,10,.2);
+  color:rgba(200,134,10,.7);padding:2px 7px;border-radius:2px;
+  text-transform:uppercase;
+}
+.cart-item-subtotal{
+  font-family:'Rubik Dirt',sans-serif;font-size:13px;
+  color:var(--amber);
+}
+.cart-item-remove{
+  background:none;border:none;cursor:pointer;
+  color:rgba(200,134,10,.3);font-size:14px;padding:2px 4px;
+  transition:color .2s;flex-shrink:0;line-height:1;
+}
+.cart-item-remove:hover{color:rgba(200,60,30,.7);}
+.cart-qty-ctrl{
+  display:flex;align-items:center;gap:6px;margin-top:6px;
+}
+.cart-qty-btn{
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.25);
+  color:var(--amber);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;flex-shrink:0;
+}
+.cart-qty-btn:hover{background:rgba(200,134,10,.2);}
+.cart-qty-num{
+  font-family:'Anton SC',sans-serif;font-size:14px;
+  color:var(--cream);min-width:24px;text-align:center;
+}
+.cart-total-row{
+  padding:14px 16px;
+  border-top:1.5px solid rgba(200,134,10,.15);
+  background:rgba(61,26,8,.15);
+}
+.cart-total-line{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:4px;
+}
+.cart-total-label{
+  font-family:'Roboto',sans-serif;font-size:10px;
+  letter-spacing:3px;color:rgba(200,134,10,.5);text-transform:uppercase;
+}
+.cart-total-amount{
+  font-family:'Rubik Dirt',sans-serif;font-size:26px;
+  color:var(--amber);line-height:1;
+}
+.cart-total-sub{
+  font-size:9px;letter-spacing:2px;
+  color:rgba(240,224,192,.25);text-transform:uppercase;
+  margin-bottom:14px;
+}
+.cart-checkout-btn{
+  width:100%;padding:15px;
+  background:var(--amber);border:none;border-radius:4px;
+  color:var(--black);font-family:'Rubik Dirt',sans-serif;
+  font-size:18px;letter-spacing:3px;cursor:pointer;
+  transition:background .2s,transform .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.cart-checkout-btn:hover{background:#f0b030;}
+.cart-checkout-btn:active{transform:scale(.98);}
+.cart-checkout-btn:disabled{
+  background:rgba(200,134,10,.2);
+  color:rgba(200,134,10,.35);
+  cursor:not-allowed;
+}
+.cart-checkout-hint{
+  font-size:10px;letter-spacing:2px;
+  color:rgba(200,134,10,.3);text-align:center;
+  margin-top:8px;text-transform:uppercase;
+}
 
 /* ─── SECTION CARDS (Opsi A) ────────────────────────── */
 .form-section-card{
@@ -557,7 +713,7 @@ select.finp{
 select.finp option{background:#1a0f06;color:var(--cream);}
 textarea.finp{resize:vertical;min-height:80px;}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:480px){.frow{grid-template-columns:1fr;}}
+@media(max-width:440px){.frow{grid-template-columns:1fr;}}
 
 /* Color picker */
 /* ─── COLOR PICKER ─── */
@@ -737,13 +893,13 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(hover:hover){.qty-btn:hover{background:var(--rust);}}
 .qty-num{
   width:56px;text-align:center;
-  font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:20px;
+  font-family:'Rubik Dirt',sans-serif;font-weight:400;
   color:var(--white);border:none;
   border-left:1px solid rgba(200,134,10,.2);
   border-right:1px solid rgba(200,134,10,.2);
   background:rgba(255,255,255,.03);
   padding:8px 0;outline:none;
-  font-size:16px;
+  font-size:16px;/* 16px prevents iOS zoom */
   -moz-appearance:textfield;
 }
 .qty-num::-webkit-inner-spin-button,
@@ -1387,21 +1543,14 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* ─── SHIMMER LOADER ─── */
 /* ─── LOADING SCREEN ─── */
 #shimmer-loader{
-  position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  width:100%;height:100%;
+  position:fixed;inset:0;
   background:var(--black);
   z-index:99999;pointer-events:all;
   display:flex;align-items:center;justify-content:center;
   opacity:1;
   transition:opacity .7s cubic-bezier(.4,0,.2,1);
   overflow:hidden;
-  /* Force GPU layer sendiri — tidak terpengaruh document reflow */
-  transform:translateZ(0);
-  -webkit-transform:translateZ(0);
-  will-change:opacity;
-  /* Isolasi total dari layout luar */
-  contain:strict;
+  /* hide dikendalikan JS — tidak ada CSS auto-hide */
 }
 /* radial glow background di loader */
 #shimmer-loader::before{
@@ -1432,6 +1581,12 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   opacity:0;pointer-events:none;
   transition:opacity .7s cubic-bezier(.4,0,.2,1);
 }
+/* Sembunyikan fixed children saat loader hiding */
+#shimmer-loader.hiding .sh-top-border,
+#shimmer-loader.hiding .sh-bottom-txt{
+  opacity:0;
+  transition:opacity .7s cubic-bezier(.4,0,.2,1);
+}
 
 /* ─── LOADER INNER ─── */
 .sh-barong-wrap{
@@ -1444,18 +1599,21 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   width:100%;
   padding:0 24px;
   gap:0;text-align:center;
+  /* Pastikan tidak ada pseudo-element yang menyebabkan teks menumpuk */
 }
 
-/* Top border accent */
-.sh-barong-wrap::before{
-  content:'';
-  position:absolute;
-  top:calc(-50vh + 16px); /* relatif ke sh-barong-wrap yang sudah di tengah */
-  left:-10%;right:-10%;
+/* Top border accent — posisi fixed tapi sebagai sibling terpisah, bukan pseudo */
+/* (dipindah ke elemen .sh-top-border di HTML) */
+.sh-top-border{
+  position:fixed;
+  top:max(env(safe-area-inset-top, 0px), 16px);
+  left:10%;right:10%;
   height:2px;
   background:linear-gradient(90deg,
     transparent,var(--gold),var(--amber),var(--gold),transparent);
   animation:borderSlide .9s cubic-bezier(.34,1.56,.64,1) .1s both;
+  pointer-events:none;
+  z-index:100000;
 }
 @keyframes borderSlide{
   0%{opacity:0;transform:scaleX(0);}
@@ -1472,12 +1630,12 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 /* Barong image */
 .sh-barong-img{
-  width:clamp(160px,42vw,280px);
+  width:clamp(140px,38vw,280px);/* dikecilkan sedikit untuk HP kecil */
   filter:invert(1) sepia(1) saturate(2.2) hue-rotate(5deg) brightness(.7);
   animation:barongIn .9s cubic-bezier(.34,1.56,.64,1) .1s both,
             barongFloat 3.5s ease-in-out infinite 1.2s;
   will-change:transform,filter;
-  margin-bottom:28px;
+  margin-bottom:20px;/* dikurangi dari 28px agar tidak overflow di HP kecil */
 }
 @keyframes barongIn{
   0%{opacity:0;transform:scale(.55) translateY(16px);}
@@ -1538,6 +1696,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   letter-spacing:3px;color:rgba(200,134,10,.4);
   text-transform:uppercase;
   animation:fadeUp .5s ease .8s both;
+  margin-top:4px;/* sedikit spacing dari progress bar */
+  line-height:1.4;
 }
 
 @keyframes fadeUp{
@@ -1545,16 +1705,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   100%{opacity:1;transform:translateY(0);}
 }
 
-/* bottom border accent */
-.sh-barong-wrap::after{
-  content:'BHUTA KALA MODERN';
-  position:absolute;
-  bottom:calc(-50vh + 24px); /* relatif ke sh-barong-wrap yang sudah di tengah */
-  left:-100%;right:-100%;text-align:center;
+/* bottom border accent — dipindah ke elemen .sh-bottom-txt di HTML */
+.sh-bottom-txt{
+  position:fixed;
+  bottom:max(env(safe-area-inset-bottom, 0px), 24px);
+  left:0;right:0;text-align:center;
   font-family:'Roboto',sans-serif;font-size:8px;
   letter-spacing:5px;color:rgba(200,134,10,.2);
   text-transform:uppercase;
   animation:fadeUp .6s ease 1s both;
+  pointer-events:none;
+  z-index:100000;
 }
 .sh-row{display:flex;gap:16px;}
 .sh-pill{height:28px;border-radius:2px;background:rgba(200,134,10,.08);}
@@ -1757,7 +1918,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   font-family:'Rubik Dirt',sans-serif;font-size:11px;
   letter-spacing:2px;padding:10px 18px;
   border:none;cursor:pointer;flex-shrink:0;
-  text-decoration:none;display:block;
+  text-decoration:none;
   transition:background .2s,transform .15s;
   /* Minimum tap target */
   min-height:44px;display:flex;align-items:center;
@@ -1774,9 +1935,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 #color-picker       { touch-action: manipulation; }
 
 /* Larger touch targets on small buttons */
-.hs-btn             { min-width:20px; min-height:32px; }
+.hs-btn             { min-width:36px; min-height:44px; }
 .dlb-nav-btn        { min-width:40px; min-height:52px; }
-.hs-dot             { width:5px; height:5px; padding:5px; border:1px solid rgba(200,134,10,.5); box-sizing:content-box; background-clip:content-box; }
+.hs-dot             { width:8px; height:8px; padding:0; border:6px solid transparent; box-sizing:content-box; background-clip:padding-box; }
 
 /* Momentum scroll iOS (handled by touch-action) */
 
@@ -1819,9 +1980,915 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* iOS Safari — prevent bounce on fixed elements */
 #shimmer-loader { overscroll-behavior:none; touch-action:none; }
 
-/* Improve scroll performance */
-.particle-bg    { will-change:auto; }
-.hero-track     { will-change:transform; }
+/* Pastikan sh-top-border dan sh-bottom-txt tidak menyebabkan overflow */
+.sh-top-border, .sh-bottom-txt {
+  /* will-change removed — one-shot fadeIn animation, no loop */
+}
+
+/* ══════════════════════════════════════════
+   PHOTO LIGHTBOX — fullscreen zoom popup
+   ══════════════════════════════════════════ */
+#foto-lightbox{
+  display:none; position:fixed; inset:0; z-index:9500;
+  background:rgba(0,0,0,.96);
+  flex-direction:column; align-items:center; justify-content:center;
+  padding:12px;
+}
+#foto-lightbox.open{ display:flex; animation:lbFadeIn .2s ease; }
+@keyframes lbFadeIn{ from{opacity:0} to{opacity:1} }
+.lb-wrap{
+  position:relative; width:100%;
+  max-width:min(92vw,560px);
+  display:flex; align-items:center; justify-content:center;
+}
+.lb-img{
+  max-width:100%; max-height:min(82vh,82dvh);
+  object-fit:contain; display:block;
+  border:1.5px solid rgba(200,134,10,.3);
+  background:rgba(10,5,2,.5);
+  transition:opacity .2s;
+  border-radius:4px;
+}
+.lb-close{
+  position:fixed; top:14px; right:14px;
+  width:44px; height:44px; border-radius:50%;
+  background:var(--amber); border:none; cursor:pointer;
+  color:var(--black); font-size:18px; font-weight:bold;
+  display:flex; align-items:center; justify-content:center;
+  z-index:10; transition:background .2s;
+  -webkit-user-select:none; user-select:none;
+}
+.lb-close:hover{ background:#f0b030; }
+.lb-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(10,7,5,.7); border:1px solid rgba(200,134,10,.35);
+  color:var(--amber); font-size:22px; width:36px; height:52px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background .2s; z-index:5;
+  -webkit-user-select:none; user-select:none;
+}
+.lb-nav:hover{ background:var(--rust); }
+.lb-prev{ left:-4px; border-left:none; border-radius:0 4px 4px 0; }
+.lb-next{ right:-4px; border-right:none; border-radius:4px 0 0 4px; }
+.lb-nav.hidden{ display:none; }
+.lb-dots{
+  display:flex; gap:8px; margin-top:14px; z-index:5;
+}
+.lb-dot{
+  width:7px; height:7px; border-radius:50%; padding:0;
+  background:rgba(200,134,10,.3); border:1px solid rgba(200,134,10,.45);
+  cursor:pointer; transition:all .2s;
+}
+.lb-dot.active{
+  background:var(--amber); border-color:var(--amber); transform:scale(1.35);
+}
+.lb-counter{
+  position:fixed; top:16px; left:50%; transform:translateX(-50%);
+  font-family:'Anton SC',sans-serif; font-size:12px; letter-spacing:2px;
+  color:var(--amber); background:rgba(10,7,5,.7);
+  border:1px solid rgba(200,134,10,.3); padding:3px 12px; z-index:10;
+}
+
+/* Zoom hint on slider */
+.kat-zoom-hint{
+  position:absolute; bottom:42px; right:10px; z-index:8;
+  background:rgba(10,7,5,.65); backdrop-filter:blur(4px);
+  border:1px solid rgba(200,134,10,.3);
+  font-family:'Roboto',sans-serif; font-size:9px;
+  letter-spacing:1.5px; color:rgba(200,134,10,.7);
+  padding:4px 8px; pointer-events:none;
+  animation:hintFade 3s ease 1s forwards;
+}
+@keyframes hintFade{ 0%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
+
+/* ══════════════════════════════════════════
+   MINI CART DRAWER — slides up from bottom
+   ══════════════════════════════════════════ */
+#mini-cart{
+  position:fixed; bottom:0; left:50%; z-index:8500;
+  transform:translateX(-50%) translateY(110%);
+  width:100%; max-width:560px;
+  background:linear-gradient(0deg,#0d0804 0%,rgba(20,12,5,.98) 100%);
+  border-top:2px solid var(--amber);
+  border-radius:18px 18px 0 0;
+  padding:0 0 calc(env(safe-area-inset-bottom,0px) + 8px);
+  transition:transform .4s cubic-bezier(.34,1.1,.64,1);
+  max-height:75vh; overflow-y:auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,.5);
+}
+#mini-cart.open{ transform:translateX(-50%) translateY(0); }
+.mc-handle{
+  width:36px; height:4px; border-radius:2px;
+  background:rgba(200,134,10,.3); margin:10px auto 0;
+  cursor:pointer;
+}
+.mc-header{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px 10px;
+  border-bottom:1px solid rgba(200,134,10,.12);
+}
+.mc-title{
+  font-family:'Rubik Dirt',sans-serif; font-size:13px;
+  color:var(--white); letter-spacing:2px; flex:1;
+}
+.mc-close{
+  background:none; border:none; cursor:pointer;
+  color:rgba(200,134,10,.5); font-size:20px; line-height:1;
+  padding:4px; transition:color .2s;
+}
+.mc-close:hover{ color:var(--amber); }
+.mc-items{ padding:8px 16px; }
+.mc-item{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 0; border-bottom:1px solid rgba(200,134,10,.07);
+}
+.mc-item:last-child{ border-bottom:none; }
+.mc-item-dot{
+  width:8px; height:8px; border-radius:50%;
+  background:var(--amber); flex-shrink:0;
+}
+.mc-item-name{
+  font-family:'Roboto',sans-serif; font-size:12px;
+  color:var(--cream); flex:1; letter-spacing:.3px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.mc-item-price{
+  font-family:'Rubik Dirt',sans-serif; font-size:13px;
+  color:var(--amber); flex-shrink:0;
+}
+.mc-total-row{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 16px 8px;
+  border-top:1.5px solid rgba(200,134,10,.15);
+  background:rgba(61,26,8,.18);
+}
+.mc-total-label{
+  font-family:'Roboto',sans-serif; font-size:10px;
+  letter-spacing:3px; color:rgba(200,134,10,.5); text-transform:uppercase;
+}
+.mc-total-amount{
+  font-family:'Rubik Dirt',sans-serif; font-size:24px; color:var(--amber);
+}
+.mc-actions{
+  display:grid; grid-template-columns:1fr 2fr; gap:10px;
+  padding:8px 16px 12px;
+}
+.mc-btn-continue{
+  padding:13px; background:transparent;
+  border:1.5px solid rgba(200,134,10,.3);
+  color:rgba(200,134,10,.7);
+  font-family:'Rubik Dirt',sans-serif; font-size:11px;
+  letter-spacing:2px; cursor:pointer; border-radius:4px;
+  transition:border-color .2s, color .2s;
+  -webkit-user-select:none; user-select:none;
+}
+.mc-btn-continue:hover{ border-color:var(--amber); color:var(--amber); }
+.mc-btn-checkout{
+  padding:13px; background:var(--amber); border:none; border-radius:4px;
+  color:var(--black); font-family:'Rubik Dirt',sans-serif;
+  font-size:15px; letter-spacing:3px; cursor:pointer;
+  transition:background .2s; display:flex; align-items:center;
+  justify-content:center; gap:8px;
+  box-shadow:0 4px 18px rgba(232,160,32,.3);
+  -webkit-user-select:none; user-select:none;
+}
+.mc-btn-checkout:hover{ background:#f0b030; }
+.mc-btn-checkout:active{ transform:scale(.98); }
+
+/* Overlay behind mini cart */
+#mini-cart-overlay{
+  display:none; position:fixed; inset:0; z-index:8499;
+  background:rgba(0,0,0,.4);
+}
+#mini-cart-overlay.open{ display:block; }
+
+/* ══════════════════════════════════════════
+   STICKY CART BUBBLE — floating top-right
+   ══════════════════════════════════════════ */
+#cart-bubble{
+  position:fixed; top:max(16px, env(safe-area-inset-top,16px)); right:16px;
+  z-index:7000; display:none;
+  cursor:pointer;
+  animation:bubblePop .35s cubic-bezier(.34,1.56,.64,1);
+}
+#cart-bubble.visible{ display:flex; }
+@keyframes bubblePop{
+  0%{ transform:scale(0); opacity:0; }
+  100%{ transform:scale(1); opacity:1; }
+}
+.cart-bubble-btn{
+  display:flex; align-items:center; gap:7px;
+  background:var(--amber); border:none; border-radius:999px;
+  padding:8px 14px 8px 10px;
+  color:var(--black); cursor:pointer;
+  box-shadow:0 4px 18px rgba(200,134,10,.4);
+  transition:background .2s, transform .2s;
+  font-family:'Rubik Dirt',sans-serif; font-size:13px;
+  letter-spacing:1px;
+  -webkit-user-select:none; user-select:none;
+  white-space:nowrap;
+}
+.cart-bubble-btn:hover{ background:#f0b030; transform:scale(1.05); }
+.cart-bubble-btn:active{ transform:scale(.96); }
+.cart-bubble-icon{ font-size:16px; line-height:1; flex-shrink:0; }
+.cart-bubble-count{
+  min-width:20px; height:20px; border-radius:50%;
+  background:var(--black); color:var(--amber);
+  font-family:'Anton SC',sans-serif; font-size:11px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-style:normal;
+}
+
+/* ─── CATALOG GRID — 2×2 mobile, 4 col desktop ─── */
+.katalog-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  max-width:480px;
+  margin:0 auto;
+}
+@media(min-width:700px){
+  .katalog-grid{
+    grid-template-columns:repeat(4,1fr);
+    max-width:860px;
+    gap:16px;
+  }
+}
+.katalog-section{ text-align:center; }
+
+/* ─── CATALOG CARD — equal size, portrait ─── */
+.kat-card{
+  background:rgba(20,12,5,.8);
+  border:1.5px solid rgba(200,134,10,.18);
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+  display:flex; flex-direction:column;
+  transition:border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  -webkit-user-select:none; user-select:none;
+  touch-action:manipulation;
+}
+@media(hover:hover){
+  .kat-card:hover{
+    border-color:rgba(200,134,10,.55);
+    transform:translateY(-4px);
+    box-shadow:0 8px 28px rgba(200,134,10,.13);
+  }
+}
+.kat-card:active{ transform:scale(.97); }
+.kat-card.kat-active{
+  border-color:var(--amber);
+  box-shadow:0 0 0 2px rgba(200,134,10,.25), 0 8px 28px rgba(200,134,10,.18);
+}
+
+/* Card image — 4:5 portrait, fills 100% of grid cell */
+.kat-img-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  background:rgba(10,5,2,.6);
+  flex-shrink:0;
+}
+.kat-img-wrap img{
+  width:100%; height:100%;
+  object-fit:cover; object-position:center top;
+  display:block;
+  transition:transform .5s cubic-bezier(.25,.46,.45,.94);
+}
+@media(hover:hover){
+  .kat-card:hover .kat-img-wrap img{ transform:scale(1.06); }
+}
+.kat-img-placeholder{
+  width:40px; height:40px;
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  opacity:.35;
+}
+
+/* Status badge */
+.kat-status-badge{
+  position:absolute; top:8px; left:8px;
+  font-family:'Roboto',sans-serif; font-size:8px;
+  letter-spacing:1.5px; text-transform:uppercase;
+  padding:3px 8px; border-radius:2px;
+}
+.kat-status-tersedia{
+  background:rgba(37,150,60,.2);
+  border:1px solid rgba(37,150,60,.5);
+  color:#5dce7a;
+}
+.kat-status-segera{
+  background:rgba(200,134,10,.15);
+  border:1px solid rgba(200,134,10,.4);
+  color:var(--amber);
+}
+
+/* Design badge on card */
+.kat-design-badge{
+  position:absolute; top:8px; right:8px;
+  background:rgba(139,26,10,.75);
+  border:1px solid rgba(200,134,10,.5);
+  color:var(--amber); font-size:8px;
+  letter-spacing:1px; padding:3px 7px;
+  border-radius:2px; text-transform:uppercase;
+  font-family:'Roboto',sans-serif;
+}
+
+/* Card info */
+.kat-info{
+  padding:12px 12px 14px;
+  flex:1; display:flex; flex-direction:column; justify-content:space-between;
+  min-height:72px;
+}
+.kat-name{
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:clamp(13px,3.5vw,17px);
+  color:var(--white); letter-spacing:1px;
+  line-height:1.2; margin-bottom:5px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.kat-price{
+  font-family:'Roboto',sans-serif; font-size:11px;
+  font-weight:600; color:var(--amber); letter-spacing:.3px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.kat-sub{
+  font-family:'Roboto',sans-serif; font-size:9px;
+  letter-spacing:1.5px; color:rgba(200,134,10,.45);
+  margin-top:3px; text-transform:uppercase;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRODUCT BANNERS — anchor navigation to catalog
+   ═══════════════════════════════════════════════════ */
+.produk-banners{
+  max-width:860px; margin:0 auto;
+  padding:28px 16px 0;
+}
+.produk-banners-eyebrow{
+  font-family:'Roboto',sans-serif; font-size:9px;
+  letter-spacing:5px; color:var(--gold); opacity:.65;
+  text-transform:uppercase; text-align:center;
+  margin-bottom:16px;
+}
+.produk-banner-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+@media(min-width:560px){
+  .produk-banner-grid{ grid-template-columns:repeat(4,1fr); gap:14px; }
+}
+.produk-banner-card{
+  position:relative; border-radius:10px; overflow:hidden;
+  cursor:pointer; aspect-ratio:3/4;
+  background:rgba(10,5,2,.8);
+  border:1.5px solid rgba(200,134,10,.15);
+  transition:border-color .3s, transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s;
+  -webkit-user-select:none; user-select:none;
+  touch-action:manipulation;
+  display:block; text-decoration:none;
+}
+@media(hover:hover){
+  .produk-banner-card:hover{
+    border-color:rgba(200,134,10,.6);
+    transform:translateY(-5px);
+    box-shadow:0 12px 36px rgba(200,134,10,.18);
+  }
+  .produk-banner-card:hover .produk-banner-img{ transform:scale(1.07); }
+}
+.produk-banner-card:active{ transform:scale(.97); }
+.produk-banner-img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center top;
+  display:block;
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+.produk-banner-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(to bottom,transparent 28%,rgba(10,5,2,.6) 58%,rgba(10,5,2,.94) 100%);
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:12px 10px 11px;
+}
+.produk-banner-badge{
+  position:absolute; top:8px; left:8px;
+  font-family:'Roboto',sans-serif; font-size:7px;
+  letter-spacing:1.5px; text-transform:uppercase;
+  padding:3px 7px; border-radius:2px;
+  background:rgba(10,5,2,.55); backdrop-filter:blur(4px);
+  border:1px solid rgba(200,134,10,.45); color:var(--amber);
+}
+.produk-banner-badge.badge-design{
+  right:8px; left:auto;
+  background:rgba(139,26,10,.7);
+  border-color:rgba(200,134,10,.55);
+}
+.produk-banner-name{
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:clamp(12px,3.2vw,16px);
+  color:var(--white); letter-spacing:1.5px;
+  line-height:1.1; margin-bottom:2px;
+  text-shadow:0 2px 10px rgba(0,0,0,.7);
+}
+.produk-banner-price{
+  font-family:'Roboto',sans-serif; font-size:10px;
+  color:var(--amber); letter-spacing:.5px;
+  font-weight:600; margin-bottom:8px;
+}
+.produk-banner-cta{
+  display:inline-flex; align-items:center; gap:4px;
+  background:var(--amber); border-radius:3px;
+  font-family:'Rubik Dirt',sans-serif; font-size:9px;
+  letter-spacing:2px; color:var(--black);
+  padding:5px 9px; align-self:flex-start;
+  transition:background .2s; white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+.produk-banner-card:hover .produk-banner-cta{ background:#f0b030; }
+.katalog-scroll-hint{
+  text-align:center; padding:12px 0 4px;
+  font-family:'Roboto',sans-serif; font-size:9px;
+  letter-spacing:3px; color:rgba(200,134,10,.35);
+  text-transform:uppercase;
+  animation:hintBounce 2s ease-in-out infinite;
+}
+@keyframes hintBounce{
+  0%,100%{ transform:translateY(0); opacity:.35; }
+  50%{ transform:translateY(4px); opacity:.6; }
+}
+
+/* ─── INLINE DESIGN CHIPS (NPD Series) ─── */
+.kat-design-inline{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
+  margin-bottom:14px;
+}
+.kat-design-chip{
+  position:relative; border-radius:8px; overflow:hidden;
+  border:1.5px solid rgba(200,134,10,.2);
+  cursor:pointer; aspect-ratio:4/5;
+  background:rgba(10,5,2,.7);
+  transition:border-color .2s, transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  -webkit-user-select:none; user-select:none; touch-action:manipulation;
+}
+@media(hover:hover){ .kat-design-chip:hover{ border-color:rgba(200,134,10,.5); transform:translateY(-3px); } }
+.kat-design-chip:active{ transform:scale(.97); }
+.kat-design-chip.active{
+  border-color:var(--amber);
+  box-shadow:0 0 0 2px rgba(200,134,10,.25);
+}
+.kat-design-chip img{
+  width:100%; height:100%; object-fit:cover; object-position:center top; display:block;
+}
+.kat-design-chip-name{
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(transparent,rgba(10,5,2,.85));
+  font-family:'Rubik Dirt',sans-serif; font-size:10px;
+  color:var(--cream); letter-spacing:1.5px; text-align:center;
+  padding:16px 6px 8px;
+}
+.kat-design-chip.active .kat-design-chip-name{ color:var(--amber); }
+.kat-design-chip-check{
+  position:absolute; top:8px; right:8px;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--amber); color:var(--black);
+  font-size:12px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+
+/* ─── PANEL PICKER (size / color / qty inside detail panel) ─── */
+.kat-picker-section{
+  padding:14px 14px 0;
+  border-top:1px solid rgba(200,134,10,.12);
+  margin-top:10px;
+}
+.kat-picker-label{
+  font-family:'Rubik Dirt',sans-serif; font-size:10px;
+  letter-spacing:2px; color:rgba(200,134,10,.65);
+  text-transform:uppercase; margin-bottom:8px;
+}
+/* Size buttons in panel */
+.kat-size-picker{
+  display:grid; grid-template-columns:repeat(6,1fr); gap:5px;
+  margin-bottom:14px;
+}
+.kat-size-picker.few-sizes{ grid-template-columns:repeat(5,1fr); }
+.kat-sopt{
+  background:transparent;
+  border:1.5px solid rgba(200,134,10,.25);
+  color:var(--cream);
+  font-family:'Rubik Dirt',sans-serif; font-size:12px;
+  padding:7px 2px; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  min-height:44px; justify-content:center;
+  border-radius:4px;
+  transition:all .2s; touch-action:manipulation;
+  -webkit-user-select:none; user-select:none;
+}
+.kat-sopt-price{ font-family:'Roboto',sans-serif; font-size:7px; opacity:.5; }
+.kat-sopt:active{ transform:scale(.95); }
+@media(hover:hover){ .kat-sopt:hover{ border-color:var(--amber); color:var(--amber); } }
+.kat-sopt.active{
+  background:var(--amber); color:var(--black);
+  border-color:var(--amber); box-shadow:0 0 12px rgba(232,160,32,.3);
+}
+/* Color swatches in panel */
+.kat-color-picker{
+  display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;
+}
+.kat-copt{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:10px 8px 8px;
+  border:1.5px solid rgba(200,134,10,.22); border-radius:10px;
+  cursor:pointer; min-width:60px;
+  background:rgba(61,26,8,.15);
+  transition:border-color .2s, background .2s, transform .3s cubic-bezier(.34,1.56,.64,1);
+  touch-action:manipulation; -webkit-user-select:none; user-select:none;
+  flex:1;
+}
+@media(hover:hover){ .kat-copt:hover{ border-color:rgba(200,134,10,.5); transform:translateY(-2px); } }
+.kat-copt:active{ transform:scale(.96); }
+.kat-copt.active{
+  border-color:var(--amber); background:rgba(200,134,10,.18);
+  box-shadow:0 4px 16px rgba(200,134,10,.18);
+}
+.kat-copt-swatch{
+  width:32px; height:32px; border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.15);
+  position:relative;
+}
+.kat-copt.active .kat-copt-swatch::after{
+  content:'✓'; position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--amber);
+  text-shadow:0 0 6px rgba(232,160,32,.6);
+}
+.kat-copt-name{
+  font-family:'Roboto',sans-serif; font-size:9px; font-weight:600;
+  letter-spacing:1.5px; color:var(--cream); opacity:.8; text-align:center;
+}
+.kat-copt.active .kat-copt-name{ color:var(--amber); opacity:1; }
+/* Qty in panel */
+.kat-qty-row{
+  display:flex; align-items:center; gap:12px; margin-bottom:14px;
+}
+.kat-qty-ctrl{
+  display:flex; align-items:center;
+  background:rgba(61,26,8,.2);
+  border:1.5px solid rgba(200,134,10,.3); border-radius:8px; overflow:hidden;
+}
+.kat-qty-btn{
+  background:transparent; border:none; color:var(--amber);
+  font-size:20px; width:44px; height:44px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .15s; touch-action:manipulation;
+  -webkit-user-select:none; user-select:none;
+}
+.kat-qty-btn:active{ background:var(--rust); }
+@media(hover:hover){ .kat-qty-btn:hover{ background:rgba(200,134,10,.15); } }
+.kat-qty-num{
+  min-width:48px; text-align:center;
+  font-family:'Rubik Dirt',sans-serif; font-size:18px; color:var(--white);
+  border:none; background:transparent; outline:none;
+  border-left:1px solid rgba(200,134,10,.2);
+  border-right:1px solid rgba(200,134,10,.2);
+  padding:8px 0;
+  -moz-appearance:textfield;
+}
+.kat-qty-num::-webkit-inner-spin-button,
+.kat-qty-num::-webkit-outer-spin-button{ -webkit-appearance:none; }
+.kat-panel-subtotal{
+  font-family:'Rubik Dirt',sans-serif; font-size:20px;
+  color:var(--amber); letter-spacing:1px; margin-left:auto;
+}
+.kat-picker-hint{
+  font-family:'Roboto',sans-serif; font-size:10px;
+  color:rgba(200,134,10,.4); letter-spacing:1px; margin-bottom:10px;
+  text-align:center;
+}
+/* Fixed color label */
+.kat-fixed-val{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; margin-bottom:14px;
+  background:rgba(61,26,8,.2); border:1px solid rgba(200,134,10,.2);
+  border-radius:6px;
+  font-family:'Roboto',sans-serif; font-size:12px;
+  color:rgba(200,134,10,.7); letter-spacing:1px;
+}
+
+/* ─── FORM ORDER REVIEW (read-only in checkout form) ─── */
+.order-review-item{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(200,134,10,.08);
+}
+.order-review-item:last-child{ border-bottom:none; }
+.order-review-num{
+  width:22px; height:22px; border-radius:50%;
+  background:rgba(200,134,10,.12); border:1px solid rgba(200,134,10,.25);
+  font-family:'Anton SC',sans-serif; font-size:10px;
+  color:var(--amber); display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.order-review-body{ flex:1; min-width:0; }
+.order-review-name{
+  font-family:'Roboto',sans-serif; font-size:12px; font-weight:500;
+  color:var(--cream); margin-bottom:3px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.order-review-tags{
+  display:flex; flex-wrap:wrap; gap:4px;
+}
+.order-review-tag{
+  font-size:9px; letter-spacing:1.5px;
+  background:rgba(61,26,8,.5); border:1px solid rgba(200,134,10,.2);
+  color:rgba(200,134,10,.75); padding:2px 7px; border-radius:2px;
+  text-transform:uppercase;
+}
+.order-review-qty{
+  display:flex; align-items:center; gap:5px; flex-shrink:0;
+}
+.order-review-qty-btn{
+  width:26px; height:26px; border-radius:50%;
+  background:rgba(200,134,10,.1); border:1px solid rgba(200,134,10,.25);
+  color:var(--amber); font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .15s; touch-action:manipulation;
+}
+.order-review-qty-btn:active,.order-review-qty-btn:hover{ background:rgba(200,134,10,.22); }
+.order-review-qty-num{
+  font-family:'Anton SC',sans-serif; font-size:14px;
+  color:var(--cream); min-width:22px; text-align:center;
+}
+.order-review-price{
+  font-family:'Rubik Dirt',sans-serif; font-size:13px;
+  color:var(--amber); flex-shrink:0; margin-left:6px;
+}
+
+/* ─── DETAIL PANEL — centered, constrained ─── */
+.kat-detail-panel{
+  display:none;
+  max-width:560px;
+  margin:12px auto 0;
+  background:linear-gradient(160deg,rgba(26,14,5,.97) 0%,rgba(12,7,3,.98) 100%);
+  border:1.5px solid rgba(200,134,10,.3);
+  border-radius:12px;
+  overflow:hidden;
+  animation:kdpSlideIn .32s cubic-bezier(.34,1.56,.64,1);
+}
+.kat-detail-panel.kdp-open{ display:block; }
+@keyframes kdpSlideIn{
+  0%{ opacity:0; transform:translateY(-10px) scale(.98); }
+  100%{ opacity:1; transform:translateY(0) scale(1); }
+}
+
+.kat-detail-inner{
+  padding:0;
+}
+
+/* ─── TABS ─── */
+.kat-tabs{
+  display:flex;
+  border-bottom:1px solid rgba(200,134,10,.15);
+  background:rgba(61,26,8,.2);
+  gap:0;
+}
+.kat-tab{
+  flex:1; text-align:center;
+  font-family:'Rubik Dirt',sans-serif; font-size:11px;
+  letter-spacing:2px; color:rgba(200,134,10,.5);
+  padding:12px 8px; cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:color .2s, border-color .2s, background .2s;
+  -webkit-user-select:none; user-select:none;
+  touch-action:manipulation;
+}
+.kat-tab:hover{ color:var(--amber); background:rgba(200,134,10,.06); }
+.kat-tab.kat-tab-active{
+  color:var(--amber);
+  border-bottom-color:var(--amber);
+  background:rgba(200,134,10,.1);
+}
+
+/* ─── FOTO TAB LAYOUT ─── */
+/* ─── FOTO SLIDER ─── */
+.kat-foto-wrap{
+  position:relative;
+  width:100%;
+  background:rgba(10,5,2,.85);
+  overflow:hidden;
+  border-bottom:1px solid rgba(200,134,10,.1);
+}
+
+/* Slider track */
+.kat-slider-track{
+  display:flex;
+  transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+  will-change:transform;
+  touch-action:pan-y;
+}
+.kat-slider-slide{
+  flex-shrink:0;
+  width:100%;
+  height:360px;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  background:rgba(10,5,2,.8);
+}
+@media(min-width:480px){ .kat-slider-slide{ height:400px; } }
+.kat-slider-slide img{
+  width:100%; height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+/* Prev / Next arrows */
+.kat-slider-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(10,7,5,.65); backdrop-filter:blur(4px);
+  border:1px solid rgba(200,134,10,.3);
+  color:var(--amber); font-size:20px;
+  width:32px; height:48px;
+  cursor:pointer; z-index:10;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s, border-color .2s;
+  -webkit-user-select:none; user-select:none;
+  touch-action:manipulation;
+}
+.kat-slider-btn:active,.kat-slider-btn:hover{
+  background:var(--rust); border-color:var(--amber);
+}
+.kat-slider-prev{ left:0; border-left:none; border-radius:0 4px 4px 0; }
+.kat-slider-next{ right:0; border-right:none; border-radius:4px 0 0 4px; }
+.kat-slider-btn.hidden{ display:none; }
+
+/* Dot indicators */
+.kat-slider-dots{
+  position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+  display:flex; gap:6px; z-index:10;
+}
+.kat-slider-dot{
+  width:6px; height:6px; border-radius:50%;
+  background:rgba(200,134,10,.3);
+  border:1px solid rgba(200,134,10,.4);
+  cursor:pointer; padding:0;
+  transition:background .2s, transform .2s;
+  touch-action:manipulation;
+}
+.kat-slider-dot.active{
+  background:var(--amber); border-color:var(--amber);
+  transform:scale(1.4);
+}
+
+/* Counter top-right */
+.kat-slider-counter{
+  position:absolute; top:8px; right:10px;
+  background:rgba(10,7,5,.65);
+  border:1px solid rgba(200,134,10,.3);
+  font-family:'Anton SC',sans-serif; font-size:10px;
+  letter-spacing:1px; color:var(--amber);
+  padding:2px 8px; z-index:10;
+  pointer-events:none;
+}
+
+/* Hide thumbs (replaced by slider) */
+.kat-foto-thumbs{ display:none !important; }
+
+/* Main photo area no longer needed standalone */
+.kat-foto-main{ display:none !important; }
+
+/* Info block */
+.kat-detail-info{
+  padding:14px 16px 10px;
+}
+.kat-detail-name{
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:clamp(16px,4vw,22px);
+  color:var(--white); letter-spacing:2px; line-height:1.1;
+  margin-bottom:4px;
+}
+.kat-detail-price{
+  font-family:'Rubik Dirt',sans-serif;
+  font-size:18px; color:var(--amber); letter-spacing:1px;
+  margin-bottom:6px;
+}
+.kat-detail-mat{
+  font-family:'Roboto',sans-serif; font-size:11px;
+  letter-spacing:1.5px; color:rgba(200,134,10,.6);
+  text-transform:uppercase; margin-bottom:6px;
+  border-left:2px solid rgba(200,134,10,.3); padding-left:8px;
+}
+
+/* ─── DESIGN SELECTION TAB ─── */
+.kat-design-prompt{
+  font-family:'Roboto',sans-serif; font-size:11px;
+  letter-spacing:2px; color:rgba(200,134,10,.6);
+  text-align:center; padding:12px 16px 4px;
+  text-transform:uppercase;
+}
+.kat-design-prompt strong{
+  color:var(--amber);
+}
+.kat-design-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:12px 12px 4px;
+}
+.kat-design-card{
+  border:1.5px solid rgba(200,134,10,.2);
+  border-radius:8px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  background:rgba(10,5,2,.6);
+  -webkit-user-select:none; user-select:none;
+}
+@media(hover:hover){
+  .kat-design-card:hover{
+    border-color:rgba(200,134,10,.6);
+    transform:translateY(-3px);
+    box-shadow:0 8px 24px rgba(200,134,10,.15);
+  }
+}
+.kat-design-card:active{ transform:scale(.97); }
+.kat-design-card.kdc-sel{
+  border-color:var(--amber);
+  box-shadow:0 0 0 2px rgba(200,134,10,.25), 0 6px 20px rgba(200,134,10,.2);
+}
+.kat-design-img{
+  width:100%; aspect-ratio:3/4;
+  overflow:hidden;
+  background:rgba(10,5,2,.8);
+  position:relative;
+}
+.kat-design-img img{
+  width:100%; height:100%;
+  object-fit:cover; object-position:center top;
+  display:block;
+  transition:transform .4s ease;
+}
+.kat-design-card:hover .kat-design-img img{ transform:scale(1.05); }
+/* Checkmark overlay for selected design */
+.kat-design-img::after{
+  content:'✓';
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:36px; color:var(--amber);
+  background:rgba(0,0,0,.45);
+  opacity:0; transition:opacity .2s;
+}
+.kat-design-card.kdc-sel .kat-design-img::after{ opacity:1; }
+.kat-design-name{
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:11px; letter-spacing:2px;
+  color:var(--cream); text-align:center;
+  padding:10px 8px 12px; line-height:1.3;
+}
+.kat-design-card.kdc-sel .kat-design-name{ color:var(--amber); }
+
+/* ─── ORDER BUTTON ─── */
+.kat-order-btn{
+  display:block; width:calc(100% - 24px);
+  margin:12px auto 14px;
+  padding:15px;
+  background:var(--amber);
+  border:none; border-radius:6px;
+  color:var(--black);
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:16px; letter-spacing:3px;
+  cursor:pointer;
+  transition:background .2s, transform .15s, box-shadow .3s;
+  box-shadow:0 4px 18px rgba(232,160,32,.3);
+}
+.kat-order-btn:hover{ background:#f0b030; box-shadow:0 6px 24px rgba(232,160,32,.45); }
+.kat-order-btn:active{ transform:scale(.97); background:#d09010; }
+.kat-order-btn:disabled{
+  background:rgba(200,134,10,.18);
+  color:rgba(200,134,10,.4);
+  cursor:not-allowed; box-shadow:none;
+}
+.kat-coming-btn{
+  background:rgba(61,26,8,.3) !important;
+  border:1.5px solid rgba(200,134,10,.25) !important;
+  color:rgba(200,134,10,.5) !important;
+  box-shadow:none !important;
+}
+
+/* ─── CLOSE BUTTON ─── */
+.kat-close-btn{
+  position:absolute; top:10px; right:10px;
+  width:30px; height:30px; border-radius:50%;
+  background:rgba(61,26,8,.6);
+  border:1px solid rgba(200,134,10,.3);
+  color:rgba(200,134,10,.7); font-size:14px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background .2s, color .2s;
+  z-index:5;
+}
+.kat-close-btn:hover{ background:var(--rust); color:var(--amber); }
 
 </style>
 <script>
@@ -1837,7 +2904,6 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     var l = document.getElementById('shimmer-loader');
     if(!l) return;
     l.classList.add('hiding');
-    document.documentElement.classList.remove('loader-active');
     document.body.classList.remove('loader-active');
     setTimeout(function(){ l.style.display='none'; }, 850);
   }
@@ -1858,6 +2924,88 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   window.hideLoader = tryHide;
 })();
 </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "AWAS BAHAYA NPD",
+      "url": "https://orderkaos-npd.pages.dev",
+      "logo": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_64,h_64,c_fit,e_make_transparent:10,e_colorize:100,co_rgb:c8860a,q_auto,f_png/v1774191326/barong_bali_line_art_ke9x3y.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+6281236869035",
+        "contactType": "customer service",
+        "availableLanguage": "Indonesian"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Kaos NPD Classic",
+      "description": "Design original AWAS BAHAYA NPD. Bahan Cotton Combed 24s premium 170-180 GSM. Tersedia warna Hitam, Putih, Orange. Ukuran S hingga XXXL.",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg",
+      "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
+      "material": "Cotton Combed 24s 170-180 GSM",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "150000",
+        "highPrice": "170000",
+        "priceCurrency": "IDR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://orderkaos-npd.pages.dev"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Hoodie NPD",
+      "description": "Hoodie premium AWAS BAHAYA NPD. Bahan Fleece 240gsm. Warna Hitam. Ukuran S hingga 2XL.",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282259/Hoodie_All_hfzum1.jpg",
+      "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
+      "material": "Fleece 240gsm",
+      "offers": {
+        "@type": "Offer",
+        "price": "270000",
+        "priceCurrency": "IDR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://orderkaos-npd.pages.dev"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "NPD Series",
+      "description": "Seri terbatas AWAS BAHAYA NPD dengan design eksklusif. Tersedia Mebakti Kapah (Merah Maroon) dan Rahajeng Sabar (Abu-abu). Cotton Combed 24s.",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg",
+      "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
+      "material": "Cotton Combed 24s",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "150000",
+        "highPrice": "170000",
+        "priceCurrency": "IDR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://orderkaos-npd.pages.dev"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Tumbler NPD",
+      "description": "Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD. One Size, warna Hitam.",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg",
+      "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
+      "material": "Stainless Steel",
+      "offers": {
+        "@type": "Offer",
+        "price": "120000",
+        "priceCurrency": "IDR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://orderkaos-npd.pages.dev"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body class="loader-active">
 
@@ -1866,6 +3014,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 <!-- SHIMMER LOADER -->
 <div id="shimmer-loader" aria-hidden="true">
+  <!-- Border accents sebagai elemen nyata, bukan pseudo — cegah text menumpuk -->
+  <div class="sh-top-border"></div>
   <div class="sh-barong-wrap">
     <div class="sh-badge">⚡ LIMITED GROUP ORDER ⚡</div>
     <img class="sh-barong-img"
@@ -1879,6 +3029,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     </div>
     <div class="sh-loading-txt">Memuat halaman...</div>
   </div>
+  <div class="sh-bottom-txt">BHUTA KALA MODERN</div>
 </div>
 
     <!-- Mute toggle -->
@@ -1915,11 +3066,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
            alt="AWAS BAHAYA NPD — Poster 2" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775312278/NPD_Series_Hero_2_nh25rv.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311241/NPD_Series_Hero_1_aslmlx.jpg"
            alt="AWAS BAHAYA NPD — Poster 3" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775312287/NPD_Series_Hero_1_aslmlx.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311229/NPD_Series_Hero_2_nh25rv.jpg"
            alt="AWAS BAHAYA NPD — Poster 4" loading="lazy">
     </div>
     <div class="hero-slide">
@@ -1931,8 +3082,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
            alt="AWAS BAHAYA NPD — Poster 6" loading="lazy">
     </div>
   </div>
-  <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Previous">&#8249;</button>
-  <button class="hs-btn hs-next" onclick="hsNav(1)" aria-label="Next">&#8250;</button>
+  <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Slide sebelumnya">&#8249;</button>
+  <button class="hs-btn hs-next" onclick="hsNav(1)" aria-label="Slide berikutnya">&#8250;</button>
   <div class="hs-dots">
     <button class="hs-dot active" onclick="hsGo(0)" aria-label="Slide 1"></button>
     <button class="hs-dot" onclick="hsGo(1)" aria-label="Slide 2"></button>
@@ -1944,89 +3095,103 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="hs-counter" id="hs-counter">1 / 6</div>
 </div>
 
-<!-- PRODUCT INFO -->
-<div class="product-info sr sr-up">
-  <div class="pi-left">
-    <div class="warning-badge sr sr-left sr-delay1" data-i18n="warningBadge">⚡ AWAS BAHAYA NPD</div>
-    <h2 class="product-title" id="product-title">NASKLENG<span>PERSONALITY DISORDER</span></h2>
-    <div class="material-tag sr sr-left sr-delay3" data-i18n="materialTag">Cotton Combed 24s · 170–180 GSM<br>100% Cotton</div>
-  </div>
-  <div class="pi-right">
-    <ul class="sym-list">
-      <li data-i18n="sym1" class="sr sr-right sr-delay1">EGOIS MAKSIMAL</li>
-      <li data-i18n="sym2" class="sr sr-right sr-delay2">ANTI KRITIK</li>
-      <li data-i18n="sym3" class="sr sr-right sr-delay3">OTAK NGAMBUL</li>
-    </ul>
-    <p class="product-desc" data-i18n="productDesc">Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.</p>
-  </div>
+<!-- ═══ KATALOG PRODUK ═══ -->
+<div class="katalog-section sr sr-up" id="katalog-section" style="max-width:860px;margin:0 auto;padding:32px 16px 28px;border-bottom:2px solid rgba(200,134,10,.15);">
+  <p style="font-family:'Roboto',sans-serif;font-size:9px;letter-spacing:5px;color:var(--gold);opacity:.65;text-transform:uppercase;text-align:center;margin-bottom:20px;">⚡ Koleksi Bhuta Kala Modern ⚡</p>
+  <div id="katalog-grid" class="katalog-grid"></div>
 </div>
 
-<!-- PRICE -->
-<div class="price-wrap sr sr-up sr-slow">
-  <p class="price-lbl" data-i18n="priceLbl">⚡ harga group order ⚡</p>
-  <div class="price-grid">
-    <div class="price-item" id="price-item-1">
-      <div class="price-sizes">S · M · L · XL</div>
-      <div class="price-num big" id="price-150">150K</div>
+<!-- Detail panel katalog -->
+<div class="kat-detail-panel" id="kat-detail-panel">
+  <div class="kat-detail-inner" style="position:relative;max-width:560px;margin:0 auto;">
+    <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">✕</button>
+    <div class="kat-tabs">
+      <div class="kat-tab kat-tab-active" data-tab="foto" onclick="katSwitchTab('foto')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Foto
+      </div>
+      <div class="kat-tab" data-tab="ukuran" onclick="katSwitchTab('ukuran')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Ukuran
+      </div>
     </div>
-    <div class="price-sep">/</div>
-    <div class="price-item" id="price-item-2">
-      <div class="price-sizes">XXL · XXXL</div>
-      <div class="price-num mid" id="price-170">170K</div>
+    <div id="kat-tab-foto">
+      <div class="kat-foto-wrap" id="kat-foto-wrap">
+        <div class="kat-foto-main" id="kat-foto-main" style="display:none"></div>
+        <div class="kat-foto-thumbs" id="kat-foto-thumbs" style="display:none"></div>
+      </div>
+      <div class="kat-detail-info">
+        <div class="kat-detail-name" id="kat-detail-name"></div>
+        <div class="kat-detail-price" id="kat-detail-price"></div>
+        <div class="kat-detail-mat" id="kat-detail-mat"></div>
+        <div class="kat-detail-desc" id="kat-detail-desc" style="font-size:12px;color:rgba(240,224,192,.6);line-height:1.75;margin-top:4px;"></div>
+      </div>
+      <div id="kat-order-config"></div>
     </div>
-  </div>
-  <p class="price-note" data-i18n="priceNote"><strong>Harga per pcs</strong> · belum termasuk ongkos kirim</p>
-  <p class="price-note" style="margin-top:4px;font-size:11px;" data-i18n="priceLblExtra">Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing</p>
-
-  <!-- Indonesia Shipping Only -->
-  <div class="shipping-badge" data-i18n-id="shippingBadge" data-i18n-en="shippingBadgeEn">
-    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="5.5" fill="#CE1126"/><rect y="5.5" width="16" height="5.5" fill="#ffffff"/></svg></span>
-    <span class="ship-text" id="ship-text" data-i18n="shipText">Pengiriman ke seluruh Indonesia</span>
-    <span class="ship-flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><rect width="16" height="5.5" fill="#CE1126"/><rect y="5.5" width="16" height="5.5" fill="#ffffff"/></svg></span>
+    <div id="kat-tab-ukuran" style="display:none">
+      <div class="size-section-card" style="margin:12px;">
+        <table class="chart-tbl" id="kat-size-table"></table>
+        <p class="kat-size-note" id="kat-size-note" style="font-size:10px;color:rgba(200,134,10,.4);margin-top:10px;line-height:1.65;"></p>
+      </div>
+    </div>
+    <!-- Design tab removed: inline in picker -->
+    <button class="kat-order-btn" id="kat-order-btn" onclick="katAddToOrder()">+ TAMBAH KE CART</button>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- GALLERY (3 foto selain hero) -->
+<!-- BRAND GALLERY — horizontal scroll strip -->
 <section class="gallery-section">
-  <h3 class="sec-title sr sr-up" data-i18n="galleryTitle">DETAIL KAOS</h3>
-  <p class="sec-note" data-i18n="galleryNote">Tap foto untuk memperbesar</p>
-  <div class="gallery-grid">
-    <div class="gal-item sr sr-up sr-delay1" onclick="dlbOpen(0)">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png" alt="Mockup 1" loading="lazy">
-    </div>
-    <div class="gal-item sr sr-up sr-delay2" onclick="dlbOpen(1)">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png" alt="Mockup 2" loading="lazy">
-    </div>
-    <div class="gal-item sr sr-up sr-delay3" onclick="dlbOpen(2)">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto:best,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png" alt="Mockup 3" loading="lazy">
+  <h3 class="sec-title sr sr-up" data-i18n="galleryTitle">BHUTA KALA MODERN</h3>
+  <p class="sec-note" data-i18n="galleryNote">← Swipe · Tap untuk zoom →</p>
+  <div class="gallery-strip-wrap">
+    <div class="gallery-strip" id="gallery-strip">
+      <div class="gal-item" onclick="dlbOpen(0)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Young_female_model_202604070727_y3qxrg.jpg" alt="NPD Model 1" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(1)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg" alt="NPD Model 2" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(2)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Male_and_female_202604070728_sgkxwo.jpg" alt="NPD Model 3" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(3)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg" alt="NPD Hoodie Model" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(4)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775517716/1470-v2-03-hoodie-mockup-for-boys_lnwjnm.jpg" alt="NPD Hoodie Mockup" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(5)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775282259/Hoodie_All_hfzum1.jpg" alt="Hoodie NPD" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(6)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg" alt="Tumbler NPD 1" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(7)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg" alt="Tumbler NPD 2" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(8)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png" alt="Brand Photo 1" loading="lazy">
+      </div>
+      <div class="gal-item" onclick="dlbOpen(9)">
+        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto:best,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png" alt="Brand Photo 2" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
 
-<!-- DETAIL LIGHTBOX — catalog photos only -->
+<!-- DETAIL LIGHTBOX -->
 <div id="dlb" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9000;flex-direction:column;align-items:center;justify-content:center;padding:12px;">
-  <!-- Close -->
-  <button id="dlb-close" style="position:fixed;top:14px;right:14px;width:48px;height:48px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">✕</button>
-  <!-- Image container -->
+  <button id="dlb-close" aria-label="Tutup galeri" style="position:fixed;top:14px;right:14px;width:48px;height:48px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">✕</button>
   <div id="dlb-wrap" style="position:relative;width:100%;max-width:min(94vw,700px);display:flex;align-items:center;justify-content:center;">
-    <!-- Prev -->
-    <button id="dlb-prev" class="dlb-nav-btn dlb-prev-btn">&#8249;</button>
-    <!-- Image — transition & will-change untuk smooth fade -->
+    <button id="dlb-prev" class="dlb-nav-btn dlb-prev-btn" aria-label="Foto sebelumnya">&#8249;</button>
     <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;will-change:opacity;transition:opacity .25s;background:rgba(255,255,255,.03);">
-    <!-- Next -->
-    <button id="dlb-next" class="dlb-nav-btn dlb-next-btn">&#8250;</button>
+    <button id="dlb-next" class="dlb-nav-btn dlb-next-btn" aria-label="Foto berikutnya">&#8250;</button>
   </div>
-  <!-- Counter -->
   <div id="dlb-counter" style="font-family:'Anton SC',sans-serif;font-size:13px;letter-spacing:2px;color:var(--amber);margin-top:12px;opacity:.75;"></div>
-  <!-- Dots -->
   <div id="dlb-dots" style="display:flex;gap:8px;margin-top:8px;"></div>
 </div>
 
-
 <div class="divider"></div>
-
 
 <!-- ═══ VIDEO ADS IN-FEED ═══ -->
 <section class="ads-infeed-section sr sr-up">
@@ -2036,99 +3201,74 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <video id="ads-video-infeed"
              src="https://res.cloudinary.com/dqqdjhb2x/video/upload/w_640,h_480,c_fill,q_auto,f_auto/v1774465056/NPD_Ads_15sec_Square_hpyvwk.mp4"
              poster="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_720,q_auto,f_auto/v1774463938/Hero-5_0-00-03-07_fhiidi.jpg"
-             playsinline
-             muted
-             loop
-             preload="none"
+             playsinline muted loop preload="none"
              aria-label="Video promosi AWAS BAHAYA NPD">
       </video>
-      <!-- Play/Pause overlay -->
-      <div class="ads-infeed-play">
-        <div class="ads-infeed-play-icon">▶</div>
-      </div>
-      <!-- Fullscreen button (desktop only) -->
+      <div class="ads-infeed-play"><div class="ads-infeed-play-icon">▶</div></div>
       <button class="ads-infeed-expand" type="button" aria-label="Fullscreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> FULLSCREEN</button>
     </div>
     <div class="ads-infeed-footer">
       <div class="ads-infeed-title">AWAS BAHAYA NPD ⚡<br>
         <span style="font-family:'Roboto',sans-serif;font-size:10px;font-weight:300;letter-spacing:1px;color:var(--cream);opacity:.6;">Bhuta Kala Modern · Limited Group Order</span>
       </div>
-      <a class="ads-infeed-cta" href="#order-section">ORDER →</a>
+      <a class="ads-infeed-cta" href="#cart-summary-section">ORDER →</a>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
-
-<!-- SIZE CHART -->
-<section class="size-section sr sr-up">
-  <h3 class="sec-title" data-i18n="sizeChartTitle">SIZE CHART</h3>
-  <p class="sec-note" data-i18n="sizeNote">Cotton Combed 24s · ukuran dalam cm</p>
-  <div class="size-section-card">
-    <table class="chart-tbl">
-      <thead><tr>
-        <th data-i18n="thUkuran">Ukuran</th>
-        <th><span data-i18n="thLebar">Lebar Dada</span><span class="unit">cm</span></th>
-        <th><span data-i18n="thPanjang">Panjang</span><span class="unit">cm</span></th>
-        <th><span data-i18n="thLengan">Lengan</span><span class="unit">cm</span></th>
-        <th data-i18n="thHarga">Harga</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>S</td><td>47</td><td>67</td><td>19</td><td class="pc">150K</td></tr>
-        <tr><td>M</td><td>50</td><td>70</td><td>19.5</td><td class="pc">150K</td></tr>
-        <tr><td>L</td><td>53</td><td>73</td><td>20</td><td class="pc">150K</td></tr>
-        <tr><td>XL</td><td>56</td><td>75</td><td>20.5</td><td class="pc">150K</td></tr>
-        <tr><td>XXL</td><td>59</td><td>77</td><td>21</td><td class="pc sp">170K</td></tr>
-        <tr><td>XXXL</td><td>62</td><td>80</td><td>21.5</td><td class="pc sp">170K</td></tr>
-      </tbody>
-    </table>
-    <p class="chart-note" data-i18n="chartNote">Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.<br>Toleransi ukuran 1–2.5 cm.</p>
+<!-- ═══ CART SUMMARY ═══ -->
+<div class="cart-summary-section" id="cart-summary-section">
+  <div class="cart-summary-wrap">
+    <div class="cart-summary-header">
+      <span class="cart-summary-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      </span>
+      <div class="cart-summary-title">CART ORDER</div>
+      <div class="cart-summary-count" id="cart-count">0 item</div>
+    </div>
+    <div id="cart-body">
+      <!-- dirender JS -->
+    </div>
   </div>
-</section>
+</div>
 
-<!-- ORDER FORM -->
-<section class="form-section" id="order-section">
+<section class="form-section" id="order-section" style="display:none;">
   <div class="form-inner">
 
-    <!-- Step Bar -->
+    <!-- Step Bar — 5 steps -->
     <div class="step-bar">
-      <div class="sdot active" id="sd1"><div class="sdot-c">1</div><div class="sdot-l" data-i18n="stepForm">FORM</div></div>
-      <div class="sline" id="sl1"></div>
-      <div class="sdot" id="sd2"><div class="sdot-c">2</div><div class="sdot-l" data-i18n="stepBayar">BAYAR</div></div>
-      <div class="sline" id="sl2"></div>
-      <div class="sdot" id="sd3"><div class="sdot-c">3</div><div class="sdot-l" data-i18n="stepUpload">UPLOAD</div></div>
-      <div class="sline" id="sl3"></div>
-      <div class="sdot" id="sd4"><div class="sdot-c">✓</div><div class="sdot-l" data-i18n="stepSelesai">SELESAI</div></div>
+      <div class="sdot done"   id="sd1"><div class="sdot-c">✓</div><div class="sdot-l" data-i18n="stepPilih">PILIH</div></div>
+      <div class="sline done"  id="sl1"></div>
+      <div class="sdot active" id="sd2"><div class="sdot-c">2</div><div class="sdot-l" data-i18n="stepForm">FORM</div></div>
+      <div class="sline"       id="sl2"></div>
+      <div class="sdot"        id="sd3"><div class="sdot-c">3</div><div class="sdot-l" data-i18n="stepBayar">BAYAR</div></div>
+      <div class="sline"       id="sl3"></div>
+      <div class="sdot"        id="sd4"><div class="sdot-c">4</div><div class="sdot-l" data-i18n="stepUpload">UPLOAD</div></div>
+      <div class="sline"       id="sl4"></div>
+      <div class="sdot"        id="sd5"><div class="sdot-c">✓</div><div class="sdot-l" data-i18n="stepSelesai">SELESAI</div></div>
     </div>
 
     <!-- ═══ STEP 1: FORM ═══ -->
     <div id="step1">
 
-      <!-- CARD 1 — PESANANMU -->
+      <!-- CARD 1 — RINGKASAN PESANAN (read-only) -->
       <div class="form-section-card">
         <div class="form-card-header">
-          <span class="form-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></span>
+          <span class="form-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>
           <div>
-            <div class="form-card-title" data-i18n="cardOrder">PESANANMU</div>
-            <div class="form-card-sub" data-i18n="cardOrderSub">Pilih warna, ukuran &amp; jumlah</div>
+            <div class="form-card-title">PESANAN KAMU</div>
+            <div class="form-card-sub">Ringkasan item · ubah qty jika perlu</div>
           </div>
         </div>
-        <div class="items-container" id="items-container"></div>
-        <button type="button" class="btn-add-item" id="btn-add-item">
-          <span style="font-size:18px;line-height:1;">+</span>
-          <span data-i18n="btnAddItem">TAMBAH WARNA/UKURAN LAIN</span>
-        </button>
-        <p style="font-size:11px;color:var(--amber);opacity:.7;margin-top:8px;letter-spacing:1px;" data-i18n="colorNote">
-          ⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" rel="noopener noreferrer" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan
-        </p>
-        <div class="total-box" style="margin-top:14px;">
-          <div class="items-summary" id="items-summary"></div>
-          <hr class="tdiv">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-            <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKIR</div>
-            <div class="tbig" id="t-total">Rp 0</div>
-          </div>
+        <!-- Order review items rendered by JS -->
+        <div id="order-review"></div>
+        <hr class="tdiv" style="margin:10px 0 8px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+          <div class="tsub" data-i18n="ongkirNote">BELUM TERMASUK ONGKIR</div>
+          <div class="tbig" id="t-total">Rp 0</div>
         </div>
+        <div class="items-summary" id="items-summary" style="display:none;"></div>
       </div>
 
       <!-- CARD 2 — DATA KAMU -->
@@ -2425,13 +3565,58 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   </a>
 </div>
 
+<!-- FOTO LIGHTBOX -->
+<div id="foto-lightbox" role="dialog" aria-modal="true" aria-label="Foto produk">
+  <button class="lb-close" onclick="lbClose()" aria-label="Tutup foto" aria-label="Tutup">✕</button>
+  <div class="lb-wrap" id="lb-wrap">
+    <button class="lb-nav lb-prev hidden" id="lb-prev" onclick="lbNav(-1)" aria-label="Sebelumnya">&#8249;</button>
+    <img id="lb-img" class="lb-img" src="" alt="">
+    <button class="lb-nav lb-next hidden" id="lb-next" onclick="lbNav(1)" aria-label="Berikutnya">&#8250;</button>
+  </div>
+  <div class="lb-dots" id="lb-dots"></div>
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+<!-- MINI CART OVERLAY -->
+<div id="mini-cart-overlay" onclick="miniCartClose()"></div>
+
+<!-- MINI CART DRAWER -->
+<div id="mini-cart" role="dialog" aria-modal="true" aria-label="Cart kamu">
+  <div class="mc-handle" onclick="miniCartClose()" aria-label="Tutup keranjang" role="button"></div>
+  <div class="mc-header">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <div class="mc-title">CART KAMU</div>
+    <button class="mc-close" onclick="miniCartClose()" aria-label="Tutup keranjang" aria-label="Tutup">✕</button>
+  </div>
+  <div class="mc-items" id="mc-items"></div>
+  <div class="mc-total-row">
+    <div class="mc-total-label">Total Pesanan</div>
+    <div class="mc-total-amount" id="mc-total">Rp 0</div>
+  </div>
+  <div class="mc-actions">
+    <button class="mc-btn-continue" onclick="miniCartClose()">TAMBAH LAGI</button>
+    <button class="mc-btn-checkout" onclick="miniCartClose();cartGoCheckout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      CHECKOUT
+    </button>
+  </div>
+</div>
+
+<!-- STICKY CART BUBBLE -->
+<div id="cart-bubble">
+  <button class="cart-bubble-btn" onclick="miniCartOpen()" aria-label="Lihat cart">
+    <span class="cart-bubble-icon">🛒</span>
+    <span id="cart-bubble-count" class="cart-bubble-count">0</span>
+  </button>
+</div>
+
 <!-- BARONG LOADING SCREEN -->
 <script>
 // ═══════════════════════════════════════════════════════
 // MAIN SCRIPT — AWAS BAHAYA NPD
 // ═══════════════════════════════════════════════════════
 
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzs9hU1u8fhrKgdGAlNTuFji4gi-HKkAeVGf2obpPqtaHX-jTG329-SBZizj8P8LjWP/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyL3gBuQeQCEQh4bBgAmdU3vuAI_v3-VlqMqTK_uO2bEaqpkwPCpP8989qrAPhrfu60Pw/exec';
 
 // ─── COLORS — bilingual labels ──────────────────────────
 var COLORS = [
@@ -2442,6 +3627,734 @@ var COLORS = [
   { id:'orange', label:{ id:'ORANGE', en:'ORANGE' }, hex:'#e86000',
     img:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_auto,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png' },
 ];
+
+// ═══════════════════════════════════════════════════════════════
+// KATALOG PRODUK — edit bagian ini untuk update produk
+// foto: isi array dengan URL Cloudinary 800x800px
+//       kosongkan '' untuk pakai placeholder otomatis
+// ═══════════════════════════════════════════════════════════════
+var KATALOG = [
+  {
+    id:'kaos-npd-classic', nama:'NPD Classic', namaLengkap:'Kaos NPD Classic',
+    hargaLabel:'150K / 170K (XXL–XXXL)',
+    hargaFn:function(size){ return (size==='XXL'||size==='XXXL')?170000:150000; },
+    status:'tersedia', warnaTetap:null, sizeTetap:null,
+    warnaInfo:'Hitam · Putih · Orange',
+    material:'Cotton Combed 24s · 170–180 GSM · 100% Cotton',
+    desc:'Design original AWAS BAHAYA NPD. Bahan premium combed 24s — tebal, berisi, collector vibes. Multi warna tersedia.',
+    foto:[
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
+    ],
+    designs:null,
+    sizeChart:{
+      headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],
+      rows:[['S','47 cm','67 cm','19 cm','150K'],['M','50 cm','70 cm','19.5 cm','150K'],
+            ['L','53 cm','73 cm','20 cm','150K'],['XL','56 cm','75 cm','20.5 cm','150K'],
+            ['XXL','59 cm','77 cm','21 cm','170K'],['XXXL','62 cm','80 cm','21.5 cm','170K']],
+      note:'Cotton Combed 24s · 170–180 gsm · XXL & XXXL Rp 170K · Toleransi 1–2.5 cm'
+    },
+    sizes:['S','M','L','XL','XXL','XXXL']
+  },
+  {
+    id:'hoodie-npd', nama:'Hoodie NPD', namaLengkap:'Hoodie NPD',
+    hargaLabel:'Rp 270.000',
+    hargaFn:function(){ return 270000; },
+    status:'tersedia', warnaTetap:'Hitam', sizeTetap:null,
+    material:'Fleece 240gsm · Unisex · 1 Warna',
+    desc:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 1 warna.',
+    foto:['https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282259/Hoodie_All_hfzum1.jpg'],
+    designs:null,
+    sizeChart:{
+      headers:['Size','Lebar Dada','Panjang','Lengan'],
+      rows:[['S','51 cm','65 cm','59 cm'],['M','53 cm','67 cm','60 cm'],
+            ['L','56 cm','70 cm','61 cm'],['XL','61 cm','73 cm','62 cm'],['2XL','64 cm','76 cm','63 cm']],
+      note:'Fleece 240gsm · Semua ukuran Rp 270K · Toleransi 1–2.5 cm'
+    },
+    sizes:['S','M','L','XL','2XL']
+  },
+  {
+    id:'npd-series', nama:'NPD Series', namaLengkap:'NPD Series',
+    hargaLabel:'150K / 170K (XXL–XXXL)',
+    hargaFn:function(size){ return (size==='XXL'||size==='XXXL')?170000:150000; },
+    status:'tersedia', warnaTetap:null, sizeTetap:null,
+    warnaInfo:'Merah Maroon · Abu-abu',
+    material:'Cotton Combed 24s · Pilih Design · Warna per design',
+    desc:'Seri terbatas dengan design eksklusif. Mebakti Kapah (Merah Maroon) · Rahajeng Sabar (Abu-abu).',
+    foto:[
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775471996/NPD_Mebakti_Kapah_Detail_zkob9i.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775471996/NPD_Rahajeng_Sabar_Detail_xsspd9.jpg'
+    ],
+    designs:[
+      {id:'mebakti-kapah',  nama:'Mebakti Kapah',  warna:'maroon',  warnaHex:'#5c1a1a', warnaLabel:'Merah Maroon', foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg'},
+      {id:'rahajeng-sabar', nama:'Rahajeng Sabar', warna:'abu-abu',  warnaHex:'#6b6b6b', warnaLabel:'Abu-abu',      foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg'}
+    ],
+    sizeChart:{
+      headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],
+      rows:[['S','47 cm','67 cm','19 cm','150K'],['M','50 cm','70 cm','19.5 cm','150K'],
+            ['L','53 cm','73 cm','20 cm','150K'],['XL','56 cm','75 cm','20.5 cm','150K'],
+            ['XXL','59 cm','77 cm','21 cm','170K'],['XXXL','62 cm','80 cm','21.5 cm','170K']],
+      note:'Cotton Combed 24s · XXL & XXXL Rp 170K · Toleransi 1–2.5 cm'
+    },
+    sizes:['S','M','L','XL','XXL','XXXL']
+  },
+  {
+    id:'tumbler-npd', nama:'Tumbler NPD', namaLengkap:'Tumbler NPD',
+    hargaLabel:'Rp 120.000',
+    hargaFn:function(){ return 120000; },
+    status:'tersedia', warnaTetap:'Hitam', sizeTetap:'One Size',
+    material:'Stainless Steel · One Size · 1 Warna',
+    desc:'Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD.',
+    foto:[
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_auto,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg'
+    ],
+    designs:null, sizeChart:null,
+    sizes:['One Size']
+  }
+];
+// ═══════════════════════════════════════════════════════════════
+
+// ─── KATALOG & CART STATE ─────────────────────────────
+var _katActive = null;
+var _katTab    = 'foto';
+var _katDesign = null;
+var _KAT_PH    = '<svg class="kat-img-placeholder" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="4" stroke="#c8860a" stroke-width="1.5"/><circle cx="17" cy="18" r="4" stroke="#c8860a" stroke-width="1.2"/><path d="M4 36l10-10 8 8 6-6 16 12" stroke="#c8860a" stroke-width="1.2"/></svg>';
+
+// ─── FOTO SLIDER ─────────────────────────────────────
+var _sliderIdx   = 0;
+var _sliderFotos = [];
+
+function renderFotoSlider(fotos, produkNama) {
+  _sliderFotos = fotos && fotos.length ? fotos : [];
+  _sliderIdx   = 0;
+  var wrap = document.getElementById('kat-foto-wrap');
+  if (!wrap) return;
+
+  if (_sliderFotos.length === 0) {
+    wrap.innerHTML = '<div class="kat-slider-slide" style="height:280px;">' + _KAT_PH + '</div>';
+    return;
+  }
+
+  var single = _sliderFotos.length === 1;
+  var slides  = _sliderFotos.map(function(f, si){
+    return '<div class="kat-slider-slide" onclick="lbOpen('+si+')" style="cursor:zoom-in;">'
+      + '<img src="' + f + '" alt="' + (produkNama||'') + '" loading="lazy">'
+      + '</div>';
+  }).join('');
+
+  var dots = single ? '' :
+    '<div class="kat-slider-dots" id="kat-sdots">'
+    + _sliderFotos.map(function(_,i){
+        return '<button class="kat-slider-dot'+(i===0?' active':'')+'" onclick="sliderGo('+i+')" aria-label="Foto '+(i+1)+'"></button>';
+      }).join('')
+    + '</div>';
+
+  var counter = single ? '' : '<div class="kat-slider-counter" id="kat-sctr">1 / '+_sliderFotos.length+'</div>';
+
+  var btnPrev = single ? '' : '<button class="kat-slider-btn kat-slider-prev hidden" id="kat-sprev" onclick="sliderNav(-1)" aria-label="Sebelumnya">&#8249;</button>';
+  var btnNext = single ? '' : '<button class="kat-slider-btn kat-slider-next" id="kat-snext" onclick="sliderNav(1)" aria-label="Berikutnya">&#8250;</button>';
+
+  var zoomHint = single ? '' : '<div class="kat-zoom-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-1px;margin-right:4px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>Tap untuk zoom</div>';
+
+  wrap.innerHTML =
+    '<div class="kat-slider-track" id="kat-strack">' + slides + '</div>'
+    + btnPrev + btnNext + dots + counter + zoomHint;
+
+  // Touch swipe
+  _sliderAddSwipe(wrap);
+}
+
+function _sliderSetIdx(i) {
+  var n = _sliderFotos.length; if (!n) return;
+  _sliderIdx = ((i % n) + n) % n;
+  var track = document.getElementById('kat-strack');
+  if (track) track.style.transform = 'translateX(-' + (_sliderIdx * 100) + '%)';
+  // Dots
+  document.querySelectorAll('#kat-sdots .kat-slider-dot').forEach(function(d, di){
+    d.classList.toggle('active', di === _sliderIdx);
+  });
+  // Counter
+  var ctr = document.getElementById('kat-sctr');
+  if (ctr) ctr.textContent = (_sliderIdx + 1) + ' / ' + n;
+  // Arrows visibility
+  var prev = document.getElementById('kat-sprev');
+  var next = document.getElementById('kat-snext');
+  if (prev) prev.classList.toggle('hidden', _sliderIdx === 0);
+  if (next) next.classList.toggle('hidden', _sliderIdx === n - 1);
+}
+
+function sliderNav(dir) { _sliderSetIdx(_sliderIdx + dir); }
+function sliderGo(i)    { _sliderSetIdx(i); }
+window.sliderNav = sliderNav;
+window.sliderGo  = sliderGo;
+
+function _sliderAddSwipe(el) {
+  var startX = 0, moved = 0;
+  el.addEventListener('touchstart', function(e){
+    startX = e.touches[0].clientX;
+    moved  = 0;
+  }, { passive: true });
+  el.addEventListener('touchmove', function(e){
+    moved = e.touches[0].clientX - startX;
+  }, { passive: true });
+  el.addEventListener('touchend', function(){
+    if (Math.abs(moved) > 40) { sliderNav(moved < 0 ? 1 : -1); }
+  });
+}
+
+// Update slider when design is picked (show design photo)
+function sliderGoToFoto(url) {
+  var idx = _sliderFotos.indexOf(url);
+  if (idx >= 0) { _sliderSetIdx(idx); }
+}
+
+// ─── PANEL PICKER STATE ──────────────────────────────
+var _katSize  = null;   // selected size in panel
+var _katColor = null;   // selected color in panel
+var _katQty   = 1;      // selected qty in panel
+
+function katPanelSetSize(size, price) {
+  _katSize = size;
+  var p = KATALOG.find(function(x){ return x.id===_katActive; });
+  if (p) {
+    var realPrice = p.hargaFn ? p.hargaFn(size) : price;
+    _katQty = _katQty || 1;
+    renderPanelPicker(p, true); // re-render to update subtotal + active state
+  }
+}
+function katPanelSetColor(colorId) {
+  _katColor = colorId;
+  var p = KATALOG.find(function(x){ return x.id===_katActive; });
+  if (p) renderPanelPicker(p, true);
+}
+function katPanelSetDesign(designId) {
+  _katDesign = designId;
+  var p = KATALOG.find(function(x){ return x.id===_katActive; });
+  var d = p && p.designs && p.designs.find(function(x){ return x.id===designId; });
+  // Auto-set warna dari design (NPD Series punya warna per design)
+  if (d && d.warna) {
+    _katColor = d.warna;
+  }
+  // Jump slider to this design's foto
+  if (d && d.foto) sliderGoToFoto(d.foto);
+  if (p) renderPanelPicker(p, true);
+}
+window.katPanelSetDesign = katPanelSetDesign;
+function katPanelSetQty(delta) {
+  if (typeof delta === 'number') {
+    _katQty = Math.max(1, Math.min(99, (_katQty||1) + delta));
+  }
+  var p = KATALOG.find(function(x){ return x.id===_katActive; });
+  var subtotalEl = document.getElementById('kat-panel-subtotal');
+  if (subtotalEl && p) {
+    var price = p.hargaFn ? p.hargaFn(_katSize || (p.sizes&&p.sizes[0])||'S') : 150000;
+    subtotalEl.textContent = fmtRp(price * _katQty);
+  }
+  var numEl = document.getElementById('kat-panel-qty-num');
+  if (numEl) numEl.value = _katQty;
+  if (p) katUpdateOrderBtn(p);
+}
+function katPanelInputQty(val) {
+  var v = parseInt(val, 10);
+  _katQty = isNaN(v) ? 1 : Math.max(1, Math.min(99, v));
+  katPanelSetQty(0);
+}
+window.katPanelSetSize  = katPanelSetSize;
+window.katPanelSetColor = katPanelSetColor;
+window.katPanelSetQty   = katPanelSetQty;
+window.katPanelInputQty = katPanelInputQty;
+
+function renderPanelPicker(p, skipScroll) {
+  var cfg = document.getElementById('kat-order-config');
+  if (!cfg) return;
+
+  // Inline design selector (NPD Series)
+  var designHtml = '';
+  if (p.designs && p.designs.length) {
+    designHtml = '<div class="kat-picker-label">PILIH DESIGN</div>'
+      + '<div class="kat-design-inline">'
+      + p.designs.map(function(d){
+          var sel = _katDesign === d.id;
+          var warnaBadge = d.warnaLabel
+            ? '<span style="display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-family:\'Roboto\',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(240,224,192,.7);">'
+              +'<span style="width:10px;height:10px;border-radius:50%;background:'+(d.warnaHex||'#888')+';border:1px solid rgba(255,255,255,.2);display:inline-block;"></span>'
+              + d.warnaLabel + '</span>'
+            : '';
+          return '<div class="kat-design-chip'+(sel?' active':'')+'"'
+            +' onclick="katPanelSetDesign(\''+d.id+'\')" role="button">'
+            +(d.foto ? '<img src="'+d.foto+'" alt="'+d.nama+'" loading="lazy">' : '')
+            +'<span class="kat-design-chip-name">'+d.nama+'</span>'
+            + warnaBadge
+            +(sel ? '<span class="kat-design-chip-check">✓</span>' : '')
+            +'</div>';
+        }).join('')
+      + '</div>';
+  }
+
+  var sizesArr = (p.sizes||['S','M','L','XL','XXL','XXXL']).map(function(s){
+    return { size:s, price: p.hargaFn ? p.hargaFn(s) : priceForSize(s) };
+  });
+  var curSize  = _katSize  || sizesArr[0].size;
+  var curPrice = p.hargaFn ? p.hargaFn(curSize) : priceForSize(curSize);
+  var curQty   = _katQty   || 1;
+
+  var sizeHtml = '';
+  if (p.sizeTetap) {
+    sizeHtml = '<div class="kat-fixed-val"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' + (p.sizeTetap) + '</div>';
+  } else {
+    var fewSizes = sizesArr.length <= 5 ? ' few-sizes' : '';
+    sizeHtml = '<div class="kat-picker-label">UKURAN</div>'
+      + '<div class="kat-size-picker' + fewSizes + '">'
+      + sizesArr.map(function(s){
+          var active = curSize === s.size;
+          var pTag = s.price >= 270000 ? Math.round(s.price/1000)+'K'
+                   : s.price === 170000 ? '170K'
+                   : s.price === 120000 ? '120K' : '150K';
+          return '<button type="button" class="kat-sopt'+(active?' active':'')+'"'
+            +' onclick="katPanelSetSize(\''+s.size+'\','+s.price+')">'
+            + s.size + '<span class="kat-sopt-price">' + pTag + '</span></button>';
+        }).join('')
+      + '</div>';
+  }
+
+  var colorHtml = '';
+  if (p.warnaTetap) {
+    // Fixed color product (Hoodie, Tumbler)
+    var wHex = COLORS.find(function(c){ return c.label.id.toLowerCase()===p.warnaTetap.toLowerCase(); });
+    colorHtml = '<div class="kat-fixed-val">'
+      + (wHex ? '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+wHex.hex+';border:1px solid rgba(255,255,255,.2);"></span> ' : '')
+      + p.warnaTetap.toUpperCase() + '</div>';
+  } else if (p.designs && _katDesign) {
+    // Design-based color (NPD Series) — warna sudah auto-set dari design
+    var selDesign = p.designs.find(function(d){ return d.id === _katDesign; });
+    if (selDesign && selDesign.warnaLabel) {
+      colorHtml = '<div class="kat-fixed-val">'
+        + '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+(selDesign.warnaHex||'#888')+';border:1px solid rgba(255,255,255,.2);"></span> '
+        + selDesign.warnaLabel.toUpperCase()
+        + ' <span style="font-size:9px;opacity:.5;margin-left:4px;">(dari design)</span>'
+        + '</div>';
+    }
+  } else if (!p.designs) {
+    // NPD Classic — manual color picker
+    colorHtml = '<div class="kat-picker-label">WARNA</div>'
+      + '<div class="kat-color-picker">'
+      + COLORS.map(function(c){
+          var active = (_katColor||'') === c.id;
+          var lbl = getColorLabel(c);
+          var border = c.id==='putih' ? 'border:1.5px solid rgba(200,134,10,.4);' : '';
+          return '<div class="kat-copt'+(active?' active':'')+'"'
+            +' onclick="katPanelSetColor(\''+c.id+'\')" role="button" aria-label="'+lbl+'">'
+            +'<div class="kat-copt-swatch" style="background:'+c.hex+';'+border+'"></div>'
+            +'<div class="kat-copt-name">'+lbl+'</div>'
+            +'</div>';
+        }).join('')
+      + '</div>'
+      +'<p class="kat-picker-hint">⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+NPD" target="_blank" style="color:var(--amber);">Cek stok warna</a> sebelum order</p>';
+  }
+
+  var qtyHtml = '<div class="kat-picker-label">JUMLAH</div>'
+    + '<div class="kat-qty-row">'
+    + '<div class="kat-qty-ctrl">'
+    + '<button type="button" class="kat-qty-btn" onclick="katPanelSetQty(-1)">−</button>'
+    + '<input class="kat-qty-num" type="number" id="kat-panel-qty-num" value="'+curQty
+    +'" min="1" max="99" inputmode="numeric"'
+    +' onchange="katPanelInputQty(this.value)" oninput="katPanelInputQty(this.value)">'
+    + '<button type="button" class="kat-qty-btn" onclick="katPanelSetQty(1)">+</button>'
+    + '</div>'
+    + '<div class="kat-panel-subtotal" id="kat-panel-subtotal">'+fmtRp(curPrice*curQty)+'</div>'
+    + '</div>';
+
+  cfg.innerHTML = '<div class="kat-picker-section">'
+    + (p.designs ? designHtml : '')
+    + sizeHtml + colorHtml + qtyHtml + '</div>';
+  if (p) katUpdateOrderBtn(p);
+}
+
+// ─── RENDER ORDER REVIEW (in checkout form) ───────────
+function renderOrderReview() {
+  var el = document.getElementById('order-review');
+  var totalEl = document.getElementById('t-total');
+  var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
+  var grandTotal = activeItems.reduce(function(s,x){ return s+x.price*x.qty; }, 0);
+  if (totalEl) totalEl.textContent = fmtRp(grandTotal);
+  if (!el) return;
+  if (activeItems.length === 0) {
+    el.innerHTML = '<div style="padding:12px 0;font-family:\'Roboto\',sans-serif;font-size:12px;color:rgba(200,134,10,.4);letter-spacing:1px;">Cart kosong</div>';
+    return;
+  }
+  el.innerHTML = activeItems.map(function(item, i) {
+    var colorLbl = item.colorLabel || (item.warnaTetap
+      ? (item.color||'HITAM').toUpperCase()
+      : getColorLabel(COLORS.find(function(c){return c.id===item.color;})||COLORS[0]));
+    var tags = [item.size, colorLbl].filter(Boolean);
+    return '<div class="order-review-item">'
+      +'<div class="order-review-num">'+(i+1)+'</div>'
+      +'<div class="order-review-body">'
+      +'<div class="order-review-name">'+item.produkNama+'</div>'
+      +'<div class="order-review-tags">'
+      +tags.map(function(t){ return '<span class="order-review-tag">'+t+'</span>'; }).join('')
+      +'</div>'
+      +'</div>'
+      +'<div class="order-review-qty">'
+      +'<button class="order-review-qty-btn" onclick="reviewQtyChange(\''+item.id+'\',-1)">−</button>'
+      +'<span class="order-review-qty-num">'+item.qty+'</span>'
+      +'<button class="order-review-qty-btn" onclick="reviewQtyChange(\''+item.id+'\',1)">+</button>'
+      +'</div>'
+      +'<div class="order-review-price">'+fmtRp(item.price*item.qty)+'</div>'
+      +'</div>';
+  }).join('');
+}
+
+function reviewQtyChange(id, delta) {
+  var item = ITEMS.find(function(x){ return x.id===id; }); if (!item) return;
+  item.qty = Math.max(1, Math.min(99, item.qty + delta));
+  renderOrderReview(); renderCartSummary();
+}
+window.reviewQtyChange = reviewQtyChange;
+
+// ─── RENDER KATALOG GRID ─────────────────────────────
+function renderKatalog() {
+  var grid = document.getElementById('katalog-grid');
+  if (!grid) return;
+  grid.innerHTML = KATALOG.map(function(p) {
+    var active = _katActive===p.id?' kat-active':'';
+    var firstFoto = (p.foto||[]).filter(function(f){return f;})[0];
+    var imgEl = firstFoto ? '<img src="'+firstFoto+'" alt="'+p.nama+'" loading="lazy">' : '<svg class="kat-img-placeholder" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="4" stroke="#c8860a" stroke-width="1.5"/><circle cx="17" cy="18" r="4" stroke="#c8860a" stroke-width="1.2"/><path d="M4 36l10-10 8 8 6-6 16 12" stroke="#c8860a" stroke-width="1.2"/></svg>';
+    var designBadge = p.designs ? '<span class="kat-design-badge">'+p.designs.length+' Design</span>' : '';
+    return '<div class="kat-card'+active+'" id="kat-item-'+p.id+'" onclick="katToggle(\''+p.id+'\')" role="button" aria-label="Lihat '+p.nama+'">'
+      +'<div class="kat-img-wrap">'+imgEl
+      +designBadge
+      +'</div>'
+      +'<div class="kat-info">'
+      +'<div class="kat-name">'+p.nama+'</div>'
+      +'<div class="kat-price">'+p.hargaLabel+'</div>'
+      +((p.warnaInfo||p.warnaTetap)?'<div class="kat-sub">'+(p.warnaInfo||p.warnaTetap)+'</div>':'<div class="kat-sub">&nbsp;</div>')
+      +'</div></div>';
+  }).join('');
+}
+
+// ─── CLOSE PANEL ─────────────────────────────────────
+function katClose() {
+  var panel = document.getElementById('kat-detail-panel');
+  if (panel) panel.classList.remove('kdp-open');
+  _katActive = null; _katDesign = null;
+  renderKatalog();
+}
+
+// ─── OPEN PRODUCT via banner anchor ──────────────────
+// Scrolls to catalog section, then opens the product panel
+function openProduct(id) {
+  // If already open → just scroll
+  if (_katActive === id) {
+    var panel = document.getElementById('kat-detail-panel');
+    if (panel) { panel.scrollIntoView({behavior:'smooth', block:'start'}); }
+    return;
+  }
+  // Open product (this renders the grid + opens panel)
+  _katActive = id; _katDesign = null; renderKatalog();
+  var p = KATALOG.find(function(x){ return x.id === id; });
+  if (!p) return;
+  katFillDetail(p);
+  // Always open foto tab — design picker is inline
+  katSwitchTab('foto');
+  var panel = document.getElementById('kat-detail-panel');
+  if (panel) panel.classList.add('kdp-open');
+  // Scroll: first land on the katalog section, then let panel slide in
+  var katSec = document.getElementById('katalog-section');
+  if (katSec) {
+    katSec.scrollIntoView({behavior:'smooth', block:'start'});
+    // After scroll settles, nudge to show panel
+    setTimeout(function(){
+      if (panel) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 500);
+  }
+}
+window.openProduct = openProduct;
+
+// ─── TOGGLE DETAIL PANEL ─────────────────────────────
+function katToggle(id) {
+  var panel = document.getElementById('kat-detail-panel');
+  if (!panel) return;
+  if (_katActive===id) {
+    katClose(); return;
+  }
+  _katActive=id; _katDesign=null; renderKatalog();
+  var p = KATALOG.find(function(x){return x.id===id;});
+  if (!p) return;
+  katFillDetail(p);
+  // Always start on foto tab — design selection is now inline in the picker
+  katSwitchTab('foto');
+  panel.classList.add('kdp-open');
+  setTimeout(function(){ panel.scrollIntoView({behavior:'smooth',block:'nearest'}); },80);
+}
+
+function katFillDetail(p) {
+  // Reset ALL picker state for new product — must happen before any render
+  _katSize   = p.sizeTetap || (p.sizes && p.sizes[0]) || 'S';
+  _katColor  = p.warnaTetap
+    ? (function(){ var cf=COLORS.find(function(c){return c.label.id.toLowerCase()===p.warnaTetap.toLowerCase();}); return cf?cf.id:'hitam'; })()
+    : null;
+  _katQty    = 1;
+  _katDesign = null; // always reset — prevents stale design from previous product
+
+  var fotoValid = (p.foto||[]).filter(function(f){return f;});
+  // Build slider
+  renderFotoSlider(fotoValid, p.nama);
+  var el=function(id){return document.getElementById(id);};
+  if(el('kat-detail-name'))  el('kat-detail-name').textContent  = p.namaLengkap;
+  if(el('kat-detail-price')) el('kat-detail-price').textContent = p.hargaLabel;
+  if(el('kat-detail-mat'))   el('kat-detail-mat').textContent   = p.material;
+  if(el('kat-detail-desc'))  el('kat-detail-desc').textContent  = p.desc||'';
+  var dtab = document.querySelector('.kat-tab-design');
+  if(dtab) dtab.style.display = p.designs?'block':'none';
+  var tbl=el('kat-size-table'), note=el('kat-size-note');
+  if(tbl) {
+    if(p.sizeChart) {
+      var sc=p.sizeChart;
+      tbl.innerHTML = '<thead><tr>'+sc.headers.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead>'
+        +'<tbody>'+sc.rows.map(function(row){
+          return '<tr>'+row.map(function(c,i){
+            var cls=(sc.headers[i]==='Harga'||sc.headers[i]==='Price')?' class="pc'+(c==='170K'?' sp':'')+'\"':'';
+            return '<td'+cls+'>'+c+'</td>';
+          }).join('')+'</tr>';
+        }).join('')+'</tbody>';
+      if(note) note.textContent=sc.note;
+    } else {
+      tbl.innerHTML='<tbody><tr><td colspan="5" style="text-align:center;color:rgba(200,134,10,.4);padding:18px;">One size — tidak ada panduan ukuran</td></tr></tbody>';
+      if(note) note.textContent='';
+    }
+  }
+  var dg=el('kat-design-grid');
+  if(dg&&p.designs) {
+    dg.innerHTML=p.designs.map(function(d){
+      var dImg=d.foto?'<img src="'+d.foto+'" alt="'+d.nama+'" loading="lazy">':_KAT_PH;
+      return '<div class="kat-design-card" id="kdc-'+d.id+'" onclick="katPickDesign(\''+d.id+'\')">'
+        +'<div class="kat-design-img">'+dImg+'</div>'
+        +'<div class="kat-design-name">'+d.nama+'</div></div>';
+    }).join('');
+  }
+  // Render the size/color/qty pickers in the foto tab
+  renderPanelPicker(p);
+  katUpdateOrderBtn(p);
+}
+
+// katPickThumb replaced by slider navigation
+
+function katPickDesign(designId) {
+  katPanelSetDesign(designId);
+}
+
+function katUpdateOrderBtn(p) {
+  var btn=document.getElementById('kat-order-btn'); if(!btn) return;
+  if(p.status!=='tersedia'){
+    btn.textContent='SEGERA HADIR'; btn.className='kat-order-btn kat-coming-btn'; btn.disabled=true; return;
+  }
+  if(p.designs&&!_katDesign){
+    btn.textContent='← PILIH DESIGN DULU'; btn.className='kat-order-btn'; btn.disabled=true; return;
+  }
+  // Warna wajib hanya untuk produk tanpa design (NPD Classic) dan tanpa warnaTetap
+  if(!p.warnaTetap && !p.designs && !_katColor){
+    btn.textContent='← PILIH WARNA DULU'; btn.className='kat-order-btn'; btn.disabled=true; return;
+  }
+  btn.textContent='+ TAMBAH KE CART'; btn.className='kat-order-btn'; btn.disabled=false;
+}
+
+function katSwitchTab(tab) {
+  _katTab=tab;
+  ['foto','ukuran','design'].forEach(function(t){
+    var el=document.getElementById('kat-tab-'+t); if(el) el.style.display=t===tab?'block':'none';
+  });
+  document.querySelectorAll('.kat-tab').forEach(function(el){
+    el.classList.toggle('kat-tab-active',el.dataset.tab===tab);
+  });
+}
+
+function katAddToOrder() {
+  var p=KATALOG.find(function(x){return x.id===_katActive;});
+  if(!p||p.status!=='tersedia') return;
+  if(p.designs&&!_katDesign) return;
+  // Color guard: only for Classic (no designs, no warnaTetap)
+  if(!p.warnaTetap && !p.designs && !_katColor) { toast('Pilih warna dulu!'); return; }
+  if(ITEMS.filter(function(x){return x.qty>0||x.produkId;}).length >= MAX_ITEMS) {
+    showToast&&showToast(currentLang==='id'?'Maks '+MAX_ITEMS+' item per order':'Max '+MAX_ITEMS+' items per order');
+    return;
+  }
+
+  var chosenSize  = _katSize  || (p.sizeTetap) || (p.sizes&&p.sizes[0]) || 'S';
+  var chosenQty   = _katQty || 1;
+  var chosenPrice = p.hargaFn ? p.hargaFn(chosenSize) : priceForSize(chosenSize);
+
+  // Color: warnaTetap → fixed, design.warna → auto from design, else → picker
+  var chosenColor, chosenColorLabel;
+  if (p.warnaTetap) {
+    var cf = COLORS.find(function(c){return c.label.id.toLowerCase()===p.warnaTetap.toLowerCase();});
+    chosenColor = cf ? cf.id : p.warnaTetap.toLowerCase();
+    chosenColorLabel = p.warnaTetap;
+  } else if (p.designs && _katDesign) {
+    var dObj2 = p.designs.find(function(d){return d.id===_katDesign;});
+    chosenColor = dObj2 ? dObj2.warna : (_katColor||'');
+    chosenColorLabel = dObj2 ? dObj2.warnaLabel : (chosenColor||'').toUpperCase();
+  } else {
+    chosenColor = _katColor || '';
+    var cObj = COLORS.find(function(c){return c.id===chosenColor;});
+    chosenColorLabel = cObj ? getColorLabel(cObj) : chosenColor.toUpperCase();
+  }
+
+  var designNama='';
+  if(p.designs&&_katDesign){
+    var dObj=p.designs.find(function(d){return d.id===_katDesign;});
+    designNama=dObj?' — '+dObj.nama:'';
+  }
+
+  _itemCounter++;
+  var firstEmpty = ITEMS.length===1 && ITEMS[0].qty===0 && !ITEMS[0].produkId;
+  var newItem = {
+    id: firstEmpty ? ITEMS[0].id : 'item'+_itemCounter,
+    produkId: p.id, produkNama: p.nama+designNama,
+    designId: _katDesign, color: chosenColor, colorLabel: chosenColorLabel,
+    size: chosenSize, price: chosenPrice, qty: chosenQty,
+    warnaTetap: !!p.warnaTetap, sizeTetap: !!p.sizeTetap,
+    allSizes: p.sizes||['S','M','L','XL','XXL','XXXL'],
+    hargaFn: p.hargaFn
+  };
+  if(firstEmpty){ ITEMS[0]=newItem; } else { ITEMS.push(newItem); }
+
+  // Close panel + feedback
+  var panel=document.getElementById('kat-detail-panel');
+  if(panel) panel.classList.remove('kdp-open');
+  _katActive=null; _katDesign=null; _katSize=null; _katColor=null; _katQty=1;
+  renderKatalog();
+
+  sndAddItem&&sndAddItem();
+  renderItems();
+  renderCartSummary();
+  updateCartBubble();
+  // Show mini cart drawer instead of just scrolling
+  setTimeout(function(){ miniCartOpen(); }, 150);
+}
+
+// ─── RENDER CART SUMMARY ─────────────────────────────
+function updateCartBubble() {
+  var bubble  = document.getElementById('cart-bubble');
+  var countEl = document.getElementById('cart-bubble-count');
+  var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
+  var totalQty    = activeItems.reduce(function(s,x){ return s+x.qty; }, 0);
+  if (countEl) countEl.textContent = totalQty;
+  if (bubble) bubble.classList.toggle('visible', totalQty > 0);
+}
+
+function renderCartSummary() {
+  var body   = document.getElementById('cart-body');
+  var count  = document.getElementById('cart-count');
+  var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
+  var totalQty    = activeItems.reduce(function(s,x){return s+x.qty;},0);
+  var grandTotal  = activeItems.reduce(function(s,x){return s+x.price*x.qty;},0);
+  if(count) count.textContent = totalQty+' item'+(totalQty!==1?'':'');
+  // Update bubble
+  if (typeof updateCartBubble === 'function') updateCartBubble();
+
+  if(!body) return;
+
+  if(activeItems.length===0) {
+    body.innerHTML = '<div class="cart-empty-state">'
+      +'<svg class="cart-empty-icon" viewBox="0 0 48 48" fill="none"><path d="M8 8h4l5 22h18l4-14H14" stroke="#c8860a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="36" r="2" stroke="#c8860a" stroke-width="1.5"/><circle cx="32" cy="36" r="2" stroke="#c8860a" stroke-width="1.5"/></svg>'
+      +'<div class="cart-empty-txt">Cart masih kosong</div>'
+      +'<div class="cart-empty-hint">Pilih produk dari katalog di atas</div>'
+      +'</div>';
+    return;
+  }
+
+  var itemsHtml = '<div class="cart-items-list">'
+    + activeItems.map(function(item,i){
+        var colorLbl = item.colorLabel || (item.warnaTetap
+          ? (item.color||'HITAM').toUpperCase()
+          : getColorLabel(COLORS.find(function(c){return c.id===item.color;})||COLORS[0]));
+        var tags = [];
+        if(!item.sizeTetap) tags.push(item.size);
+        if(!item.warnaTetap) tags.push(colorLbl);
+        else tags.push(colorLbl);
+        tags.push('×'+item.qty);
+        return '<div class="cart-item-row">'
+          +'<div class="cart-item-num">'+(i+1)+'</div>'
+          +'<div class="cart-item-body">'
+          +'<div class="cart-item-name">'+item.produkNama+'</div>'
+          +'<div class="cart-item-details">'
+          +tags.map(function(t){return'<span class="cart-item-tag">'+t+'</span>';}).join('')
+          +'</div>'
+          +'<div class="cart-qty-ctrl">'
+          +'<button class="cart-qty-btn" onclick="cartQtyChange(\''+item.id+'\',-1)">−</button>'
+          +'<span class="cart-qty-num">'+item.qty+'</span>'
+          +'<button class="cart-qty-btn" onclick="cartQtyChange(\''+item.id+'\',1)">+</button>'
+          +'</div>'
+          +'</div>'
+          +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">'
+          +'<button class="cart-item-remove" onclick="cartRemoveItem(\''+item.id+'\')" aria-label="Hapus">✕</button>'
+          +'<div class="cart-item-subtotal">'+fmtRp(item.price*item.qty)+'</div>'
+          +'</div>'
+          +'</div>';
+      }).join('')
+    + '</div>';
+
+  var totalHtml = '<div class="cart-total-row">'
+    +'<div class="cart-total-line">'
+    +'<div class="cart-total-label">Total Pesanan</div>'
+    +'<div class="cart-total-amount">'+fmtRp(grandTotal)+'</div>'
+    +'</div>'
+    +'<div class="cart-total-sub">Belum termasuk ongkos kirim</div>'
+    +'<button class="cart-checkout-btn" onclick="cartGoCheckout()" id="cart-checkout-btn">'
+    +'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+    +' LANJUT CHECKOUT'
+    +'</button>'
+    +'<div class="cart-checkout-hint">Isi data &amp; upload bukti bayar di langkah berikutnya</div>'
+    +'</div>';
+
+  body.innerHTML = itemsHtml + totalHtml;
+}
+
+function cartQtyChange(id, delta) {
+  var item=ITEMS.find(function(x){return x.id===id;}); if(!item) return;
+  item.qty=Math.max(0,Math.min(99,item.qty+delta));
+  if(item.qty===0) { ITEMS=ITEMS.filter(function(x){return x.id!==id;}); }
+  renderItems(); renderCartSummary();
+}
+
+function cartRemoveItem(id) {
+  ITEMS=ITEMS.filter(function(x){return x.id!==id;});
+  if(ITEMS.length===0){
+    _itemCounter=1;
+    var def=KATALOG[0];
+    ITEMS=[{id:'item1',produkId:null,produkNama:'',designId:null,
+            color:'',size:'S',price:def.hargaFn('S'),qty:0,
+            warnaTetap:false,sizeTetap:false,allSizes:def.sizes,hargaFn:def.hargaFn}];
+  }
+  renderItems(); renderCartSummary();
+}
+
+function cartGoCheckout() {
+  var activeItems=ITEMS.filter(function(x){return x.qty>0&&x.produkId;});
+  if(activeItems.length===0){
+    showToast&&showToast(currentLang==='id'?'Pilih produk dulu!':'Select a product first!');
+    return;
+  }
+  ITEMS=activeItems;
+  renderItems();
+  renderOrderReview();
+  var sec=document.getElementById('order-section');
+  if(sec){ sec.style.display='block'; goToStep(1); }
+}
+
+window.katToggle      = katToggle;
+window.katClose       = katClose;
+window.katSwitchTab   = katSwitchTab;
+window.katPickDesign  = katPickDesign;
+window.katAddToOrder  = katAddToOrder;
+window.cartQtyChange  = cartQtyChange;
+window.cartRemoveItem = cartRemoveItem;
+window.cartGoCheckout = cartGoCheckout;
 
 // ─── GLOBAL STATE ───────────────────────────────────────
 var SEL_COLOR      = '';
@@ -2597,86 +4510,81 @@ function priceForSize(size) {
 
 // ─── RENDER ONE ITEM ROW ─────────────────────────────────
 function renderItemRow(item) {
-  var isFirst = ITEMS.indexOf(item) === 0;
-  var rowNum  = ITEMS.indexOf(item) + 1;
-  var iid     = item.id;
+  var isFirst  = ITEMS.indexOf(item)===0;
+  var rowNum   = ITEMS.indexOf(item)+1;
+  var iid      = item.id;
+  var lang     = currentLang;
+  var removeLabel = lang==='en'?'\u2715 REMOVE':'\u2715 HAPUS';
+  var sizeLabel   = lang==='en'?'SIZE':'UKURAN';
+  var colorLabel  = lang==='en'?'COLOR':'WARNA';
+  var itemLabel   = item.produkNama||('ITEM '+rowNum);
 
-  // Size buttons — use &apos; for quotes inside HTML attrs set via innerHTML
-  var sizesHtml = SIZES.map(function(s) {
-    var active = item.size === s.size;
-    var sp     = s.price > 150000 ? ' sp-size' : '';
-    return '<button type="button" class="sopt' + (active ? ' active' : '') + sp + '"'
-      + ' onclick="itemPickSize(&apos;' + iid + '&apos;,&apos;' + s.size + '&apos;,' + s.price + ')">'
-      + s.size + '<span class="sopt-price">' + (s.price === 150000 ? '150K' : '170K') + '</span>'
-      + '</button>';
-  }).join('');
+  var sizesArr = item.allSizes
+    ? item.allSizes.map(function(s){return{size:s,price:item.hargaFn?item.hargaFn(s):priceForSize(s)};})
+    : SIZES;
 
-  // Color buttons
-  var colorsHtml = COLORS.map(function(c) {
-    var active = item.color === c.id;
-    var lbl    = getColorLabel(c);
-    var sx = c.id === 'putih'
-      ? 'border:1.5px solid rgba(200,134,10,.4);outline:2px solid rgba(200,134,10,.3);outline-offset:2px;'
-      : c.id === 'hitam'
-        ? 'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;'
-        : '';
-    return '<button type="button" class="copt' + (active ? ' active' : '') + '"'
-      + ' onclick="itemPickColor(&apos;' + iid + '&apos;,&apos;' + c.id + '&apos;)" aria-label="' + lbl + '">'
-      + '<span class="copt-swatch-wrap">'
-      + '<span class="copt-swatch" style="background:' + c.hex + ';' + sx + '"></span>'
-      + (active ? '<span class="copt-check">\u2713</span>' : '')
-      + '</span>'
-      + '<span class="copt-name">' + lbl + '</span>'
-      + '</button>';
-  }).join('');
+  var sizesHtml = item.sizeTetap
+    ? '<div class="item-section-label">'+sizeLabel+'</div>'
+      +'<div style="padding:6px 0 4px;font-size:12px;color:var(--amber);letter-spacing:2px;">'+item.size+'</div>'
+    : '<div class="item-section-label">'+sizeLabel+'</div>'
+      +'<div class="size-picker">'
+      +sizesArr.map(function(s){
+        var active=item.size===s.size;
+        var sp=s.price>150000?' sp-size':'';
+        var pTag=s.price>=270000?Math.round(s.price/1000)+'K':s.price===170000?'170K':s.price===120000?'120K':'150K';
+        return '<button type="button" class="sopt'+(active?' active':'')+sp+'"'
+          +' onclick="itemPickSize(&apos;'+iid+'&apos;,&apos;'+s.size+'&apos;,'+s.price+')">'
+          +s.size+'<span class="sopt-price">'+pTag+'</span></button>';
+      }).join('')+'</div>';
 
-  var subtotal    = fmtRp(item.price * item.qty);
-  var removeLabel = currentLang === 'en' ? '\u2715 REMOVE' : '\u2715 HAPUS';
-  var qtyLabel    = 'QTY';
-  var itemLabel   = 'ITEM ' + rowNum;
-  var sizeLabel   = currentLang === 'en' ? 'SIZE'  : 'UKURAN';
-  var colorLabel  = currentLang === 'en' ? 'COLOR' : 'WARNA';
+  var colorsHtml = item.warnaTetap
+    ? '<div class="item-section-label">'+colorLabel+'</div>'
+      +'<div style="padding:6px 0 4px;font-size:12px;color:var(--amber);letter-spacing:2px;">'
+      +(item.color||'HITAM').toUpperCase()+'</div>'
+    : '<div class="item-section-label">'+colorLabel+'</div>'
+      +'<div class="copt-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">'
+      +COLORS.map(function(c){
+        var active=item.color===c.id;
+        var lbl=getColorLabel(c);
+        var sx=c.id==='putih'?'border:1.5px solid rgba(200,134,10,.4);outline:2px solid rgba(200,134,10,.3);outline-offset:2px;'
+              :c.id==='hitam'?'outline:2px solid rgba(255,255,255,.25);outline-offset:2px;':'';
+        return '<button type="button" class="copt'+(active?' active':'')+'"'
+          +' onclick="itemPickColor(&apos;'+iid+'&apos;,&apos;'+c.id+'&apos;)" aria-label="'+lbl+'">'
+          +'<span class="copt-swatch-wrap">'
+          +'<span class="copt-swatch" style="background:'+c.hex+';'+sx+'"></span>'
+          +(active?'<span class="copt-check">\u2713</span>':'')
+          +'</span><span class="copt-name">'+lbl+'</span></button>';
+      }).join('')+'</div>';
 
-  return '<div class="item-row" id="item-row-' + iid + '">'
-    + '<div class="item-row-header">'
-    +   '<span class="item-row-num">' + itemLabel + '</span>'
-    +   (!isFirst ? '<button type="button" class="btn-remove-item" onclick="removeItem(&apos;' + iid + '&apos;)">' + removeLabel + '</button>' : '')
-    + '</div>'
-    + '<div style="margin-bottom:10px;">'
-    +   '<div class="item-section-label">' + sizeLabel + '</div>'
-    +   '<div class="size-picker">' + sizesHtml + '</div>'
-    + '</div>'
-    + '<div style="margin-bottom:0;">'
-    +   '<div class="item-section-label">' + colorLabel + '</div>'
-    +   '<div class="copt-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">' + colorsHtml + '</div>'
-    + '</div>'
-    + '<div class="item-qty-row">'
-    +   '<span class="item-qty-label">' + qtyLabel + '</span>'
-    +   '<div class="qty-row" style="margin:0;">'
-    +     '<div class="qty-ctrl">'
-    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(&apos;' + iid + '&apos;,-1)">\u2212</button>'
-    +       '<input class="qty-num" type="number" value="' + item.qty + '" min="1" max="99" inputmode="numeric"'
-    +         ' id="item-qty-' + iid + '"'
-    +         ' onchange="itemQtyInput(&apos;' + iid + '&apos;,this.value)"'
-    +         ' oninput="itemQtyInput(&apos;' + iid + '&apos;,this.value)">'
-    +       '<button class="qty-btn" type="button" onclick="itemQtyChange(&apos;' + iid + '&apos;,1)">+</button>'
-    +     '</div>'
-    +   '</div>'
-    +   '<span class="item-subtotal" style="display:none">' + subtotal + '</span>'
-    + '</div>'
-    + '</div>';
+  return '<div class="item-row" id="item-row-'+iid+'">'
+    +'<div class="item-row-header">'
+    +'<span class="item-row-num">'+itemLabel+'</span>'
+    +(!isFirst?'<button type="button" class="btn-remove-item" onclick="removeItem(&apos;'+iid+'&apos;)">'+removeLabel+'</button>':'')
+    +'</div>'
+    +'<div style="margin-bottom:10px;">'+sizesHtml+'</div>'
+    +'<div style="margin-bottom:0;">'+colorsHtml+'</div>'
+    +'<div class="item-qty-row">'
+    +'<span class="item-qty-label">QTY</span>'
+    +'<div class="qty-row" style="margin:0;"><div class="qty-ctrl">'
+    +'<button class="qty-btn" type="button" onclick="itemQtyChange(&apos;'+iid+'&apos;,-1)">\u2212</button>'
+    +'<input class="qty-num" type="number" value="'+item.qty+'" min="1" max="99" inputmode="numeric"'
+    +' id="item-qty-'+iid+'"'
+    +' onchange="itemQtyInput(&apos;'+iid+'&apos;,this.value)"'
+    +' oninput="itemQtyInput(&apos;'+iid+'&apos;,this.value)">'
+    +'<button class="qty-btn" type="button" onclick="itemQtyChange(&apos;'+iid+'&apos;,1)">+</button>'
+    +'</div></div>'
+    +'<span class="item-subtotal" style="display:none">'+fmtRp(item.price*item.qty)+'</span>'
+    +'</div></div>';
 }
 
 // ─── RENDER ALL ITEMS ────────────────────────────────────
 function renderItems() {
   var container = $('items-container');
-  if (!container) return;
-  container.innerHTML = ITEMS.map(renderItemRow).join('');
-  // Update add button state
+  if (container) container.innerHTML = ITEMS.map(renderItemRow).join('');
   var addBtn = $('btn-add-item');
   if (addBtn) addBtn.disabled = ITEMS.length >= MAX_ITEMS;
-  // Update total
   updateTotalMulti();
+  renderOrderReview();
   _saveDraftSafe();
 }
 
@@ -2688,17 +4596,19 @@ function calcGrandTotal() {
 }
 
 function updateTotalMulti() {
-  var summary = $('items-summary');
-  var totalEl = $('t-total');
+  var summary = $('items-summary'), totalEl = $('t-total');
   if (summary) {
-    summary.innerHTML = ITEMS.map(function(item, i) {
-      var lbl = getColorLabel(COLORS.find(function(c){ return c.id === item.color; }) || COLORS[0]);
-      var desc = (item.color ? lbl : '—') + ' · ' + item.size + ' × ' + item.qty + ' pcs';
-      var price = fmtRp(item.price * item.qty);
+    summary.innerHTML = ITEMS.map(function(item) {
+      var colorLbl = item.colorLabel || (item.warnaTetap
+        ? (item.color||'HITAM').toUpperCase()
+        : getColorLabel(COLORS.find(function(c){return c.id===item.color;})||COLORS[0]));
+      var desc = item.produkNama
+        ? item.produkNama+' · '+item.size+' \u00d7 '+item.qty+' pcs'
+        : colorLbl+' · '+item.size+' \u00d7 '+item.qty+' pcs';
       return '<div class="item-sum-row">'
-        + '<span class="item-sum-desc">' + desc + '</span>'
-        + '<span class="item-sum-price">' + price + '</span>'
-        + '</div>';
+        +'<span class="item-sum-desc">'+desc+'</span>'
+        +'<span class="item-sum-price">'+fmtRp(item.price*item.qty)+'</span>'
+        +'</div>';
     }).join('');
   }
   if (totalEl) totalEl.textContent = fmtRp(calcGrandTotal());
@@ -2724,39 +4634,30 @@ function removeItem(id) {
 }
 
 function itemPickSize(id, size, price) {
-  var item = ITEMS.find(function(x){ return x.id === id; });
-  if (!item) return;
+  var item = ITEMS.find(function(x){return x.id===id;}); if(!item) return;
   item.size  = size;
-  item.price = price;
-  sndSize();
-  renderItems();
+  item.price = item.hargaFn ? item.hargaFn(size) : price;
+  sndSize(); renderItems(); renderCartSummary();
 }
 
 function itemPickColor(id, colorId) {
   if (!COLORS.some(function(c){ return c.id === colorId; })) return;
-  var item = ITEMS.find(function(x){ return x.id === id; });
-  if (!item) return;
+  var item = ITEMS.find(function(x){ return x.id === id; }); if (!item) return;
   item.color = colorId;
-  sndColor();
-  renderItems();
+  sndColor(); renderItems(); renderCartSummary();
 }
 
 function itemQtyChange(id, delta) {
-  var item = ITEMS.find(function(x){ return x.id === id; });
-  if (!item) return;
-  var newQty = Math.max(0, Math.min(99, item.qty + delta));
-  item.qty = newQty;
-  sndQty();
-  renderItems();
+  var item = ITEMS.find(function(x){ return x.id === id; }); if (!item) return;
+  item.qty = Math.max(0, Math.min(99, item.qty + delta));
+  sndQty(); renderItems(); renderCartSummary();
 }
 
 function itemQtyInput(id, val) {
-  var item = ITEMS.find(function(x){ return x.id === id; });
-  if (!item) return;
+  var item = ITEMS.find(function(x){ return x.id === id; }); if (!item) return;
   var v = parseInt(val, 10);
   item.qty = isNaN(v) ? 0 : Math.max(0, Math.min(99, v));
-  updateTotalMulti();
-  _saveDraftSafe();
+  updateTotalMulti(); renderCartSummary(); _saveDraftSafe();
 }
 
 // Expose to window for onclick
@@ -2767,10 +4668,17 @@ window.itemPickColor  = itemPickColor;
 window.itemQtyChange  = itemQtyChange;
 window.itemQtyInput   = itemQtyInput;
 
-// ─── INIT FIRST ITEM ────────────────────────────────────
+// ─── INIT ITEMS ──────────────────────────────────────────
 _itemCounter = 1;
-ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:0 }];
+var _def = KATALOG[0];
+ITEMS = [{
+  id:'item1', produkId:null, produkNama:'', designId:null,
+  color:'', size:'S', price:_def.hargaFn('S'), qty:0,
+  warnaTetap:false, sizeTetap:false, allSizes:_def.sizes, hargaFn:_def.hargaFn
+}];
 renderItems();
+renderKatalog();
+renderCartSummary();
 
 // Bind add button
 var addItemBtn = $('btn-add-item');
@@ -2796,24 +4704,35 @@ function restoreDraft() {
     // Restore items
     if(d.items && Array.isArray(d.items) && d.items.length > 0) {
       var validColors = COLORS.map(function(c){ return c.id; });
-      ITEMS = d.items.filter(function(item){
+      var restored = d.items.filter(function(item){
         return item.id && item.size && item.qty > 0;
       }).map(function(item){
+        var kat = KATALOG.find(function(k){ return k.id === item.produkId; });
         return {
-          id    : item.id,
-          color : validColors.indexOf(item.color) >= 0 ? item.color : '',
-          size  : item.size,
-          price : priceForSize(item.size),
-          qty   : Math.max(0, Math.min(99, parseInt(item.qty,10)||0))
+          id        : item.id,
+          produkId  : item.produkId  || null,
+          produkNama: item.produkNama|| '',
+          designId  : item.designId  || null,
+          color     : validColors.indexOf(item.color)>=0 ? item.color : '',
+          size      : item.size,
+          price     : kat ? kat.hargaFn(item.size) : priceForSize(item.size),
+          qty       : Math.max(0,Math.min(99,parseInt(item.qty,10)||0)),
+          warnaTetap: item.warnaTetap||false,
+          sizeTetap : item.sizeTetap ||false,
+          allSizes  : kat ? kat.sizes : ['S','M','L','XL','XXL','XXXL'],
+          hargaFn   : kat ? kat.hargaFn : priceForSize
         };
       });
-      if(ITEMS.length === 0) {
-        ITEMS = [{id:'item1',color:'',size:'S',price:150000,qty:0}];
+      if(restored.length > 0) {
+        ITEMS = restored;
+        _itemCounter = Math.max.apply(null, ITEMS.map(function(x){
+          return parseInt((x.id||'item0').replace('item',''),10)||1;
+        }));
+        // Ensure counter is at least as high as item count to prevent ID collisions
+        _itemCounter = Math.max(_itemCounter, ITEMS.length);
+        renderItems();
+        renderCartSummary();
       }
-      _itemCounter = Math.max.apply(null, ITEMS.map(function(x){
-        return parseInt(x.id.replace('item',''),10)||1;
-      }));
-      renderItems();
     }
     // draft dipulihkan secara silent
   } catch(e){}
@@ -2824,21 +4743,38 @@ var ccEl=$('f-cc'); if(ccEl) ccEl.addEventListener('change',saveDraft);
 // ─── STEP NAVIGATION ────────────────────────────────────
 function goToStep(n) {
   var s1=$('step1'),s2=$('step2'),s3=$('step3');
+  var sec=$('order-section');
   if(s1) s1.style.display=n===1?'block':'none';
   if(s2) s2.style.display=n===2?'block':'none';
   if(s3) s3.style.display=n===3?'block':'none';
-  var states={1:n===1?'active':'done',2:n<2?'':n===2?'active':'done',3:n<3?'':n===3?'active':'done',4:n===3?'active':''};
-  for(var i=1;i<=4;i++){var dot=$('sd'+i);if(dot)dot.className='sdot'+(states[i]?' '+states[i]:'');}
-  for(var j=1;j<=3;j++){var ln=$('sl'+j);if(ln)ln.className='sline'+(n>j?' done':'');}
-  var sec=$('order-section'); if(sec) setTimeout(function(){ sec.scrollIntoView({behavior:'smooth',block:'start'}); },80);
+  // Step bar: sd1=PILIH(done), sd2=FORM, sd3=BAYAR, sd4=UPLOAD, sd5=SELESAI
+  // n=1 → form aktif, n=2 → bayar aktif, n=3 → selesai
+  var dot2 = n===1?'active':n>1?'done':'';
+  var dot3 = n===2?'active':n===3?'done':'';
+  var dot4 = n===2?'':'';  // upload — dihandle oleh IntersectionObserver
+  var dot5 = n===3?'active':'';
+  var dots = {1:'done', 2:dot2, 3:dot3, 4:n===3?'done':'', 5:dot5};
+  for(var i=1;i<=5;i++){
+    var dot=$('sd'+i); if(dot) dot.className='sdot'+(dots[i]?' '+dots[i]:'');
+  }
+  // lines
+  var lines = {1:'done', 2:n>=2?'done':'', 3:n===3?'done':'', 4:n===3?'done':''};
+  for(var j=1;j<=4;j++){
+    var ln=$('sl'+j); if(ln) ln.className='sline'+(lines[j]?' '+lines[j]:'');
+  }
+  if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
 }
 (function(){
   var ua=$('upload-area'); if(!ua||!window.IntersectionObserver) return;
   new IntersectionObserver(function(entries){
     if(!entries[0].isIntersecting) return;
     var s2=$('step2'); if(!s2||s2.style.display==='none') return;
-    var d3=$('sd3'),d2=$('sd2'),l2=$('sl2');
-    if(d3&&!d3.classList.contains('done')){d3.className='sdot active';if(d2)d2.className='sdot done';if(l2)l2.className='sline done';}
+    var d4=$('sd4'),d3=$('sd3'),l3=$('sl3');
+    if(d4&&!d4.classList.contains('done')){
+      d4.className='sdot active';
+      if(d3) d3.className='sdot done';
+      if(l3) l3.className='sline done';
+    }
   },{threshold:0.5}).observe(ua);
 })();
 
@@ -2851,9 +4787,9 @@ function validate() {
     toast(zeroMsg);
     return false;
   }
-  // Validate each item: if qty > 0, must have color
+  // Validate each item: if qty > 0, must have color (kecuali warnaTetap)
   for (var i = 0; i < ITEMS.length; i++) {
-    if (ITEMS[i].qty > 0 && !ITEMS[i].color) {
+    if (ITEMS[i].qty > 0 && !ITEMS[i].warnaTetap && !ITEMS[i].color) {
       var msg = currentLang === 'en'
         ? 'Please choose a color for Item ' + (i+1) + '!'
         : 'Pilih warna untuk Item ' + (i+1) + '!';
@@ -2888,8 +4824,11 @@ function validate() {
 
   // Build items detail string
   var itemsStr = ITEMS.map(function(item, i) {
-    var lbl = getColorLabel(COLORS.find(function(c){ return c.id === item.color; }) || COLORS[0]);
-    return (i+1) + '. ' + lbl + ' ' + item.size + ' x' + item.qty + ' (' + fmtRp(item.price*item.qty) + ')';
+    var colorLbl = item.colorLabel || (item.warnaTetap
+      ? (item.color||'HITAM').toUpperCase()
+      : getColorLabel(COLORS.find(function(c){return c.id===item.color;})||COLORS[0]));
+    var produkPart = item.produkNama ? '['+item.produkNama+'] ' : '';
+    return (i+1)+'. '+produkPart+colorLbl+' '+item.size+' x'+item.qty+' ('+fmtRp(item.price*item.qty)+')';
   }).join(' | ');
 
   // Merge detail variasi ke catatan jika lebih dari 1 item
@@ -2904,10 +4843,12 @@ function validate() {
 
   // Single-item compat: gunakan item pertama untuk kolom warna/ukuran/harga di sheet
   var firstItem = ITEMS[0];
-  var firstLabel = getColorLabel(COLORS.find(function(c){ return c.id === firstItem.color; }) || COLORS[0]);
+  var firstLabel = firstItem.warnaTetap
+    ? (firstItem.color||'HITAM').toUpperCase()
+    : getColorLabel(COLORS.find(function(c){return c.id===firstItem.color;})||COLORS[0]);
 
   ORDER = {
-    orderNum    : 'NPD-' + Date.now().toString().slice(-6),
+    orderNum    : 'NPD-' + Date.now().toString().slice(-6) + Math.random().toString(36).slice(-2).toUpperCase(),
     nama        : $('f-nama').value.trim(),
     phone       : $('f-phone').value.trim(),
     email       : $('f-email').value.trim(),
@@ -2918,7 +4859,7 @@ function validate() {
     countryCode : $('f-cc').value,
     items       : ITEMS.map(function(item) {
       var lbl = getColorLabel(COLORS.find(function(c){ return c.id === item.color; }) || COLORS[0]);
-      return { warna: item.color, warnaLabel: lbl, ukuran: item.size, qty: item.qty, harga: item.price };
+      return { produk: item.produkNama||'', design: item.designId||null, warna: item.color, warnaLabel: lbl, ukuran: item.size, qty: item.qty, harga: item.price };
     }),
     itemsStr    : itemsStr,
     totalQty    : totalQty,
@@ -2930,6 +4871,10 @@ function validate() {
                     : firstItem.size,
     qty         : totalQty,
     hargaPerPcs : firstItem.price,
+    jenisProduk : ITEMS.length===1 && firstItem.produkNama
+      ? firstItem.produkNama
+      : ITEMS.map(function(x){return x.produkNama||'NPD Classic';})
+          .filter(function(v,i,a){return a.indexOf(v)===i;}).join(', '),
   };
 
   // Fill order card
@@ -2944,8 +4889,11 @@ function validate() {
   var itemsList = $('r-items-list');
   if (itemsList) {
     itemsList.innerHTML = ORDER.items.map(function(item) {
+      var desc = item.produk || '';
+      if (item.design) desc += ' [' + item.design + ']';
+      desc += ' · ' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs';
       return '<div class="order-item-entry">'
-        + '<span class="order-item-desc">' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs</span>'
+        + '<span class="order-item-desc">' + desc + '</span>'
         + '<span class="order-item-price">' + fmtRp(item.harga * item.qty) + '</span>'
         + '</div>';
     }).join('');
@@ -2990,10 +4938,8 @@ function compressImage(file, cb) {
 }
 function showPreview(name, src) {
   var pw=$('preview-wrap'),pi=$('preview-img'),pn=$('preview-name'),ur=$('upload-req');
-  if(pi){ pi.src=''; pi.src=src; }
-  if(pn) pn.textContent=name;
-  if(pw){ pw.removeAttribute('style'); pw.style.cssText='margin-top:14px;text-align:center;'; }
-  if(ur) ur.style.display='none';
+  if(pi) pi.src=src; if(pn) pn.textContent=name;
+  if(pw) pw.style.display='block'; if(ur) ur.style.display='none';
 }
 function processFile(file) {
   if(!file) return;
@@ -3069,7 +5015,7 @@ function onSubmitSuccess(){
   };
   var isEn = currentLang === 'en';
   // Build items lines
-  var itemLines = (ORDER.items || []).map(function(item, i) {
+  var itemLines = ORDER.items.map(function(item, i) {
     return (isEn ? '  ' : '  ') + (i+1) + '. ' + item.warnaLabel + ' ' + item.ukuran + ' × ' + item.qty + ' pcs = ' + fmtRp(item.harga * item.qty);
   });
   var waMsg = [
@@ -3160,15 +5106,15 @@ function _playTone(freq, dur, vol) {
   } catch(e) {}
 }
 
-function sndSize()  { _acInit(); _playTone(440, 0.07, 0.06); }
-function sndColor() { _acInit(); _playTone(520, 0.07, 0.06); }
-function sndQty()   { _acInit(); _playTone(600, 0.05, 0.05); }
+function sndSize()  { _playTone(440, 0.07, 0.06); }
+function sndColor() { _playTone(520, 0.07, 0.06); }
+function sndQty()   { _playTone(600, 0.05, 0.05); }
 function sndAddItem() {
-  _acInit(); _playTone(440, 0.07, 0.06);
+  _playTone(440, 0.07, 0.06);
   setTimeout(function(){ _playTone(560, 0.07, 0.06); }, 80);
 }
 function sndRemoveItem() {
-  _acInit(); _playTone(320, 0.07, 0.05);
+  _playTone(320, 0.07, 0.05);
   setTimeout(function(){ _playTone(240, 0.08, 0.04); }, 80);
 }
 
@@ -3186,10 +5132,8 @@ function sndSuccess(){
 var HS_TOTAL=6, hsCur=0, hsTimer;
 function hsGo(n){
   hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
-  var track=$('hs-track');
-  var wrap=track&&track.parentElement;
-  var slideW=wrap?wrap.offsetWidth:window.innerWidth;
-  if(track) track.style.transform='translateX(-'+(hsCur*slideW)+'px)';
+  var track=$('hs-track'),slide=document.querySelector('.hero-slide');
+  if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
 }
@@ -3219,9 +5163,16 @@ window.hsNav=hsNav; window.hsGo=hsGo;
 
 // ─── LIGHTBOX ───────────────────────────────────────────
 var DLB_IMGS=[
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Young_female_model_202604070727_y3qxrg.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Male_and_female_202604070728_sgkxwo.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775517716/1470-v2-03-hoodie-mockup-for-boys_lnwjnm.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775282259/Hoodie_All_hfzum1.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto:best,f_auto/v1774158184/T-SHIRT_PHOTO_MOCKUP_1_eyiqet.png',
   'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto:best,f_auto/v1774158155/T-SHIRT_PHOTO_MOCKUP_2_tngdsk.png',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto:best,f_auto/v1774158165/T-SHIRT_PHOTO_MOCKUP_3_ckst7w.png',
 ];
 var dlbIdx=0;
 var _dlbCache={};  // preload cache
@@ -3345,50 +5296,51 @@ function setLang(lang){
     warningBadge: {id:'⚡ AWAS BAHAYA NPD',en:'⚡ BEWARE OF NPD'},
     sym1:         {id:'EGOIS MAKSIMAL',en:'EXTREMELY SELFISH'},
     sym2:         {id:'ANTI KRITIK',en:'CANNOT TAKE CRITICISM'},
-    sym3:         {id:'OTAK NGAMBUL',en:'PERPETUAL TANTRUM'},
-    productDesc:  {id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.',en:'Express yourself with a <strong style="color:var(--amber)">TAKSU</strong> shirt. Premium combed 24s — thick, substantial, collector vibes.'},
+    sym3:         {id:'OTAK NGAMBUL',en:'PERPETUAL TANTRUMS'},
+    productDesc:  {id:'Refleksikan dirimu dengan kaos yang <strong style="color:var(--amber)">METAKSU</strong>. Bahan premium combed 24s — tebal, berisi, collector vibes.',en:'Express yourself with a <strong style="color:var(--amber)">TAKSU</strong> shirt. Premium combed 24s fabric — thick, substantial, collector\'s item.'},
     priceLbl:     {id:'⚡ harga group order ⚡',en:'⚡ group order pricing ⚡'},
-    priceNote:    {id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',en:'<strong>Price per pcs</strong> · shipping not included'},
-    priceLblExtra:{id:'Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing',en:'Full payment upfront · Shipping notified after GO closes'},
-    galleryTitle: {id:'DETAIL KAOS',en:'SHIRT DETAILS'},
-    galleryNote:  {id:'Tap foto untuk memperbesar',en:'Tap photo to enlarge'},
+    priceNote:    {id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',en:'<strong>Price per piece</strong> · shipping not included'},
+    priceLblExtra:{id:'Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing',en:'Full payment upfront · Shipping fee notified after GO closes'},
+    galleryTitle: {id:'BHUTA KALA MODERN',en:'BHUTA KALA MODERN'},
+    galleryNote:  {id:'← Swipe · Tap untuk zoom →',en:'← Swipe · Tap to zoom →'},
     sizeChartTitle:{id:'SIZE CHART',en:'SIZE CHART'},
     sizeNote:     {id:'Cotton Combed 24s · ukuran dalam cm',en:'Cotton Combed 24s · measurements in cm'},
     thUkuran:     {id:'Ukuran',en:'Size'},thLebar:{id:'Lebar Dada',en:'Chest Width'},thPanjang:{id:'Panjang',en:'Length'},thLengan:{id:'Lengan',en:'Sleeve'},thHarga:{id:'Harga',en:'Price'},
-    chartNote:    {id:'Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.',en:'Cotton Combed 24s · 170–180 gsm · thick, premium feel.<br>XXL &amp; XXXL priced higher due to more fabric used.'},
+    chartNote:    {id:'Cotton Combed 24s · 170–180 gsm · tebal, premium feel.<br>XXL &amp; XXXL harga berbeda karena pemakaian kain lebih banyak.',en:'Cotton Combed 24s · 170–180 gsm · thick, premium feel.<br>XXL &amp; XXXL priced higher due to greater fabric usage.'},
     materialTag:  {id:'Cotton Combed 24s · 170–180 GSM<br>100% Cotton',en:'Cotton Combed 24s · 170–180 GSM<br>100% Cotton'},
-    shipText:     {id:'Pengiriman ke seluruh Indonesia',en:'Shipping to all of Indonesia'},
+    shipText:     {id:'Pengiriman ke seluruh Indonesia',en:'Shipping across Indonesia'},
+    stepPilih:    {id:'PILIH',en:'SELECT'},
     stepForm:     {id:'FORM',en:'FORM'},stepBayar:{id:'BAYAR',en:'PAY'},stepUpload:{id:'UPLOAD',en:'UPLOAD'},stepSelesai:{id:'SELESAI',en:'DONE'},
     formTitle:    {id:'FORM ORDER',en:'ORDER FORM'},
     lblVariasi:   {id:'Pilih Ukuran & Warna *',en:'Choose Size & Color *'},
-    btnAddItem:   {id:'TAMBAH WARNA/UKURAN LAIN',en:'ADD ANOTHER COLOR/SIZE'},
+    btnAddItem:   {id:'TAMBAH WARNA/UKURAN LAIN',en:'ADD ANOTHER SIZE/COLOR'},
     oItems:       {id:'Item',en:'Items'},
-    cardOrder:    {id:'PESANANMU',           en:'YOUR ORDER'},
+    cardOrder:    {id:'PESANANMU',            en:'YOUR ORDER'},
     cardOrderSub: {id:'Pilih warna, ukuran & jumlah', en:'Choose color, size & quantity'},
-    cardData:     {id:'DATA KAMU',           en:'YOUR INFO'},
+    cardData:     {id:'DATA KAMU',            en:'YOUR DETAILS'},
     cardDataSub:  {id:'Untuk konfirmasi & pengiriman', en:'For confirmation & delivery'},
-    totalLbl:     {id:'TOTAL PESANAN',       en:'ORDER TOTAL'},
+    totalLbl:     {id:'TOTAL PESANAN',        en:'ORDER TOTAL'},
     lblNama:      {id:'Nama Lengkap *',en:'Full Name *'},
     lblEmail:     {id:'Email *',en:'Email *'},
     lblPhone:     {id:'Nomor WhatsApp *',en:'WhatsApp Number *'},lblAlamat:{id:'Alamat Lengkap *',en:'Full Address *'},
-    lblKota:      {id:'Kota / Kabupaten *',en:'City *'},lblKodePos:{id:'Kode Pos *',en:'Postal Code *'},
+    lblKota:      {id:'Kota / Kabupaten *',en:'City / Regency *'},lblKodePos:{id:'Kode Pos *',en:'Postal Code *'},
     lblUkuran:    {id:'Pilih Ukuran *',en:'Choose Size *'},lblWarna:{id:'Pilih Warna *',en:'Choose Color *'},
     lblQty:       {id:'Jumlah',en:'Quantity'},lblCatatan:{id:'Catatan (opsional)',en:'Notes (optional)'},
     emailHint:    {id:'Untuk konfirmasi order otomatis',en:'For automatic order confirmation'},
     ongkirNote:   {id:'BELUM TERMASUK ONGKOS KIRIM',en:'SHIPPING NOT INCLUDED'},
-    btnNext:      {id:'BAYAR →',en:'PAY →'},
-    stockWarn:    {id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRABFAST ⚡'},
+    btnNext:      {id:'BAYAR →',en:'PROCEED TO PAYMENT →'},
+    stockWarn:    {id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRAB FAST ⚡'},
     totalSize:    {id:'Ukuran',en:'Size'},totalHarga:{id:'Harga/pcs',en:'Price/pcs'},totalQty:{id:'Qty',en:'Qty'},
     backToForm:   {id:'KEMBALI KE FORM',en:'BACK TO FORM'},
     payInstrTitle:{id:'INSTRUKSI BAYAR',en:'PAYMENT INSTRUCTIONS'},
-    step2Subtitle:{id:'Simpan no. order, transfer, lalu upload bukti di bawah.',en:'Save your order number, transfer, then upload proof below.'},
+    step2Subtitle:{id:'Simpan no. order, transfer, lalu upload bukti di bawah.',en:'Save your order number, complete the transfer, then upload proof below.'},
     orderNumLabel:{id:'NO. ORDER',en:'ORDER NO.'},
     oNama:{id:'Nama',en:'Name'},oWA:{id:'No WA',en:'WhatsApp'},oWarna:{id:'Warna',en:'Color'},oUkuran:{id:'Ukuran',en:'Size'},
     oKota:{id:'Kota',en:'City'},oHarga:{id:'Harga/pcs',en:'Price/pcs'},oTotal:{id:'TOTAL',en:'TOTAL'},
-    oOngkir:{id:'Ongkir',en:'Shipping'},oOngkirVal:{id:'Diinfo via WA setelah GO closing',en:'Notified via WA after GO closes'},
+    oOngkir:{id:'Ongkir',en:'Shipping'},oOngkirVal:{id:'Diinfo via WA setelah GO closing',en:'Notified via WhatsApp after the group order closes'},
     payTitle:     {id:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> TRANSFER KE',en:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> TRANSFER TO'},
-    payDesc:      {id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee notified separately via WA.'},
-    bankAN:       {id:'a/n dikonfirmasi via WA',en:'account holder confirmed via WA'},
+    payDesc:      {id:'Nominal = <strong style="color:var(--amber)">total kaos saja</strong>.<br>Ongkos kirim diinfo terpisah via WA.',en:'Amount = <strong style="color:var(--amber)">shirt total only</strong>.<br>Shipping fee will be notified separately via WhatsApp.'},
+    bankAN:       {id:'a/n dikonfirmasi via WA',en:'account holder confirmed via WhatsApp'},
     bcaCopy:      {id:'⚡ TAP UNTUK COPY NOMOR REKENING',en:'⚡ TAP TO COPY ACCOUNT NUMBER'},
     gopayCopy:    {id:'⚡ TAP UNTUK COPY NOMOR',en:'⚡ TAP TO COPY NUMBER'},
     orLabel:      {id:'ATAU',en:'OR'},
@@ -3398,36 +5350,45 @@ function setLang(lang){
     removeBtn:    {id:'✕ HAPUS FOTO',en:'✕ REMOVE PHOTO'},
     uploadReq:    {id:'⚡ Upload bukti transfer dulu ya!',en:'⚡ Please upload your payment proof first!'},
     btnConfirm:   {id:'KONFIRMASI PEMBAYARAN',en:'CONFIRM PAYMENT'},
-    adminVerif:   {id:'Admin verifikasi dalam 1×24 jam',en:'Admin verifies within 1×24 hours'},
+    adminVerif:   {id:'Admin verifikasi dalam 1×24 jam',en:'Admin will verify within 24 hours'},
     successTitle: {id:'ORDER MASUK!',en:'ORDER RECEIVED!'},
-    successMsg:   {id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.',en:'Your order details and payment proof<br>have been received by the system.'},
+    successMsg:   {id:'Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.',en:'Your order details and payment proof<br>have been received by our system.'},
     s3t1:{id:'BUKTI TRANSFER DITERIMA',en:'PAYMENT PROOF RECEIVED'},
-    s3d1:{id:'Data & foto bukti tersimpan di sistem admin',en:'Data & proof photo saved in admin system'},
+    s3d1:{id:'Data & foto bukti tersimpan di sistem admin',en:'Data & proof photo saved in the admin system'},
     s3t2:{id:'ADMIN SEDANG CEK PEMBAYARAN',en:'ADMIN IS VERIFYING PAYMENT'},
-    s3d2:{id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>',en:'Estimated confirmation within <strong style="color:var(--amber)">1×24 hours</strong>'},
-    s3t3:{id:'NOTIF WA JIKA TERKONFIRMASI',en:'WA NOTIFICATION WHEN CONFIRMED'},
-    s3d3:{id:'Kamu akan dapat WA saat pembayaran terkonfirmasi',en:'You will receive a WA when payment is confirmed'},
+    s3d2:{id:'Estimasi konfirmasi dalam <strong style="color:var(--amber)">1×24 jam</strong>',en:'Estimated confirmation within <strong style="color:var(--amber)">24 hours</strong>'},
+    s3t3:{id:'NOTIF WA JIKA TERKONFIRMASI',en:'WHATSAPP NOTIFICATION UPON CONFIRMATION'},
+    s3d3:{id:'Kamu akan dapat WA saat pembayaran terkonfirmasi',en:'You will receive a WhatsApp message when your payment is confirmed'},
     s3t4:{id:'PRODUKSI 1–2 HARI KERJA',en:'PRODUCTION 1–2 WORKING DAYS'},
-    s3d4:{id:'Dimulai setelah pembayaran terkonfirmasi',en:'Starts after payment is confirmed'},
+    s3d4:{id:'Dimulai setelah pembayaran terkonfirmasi',en:'Begins after payment confirmation'},
     detailOrderTitle:{id:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DETAIL ORDER',en:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> ORDER DETAILS'},
     orderNumPrefix:{id:'No. order:',en:'Order no.:'},
     successLi1:   {id:'Bukti transfer tersimpan di sistem',en:'Payment proof saved in the system'},
     successLi2:   {id:'Notif email sudah dikirim ke admin',en:'Email notification sent to admin'},
     copyHint:     {id:'Tap nomor order untuk copy',en:'Tap order number to copy'},
-    waSummaryBtn: {id:'KIRIM RINGKASAN KE WHATSAPP-KU',en:'SEND SUMMARY TO MY WHATSAPP'},
-    waSummaryNote:{id:'Tap untuk simpan bukti order di WhatsApp kamu',en:'Tap to save your order proof on WhatsApp'},
+    waSummaryBtn: {id:'KIRIM RINGKASAN KE WHATSAPP-KU',en:'SEND ORDER SUMMARY TO MY WHATSAPP'},
+    waSummaryNote:{id:'Tap untuk simpan bukti order di WhatsApp kamu',en:'Tap to save your order confirmation on WhatsApp'},
+    lblAlamat:   {id:'Alamat Lengkap *',en:'Full Address *'},
+    lblCatatan:  {id:'Catatan (opsional)',en:'Notes (optional)'},
+    lblKodePos:  {id:'Kode Pos *',en:'ZIP Code *'},
+    oOngkirVal:  {id:'Diinfo via WA setelah GO closing',en:'Notified via WA after GO closing'},
+    oTotal:      {id:'TOTAL',en:'TOTAL'},
+    oWA:         {id:'No WA',en:'WhatsApp No.'},
+    stepBayar:   {id:'BAYAR',en:'PAY'},
+    stepSelesai: {id:'SELESAI',en:'DONE'},
+    stepUpload:  {id:'UPLOAD',en:'UPLOAD'},
     btnBackHome:  {id:'KEMBALI KE ATAS',en:'BACK TO TOP'},
     btnOrderAgain:{id:'ORDER LAGI',en:'ORDER AGAIN'},
-    askAdmin:     {id:'Ada pertanyaan? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>',en:'Have questions? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>'},
-    howTitle:     {id:'ALUR ORDER',en:'ORDER FLOW'},
-    sc1title:{id:'ISI FORM',en:'FILL FORM'},sc1desc:{id:'Lengkapi data diri, pilih ukuran & qty.',en:'Fill in your details, choose size & qty.'},
-    sc2title:{id:'TRANSFER',en:'TRANSFER'},sc2desc:{id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.',en:'Transfer shirt total to GoPay/Dana. Shipping follows.'},
-    sc3title:{id:'UPLOAD BUKTI',en:'UPLOAD PROOF'},sc3desc:{id:'Upload screenshot bukti transfer langsung di web.',en:'Upload transfer screenshot directly on the website.'},
-    sc4title:{id:'PRODUKSI',en:'PRODUCTION'},sc4desc:{id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.',en:'After payment is verified, shirt is produced within <strong style="color:var(--amber)">1–2 working days</strong>.'},
+    askAdmin:     {id:'Ada pertanyaan? Chat admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>',en:'Have questions? Chat with admin:<br><a href="https://wa.me/6281236869035" target="_blank" rel="noopener" style="color:#25d366;text-decoration:none;">wa.me/6281236869035</a>'},
+    howTitle:     {id:'ALUR ORDER',en:'HOW TO ORDER'},
+    sc1title:{id:'ISI FORM',en:'FILL THE FORM'},sc1desc:{id:'Lengkapi data diri, pilih ukuran & qty.',en:'Fill in your details, choose your size & quantity.'},
+    sc2title:{id:'TRANSFER',en:'TRANSFER'},sc2desc:{id:'Transfer total kaos ke GoPay/Dana. Ongkir menyusul.',en:'Transfer the shirt total to GoPay/Dana. Shipping fee follows.'},
+    sc3title:{id:'UPLOAD BUKTI',en:'UPLOAD PROOF'},sc3desc:{id:'Upload screenshot bukti transfer langsung di web.',en:'Upload your transfer screenshot directly on this website.'},
+    sc4title:{id:'PRODUKSI',en:'PRODUCTION'},sc4desc:{id:'Setelah pembayaran diverifikasi, baju diproduksi dalam <strong style="color:var(--amber)">1–2 hari kerja</strong>.',en:'After payment is verified, your item is produced within <strong style="color:var(--amber)">1–2 working days</strong>.'},
     hashtags:     {id:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN',en:'#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN'},
     fnote:        {id:'Made with chaos in Bali · Limited Group Order Only',en:'Made with chaos in Bali · Limited Group Order Only'},
-    waTooltip:    {id:'Tanya admin via WA',en:'Chat admin via WA'},
-    colorNote:    {id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" rel="noopener noreferrer" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" rel="noopener noreferrer" style="color:var(--amber);">Check color stock first</a> before ordering'},
+    waTooltip:    {id:'Tanya admin via WA',en:'Chat with admin via WhatsApp'},
+    colorNote:    {id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" style="color:var(--amber);">Check color availability</a> before ordering'},
   };
   document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(T[key])el.innerHTML=T[key][lang]||T[key].id;});
   var ph=lang==='id'?{'f-nama':'Nama untuk label pengiriman','f-email':'email@kamu.com','f-phone':'81xxxxxxxx','f-alamat':'Jl. contoh No.1, Kel. ...','f-kota':'Denpasar','f-kodepos':'80225','f-catatan':'Opsional — catatan khusus...'}:{'f-nama':'Name for shipping label','f-email':'your@email.com','f-phone':'81xxxxxxxx','f-alamat':'Full street address, district...','f-kota':'City','f-kodepos':'Postal Code','f-catatan':'Optional — special notes...'};
@@ -3451,7 +5412,12 @@ window.scrollToTop = scrollToTop;
   btnAgain.addEventListener('click', function() {
     // Reset ITEMS ke kondisi awal
     _itemCounter = 1;
-    ITEMS = [{ id:'item1', color:'', size:'S', price:150000, qty:0 }];
+    var _rDef = KATALOG[0];
+    ITEMS = [{
+      id:'item1', produkId:null, produkNama:'', designId:null,
+      color:'', size:'S', price:_rDef.hargaFn('S'), qty:0,
+      warnaTetap:false, sizeTetap:false, allSizes:_rDef.sizes, hargaFn:_rDef.hargaFn
+    }];
     // Clear upload state
     clearUploadState();
     // Reset submit state
@@ -3460,13 +5426,15 @@ window.scrollToTop = scrollToTop;
     _pushStateDone  = false;
     // Clear localStorage draft
     try { localStorage.removeItem(LS_KEY); } catch(e) {}
-    // Render fresh items
+    // Render fresh
     renderItems();
-    // Go back to step 1
-    goToStep(1);
-    // Scroll to order section
+    renderKatalog();
+    renderCartSummary();
+    // Sembunyikan form, scroll ke katalog
     var sec = $('order-section');
-    if (sec) { setTimeout(function(){ sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }
+    if (sec) sec.style.display = 'none';
+    var katSec = document.querySelector('.katalog-section');
+    if (katSec) { setTimeout(function(){ katSec.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50); }
   });
 })();
 // ─── STICKY CTA ─────────────────────────────────────────
@@ -3481,16 +5449,17 @@ window.scrollToTop = scrollToTop;
   }
 
   function updateStickyBar() {
-    var s1 = $('step1');
-    var visible = s1 && s1.style.display !== 'none';
+    var sec = $('order-section');
+    var s1  = $('step1');
+    var secVisible = sec && sec.style.display !== 'none';
+    var s1Visible  = s1  && s1.style.display  !== 'none';
+    var visible = secVisible && s1Visible;
     bar.style.display = visible ? 'block' : 'none';
     if (visible) syncStickyTotal();
-    // Naikan WA float supaya tidak overlap sticky CTA
     var waFloat = document.querySelector('.wa-float');
     if (waFloat) waFloat.classList.toggle('sticky-up', !!visible);
   }
 
-  // Patch goToStep to update sticky bar
   var _origGoTo = goToStep;
   goToStep = function(n) {
     _origGoTo(n);
@@ -3498,16 +5467,142 @@ window.scrollToTop = scrollToTop;
   };
   window.goToStep = goToStep;
 
-  // Patch updateTotalMulti to sync sticky total
   var _origTotal = updateTotalMulti;
   updateTotalMulti = function() {
     _origTotal();
     syncStickyTotal();
   };
 
-  // Init on load
   updateStickyBar();
 })();
+
+// ═══════════════════════════════════════════════════════
+// FOTO LIGHTBOX
+// ═══════════════════════════════════════════════════════
+var _lbIdx   = 0;
+var _lbFotos = [];
+
+function lbOpen(startIdx) {
+  _lbFotos = _sliderFotos.slice();
+  if (!_lbFotos.length) return;
+  _lbIdx = startIdx || 0;
+  _lbRender();
+  var lb = document.getElementById('foto-lightbox');
+  if (lb) lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Touch swipe support on lightbox
+  _lbAddSwipe(lb);
+}
+
+function _lbAddSwipe(el) {
+  if (!el || el._swipeAttached) return;
+  el._swipeAttached = true;
+  var sx = 0, moved = 0;
+  el.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; moved = 0; }, { passive:true });
+  el.addEventListener('touchmove',  function(e){ moved = e.touches[0].clientX - sx; },          { passive:true });
+  el.addEventListener('touchend',   function(){ if (Math.abs(moved) > 40) lbNav(moved < 0 ? 1 : -1); });
+}
+
+function lbClose() {
+  var lb = document.getElementById('foto-lightbox');
+  if (lb) lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbNav(dir) {
+  _lbIdx = ((_lbIdx + dir) + _lbFotos.length) % _lbFotos.length;
+  _lbRender();
+}
+
+function _lbRender() {
+  var img = document.getElementById('lb-img');
+  var ctr = document.getElementById('lb-counter');
+  var dots = document.getElementById('lb-dots');
+  var prev = document.getElementById('lb-prev');
+  var next = document.getElementById('lb-next');
+  var n = _lbFotos.length;
+
+  if (img) { img.style.opacity = '0'; img.src = _lbFotos[_lbIdx]; img.onload = function(){ img.style.opacity='1'; }; }
+  if (ctr) ctr.textContent = n > 1 ? (_lbIdx+1) + ' / ' + n : '';
+  if (dots) {
+    dots.innerHTML = n > 1 ? _lbFotos.map(function(_,i){
+      return '<button class="lb-dot'+(i===_lbIdx?' active':'')+'" onclick="lbNav('+(i-_lbIdx)+')" aria-label="Foto '+(i+1)+'"></button>';
+    }).join('') : '';
+  }
+  if (prev) prev.classList.toggle('hidden', n <= 1 || _lbIdx === 0);
+  if (next) next.classList.toggle('hidden', n <= 1 || _lbIdx === n-1);
+}
+
+// Keyboard nav + tap-outside close
+document.addEventListener('keydown', function(e){
+  var lb = document.getElementById('foto-lightbox');
+  if (!lb || !lb.classList.contains('open')) return;
+  if (e.key === 'Escape') lbClose();
+  if (e.key === 'ArrowLeft')  lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
+(function(){
+  var lb = document.getElementById('foto-lightbox');
+  if (!lb) return;
+  lb.addEventListener('click', function(e){ if (e.target === lb) lbClose(); });
+})();
+
+window.lbOpen  = lbOpen;
+window.lbClose = lbClose;
+window.lbNav   = lbNav;
+
+// ═══════════════════════════════════════════════════════
+// MINI CART DRAWER
+// ═══════════════════════════════════════════════════════
+function miniCartOpen() {
+  var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
+  if (activeItems.length === 0) return; // tidak buka kalau kosong
+  _renderMiniCart();
+  var mc = document.getElementById('mini-cart');
+  var ov = document.getElementById('mini-cart-overlay');
+  if (mc) mc.classList.add('open');
+  if (ov) ov.classList.add('open');
+}
+
+function miniCartClose() {
+  var mc = document.getElementById('mini-cart');
+  var ov = document.getElementById('mini-cart-overlay');
+  if (mc) mc.classList.remove('open');
+  if (ov) ov.classList.remove('open');
+}
+
+function _renderMiniCart() {
+  var itemsEl  = document.getElementById('mc-items');
+  var totalEl  = document.getElementById('mc-total');
+  var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
+  var grandTotal  = activeItems.reduce(function(s,x){ return s+x.price*x.qty; }, 0);
+
+  if (itemsEl) {
+    if (activeItems.length === 0) {
+      itemsEl.innerHTML = '<div style="padding:12px 0;font-family:\'Roboto\',sans-serif;font-size:12px;color:rgba(200,134,10,.4);letter-spacing:1px;text-align:center;">Cart masih kosong</div>';
+    } else {
+      itemsEl.innerHTML = activeItems.map(function(item) {
+        var colorLbl = item.colorLabel || (item.warnaTetap
+          ? (item.color||'HITAM').toUpperCase()
+          : getColorLabel(COLORS.find(function(c){return c.id===item.color;})||COLORS[0]));
+        var desc = item.produkNama + ' · ' + item.size + ' · ' + colorLbl + ' × ' + item.qty;
+        return '<div class="mc-item">'
+          + '<div class="mc-item-dot"></div>'
+          + '<div class="mc-item-name">' + desc + '</div>'
+          + '<div class="mc-item-price">' + fmtRp(item.price*item.qty) + '</div>'
+          + '</div>';
+      }).join('');
+    }
+  }
+  if (totalEl) totalEl.textContent = fmtRp(grandTotal);
+}
+
+window.miniCartOpen    = miniCartOpen;
+window.miniCartClose   = miniCartClose;
+
+// ═══════════════════════════════════════════════════════
+// STICKY CART BUBBLE — state update only (fn defined above)
+// ═══════════════════════════════════════════════════════
 
 restoreDraft();
 window.setLang = setLang;
@@ -3521,34 +5616,49 @@ setLang('id');
   var wrap = v && v.closest('.ads-infeed-video-wrap');
   var play = wrap && wrap.querySelector('.ads-infeed-play');
   var exp  = wrap && wrap.querySelector('.ads-infeed-expand');
+
   if (!v) return;
-  v.muted = true;
-  v.setAttribute('playsinline','');
-  v.setAttribute('webkit-playsinline','');
-  function tryPlay(){
-    var p=v.play();
-    if(p&&typeof p.then==='function'){
-      p.then(function(){ if(play) play.classList.add('hidden'); })
-       .catch(function(){ if(play) play.classList.remove('hidden'); });
-    } else { if(play) play.classList.add('hidden'); }
+
+  // IntersectionObserver — autoplay/pause saat scroll
+  if (window.IntersectionObserver) {
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        v.play().catch(function(){});
+        if (play) play.classList.add('hidden');
+      } else {
+        v.pause();
+        if (play) play.classList.remove('hidden');
+      }
+    }, { threshold: 0.5 });
+    obs.observe(v);
   }
-  if(window.IntersectionObserver){
-    new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){ tryPlay(); }
-      else{ v.pause(); if(play) play.classList.remove('hidden'); }
-    },{threshold:0.5}).observe(v);
+
+  // Tap on video wrap — toggle play/pause
+  if (wrap) {
+    wrap.addEventListener('click', function() {
+      if (v.paused) {
+        v.play().catch(function(){});
+        if (play) play.classList.add('hidden');
+      } else {
+        v.pause();
+        if (play) play.classList.remove('hidden');
+      }
+    });
   }
-  if(wrap){ wrap.addEventListener('click',function(){
-    if(v.paused){ tryPlay(); } else{ v.pause(); if(play) play.classList.remove('hidden'); }
-  }); }
-  if(exp){ exp.addEventListener('click',function(e){
-    e.stopPropagation();
-    if(v.requestFullscreen) v.requestFullscreen();
-    else if(v.webkitEnterFullscreen) v.webkitEnterFullscreen();
-    else if(v.webkitRequestFullscreen) v.webkitRequestFullscreen();
-  }); }
-  v.addEventListener('play', function(){ if(play) play.classList.add('hidden'); });
-  v.addEventListener('pause',function(){ if(play) play.classList.remove('hidden'); });
+
+  // Expand button — fullscreen native
+  if (exp) {
+    exp.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (v.requestFullscreen)            v.requestFullscreen();
+      else if (v.webkitEnterFullscreen)   v.webkitEnterFullscreen(); // iOS Safari
+      else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+    });
+  }
+
+  // Hide play overlay saat video mulai
+  v.addEventListener('play',  function(){ if (play) play.classList.add('hidden'); });
+  v.addEventListener('pause', function(){ if (play) play.classList.remove('hidden'); });
 })();
 
 </script>
