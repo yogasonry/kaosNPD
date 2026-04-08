@@ -123,7 +123,7 @@ header{
 
 /* ─── HERO SLIDESHOW 16:9 ─── */
 .hero-slide-wrap{
-  width:100%;max-width:860px;margin:0 auto;position:relative;
+  width:100%;position:relative;
   overflow:hidden;border-bottom:3px solid var(--gold);background:var(--black);
   aspect-ratio:16/10;
 }
@@ -143,33 +143,50 @@ header{
 .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .hs-btn{
   position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(10,7,5,.6);border:1px solid rgba(200,134,10,.35);
+  background:rgba(10,7,5,.5);border:1px solid rgba(200,134,10,.22);
   color:var(--amber);font-family:'Anton SC',sans-serif;
-  font-size:18px;width:28px;height:40px;
+  font-size:11px;width:16px;height:24px;
   cursor:pointer;z-index:10;
   display:flex;align-items:center;justify-content:center;transition:all .2s;
 }
 @media(min-width:600px){
   .hs-btn{font-size:24px;width:36px;height:52px;}
 }
+.hs-counter{display:none;}
 .hs-btn:active,.hs-btn:hover{background:var(--rust);border-color:var(--amber);}
 .hs-prev{left:0;border-left:none;}
 .hs-next{right:0;border-right:none;}
 .hs-dots{
+  display:flex;gap:6px;z-index:10;
+}
+/* DESKTOP: dots inside slideshow, absolute positioned */
+.hs-dots-inner{
   position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-  display:flex;gap:8px;z-index:10;
+}
+/* MOBILE: outer dots hidden by default, shown below slideshow */
+.hs-dots-outer{
+  display:none;
+  justify-content:center;
+  padding:8px 0 4px;
+  background:var(--black);
+  border-bottom:3px solid var(--gold);
+}
+/* On mobile: flip which set is visible */
+@media(max-width:599px){
+  .hs-dots-inner{ display:none; }
+  .hs-dots-outer{ display:flex; }
+  /* remove border-bottom from slide-wrap since outer dots carry it */
+  .hero-slide-wrap{ border-bottom:none; }
 }
 .hs-dot{
-  width:6px;height:6px;border-radius:50%;
+  width:5px;height:5px;border-radius:50%;
   background:rgba(200,134,10,.35);border:1px solid rgba(200,134,10,.5);
   cursor:pointer;transition:all .25s;padding:0;
 }
-.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.25);}
-.hs-counter{
-  position:absolute;top:10px;right:12px;
-  background:rgba(10,7,5,.75);border:1px solid rgba(200,134,10,.4);
-  font-family:'Anton SC',sans-serif;font-size:12px;letter-spacing:2px;
-  color:var(--amber);padding:3px 10px;z-index:10;pointer-events:none;
+.hs-dot.active{background:var(--amber);border-color:var(--amber);transform:scale(1.3);}
+/* wrapper — needed to group slideshow + outer dots */
+.hero-section-wrap{
+  width:100%;max-width:860px;margin:0 auto;
 }
 
 /* ─── PRODUCT INFO ─── */
@@ -352,8 +369,8 @@ header{
   animation-play-state:paused;
   color:#f5c030;
 }
-.price-num.big{font-size:clamp(54px,13vw,104px);}
-.price-num.mid{font-size:clamp(44px,10vw,84px);color:#d09018;}
+.price-num.big{font-size:clamp(44px,12vw,104px);}
+.price-num.mid{font-size:clamp(36px,9vw,84px);color:#d09018;}
 .price-num.mid:hover,.price-num.mid.hovered{color:#e8a020;}
 .price-sep{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:rgba(200,134,10,.28);padding-bottom:10px;}
 .price-note{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.75;margin-top:12px;}
@@ -519,7 +536,8 @@ header{
 }
 .sdot.active .sdot-l{color:var(--black);}
 .sdot.done   .sdot-l{color:rgba(58,154,58,.9);}
-@media(max-width:440px){.sdot-l{display:none;}.sdot{padding:5px 7px;}}
+@media(max-width:440px){.sdot-l{display:none;}.sdot{padding:5px 6px;}}
+@media(max-width:360px){.sdot{padding:4px 5px;}.sdot-c{width:18px;height:18px;font-size:9px;}}
 .sline{flex:1;height:1.5px;background:rgba(200,134,10,.15);min-width:4px;max-width:20px;transition:background .4s;}
 .sline.done{background:rgba(58,154,58,.5);}
 
@@ -721,7 +739,7 @@ select.finp{
 select.finp option{background:#1a0f06;color:var(--cream);}
 textarea.finp{resize:vertical;min-height:80px;}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:440px){.frow{grid-template-columns:1fr;}}
+@media(max-width:380px){.frow{grid-template-columns:1fr;gap:8px;}}
 
 /* Color picker */
 /* ─── COLOR PICKER ─── */
@@ -968,6 +986,11 @@ textarea.finp{resize:vertical;min-height:80px;}
   transition:background .25s, transform .2s, box-shadow .3s;
   white-space:nowrap;
 }
+@media(max-width:380px){
+  .btn-main{ font-size:13px; letter-spacing:2px; padding:13px 14px; }
+  .sticky-cta-amount{ font-size:18px; }
+  .sticky-cta-label{ font-size:9px; letter-spacing:1px; }
+}
 .btn-main:active{background:#d09010;transform:scale(.97);}
 @media(hover:hover){.btn-main:hover{background:#f0b030;box-shadow:0 6px 24px rgba(232,160,32,.4);}}
 .btn-main:disabled{background:rgba(200,134,10,.28);color:rgba(0,0,0,.45);cursor:not-allowed;box-shadow:none;}
@@ -1208,6 +1231,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 @media(max-width:360px){
   .success-actions{ grid-template-columns:1fr; }
+  .btn-back-home,.btn-order-again{ font-size:11px; padding:12px 10px; }
 }
 .btn-back-home{
   display:flex;align-items:center;justify-content:center;gap:8px;
@@ -1896,20 +1920,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 }
 
 /* Expand / fullscreen button */
-.ads-infeed-expand{
-  position:absolute;bottom:10px;right:10px;
-  background:rgba(10,7,5,.8);border:1px solid rgba(200,134,10,.4);
-  color:var(--amber);font-size:10px;letter-spacing:1px;
-  padding:5px 10px;cursor:pointer;backdrop-filter:blur(4px);
-  transition:background .2s;display:flex;align-items:center;gap:5px;
-  /* Tap target minimum 44px untuk mobile */
-  min-height:32px;
-}
-.ads-infeed-expand:hover,.ads-infeed-expand:active{background:rgba(200,134,10,.2);}
-@media(max-width:480px){
-  /* Di HP kecil, fullscreen native lebih smooth — sembunyikan expand button */
-  .ads-infeed-expand{ display:none; }
-}
+.ads-infeed-expand{ display:none !important; }
 
 /* Footer infeed */
 .ads-infeed-footer{
@@ -1945,7 +1956,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 #color-picker       { touch-action: manipulation; }
 
 /* Larger touch targets on small buttons */
-.hs-btn             { min-width:36px; min-height:44px; }
+.hs-btn             { min-width:unset; min-height:unset; }
 .dlb-nav-btn        { min-width:40px; min-height:52px; }
 .hs-dot             { width:6px; height:6px; padding:4px; border:none; background-clip:content-box; box-sizing:content-box; }
 
@@ -1963,15 +1974,37 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 /* Keyboard pushes content up on iOS — extra padding bottom */
 @media(max-width:599px){
-  .form-section { padding-bottom:120px; }
+  .form-section { padding-bottom:130px; }
   /* Step 2 upload area — bigger tap zone on mobile */
   .upload-area  { padding:36px 16px; }
   /* Video section tighter on mobile */
-  .ads-infeed-section { padding:0 10px 8px; }
+  .ads-infeed-section { padding:0; }
   /* Qty row wider tap */
   .qty-btn      { width:52px; height:52px; }
   /* Success page */
   .success-title { font-size:clamp(24px,8vw,36px); }
+  /* Cart summary tighter padding */
+  .cart-summary-section { padding:0 10px 24px; }
+  /* Katalog card info tighter */
+  .kat-info { padding:10px 10px 12px; min-height:60px; }
+  /* Detail panel full-width on mobile */
+  .kat-detail-panel { margin:8px 0 0; border-radius:12px 12px 0 0; }
+  /* Mini cart max height smaller on short phones */
+  #mini-cart { max-height:82vh; }
+  /* Gallery strip padding */
+  .gallery-strip { padding:0 10px 12px; }
+  /* Step bar smaller on tiny screens */
+  .step-bar { padding:5px 6px; }
+  /* Order review tighter */
+  .order-review-item { gap:8px; padding:10px 12px; }
+  /* Form card tighter */
+  .form-section-card { padding:14px 12px 12px; }
+  /* Btn-main full width touch target */
+  .btn-main { min-height:52px; font-size:14px; }
+  /* How section tighter */
+  .how-section { padding:32px 10px; }
+  /* Price wrap tighter */
+  .price-wrap { padding:18px 10px 14px; }
 }
 
 /* Safe area for notch/home bar */
@@ -2197,6 +2230,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   letter-spacing:1px;
   -webkit-user-select:none; user-select:none;
   white-space:nowrap;
+}
+@media(max-width:480px){
+  .cart-bubble-btn{ font-size:11px; padding:6px 10px 6px 8px; gap:5px; }
+  .cart-bubble-icon{ font-size:14px; }
+  .cart-bubble-count{ min-width:18px; height:18px; font-size:10px; }
 }
 .cart-bubble-btn:hover{ background:#f0b030; transform:scale(1.05); }
 .cart-bubble-btn:active{ transform:scale(.96); }
@@ -2641,6 +2679,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* ─── DETAIL PANEL — centered, constrained ─── */
 .kat-detail-panel{
   display:none;
+  position:relative;
   max-width:560px;
   margin:12px auto 0;
   background:linear-gradient(160deg,rgba(26,14,5,.97) 0%,rgba(12,7,3,.98) 100%);
@@ -2703,7 +2742,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .kat-slider-slide{
   flex-shrink:0;
   width:100%;
-  height:360px;
+  height:clamp(260px,72vw,360px);
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
   background:rgba(10,5,2,.8);
@@ -2893,14 +2932,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .kat-close-btn{
   position:absolute; top:10px; right:10px;
   width:30px; height:30px; border-radius:50%;
-  background:rgba(61,26,8,.6);
-  border:1px solid rgba(200,134,10,.3);
-  color:rgba(200,134,10,.7); font-size:14px;
+  background:rgba(61,26,8,.9);
+  border:1.5px solid rgba(200,134,10,.5);
+  color:rgba(200,134,10,.9); font-size:13px;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
-  transition:background .2s, color .2s;
-  z-index:5;
+  transition:background .2s, color .2s, border-color .2s, transform .2s;
+  z-index:20;
+  box-shadow:0 2px 8px rgba(0,0,0,.5);
+  /* Stays inside border-radius — no overflow clipping issue */
 }
-.kat-close-btn:hover{ background:var(--rust); color:var(--amber); }
+.kat-close-btn:hover{ background:var(--rust); color:var(--amber); border-color:var(--amber); transform:scale(1.08); }
+.kat-close-btn:active{ transform:scale(.95); }
 
 </style>
 <script>
@@ -3067,6 +3109,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 </div>
 
 <!-- HERO SLIDESHOW 16:9 -->
+<div class="hero-section-wrap">
 <div class="hero-slide-wrap">
   <div class="hero-track" id="hs-track">
     <div class="hero-slide">
@@ -3102,7 +3145,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
            alt="AWAS BAHAYA NPD — Poster 8" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774158125/Gemini_Generated_Image_ed72rled72rled72_ddw3ez.png"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775610746/HeroNewClassic_oxfvlx.jpg"
            alt="AWAS BAHAYA NPD — Poster 9" loading="lazy">
     </div>
     <div class="hero-slide">
@@ -3112,7 +3155,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   </div>
   <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Slide sebelumnya">&#8249;</button>
   <button class="hs-btn hs-next" onclick="hsNav(1)" aria-label="Slide berikutnya">&#8250;</button>
-  <div class="hs-dots">
+  <!-- dots: visible inside slideshow on desktop only -->
+  <div class="hs-dots hs-dots-inner">
     <button class="hs-dot active" onclick="hsGo(0)" aria-label="Slide 1"></button>
     <button class="hs-dot" onclick="hsGo(1)" aria-label="Slide 2"></button>
     <button class="hs-dot" onclick="hsGo(2)" aria-label="Slide 3"></button>
@@ -3124,25 +3168,38 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <button class="hs-dot" onclick="hsGo(8)" aria-label="Slide 9"></button>
     <button class="hs-dot" onclick="hsGo(9)" aria-label="Slide 10"></button>
   </div>
-  <div class="hs-counter" id="hs-counter">1 / 10</div>
+</div>
+<!-- dots: visible outside slideshow on mobile only -->
+<div class="hs-dots hs-dots-outer">
+  <button class="hs-dot active" onclick="hsGo(0)" aria-label="Slide 1"></button>
+  <button class="hs-dot" onclick="hsGo(1)" aria-label="Slide 2"></button>
+  <button class="hs-dot" onclick="hsGo(2)" aria-label="Slide 3"></button>
+  <button class="hs-dot" onclick="hsGo(3)" aria-label="Slide 4"></button>
+  <button class="hs-dot" onclick="hsGo(4)" aria-label="Slide 5"></button>
+  <button class="hs-dot" onclick="hsGo(5)" aria-label="Slide 6"></button>
+  <button class="hs-dot" onclick="hsGo(6)" aria-label="Slide 7"></button>
+  <button class="hs-dot" onclick="hsGo(7)" aria-label="Slide 8"></button>
+  <button class="hs-dot" onclick="hsGo(8)" aria-label="Slide 9"></button>
+  <button class="hs-dot" onclick="hsGo(9)" aria-label="Slide 10"></button>
+</div>
 </div>
 
 <!-- ═══ KATALOG PRODUK ═══ -->
 <div class="katalog-section sr sr-up" id="katalog-section" style="max-width:1000px;margin:0 auto;padding:36px 20px 32px;border-bottom:2px solid rgba(200,134,10,.15);">
   <style>@media(max-width:699px){#katalog-section{padding:24px 12px 24px!important;}}</style>
-  <p style="font-family:'Roboto',sans-serif;font-size:9px;letter-spacing:5px;color:var(--gold);opacity:.65;text-transform:uppercase;text-align:center;margin-bottom:20px;">⚡ Koleksi Bhuta Kala Modern ⚡</p>
+  <p style="font-family:'Roboto',sans-serif;font-size:9px;letter-spacing:5px;color:var(--gold);opacity:.65;text-transform:uppercase;text-align:center;margin-bottom:20px;"id="katalog-eyebrow">⚡ Koleksi Bhuta Kala Modern ⚡</p>
   <div id="katalog-grid" class="katalog-grid"></div>
 </div>
 
 <!-- Detail panel katalog -->
 <div class="kat-detail-panel" id="kat-detail-panel">
+  <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">✕</button>
   <div class="kat-detail-inner" style="position:relative;max-width:560px;margin:0 auto;">
-    <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">✕</button>
     <div class="kat-tabs">
-      <div class="kat-tab kat-tab-active" data-tab="foto" onclick="katSwitchTab('foto')">
+      <div class="kat-tab kat-tab-active" data-tab="foto" onclick="katSwitchTab('foto')" id="tab-foto">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Foto
       </div>
-      <div class="kat-tab" data-tab="ukuran" onclick="katSwitchTab('ukuran')">
+      <div class="kat-tab" data-tab="ukuran" onclick="katSwitchTab('ukuran')" id="tab-ukuran">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Ukuran
       </div>
     </div>
@@ -3290,8 +3347,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <div class="form-card-header">
           <span class="form-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>
           <div>
-            <div class="form-card-title">PESANAN KAMU</div>
-            <div class="form-card-sub">Ringkasan item · ubah qty jika perlu</div>
+            <div class="form-card-title" data-i18n="cardOrder">PESANAN KAMU</div>
+            <div class="form-card-sub" data-i18n="cardOrderSub">Ringkasan item · ubah qty jika perlu</div>
           </div>
         </div>
         <!-- Order review items rendered by JS -->
@@ -3600,7 +3657,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 <!-- FOTO LIGHTBOX -->
 <div id="foto-lightbox" role="dialog" aria-modal="true" aria-label="Foto produk">
-  <button class="lb-close" onclick="lbClose()" aria-label="Tutup foto" aria-label="Tutup">✕</button>
+  <button class="lb-close" onclick="lbClose()" aria-label="Tutup foto">✕</button>
   <div class="lb-wrap" id="lb-wrap">
     <button class="lb-nav lb-prev hidden" id="lb-prev" onclick="lbNav(-1)" aria-label="Sebelumnya">&#8249;</button>
     <img id="lb-img" class="lb-img" src="" alt="">
@@ -3618,16 +3675,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="mc-handle" onclick="miniCartClose()" aria-label="Tutup keranjang" role="button"></div>
   <div class="mc-header">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-    <div class="mc-title">CART KAMU</div>
-    <button class="mc-close" onclick="miniCartClose()" aria-label="Tutup keranjang" aria-label="Tutup">✕</button>
+    <div class="mc-title" id="mc-title-txt">CART KAMU</div>
+    <button class="mc-close" onclick="miniCartClose()" aria-label="Tutup keranjang">✕</button>
   </div>
   <div class="mc-items" id="mc-items"></div>
   <div class="mc-total-row">
-    <div class="mc-total-label">Total Pesanan</div>
+    <div class="mc-total-label" id="mc-total-label">Total Pesanan</div>
     <div class="mc-total-amount" id="mc-total">Rp 0</div>
   </div>
   <div class="mc-actions">
-    <button class="mc-btn-continue" onclick="miniCartClose()">TAMBAH LAGI</button>
+    <button class="mc-btn-continue" onclick="miniCartClose()" id="mc-btn-continue-txt">TAMBAH LAGI</button>
     <button class="mc-btn-checkout" onclick="miniCartClose();cartGoCheckout()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       CHECKOUT
@@ -3672,9 +3729,9 @@ var KATALOG = [
     hargaLabel:'150K / 170K (XXL–XXXL)',
     hargaFn:function(size){ return (size==='XXL'||size==='XXXL')?170000:150000; },
     status:'tersedia', warnaTetap:null, sizeTetap:null,
-    warnaInfo:'Hitam · Putih · Orange',
+    warnaInfo:{ id:'Hitam · Putih · Orange', en:'Black · White · Orange' },
     material:'Cotton Combed 24s · 170–180 GSM · 100% Cotton',
-    desc:'Design original AWAS BAHAYA NPD. Bahan premium combed 24s — tebal, berisi, collector vibes. Multi warna tersedia.',
+    desc:{ id:'Design original AWAS BAHAYA NPD. Bahan premium combed 24s — tebal, berisi, collector vibes. Multi warna tersedia.', en:'Original AWAS BAHAYA NPD design. Premium combed 24s fabric — thick, substantial, collector\'s item. Multiple colors available.' },
     foto:[
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
@@ -3696,7 +3753,7 @@ var KATALOG = [
     hargaFn:function(){ return 270000; },
     status:'tersedia', warnaTetap:'Hitam', sizeTetap:null,
     material:'Fleece 240gsm · Unisex · 1 Warna',
-    desc:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 1 warna.',
+    desc:{ id:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 1 warna.', en:'Premium AWAS BAHAYA NPD hoodie. Thick and comfortable fleece fabric. Available in 1 color.' },
     foto:['https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282259/Hoodie_All_hfzum1.jpg'],
     designs:null,
     sizeChart:{
@@ -3712,9 +3769,9 @@ var KATALOG = [
     hargaLabel:'150K / 170K (XXL–XXXL)',
     hargaFn:function(size){ return (size==='XXL'||size==='XXXL')?170000:150000; },
     status:'tersedia', warnaTetap:null, sizeTetap:null,
-    warnaInfo:'Merah Maroon · Abu-abu',
+    warnaInfo:{ id:'Merah Maroon · Abu-abu', en:'Maroon Red · Grey' },
     material:'Cotton Combed 24s · Pilih Design · Warna per design',
-    desc:'Seri terbatas dengan design eksklusif. Mebakti Kapah (Merah Maroon) · Rahajeng Sabar (Abu-abu).',
+    desc:{ id:'Seri terbatas dengan design eksklusif. Mebakti Kapah (Merah Maroon) · Rahajeng Sabar (Abu-abu).', en:'Limited series with exclusive designs. Mebakti Kapah (Maroon Red) · Rahajeng Sabar (Grey).' },
     foto:[
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775471996/NPD_Mebakti_Kapah_Detail_zkob9i.jpg',
@@ -3742,7 +3799,7 @@ var KATALOG = [
     hargaFn:function(){ return 120000; },
     status:'tersedia', warnaTetap:'Hitam', sizeTetap:'One Size',
     material:'Stainless Steel · One Size · 1 Warna',
-    desc:'Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD.',
+    desc:{ id:'Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD.', en:'Exclusive Bhuta Kala Modern tumbler. Premium stainless steel with AWAS BAHAYA NPD branding.' },
     foto:[
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg'
@@ -3793,7 +3850,7 @@ function renderFotoSlider(fotos, produkNama) {
   var btnPrev = single ? '' : '<button class="kat-slider-btn kat-slider-prev hidden" id="kat-sprev" onclick="sliderNav(-1)" aria-label="Sebelumnya">&#8249;</button>';
   var btnNext = single ? '' : '<button class="kat-slider-btn kat-slider-next" id="kat-snext" onclick="sliderNav(1)" aria-label="Berikutnya">&#8250;</button>';
 
-  var zoomHint = single ? '' : '<div class="kat-zoom-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-1px;margin-right:4px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>Tap untuk zoom</div>';
+  var zoomHint = single ? '' : '<div class="kat-zoom-hint"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-1px;margin-right:4px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>'+(currentLang==='en'?'Tap to zoom':'Tap untuk zoom')+'</div>';
 
   wrap.innerHTML =
     '<div class="kat-slider-track" id="kat-strack">' + slides + '</div>'
@@ -3910,7 +3967,7 @@ function renderPanelPicker(p, skipScroll) {
   // Inline design selector (NPD Series)
   var designHtml = '';
   if (p.designs && p.designs.length) {
-    designHtml = '<div class="kat-picker-label">PILIH DESIGN</div>'
+    designHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'SELECT DESIGN':'PILIH DESIGN')+'</div>'
       + '<div class="kat-design-inline">'
       + p.designs.map(function(d){
           var sel = _katDesign === d.id;
@@ -3942,7 +3999,7 @@ function renderPanelPicker(p, skipScroll) {
     sizeHtml = '<div class="kat-fixed-val"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' + (p.sizeTetap) + '</div>';
   } else {
     var fewSizes = sizesArr.length <= 5 ? ' few-sizes' : '';
-    sizeHtml = '<div class="kat-picker-label">UKURAN</div>'
+    sizeHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'SIZE':'UKURAN')+'</div>'
       + '<div class="kat-size-picker' + fewSizes + '">'
       + sizesArr.map(function(s){
           var active = curSize === s.size;
@@ -3970,12 +4027,12 @@ function renderPanelPicker(p, skipScroll) {
       colorHtml = '<div class="kat-fixed-val">'
         + '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+(selDesign.warnaHex||'#888')+';border:1px solid rgba(255,255,255,.2);"></span> '
         + selDesign.warnaLabel.toUpperCase()
-        + ' <span style="font-size:9px;opacity:.5;margin-left:4px;">(dari design)</span>'
+        + ' <span style="font-size:9px;opacity:.5;margin-left:4px;">'+(currentLang==='en'?'(from design)':'(dari design)')+'</span>'
         + '</div>';
     }
   } else if (!p.designs) {
     // NPD Classic — manual color picker
-    colorHtml = '<div class="kat-picker-label">WARNA</div>'
+    colorHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'COLOR':'WARNA')+'</div>'
       + '<div class="kat-color-picker">'
       + COLORS.map(function(c){
           var active = (_katColor||'') === c.id;
@@ -3988,10 +4045,10 @@ function renderPanelPicker(p, skipScroll) {
             +'</div>';
         }).join('')
       + '</div>'
-      +'<p class="kat-picker-hint">⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+NPD" target="_blank" style="color:var(--amber);">Cek stok warna</a> sebelum order</p>';
+      +'<p class="kat-picker-hint">⚡ <a href="https://wa.me/6281236869035?text='+(currentLang==='en'?'Hi%2C+want+to+check+color+stock':'Halo%2C+mau+tanya+stok+warna+NPD')+'" target="_blank" style="color:var(--amber);">'+(currentLang==='en'?'Check color stock':'Cek stok warna')+'</a> '+(currentLang==='en'?'before ordering':'sebelum order')+'</p>';
   }
 
-  var qtyHtml = '<div class="kat-picker-label">JUMLAH</div>'
+  var qtyHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'QUANTITY':'JUMLAH')+'</div>'
     + '<div class="kat-qty-row">'
     + '<div class="kat-qty-ctrl">'
     + '<button type="button" class="kat-qty-btn" onclick="katPanelSetQty(-1)">−</button>'
@@ -4018,7 +4075,7 @@ function renderOrderReview() {
   if (totalEl) totalEl.textContent = fmtRp(grandTotal);
   if (!el) return;
   if (activeItems.length === 0) {
-    el.innerHTML = '<div style="padding:12px 0;font-family:\'Roboto\',sans-serif;font-size:12px;color:rgba(200,134,10,.4);letter-spacing:1px;">Cart kosong</div>';
+    el.innerHTML = '<div style="padding:12px 0;font-family:\'Roboto\',sans-serif;font-size:12px;color:rgba(200,134,10,.4);letter-spacing:1px;">'+(currentLang==='en'?'Cart is empty':'Cart kosong')+'</div>';
     return;
   }
   el.innerHTML = activeItems.map(function(item, i) {
@@ -4067,7 +4124,7 @@ function renderKatalog() {
       +'<div class="kat-info">'
       +'<div class="kat-name">'+p.nama+'</div>'
       +'<div class="kat-price">'+p.hargaLabel+'</div>'
-      +((p.warnaInfo||p.warnaTetap)?'<div class="kat-sub">'+(p.warnaInfo||p.warnaTetap)+'</div>':'<div class="kat-sub">&nbsp;</div>')
+      +((p.warnaInfo||p.warnaTetap)?'<div class="kat-sub">'+(p.warnaInfo?(typeof p.warnaInfo==='object'?(p.warnaInfo[currentLang]||p.warnaInfo.id):p.warnaInfo):p.warnaTetap)+'</div>':'<div class="kat-sub">&nbsp;</div>')
       +'</div></div>';
   }).join('');
 }
@@ -4143,7 +4200,7 @@ function katFillDetail(p) {
   if(el('kat-detail-name'))  el('kat-detail-name').textContent  = p.namaLengkap;
   if(el('kat-detail-price')) el('kat-detail-price').textContent = p.hargaLabel;
   if(el('kat-detail-mat'))   el('kat-detail-mat').textContent   = p.material;
-  if(el('kat-detail-desc'))  el('kat-detail-desc').textContent  = p.desc||'';
+  if(el('kat-detail-desc'))  el('kat-detail-desc').textContent  = (p.desc && typeof p.desc==='object') ? (p.desc[currentLang]||p.desc.id) : (p.desc||'');
   var dtab = document.querySelector('.kat-tab-design');
   if(dtab) dtab.style.display = p.designs?'block':'none';
   var tbl=el('kat-size-table'), note=el('kat-size-note');
@@ -4186,16 +4243,16 @@ function katPickDesign(designId) {
 function katUpdateOrderBtn(p) {
   var btn=document.getElementById('kat-order-btn'); if(!btn) return;
   if(p.status!=='tersedia'){
-    btn.textContent='SEGERA HADIR'; btn.className='kat-order-btn kat-coming-btn'; btn.disabled=true; return;
+    btn.textContent=currentLang==='en'?'COMING SOON':'SEGERA HADIR'; btn.className='kat-order-btn kat-coming-btn'; btn.disabled=true; return;
   }
   if(p.designs&&!_katDesign){
-    btn.textContent='← PILIH DESIGN DULU'; btn.className='kat-order-btn'; btn.disabled=true; return;
+    btn.textContent=currentLang==='en'?'← SELECT A DESIGN FIRST':'← PILIH DESIGN DULU'; btn.className='kat-order-btn'; btn.disabled=true; return;
   }
   // Warna wajib hanya untuk produk tanpa design (NPD Classic) dan tanpa warnaTetap
   if(!p.warnaTetap && !p.designs && !_katColor){
-    btn.textContent='← PILIH WARNA DULU'; btn.className='kat-order-btn'; btn.disabled=true; return;
+    btn.textContent=currentLang==='en'?'← SELECT A COLOR FIRST':'← PILIH WARNA DULU'; btn.className='kat-order-btn'; btn.disabled=true; return;
   }
-  btn.textContent='+ TAMBAH KE CART'; btn.className='kat-order-btn'; btn.disabled=false;
+  btn.textContent=currentLang==='en'?'+ ADD TO CART':'+ TAMBAH KE CART'; btn.className='kat-order-btn'; btn.disabled=false;
 }
 
 function katSwitchTab(tab) {
@@ -4297,8 +4354,8 @@ function renderCartSummary() {
   if(activeItems.length===0) {
     body.innerHTML = '<div class="cart-empty-state">'
       +'<svg class="cart-empty-icon" viewBox="0 0 48 48" fill="none"><path d="M8 8h4l5 22h18l4-14H14" stroke="#c8860a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="36" r="2" stroke="#c8860a" stroke-width="1.5"/><circle cx="32" cy="36" r="2" stroke="#c8860a" stroke-width="1.5"/></svg>'
-      +'<div class="cart-empty-txt">Cart masih kosong</div>'
-      +'<div class="cart-empty-hint">Pilih produk dari katalog di atas</div>'
+      +'<div class="cart-empty-txt">'+(currentLang==='en'?'Cart is empty':'Cart masih kosong')+'</div>'
+      +'<div class="cart-empty-hint">'+(currentLang==='en'?'Choose a product from the catalog above':'Pilih produk dari katalog di atas')+'</div>'
       +'</div>';
     return;
   }
@@ -4336,15 +4393,15 @@ function renderCartSummary() {
 
   var totalHtml = '<div class="cart-total-row">'
     +'<div class="cart-total-line">'
-    +'<div class="cart-total-label">Total Pesanan</div>'
+    +'<div class="cart-total-label">'+(currentLang==='en'?'ORDER TOTAL':'Total Pesanan')+'</div>'
     +'<div class="cart-total-amount">'+fmtRp(grandTotal)+'</div>'
     +'</div>'
-    +'<div class="cart-total-sub">Belum termasuk ongkos kirim</div>'
+    +'<div class="cart-total-sub">'+(currentLang==='en'?'Shipping not included':'Belum termasuk ongkos kirim')+'</div>'
     +'<button class="cart-checkout-btn" onclick="cartGoCheckout()" id="cart-checkout-btn">'
     +'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
-    +' LANJUT CHECKOUT'
+    +(currentLang==='en'?' CHECKOUT':' LANJUT CHECKOUT')
     +'</button>'
-    +'<div class="cart-checkout-hint">Isi data &amp; upload bukti bayar di langkah berikutnya</div>'
+    +'<div class="cart-checkout-hint">'+(currentLang==='en'?'Fill in your details &amp; upload payment proof in the next step':'Isi data &amp; upload bukti bayar di langkah berikutnya')+'</div>'
     +'</div>';
 
   body.innerHTML = itemsHtml + totalHtml;
@@ -5179,7 +5236,7 @@ function hsGo(n){
   hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
   var track=$('hs-track'),slide=document.querySelector('.hero-slide');
   if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
-  document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i===hsCur);});
+  document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i%HS_TOTAL===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
 }
 function hsNav(d){clearInterval(hsTimer);hsGo(hsCur+d);hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);}
@@ -5360,8 +5417,8 @@ function setLang(lang){
     lblVariasi:   {id:'Pilih Ukuran & Warna *',en:'Choose Size & Color *'},
     btnAddItem:   {id:'TAMBAH WARNA/UKURAN LAIN',en:'ADD ANOTHER SIZE/COLOR'},
     oItems:       {id:'Item',en:'Items'},
-    cardOrder:    {id:'PESANANMU',            en:'YOUR ORDER'},
-    cardOrderSub: {id:'Pilih warna, ukuran & jumlah', en:'Choose color, size & quantity'},
+    cardOrder:    {id:'PESANAN KAMU',          en:'YOUR ORDER'},
+    cardOrderSub: {id:'Ringkasan item · ubah qty jika perlu', en:'Order summary · adjust qty if needed'},
     cardData:     {id:'DATA KAMU',            en:'YOUR DETAILS'},
     cardDataSub:  {id:'Untuk konfirmasi & pengiriman', en:'For confirmation & delivery'},
     totalLbl:     {id:'TOTAL PESANAN',        en:'ORDER TOTAL'},
@@ -5373,7 +5430,7 @@ function setLang(lang){
     lblQty:       {id:'Jumlah',en:'Quantity'},lblCatatan:{id:'Catatan (opsional)',en:'Notes (optional)'},
     emailHint:    {id:'Untuk konfirmasi order otomatis',en:'For automatic order confirmation'},
     ongkirNote:   {id:'BELUM TERMASUK ONGKOS KIRIM',en:'SHIPPING NOT INCLUDED'},
-    btnNext:      {id:'BAYAR →',en:'PROCEED TO PAYMENT →'},
+    btnNext:      {id:'BAYAR →',en:'PAY NOW →'},
     stockWarn:    {id:'⚡ PRE-ORDER · PRODUKSI 1–2 HARI · GRABFAST ⚡',en:'⚡ PRE-ORDER · PRODUCTION 1–2 DAYS · GRAB FAST ⚡'},
     totalSize:    {id:'Ukuran',en:'Size'},totalHarga:{id:'Harga/pcs',en:'Price/pcs'},totalQty:{id:'Qty',en:'Qty'},
     backToForm:   {id:'KEMBALI KE FORM',en:'BACK TO FORM'},
@@ -5436,12 +5493,38 @@ function setLang(lang){
     colorNote:    {id:'⚡ <a href="https://wa.me/6281236869035?text=Halo%2C+mau+tanya+stok+warna+kaos+NPD" target="_blank" style="color:var(--amber);">Tanyakan stok warna dulu</a> sebelum memesan',en:'⚡ <a href="https://wa.me/6281236869035?text=Hi%2C+want+to+check+color+stock+before+ordering" target="_blank" style="color:var(--amber);">Check color availability</a> before ordering'},
   };
   document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(T[key])el.innerHTML=T[key][lang]||T[key].id;});
+  // Extra elements not covered by data-i18n
+  var isEn2=lang==='en';
+  var tabFoto=document.getElementById('tab-foto');
+  if(tabFoto)tabFoto.lastChild.textContent=isEn2?' Photos':' Foto';
+  var tabUkuran=document.getElementById('tab-ukuran');
+  if(tabUkuran)tabUkuran.lastChild.textContent=isEn2?' Size Guide':' Ukuran';
+  var eyebrow=document.getElementById('katalog-eyebrow');
+  if(eyebrow)eyebrow.innerHTML=isEn2?'&#9889; Bhuta Kala Modern Collection &#9889;':'&#9889; Koleksi Bhuta Kala Modern &#9889;';
+  var mcTitle=document.getElementById('mc-title-txt');
+  if(mcTitle)mcTitle.textContent=isEn2?'YOUR CART':'CART KAMU';
+  var mcTotalLbl=document.getElementById('mc-total-label');
+  if(mcTotalLbl)mcTotalLbl.textContent=isEn2?'Order Total':'Total Pesanan';
+  var mcCont=document.getElementById('mc-btn-continue-txt');
+  if(mcCont)mcCont.textContent=isEn2?'ADD MORE':'TAMBAH LAGI';
   var ph=lang==='id'?{'f-nama':'Nama untuk label pengiriman','f-email':'email@kamu.com','f-phone':'81xxxxxxxx','f-alamat':'Jl. contoh No.1, Kel. ...','f-kota':'Denpasar','f-kodepos':'80225','f-catatan':'Opsional — catatan khusus...'}:{'f-nama':'Name for shipping label','f-email':'your@email.com','f-phone':'81xxxxxxxx','f-alamat':'Full street address, district...','f-kota':'City','f-kodepos':'Postal Code','f-catatan':'Optional — special notes...'};
   Object.keys(ph).forEach(function(id){var el=$(id);if(el)el.placeholder=ph[id];});
   startTypewriter(lang);
   buildMarquee(lang);
   // Re-render item rows — handles color labels in new language
   renderItems();
+  // Re-render cart summary — handles hardcoded strings in new language
+  renderCartSummary();
+  // Re-render katalog — handles bilingual warnaInfo and desc
+  renderKatalog();
+  // Re-render active detail panel desc if open
+  if (_katActive) {
+    var _p = KATALOG.find(function(x){ return x.id===_katActive; });
+    if (_p) {
+      var _descEl = document.getElementById('kat-detail-desc');
+      if (_descEl) _descEl.textContent = (_p.desc && typeof _p.desc==='object') ? (_p.desc[lang]||_p.desc.id) : (_p.desc||'');
+    }
+  }
 }
 
 // ─── BACK TO TOP ────────────────────────────────────────
@@ -5624,7 +5707,7 @@ function _renderMiniCart() {
 
   if (itemsEl) {
     if (activeItems.length === 0) {
-      itemsEl.innerHTML = '<div style="padding:12px 0;font-family:\'Roboto\',sans-serif;font-size:12px;color:rgba(200,134,10,.4);letter-spacing:1px;text-align:center;">Cart masih kosong</div>';
+      itemsEl.innerHTML = '<div style="padding:12px 0;font-family:\'Roboto\',sans-serif;font-size:12px;color:rgba(200,134,10,.4);letter-spacing:1px;text-align:center;">'+(currentLang==='en'?'Cart is empty':'Cart masih kosong')+'</div>';
     } else {
       itemsEl.innerHTML = activeItems.map(function(item) {
         var colorLbl = item.colorLabel || (item.warnaTetap
