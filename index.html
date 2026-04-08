@@ -1989,6 +1989,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   .kat-info { padding:10px 10px 12px; min-height:60px; }
   /* Detail panel full-width on mobile */
   .kat-detail-panel { margin:8px 0 0; border-radius:12px 12px 0 0; }
+  /* Tab bar: kurangi letter-spacing & padding agar 3 tab + X button muat di HP kecil */
+  .kat-tab { padding:11px 4px; letter-spacing:.5px; font-size:10px; }
+  .kat-tabs .kat-tab svg { display:none; } /* sembunyikan icon SVG tab di mobile */
   /* Mini cart max height smaller on short phones */
   #mini-cart { max-height:82vh; }
   /* Gallery strip padding */
@@ -2696,6 +2699,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 .kat-detail-inner{
   padding:0;
+  position:relative;
 }
 
 /* ─── TABS ─── */
@@ -2704,6 +2708,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   border-bottom:1px solid rgba(200,134,10,.15);
   background:rgba(61,26,8,.2);
   gap:0;
+  padding-right:36px; /* ruang untuk tombol X di kanan */
 }
 .kat-tab{
   flex:1; text-align:center;
@@ -2930,19 +2935,89 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 /* ─── CLOSE BUTTON ─── */
 .kat-close-btn{
-  position:absolute; top:10px; right:10px;
-  width:30px; height:30px; border-radius:50%;
-  background:rgba(61,26,8,.9);
-  border:1.5px solid rgba(200,134,10,.5);
-  color:rgba(200,134,10,.9); font-size:13px;
+  position:absolute; top:6px; right:8px;
+  width:24px; height:24px; border-radius:50%;
+  background:rgba(61,26,8,.85);
+  border:1px solid rgba(200,134,10,.35);
+  color:rgba(200,134,10,.75); font-size:11px;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
   transition:background .2s, color .2s, border-color .2s, transform .2s;
-  z-index:20;
-  box-shadow:0 2px 8px rgba(0,0,0,.5);
-  /* Stays inside border-radius — no overflow clipping issue */
+  z-index:30;
+  box-shadow:0 1px 6px rgba(0,0,0,.45);
+  line-height:1;
 }
-.kat-close-btn:hover{ background:var(--rust); color:var(--amber); border-color:var(--amber); transform:scale(1.08); }
-.kat-close-btn:active{ transform:scale(.95); }
+.kat-close-btn:hover{ background:var(--rust); color:var(--amber); border-color:var(--amber); transform:scale(1.1); }
+.kat-close-btn:active{ transform:scale(.93); }
+
+/* ─── TAB PERAWATAN — Care Guide ─── */
+.care-guide{
+  padding:16px 16px 8px;
+}
+.care-guide-title{
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:15px; color:var(--white); letter-spacing:2px;
+  margin-bottom:4px;
+}
+.care-guide-sub{
+  font-family:'Roboto',sans-serif; font-size:11px;
+  color:rgba(240,224,192,.5); letter-spacing:.5px;
+  margin-bottom:14px; line-height:1.6;
+}
+.care-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:14px;
+}
+.care-item{
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid rgba(200,134,10,.15);
+  background:rgba(61,26,8,.12);
+}
+.care-item.care-do{
+  border-color:rgba(58,154,58,.25);
+  background:rgba(45,106,45,.1);
+}
+.care-item.care-dont{
+  border-color:rgba(139,26,10,.3);
+  background:rgba(139,26,10,.08);
+}
+.care-icon{
+  flex-shrink:0; width:36px; height:36px;
+  border-radius:50%;
+  background:rgba(45,106,45,.2);
+  border:1px solid rgba(58,154,58,.35);
+  display:flex; align-items:center; justify-content:center;
+  color:#5dce7a;
+}
+.care-icon-dont{
+  background:rgba(139,26,10,.2);
+  border-color:rgba(180,60,40,.4);
+  color:#e06060;
+}
+.care-text{ flex:1; min-width:0; }
+.care-label{
+  font-family:'Rubik Dirt',sans-serif; font-weight:400;
+  font-size:10px; letter-spacing:1.5px;
+  color:#5dce7a; margin-bottom:3px;
+}
+.care-label-dont{ color:#e06060; }
+.care-desc{
+  font-family:'Roboto',sans-serif; font-size:10px;
+  color:rgba(240,224,192,.6); line-height:1.55;
+  letter-spacing:.2px;
+}
+.care-note{
+  font-family:'Roboto',sans-serif; font-size:10px;
+  color:rgba(200,134,10,.55); line-height:1.65;
+  border-top:1px solid rgba(200,134,10,.12);
+  padding-top:10px; margin-top:4px;
+}
+@media(max-width:360px){
+  .care-grid{ grid-template-columns:1fr; }
+}
 
 </style>
 <script>
@@ -3193,14 +3268,17 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 <!-- Detail panel katalog -->
 <div class="kat-detail-panel" id="kat-detail-panel">
-  <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">✕</button>
   <div class="kat-detail-inner" style="position:relative;max-width:560px;margin:0 auto;">
+  <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">✕</button>
     <div class="kat-tabs">
       <div class="kat-tab kat-tab-active" data-tab="foto" onclick="katSwitchTab('foto')" id="tab-foto">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Foto
       </div>
       <div class="kat-tab" data-tab="ukuran" onclick="katSwitchTab('ukuran')" id="tab-ukuran">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Ukuran
+      </div>
+      <div class="kat-tab" data-tab="perawatan" onclick="katSwitchTab('perawatan')" id="tab-perawatan">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Perawatan
       </div>
     </div>
     <div id="kat-tab-foto">
@@ -3220,6 +3298,92 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="size-section-card" style="margin:12px;">
         <table class="chart-tbl" id="kat-size-table"></table>
         <p class="kat-size-note" id="kat-size-note" style="font-size:10px;color:rgba(200,134,10,.4);margin-top:10px;line-height:1.65;"></p>
+      </div>
+    </div>
+    <!-- Design tab removed: inline in picker -->
+    <!-- Tab Perawatan -->
+    <div id="kat-tab-perawatan" style="display:none">
+      <div class="care-guide">
+        <p class="care-guide-title">Cara Merawat Sablon DTF</p>
+        <p class="care-guide-sub">Ikuti panduan ini agar sablon tetap awet dan tidak mudah retak.</p>
+        <div class="care-grid">
+          <div class="care-item care-do">
+            <div class="care-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label">Balik Kaos</div>
+              <div class="care-desc">Balik kaos sebelum dicuci — sablon menghadap ke dalam</div>
+            </div>
+          </div>
+          <div class="care-item care-do">
+            <div class="care-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label">Air Dingin / Sejuk</div>
+              <div class="care-desc">Gunakan air dingin atau suhu maks 30°C saat mencuci</div>
+            </div>
+          </div>
+          <div class="care-item care-do">
+            <div class="care-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10l3 8H4l3-8z"/><path d="M4 10v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10"/><line x1="12" y1="14" x2="12" y2="18"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label">Cuci Tangan</div>
+              <div class="care-desc">Cuci tangan lebih aman, hindari gesekan langsung di area sablon</div>
+            </div>
+          </div>
+          <div class="care-item care-do">
+            <div class="care-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label">Setrika Bagian Dalam</div>
+              <div class="care-desc">Jika perlu disetrika, gunakan suhu rendah di bagian dalam kaos</div>
+            </div>
+          </div>
+          <div class="care-item care-dont">
+            <div class="care-icon care-icon-dont">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label care-label-dont">Jangan Pakai Pemutih</div>
+              <div class="care-desc">Bleach / cairan pemutih merusak lapisan sablon DTF</div>
+            </div>
+          </div>
+          <div class="care-item care-dont">
+            <div class="care-icon care-icon-dont">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label care-label-dont">Jangan Dry Clean</div>
+              <div class="care-desc">Proses dry cleaning merusak transfer film DTF</div>
+            </div>
+          </div>
+          <div class="care-item care-dont">
+            <div class="care-icon care-icon-dont">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20M20 2v20M4 12h16M4 7h4M4 17h4M16 7h4M16 17h4"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label care-label-dont">Jangan Peras Keras</div>
+              <div class="care-desc">Hindari memeras atau meremas area sablon secara berlebihan</div>
+            </div>
+          </div>
+          <div class="care-item care-dont">
+            <div class="care-icon care-icon-dont">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </div>
+            <div class="care-text">
+              <div class="care-label care-label-dont">Jangan Jemur di Terik</div>
+              <div class="care-desc">Hindari sinar matahari langsung — angin-anginkan di tempat teduh</div>
+            </div>
+          </div>
+        </div>
+        <div class="care-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:5px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Sablon DTF tahan lama jika dirawat dengan benar. Pertama kali cuci, warnanya mungkin sedikit memudar — itu normal.
+        </div>
       </div>
     </div>
     <!-- Design tab removed: inline in picker -->
@@ -4203,6 +4367,14 @@ function katFillDetail(p) {
   if(el('kat-detail-desc'))  el('kat-detail-desc').textContent  = (p.desc && typeof p.desc==='object') ? (p.desc[currentLang]||p.desc.id) : (p.desc||'');
   var dtab = document.querySelector('.kat-tab-design');
   if(dtab) dtab.style.display = p.designs?'block':'none';
+  // Tab Perawatan: hanya tampil untuk produk berbasis sablon (kaos/hoodie), bukan tumbler
+  var tabPerawatan = document.getElementById('tab-perawatan');
+  var isTumbler = p.id === 'tumbler-npd';
+  if(tabPerawatan) tabPerawatan.style.display = isTumbler ? 'none' : '';
+  // Kalau sedang di tab perawatan tapi produknya tumbler, pindah ke foto
+  if(isTumbler && typeof _katTab !== 'undefined' && _katTab === 'perawatan') {
+    katSwitchTab('foto');
+  }
   var tbl=el('kat-size-table'), note=el('kat-size-note');
   if(tbl) {
     if(p.sizeChart) {
@@ -4257,7 +4429,7 @@ function katUpdateOrderBtn(p) {
 
 function katSwitchTab(tab) {
   _katTab=tab;
-  ['foto','ukuran','design'].forEach(function(t){
+  ['foto','ukuran','design','perawatan'].forEach(function(t){
     var el=document.getElementById('kat-tab-'+t); if(el) el.style.display=t===tab?'block':'none';
   });
   document.querySelectorAll('.kat-tab').forEach(function(el){
