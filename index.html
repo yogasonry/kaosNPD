@@ -1972,6 +1972,109 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .sopt:active   { transform:scale(.95); background:rgba(200,134,10,.15); }
 .copt:active   { transform:scale(.96); }
 
+/* ─── ONGKIR ESTIMATOR ─── */
+.ongkir-wrap{
+  position:relative;
+  margin-top:6px;
+}
+.ongkir-input-wrap{
+  position:relative;
+}
+.ongkir-input-wrap .finp{
+  padding-right:32px;
+}
+.ongkir-clear{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:rgba(200,134,10,.45);
+  font-size:14px;cursor:pointer;padding:4px;line-height:1;
+  display:none;
+}
+.ongkir-clear.visible{ display:block; }
+.ongkir-dropdown{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:rgba(18,10,4,.97);
+  border:1.5px solid rgba(200,134,10,.35);
+  border-radius:6px;
+  z-index:100;
+  max-height:200px;overflow-y:auto;
+  box-shadow:0 8px 24px rgba(0,0,0,.6);
+  display:none;
+}
+.ongkir-dropdown.open{ display:block; }
+.ongkir-dd-item{
+  padding:10px 12px;
+  font-family:'Roboto',sans-serif;font-size:13px;
+  color:var(--cream);cursor:pointer;
+  border-bottom:1px solid rgba(200,134,10,.08);
+  display:flex;align-items:center;gap:8px;
+  transition:background .15s;
+}
+.ongkir-dd-item:last-child{ border-bottom:none; }
+.ongkir-dd-item:hover,.ongkir-dd-item:active{ background:rgba(200,134,10,.1); }
+.ongkir-dd-item .oi-zone{
+  font-size:9px;letter-spacing:1.5px;
+  padding:2px 6px;border-radius:2px;
+  font-family:'Roboto',sans-serif;font-weight:500;
+  flex-shrink:0;
+}
+.zone-instant{ background:rgba(80,180,80,.15);color:#80d080;border:1px solid rgba(80,180,80,.3); }
+.zone-bali{    background:rgba(200,134,10,.12);color:var(--amber);border:1px solid rgba(200,134,10,.25); }
+.zone-jawa{    background:rgba(61,26,8,.4);color:var(--gold);border:1px solid rgba(200,134,10,.2); }
+.zone-luar{    background:rgba(30,10,60,.4);color:#c0a0e0;border:1px solid rgba(160,100,220,.2); }
+.zone-timur{   background:rgba(60,10,10,.4);color:#e08080;border:1px solid rgba(200,80,80,.2); }
+.ongkir-result{
+  margin-top:8px;
+  padding:10px 12px;
+  border-radius:6px;
+  background:rgba(18,10,4,.7);
+  border:1.5px solid rgba(200,134,10,.2);
+  display:none;
+  animation:fadeInUp .2s ease;
+}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(4px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.ongkir-result.visible{ display:block; }
+.ongkir-result-header{
+  display:flex;align-items:center;gap:8px;margin-bottom:6px;
+}
+.ongkir-result-city{
+  font-family:'Rubik Dirt',sans-serif;font-size:13px;
+  color:var(--white);letter-spacing:1px;flex:1;
+}
+.ongkir-result-tag{
+  font-size:9px;letter-spacing:1.5px;padding:2px 7px;
+  border-radius:2px;font-family:'Roboto',sans-serif;font-weight:500;
+  flex-shrink:0;
+}
+.ongkir-rows{ display:flex;flex-direction:column;gap:5px; }
+.ongkir-row{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'Roboto',sans-serif;font-size:12px;
+}
+.ongkir-row-label{ color:rgba(240,224,192,.6);letter-spacing:.5px; }
+.ongkir-row-val{
+  font-family:'Rubik Dirt',sans-serif;font-size:13px;
+  color:var(--amber);letter-spacing:1px;
+}
+.ongkir-row-val.instant-val{ color:#80d080; }
+.ongkir-etd{
+  font-size:10px;color:rgba(200,134,10,.5);
+  letter-spacing:.5px;margin-left:4px;
+  font-family:'Roboto',sans-serif;
+}
+.ongkir-disclaimer{
+  margin-top:7px;padding-top:7px;
+  border-top:1px solid rgba(200,134,10,.1);
+  font-family:'Roboto',sans-serif;font-size:10px;
+  color:rgba(240,224,192,.35);letter-spacing:.5px;line-height:1.6;
+}
+.ongkir-weight-info{
+  font-size:10px;color:rgba(200,134,10,.4);letter-spacing:.5px;
+  margin-top:4px;font-family:'Roboto',sans-serif;
+}
+
 /* Keyboard pushes content up on iOS — extra padding bottom */
 @media(max-width:599px){
   .form-section { padding-bottom:130px; }
@@ -3564,7 +3667,23 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <div class="frow">
           <div class="fg">
             <label class="flbl" for="f-kota" data-i18n="lblKota">Kota / Kabupaten *</label>
-            <input class="finp" type="text" id="f-kota" placeholder="Denpasar">
+            <div class="ongkir-wrap">
+              <div class="ongkir-input-wrap">
+                <input class="finp" type="text" id="f-kota" placeholder="Ketik nama kota..." autocomplete="off" autocorrect="off" spellcheck="false">
+                <button type="button" class="ongkir-clear" id="ongkir-clear" aria-label="Hapus">✕</button>
+              </div>
+              <div class="ongkir-dropdown" id="ongkir-dropdown"></div>
+            </div>
+            <!-- Estimasi ongkir result -->
+            <div class="ongkir-result" id="ongkir-result">
+              <div class="ongkir-result-header">
+                <div class="ongkir-result-city" id="ongkir-city-label"></div>
+                <div class="ongkir-result-tag" id="ongkir-zone-tag"></div>
+              </div>
+              <div class="ongkir-rows" id="ongkir-rows"></div>
+              <div class="ongkir-weight-info" id="ongkir-weight-info"></div>
+              <div class="ongkir-disclaimer" id="ongkir-disclaimer"></div>
+            </div>
           </div>
           <div class="fg">
             <label class="flbl" for="f-kodepos" data-i18n="lblKodePos">Kode Pos *</label>
@@ -5771,6 +5890,7 @@ window.scrollToTop = scrollToTop;
   updateTotalMulti = function() {
     _origTotal();
     syncStickyTotal();
+    if (window._ongkirRefresh) window._ongkirRefresh();
   };
 
   updateStickyBar();
@@ -5903,6 +6023,340 @@ window.miniCartClose   = miniCartClose;
 // ═══════════════════════════════════════════════════════
 // STICKY CART BUBBLE — state update only (fn defined above)
 // ═══════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════
+// ONGKIR ESTIMATOR
+// ═══════════════════════════════════════════════════════
+(function(){
+
+  // ── Berat per item (gram) ──────────────────────────
+  var BERAT_PRODUK = {
+    'kaos-npd-classic': 250,
+    'npd-series':       250,
+    'hoodie-npd':       500,
+    'tumbler-npd':      400
+  };
+  var BERAT_DEFAULT   = 250; // fallback
+  var BERAT_PACKAGING = 150; // packaging per paket (bukan per item)
+
+  // ── Data kota → zona ──────────────────────────────
+  // zona: 'instant' | 'bali' | 'jawa' | 'luar' | 'timur'
+  var KOTA_DATA = [
+    // INSTANT — Denpasar & area sangat dekat
+    { nama:'Denpasar',        zona:'instant', provinsi:'Bali' },
+
+    // BALI KABUPATEN — JNE REG
+    { nama:'Badung',          zona:'bali', provinsi:'Bali' },
+    { nama:'Kuta',            zona:'bali', provinsi:'Bali' },
+    { nama:'Seminyak',        zona:'bali', provinsi:'Bali' },
+    { nama:'Canggu',          zona:'bali', provinsi:'Bali' },
+    { nama:'Nusa Dua',        zona:'bali', provinsi:'Bali' },
+    { nama:'Jimbaran',        zona:'bali', provinsi:'Bali' },
+    { nama:'Gianyar',         zona:'bali', provinsi:'Bali' },
+    { nama:'Ubud',            zona:'bali', provinsi:'Bali' },
+    { nama:'Tabanan',         zona:'bali', provinsi:'Bali' },
+    { nama:'Singaraja',       zona:'bali', provinsi:'Bali' },
+    { nama:'Klungkung',       zona:'bali', provinsi:'Bali' },
+    { nama:'Semarapura',      zona:'bali', provinsi:'Bali' },
+    { nama:'Bangli',          zona:'bali', provinsi:'Bali' },
+    { nama:'Karangasem',      zona:'bali', provinsi:'Bali' },
+    { nama:'Amlapura',        zona:'bali', provinsi:'Bali' },
+    { nama:'Jembrana',        zona:'bali', provinsi:'Bali' },
+    { nama:'Negara',          zona:'bali', provinsi:'Bali' },
+    { nama:'Buleleng',        zona:'bali', provinsi:'Bali' },
+
+    // JAWA — JNE REG
+    { nama:'Jakarta',         zona:'jawa', provinsi:'DKI Jakarta' },
+    { nama:'Surabaya',        zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Bandung',         zona:'jawa', provinsi:'Jawa Barat' },
+    { nama:'Yogyakarta',      zona:'jawa', provinsi:'DIY' },
+    { nama:'Semarang',        zona:'jawa', provinsi:'Jawa Tengah' },
+    { nama:'Malang',          zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Bogor',           zona:'jawa', provinsi:'Jawa Barat' },
+    { nama:'Bekasi',          zona:'jawa', provinsi:'Jawa Barat' },
+    { nama:'Tangerang',       zona:'jawa', provinsi:'Banten' },
+    { nama:'Depok',           zona:'jawa', provinsi:'Jawa Barat' },
+    { nama:'Solo',            zona:'jawa', provinsi:'Jawa Tengah' },
+    { nama:'Surakarta',       zona:'jawa', provinsi:'Jawa Tengah' },
+    { nama:'Sidoarjo',        zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Mojokerto',       zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Kediri',          zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Banyuwangi',      zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Jember',          zona:'jawa', provinsi:'Jawa Timur' },
+    { nama:'Cirebon',         zona:'jawa', provinsi:'Jawa Barat' },
+    { nama:'Serang',          zona:'jawa', provinsi:'Banten' },
+
+    // LUAR JAWA — JNE REG
+    { nama:'Medan',           zona:'luar', provinsi:'Sumatera Utara' },
+    { nama:'Palembang',       zona:'luar', provinsi:'Sumatera Selatan' },
+    { nama:'Pekanbaru',       zona:'luar', provinsi:'Riau' },
+    { nama:'Batam',           zona:'luar', provinsi:'Kepri' },
+    { nama:'Padang',          zona:'luar', provinsi:'Sumatera Barat' },
+    { nama:'Banda Aceh',      zona:'luar', provinsi:'Aceh' },
+    { nama:'Bandar Lampung',  zona:'luar', provinsi:'Lampung' },
+    { nama:'Bengkulu',        zona:'luar', provinsi:'Bengkulu' },
+    { nama:'Jambi',           zona:'luar', provinsi:'Jambi' },
+    { nama:'Balikpapan',      zona:'luar', provinsi:'Kalimantan Timur' },
+    { nama:'Samarinda',       zona:'luar', provinsi:'Kalimantan Timur' },
+    { nama:'Banjarmasin',     zona:'luar', provinsi:'Kalimantan Selatan' },
+    { nama:'Pontianak',       zona:'luar', provinsi:'Kalimantan Barat' },
+    { nama:'Palangkaraya',    zona:'luar', provinsi:'Kalimantan Tengah' },
+    { nama:'Tarakan',         zona:'luar', provinsi:'Kalimantan Utara' },
+    { nama:'Makassar',        zona:'luar', provinsi:'Sulawesi Selatan' },
+    { nama:'Manado',          zona:'luar', provinsi:'Sulawesi Utara' },
+    { nama:'Palu',            zona:'luar', provinsi:'Sulawesi Tengah' },
+    { nama:'Kendari',         zona:'luar', provinsi:'Sulawesi Tenggara' },
+    { nama:'Gorontalo',       zona:'luar', provinsi:'Gorontalo' },
+
+    // TIMUR — JNE REG
+    { nama:'Lombok',          zona:'timur', provinsi:'NTB' },
+    { nama:'Mataram',         zona:'timur', provinsi:'NTB' },
+    { nama:'Kupang',          zona:'timur', provinsi:'NTT' },
+    { nama:'Flores',          zona:'timur', provinsi:'NTT' },
+    { nama:'Labuan Bajo',     zona:'timur', provinsi:'NTT' },
+    { nama:'Ambon',           zona:'timur', provinsi:'Maluku' },
+    { nama:'Ternate',         zona:'timur', provinsi:'Maluku Utara' },
+    { nama:'Jayapura',        zona:'timur', provinsi:'Papua' },
+    { nama:'Manokwari',       zona:'timur', provinsi:'Papua Barat' },
+    { nama:'Sorong',          zona:'timur', provinsi:'Papua Barat Daya' },
+    { nama:'Timika',          zona:'timur', provinsi:'Papua Tengah' },
+    { nama:'Merauke',         zona:'timur', provinsi:'Papua Selatan' }
+  ];
+
+  // ── Info per zona ─────────────────────────────────
+  var ZONA_INFO = {
+    instant: {
+      label:'GoSend / Grab Express',
+      tag:'INSTANT',
+      tagClass:'zone-instant',
+      etd:'~1–2 jam',
+      kurir:'GoSend / Grab Express',
+      disclaimer:'Tersedia setelah produksi selesai. Tarif final tergantung jarak & ketersediaan driver.',
+      harga: function(beratGram) {
+        // Flat rate 30K-35K untuk Denpasar & sekitarnya
+        return { min: 30000, max: 35000 };
+      }
+    },
+    bali: {
+      label:'Bali (Kab. Lain)',
+      tag:'BALI',
+      tagClass:'zone-bali',
+      etd:'1–2 hari',
+      kurir:'JNE REG',
+      disclaimer:'Tarif JNE REG dari Denpasar. Berat dihitung per kg (pembulatan ke atas).',
+      harga: function(beratGram) {
+        var kg = Math.ceil(beratGram / 1000);
+        return { min: kg * 10000, max: kg * 15000 };
+      }
+    },
+    jawa: {
+      label:'Jawa & Sekitarnya',
+      tag:'JAWA',
+      tagClass:'zone-jawa',
+      etd:'2–4 hari',
+      kurir:'JNE REG',
+      disclaimer:'Tarif JNE REG dari Denpasar. Berat dihitung per kg (pembulatan ke atas).',
+      harga: function(beratGram) {
+        var kg = Math.ceil(beratGram / 1000);
+        return { min: kg * 13000, max: kg * 18000 };
+      }
+    },
+    luar: {
+      label:'Luar Jawa',
+      tag:'LUAR JAWA',
+      tagClass:'zone-luar',
+      etd:'3–5 hari',
+      kurir:'JNE REG',
+      disclaimer:'Tarif JNE REG dari Denpasar. Berat dihitung per kg (pembulatan ke atas).',
+      harga: function(beratGram) {
+        var kg = Math.ceil(beratGram / 1000);
+        return { min: kg * 18000, max: kg * 25000 };
+      }
+    },
+    timur: {
+      label:'Indonesia Timur',
+      tag:'TIMUR',
+      tagClass:'zone-timur',
+      etd:'4–7 hari',
+      kurir:'JNE REG',
+      disclaimer:'Tarif JNE REG dari Denpasar. Berat dihitung per kg (pembulatan ke atas). Remote area mungkin dikenakan biaya tambahan.',
+      harga: function(beratGram) {
+        var kg = Math.ceil(beratGram / 1000);
+        return { min: kg * 25000, max: kg * 40000 };
+      }
+    }
+  };
+
+  // ── Hitung total berat dari ITEMS ─────────────────
+  function hitungBerat() {
+    var activeItems = ITEMS.filter(function(x){ return x.qty > 0 && x.produkId; });
+    if (!activeItems.length) return { gram: 400, label: null }; // default 1 kaos
+    var totalGram = BERAT_PACKAGING;
+    var totalQty = 0;
+    activeItems.forEach(function(item) {
+      var bPerItem = BERAT_PRODUK[item.produkId] || BERAT_DEFAULT;
+      totalGram += bPerItem * item.qty;
+      totalQty += item.qty;
+    });
+    var kg = Math.ceil(totalGram / 1000);
+    var label = totalQty + ' item · ~' + (totalGram / 1000).toFixed(2) + ' kg → dihitung ' + kg + ' kg oleh JNE';
+    return { gram: totalGram, label: label };
+  }
+
+  // ── Fuzzy search kota ─────────────────────────────
+  function cariKota(query) {
+    if (!query || query.length < 2) return [];
+    var q = query.toLowerCase().trim();
+    return KOTA_DATA.filter(function(k) {
+      return k.nama.toLowerCase().indexOf(q) !== -1 ||
+             k.provinsi.toLowerCase().indexOf(q) !== -1;
+    }).slice(0, 8);
+  }
+
+  // ── Render dropdown ───────────────────────────────
+  function renderDropdown(hasil) {
+    var dd = document.getElementById('ongkir-dropdown');
+    if (!dd) return;
+    if (!hasil.length) { dd.classList.remove('open'); return; }
+    dd.innerHTML = hasil.map(function(k, i) {
+      var zi = ZONA_INFO[k.zona];
+      return '<div class="ongkir-dd-item" data-idx="'+i+'">'
+        + '<span class="oi-zone ' + zi.tagClass + '">' + zi.tag + '</span>'
+        + '<span>' + k.nama + ' <span style="opacity:.45;font-size:11px;">· ' + k.provinsi + '</span></span>'
+        + '</div>';
+    }).join('');
+    dd.classList.add('open');
+    // attach click per item
+    dd.querySelectorAll('.ongkir-dd-item').forEach(function(el, i) {
+      el.addEventListener('mousedown', function(e) {
+        e.preventDefault(); // jangan blur dulu
+        pilihKota(hasil[i]);
+      });
+      el.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        pilihKota(hasil[i]);
+      }, { passive: false });
+    });
+  }
+
+  // ── Pilih kota & tampil result ────────────────────
+  var _selectedKota = null;
+
+  function pilihKota(kota) {
+    _selectedKota = kota;
+    var inp = document.getElementById('f-kota');
+    if (inp) inp.value = kota.nama + ', ' + kota.provinsi;
+    var dd = document.getElementById('ongkir-dropdown');
+    if (dd) dd.classList.remove('open');
+    var clr = document.getElementById('ongkir-clear');
+    if (clr) clr.classList.add('visible');
+    tampilResult(kota);
+  }
+
+  function tampilResult(kota) {
+    var zi = ZONA_INFO[kota.zona];
+    var berat = hitungBerat();
+    var harga = zi.harga(berat.gram);
+
+    var cityEl    = document.getElementById('ongkir-city-label');
+    var tagEl     = document.getElementById('ongkir-zone-tag');
+    var rowsEl    = document.getElementById('ongkir-rows');
+    var weightEl  = document.getElementById('ongkir-weight-info');
+    var discEl    = document.getElementById('ongkir-disclaimer');
+    var resultEl  = document.getElementById('ongkir-result');
+
+    if (!resultEl) return;
+
+    if (cityEl)  cityEl.textContent  = kota.nama;
+    if (tagEl) {
+      tagEl.textContent  = zi.tag;
+      tagEl.className    = 'ongkir-result-tag ' + zi.tagClass;
+    }
+
+    var rowsHTML = '';
+    // Baris kurir
+    rowsHTML += '<div class="ongkir-row">'
+      + '<span class="ongkir-row-label">Kurir</span>'
+      + '<span class="ongkir-row-val" style="font-family:\'Roboto\',sans-serif;font-size:12px;letter-spacing:.5px;">' + zi.kurir + '</span>'
+      + '</div>';
+    // Baris estimasi biaya
+    var valClass = kota.zona === 'instant' ? 'instant-val' : '';
+    var hargaStr = fmtRp(harga.min);
+    if (harga.min !== harga.max) hargaStr += ' – ' + fmtRp(harga.max);
+    rowsHTML += '<div class="ongkir-row">'
+      + '<span class="ongkir-row-label">Estimasi Ongkir</span>'
+      + '<span class="ongkir-row-val ' + valClass + '">' + hargaStr + ' <span class="ongkir-etd">' + zi.etd + '</span></span>'
+      + '</div>';
+
+    if (rowsEl)   rowsEl.innerHTML  = rowsHTML;
+    if (weightEl) {
+      weightEl.textContent = berat.label
+        ? '⚖ ' + berat.label
+        : '⚖ Belum ada item dipilih · estimasi untuk 1 kaos';
+    }
+    if (discEl)   discEl.textContent = '* ' + zi.disclaimer + ' Ongkir pasti dikonfirmasi via WA setelah GO closing.';
+
+    resultEl.classList.add('visible');
+  }
+
+  // ── Update result saat qty berubah ────────────────
+  function refreshOngkirResult() {
+    if (_selectedKota) tampilResult(_selectedKota);
+  }
+  // Expose globally agar bisa dipanggil dari updateTotalMulti
+  window._ongkirRefresh = refreshOngkirResult;
+
+  // ── Init event listeners ──────────────────────────
+  function initOngkir() {
+    var inp = document.getElementById('f-kota');
+    var clr = document.getElementById('ongkir-clear');
+    var dd  = document.getElementById('ongkir-dropdown');
+    if (!inp) return;
+
+    inp.addEventListener('input', function() {
+      var q = inp.value.trim();
+      var clrBtn = document.getElementById('ongkir-clear');
+      if (clrBtn) clrBtn.classList.toggle('visible', q.length > 0);
+      if (q.length < 2) {
+        if (dd) dd.classList.remove('open');
+        return;
+      }
+      renderDropdown(cariKota(q));
+    });
+
+    inp.addEventListener('focus', function() {
+      if (inp.value.trim().length >= 2 && !_selectedKota) {
+        renderDropdown(cariKota(inp.value.trim()));
+      }
+    });
+
+    inp.addEventListener('blur', function() {
+      setTimeout(function() {
+        if (dd) dd.classList.remove('open');
+      }, 200);
+    });
+
+    if (clr) {
+      clr.addEventListener('click', function() {
+        inp.value = '';
+        _selectedKota = null;
+        clr.classList.remove('visible');
+        if (dd) dd.classList.remove('open');
+        var res = document.getElementById('ongkir-result');
+        if (res) res.classList.remove('visible');
+        inp.focus();
+      });
+    }
+  }
+
+  // Init setelah DOM siap
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOngkir);
+  } else {
+    initOngkir();
+  }
+
+})();
 
 restoreDraft();
 window.setLang = setLang;
