@@ -3383,8 +3383,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     {
       "@type": "Product",
       "name": "Hoodie NPD",
-      "description": "Hoodie premium AWAS BAHAYA NPD. Bahan Fleece 240gsm. Warna Hitam. Ukuran S hingga 2XL.",
-      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282259/Hoodie_All_hfzum1.jpg",
+      "description": "Hoodie premium AWAS BAHAYA NPD. Bahan Fleece 240gsm. Tersedia 3 warna: Hitam, Navy, Maroon. Ukuran S hingga 2XL.",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700586/HOODIE_Mockup_NEW_ff1eyi.jpg",
       "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
       "material": "Fleece 240gsm",
       "offers": {
@@ -3498,7 +3498,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
            alt="AWAS BAHAYA NPD — Poster 4" loading="lazy">
     </div>
     <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311252/HOODIE_Mockup_zxsxkc.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775703909/HOODIE_Mockup_NEW_ff1eyi.jpg"
            alt="AWAS BAHAYA NPD — Poster 5" loading="lazy">
     </div>
     <div class="hero-slide">
@@ -3882,7 +3882,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
           </div>
           <div class="fg">
             <label class="flbl" for="f-kodepos" data-i18n="lblKodePos">Kode Pos *</label>
-            <input class="finp" type="text" id="f-kodepos" placeholder="80361" maxlength="6" inputmode="numeric">
+            <input class="finp" type="text" id="f-kodepos" placeholder="80361" maxlength="6" inputmode="numeric" autocomplete="postal-code">
           </div>
         </div>
         <div class="fg" style="margin-bottom:0;">
@@ -4215,6 +4215,11 @@ var KATALOG = [
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
     ],
+    colorFotoMap:{
+      hitam:  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
+      putih:  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
+      orange: 'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
+    },
     designs:null,
     sizeChart:{
       headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],
@@ -4229,10 +4234,23 @@ var KATALOG = [
     id:'hoodie-npd', nama:'Hoodie NPD', namaLengkap:'Hoodie NPD',
     hargaLabel:'Rp 270.000',
     hargaFn:function(){ return 270000; },
-    status:'tersedia', warnaTetap:'Hitam', sizeTetap:null,
-    material:'Fleece 240gsm · Unisex · 1 Warna',
-    desc:{ id:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 1 warna.', en:'Premium AWAS BAHAYA NPD hoodie. Thick and comfortable fleece fabric. Available in 1 color.' },
-    foto:['https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282259/Hoodie_All_hfzum1.jpg'],
+    status:'tersedia', warnaTetap:null, sizeTetap:null,
+    warnaInfo:{ id:'Hitam · Navy · Maroon', en:'Black · Navy · Maroon' },
+    material:'Fleece 240gsm · Unisex · 3 Warna',
+    desc:{ id:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 3 warna — Hitam, Navy, Maroon.', en:'Premium AWAS BAHAYA NPD hoodie. Thick and comfortable fleece fabric. Available in 3 colors — Black, Navy, Maroon.' },
+    foto:[
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700591/Hoodie_BLACK_hzthag.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700591/Hoodie_NAVY_lwg5ps.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700592/Hoodie_MAROON_z7jr7t.jpg'
+    ],
+    hoodiColors:[
+      { id:'hitam',  label:{ id:'HITAM',  en:'BLACK'  }, hex:'#1a1a1a',
+        foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700591/Hoodie_BLACK_hzthag.jpg' },
+      { id:'navy',   label:{ id:'NAVY',   en:'NAVY'   }, hex:'#1a2a4a',
+        foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700591/Hoodie_NAVY_lwg5ps.jpg' },
+      { id:'maroon', label:{ id:'MAROON', en:'MAROON' }, hex:'#5c1a1a',
+        foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700592/Hoodie_MAROON_z7jr7t.jpg' }
+    ],
     designs:null,
     sizeChart:{
       headers:['Size','Lebar Dada','Panjang','Lengan'],
@@ -4251,6 +4269,8 @@ var KATALOG = [
     material:'Cotton Combed 24s · Pilih Design · Warna per design',
     desc:{ id:'Seri terbatas dengan design eksklusif. Mebakti Kapah (Merah Maroon) · Rahajeng Sabar (Abu-abu).', en:'Limited series with exclusive designs. Mebakti Kapah (Maroon Red) · Rahajeng Sabar (Grey).' },
     foto:[
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775703200/NPD_SERIES_Mebakti_Kapah_vqdplw.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775703204/NPD_SERIES_-_Rahajeng_Sabar_kpeka2.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/NPD_SERIES_Mebakti_Kapah_mbqs4g.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775471996/NPD_Mebakti_Kapah_Detail_zkob9i.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775527798/Oversized_t-shirt_back_202604071009_rmulax.jpg',
@@ -4399,7 +4419,18 @@ function katPanelSetSize(size, price) {
 function katPanelSetColor(colorId) {
   _katColor = colorId;
   var p = KATALOG.find(function(x){ return x.id===_katActive; });
-  if (p) renderPanelPicker(p, true);
+  if (p) {
+    // Sync slider to foto warna yang sesuai
+    var fotoUrl = null;
+    if (p.colorFotoMap && p.colorFotoMap[colorId]) {
+      fotoUrl = p.colorFotoMap[colorId];
+    } else if (p.hoodiColors) {
+      var hc = p.hoodiColors.find(function(c){ return c.id === colorId; });
+      if (hc && hc.foto) fotoUrl = hc.foto;
+    }
+    if (fotoUrl) sliderGoToFoto(fotoUrl);
+    renderPanelPicker(p, true);
+  }
 }
 function katPanelSetDesign(designId) {
   _katDesign = designId;
@@ -4493,28 +4524,22 @@ function renderPanelPicker(p, skipScroll) {
 
   var colorHtml = '';
   if (p.warnaTetap) {
-    // Fixed color product (Hoodie, Tumbler)
+    // Fixed color product (Tumbler)
     var wHex = COLORS.find(function(c){ return c.label.id.toLowerCase()===p.warnaTetap.toLowerCase(); });
     colorHtml = '<div class="kat-fixed-val">'
       + (wHex ? '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+wHex.hex+';border:1px solid rgba(255,255,255,.2);"></span> ' : '')
       + p.warnaTetap.toUpperCase() + '</div>';
-  } else if (p.designs && _katDesign) {
-    // Design-based color (NPD Series) — warna sudah auto-set dari design
-    var selDesign = p.designs.find(function(d){ return d.id === _katDesign; });
-    if (selDesign && selDesign.warnaLabel) {
-      colorHtml = '<div class="kat-fixed-val">'
-        + '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+(selDesign.warnaHex||'#888')+';border:1px solid rgba(255,255,255,.2);"></span> '
-        + selDesign.warnaLabel.toUpperCase()
-        + ' <span style="font-size:9px;opacity:.5;margin-left:4px;">'+(currentLang==='en'?'(from design)':'(dari design)')+'</span>'
-        + '</div>';
-    }
-  } else if (!p.designs) {
-    // NPD Classic — manual color picker
+  } else if (p.designs) {
+    // NPD Series — warna sudah terepresentasi di chip design, tidak perlu color picker
+    colorHtml = '';
+  } else {
+    // Color picker — pakai hoodiColors jika ada (Hoodie), fallback ke global COLORS (NPD Classic)
+    var colorList = p.hoodiColors || COLORS;
     colorHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'COLOR':'WARNA')+'</div>'
       + '<div class="kat-color-picker">'
-      + COLORS.map(function(c){
+      + colorList.map(function(c){
           var active = (_katColor||'') === c.id;
-          var lbl = getColorLabel(c);
+          var lbl = c.label ? (typeof c.label==='object' ? (c.label[currentLang]||c.label.id) : c.label) : c.id.toUpperCase();
           var border = c.id==='putih' ? 'border:1.5px solid rgba(200,134,10,.4);' : '';
           return '<div class="kat-copt'+(active?' active':'')+'"'
             +' onclick="katPanelSetColor(\''+c.id+'\')" role="button" aria-label="'+lbl+'">'
@@ -4523,7 +4548,8 @@ function renderPanelPicker(p, skipScroll) {
             +'</div>';
         }).join('')
       + '</div>'
-      +'<p class="kat-picker-hint">⚡ <a href="https://wa.me/6281236869035?text='+(currentLang==='en'?'Hi%2C+want+to+check+color+stock':'Halo%2C+mau+tanya+stok+warna+NPD')+'" target="_blank" style="color:var(--amber);">'+(currentLang==='en'?'Check color stock':'Cek stok warna')+'</a> '+(currentLang==='en'?'before ordering':'sebelum order')+'</p>';
+      + (p.hoodiColors ? '' :
+          '<p class="kat-picker-hint">⚡ <a href="https://wa.me/6281236869035?text='+(currentLang==='en'?'Hi%2C+want+to+check+color+stock':'Halo%2C+mau+tanya+stok+warna+NPD')+'" target="_blank" style="color:var(--amber);">'+(currentLang==='en'?'Check color stock':'Cek stok warna')+'</a> '+(currentLang==='en'?'before ordering':'sebelum order')+'</p>');
   }
 
   var qtyHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'QUANTITY':'JUMLAH')+'</div>'
@@ -4667,6 +4693,7 @@ function katFillDetail(p) {
   _katSize   = p.sizeTetap || (p.sizes && p.sizes[0]) || 'S';
   _katColor  = p.warnaTetap
     ? (function(){ var cf=COLORS.find(function(c){return c.label.id.toLowerCase()===p.warnaTetap.toLowerCase();}); return cf?cf.id:'hitam'; })()
+    : p.hoodiColors ? p.hoodiColors[0].id  // auto-select warna pertama untuk hoodie
     : null;
   _katQty    = 1;
   _katDesign = null; // always reset — prevents stale design from previous product
@@ -4755,8 +4782,8 @@ function katAddToOrder() {
   var p=KATALOG.find(function(x){return x.id===_katActive;});
   if(!p||p.status!=='tersedia') return;
   if(p.designs&&!_katDesign) return;
-  // Color guard: only for Classic (no designs, no warnaTetap)
-  if(!p.warnaTetap && !p.designs && !_katColor) { toast('Pilih warna dulu!'); return; }
+  // Color guard: wajib pilih warna untuk produk dengan color picker (Classic & Hoodie)
+  if(!p.warnaTetap && !p.designs && !_katColor) { toast(t('pickColor')||'Pilih warna dulu!'); return; }
   if(ITEMS.filter(function(x){return x.qty>0||x.produkId;}).length >= MAX_ITEMS) {
     toast(currentLang==='id'?'Maks '+MAX_ITEMS+' item per order':'Max '+MAX_ITEMS+' items per order');
     return;
@@ -4779,7 +4806,8 @@ function katAddToOrder() {
   } else {
     chosenColor = _katColor || '';
     var cObj = COLORS.find(function(c){return c.id===chosenColor;});
-    chosenColorLabel = cObj ? getColorLabel(cObj) : chosenColor.toUpperCase();
+    if (!cObj && p.hoodiColors) cObj = p.hoodiColors.find(function(c){return c.id===chosenColor;});
+    chosenColorLabel = cObj ? (typeof cObj.label==='object' ? (cObj.label[currentLang]||cObj.label.id) : cObj.label) : chosenColor.toUpperCase();
   }
 
   var designNama='';
