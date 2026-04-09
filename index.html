@@ -1582,15 +1582,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   bottom:calc(100px + env(safe-area-inset-bottom, 0px));
   left:50%;
   transform:translateX(-50%) translateY(120px);
+  opacity:0;
   background:var(--amber);color:var(--black);
   font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;
   padding:10px 20px;z-index:9999;
-  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s ease;
   box-shadow:0 6px 24px rgba(0,0,0,.5);
   max-width:calc(100vw - 32px);text-align:center;
   white-space:normal;word-break:break-word;
 }
-.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 
 /* ─── SHIPPING BADGE ─── */
 .shipping-badge{
@@ -2068,7 +2069,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .wa-float:hover .wa-float-tooltip,
 .wa-float.show-tip .wa-float-tooltip{opacity:1;transform:translateX(0);}
 
-/* ─── PRE-ORDER BADGE ─── */
+/* Sembunyikan saat user sedang dalam order flow */
+.wa-float.wa-hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(80px);
+  transition:opacity .3s ease, transform .3s ease;
+}
+.wa-float:not(.wa-hidden){
+  transition:opacity .3s ease, transform .3s ease, bottom .3s cubic-bezier(.25,.46,.45,.94);
+}
 .preorder-bar{
   background:linear-gradient(135deg,#1a0f05,#2a1608);
   border-bottom:2px solid rgba(200,134,10,.3);
@@ -4368,7 +4378,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <div class="mc-total-amount" id="mc-total">Rp 0</div>
   </div>
   <div class="mc-actions">
-    <button class="mc-btn-continue" onclick="miniCartClose()" id="mc-btn-continue-txt">TAMBAH LAGI</button>
+    <button class="mc-btn-continue" onclick="miniCartClose();var k=document.getElementById('katalog-section');if(k)setTimeout(function(){k.scrollIntoView({behavior:'smooth',block:'start'});},200);" id="mc-btn-continue-txt">TAMBAH LAGI</button>
     <button class="mc-btn-checkout" onclick="miniCartClose();cartGoCheckout()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       CHECKOUT
@@ -4939,6 +4949,7 @@ function katClose() {
   if (panel) panel.classList.remove('kdp-open');
   _katActive = null; _katDesign = null;
   renderKatalog();
+  waFloatUpdate();
 }
 
 // ─── OPEN PRODUCT via banner anchor ──────────────────
@@ -4959,6 +4970,7 @@ function openProduct(id) {
   katSwitchTab('foto');
   var panel = document.getElementById('kat-detail-panel');
   if (panel) panel.classList.add('kdp-open');
+  waFloatUpdate();
   // Scroll: first land on the katalog section, then let panel slide in
   var katSec = document.getElementById('katalog-section');
   if (katSec) {
@@ -4985,6 +4997,7 @@ function katToggle(id) {
   // Always start on foto tab — design selection is now inline in the picker
   katSwitchTab('foto');
   panel.classList.add('kdp-open');
+  waFloatUpdate();
   setTimeout(function(){ panel.scrollIntoView({behavior:'smooth',block:'nearest'}); },80);
 }
 
@@ -5876,6 +5889,20 @@ function restoreDraft() {
 LS_FIELDS.forEach(function(id){ var el=$(id); if(el) el.addEventListener('input',saveDraft); });
 var ccEl=$('f-cc'); if(ccEl) ccEl.addEventListener('change',saveDraft);
 
+// ─── WA FLOAT VISIBILITY ────────────────────────────────
+function waFloatUpdate() {
+  var wa = document.querySelector('.wa-float');
+  if (!wa) return;
+  var panelOpen  = !!(document.getElementById('kat-detail-panel') || {classList:{contains:function(){return false;}}}).classList.contains('kdp-open')
+                || !!(document.querySelector('.kat-detail-panel.kdp-open'));
+  var orderOpen  = (function(){
+    var s1=$('step1'),s2=$('step2'),s3=$('step3');
+    return (s1&&s1.style.display==='block')||(s2&&s2.style.display==='block')||(s3&&s3.style.display==='block');
+  })();
+  wa.classList.toggle('wa-hidden', !!(panelOpen || orderOpen));
+}
+window.waFloatUpdate = waFloatUpdate;
+
 // ─── STEP NAVIGATION ────────────────────────────────────
 function goToStep(n) {
   var s1=$('step1'),s2=$('step2'),s3=$('step3');
@@ -5899,6 +5926,7 @@ function goToStep(n) {
     var ln=$('sl'+j); if(ln) ln.className='sline'+(lines[j]?' '+lines[j]:'');
   }
   if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(waFloatUpdate, 50);
 }
 (function(){
   var ua=$('upload-area'); if(!ua||!window.IntersectionObserver) return;
