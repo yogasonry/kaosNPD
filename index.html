@@ -4618,11 +4618,18 @@ function renderFotoSlider(fotos, produkNama) {
 
   var single = _sliderFotos.length === 1;
 
-  // Gunakan medium URL untuk panel slider — hi-res hanya saat user tap zoom
+  // Slide 0: eager (langsung visible), slide lain: lazy
+  // Mobile: w_480 lebih ringan dari clMedium (w_600)
   var slides = _sliderFotos.map(function(f, si){
-    var medUrl = clMedium(f);
+    var isFirst = si === 0;
+    var mobileW = isFirst ? 480 : 600;
+    var imgW = _isMobile ? mobileW : 900;
+    var imgQ = _isMobile ? 65 : 72;
+    var imgUrl = clUrl(f, imgW, imgQ);
+    var lazyAttr = isFirst ? 'loading="eager"' : 'loading="lazy"';
     return '<div class="kat-slider-slide" onclick="lbOpen('+si+')" style="cursor:zoom-in;">'
-      + '<img class="img-prog loading" src="' + medUrl + '" data-hires="' + f + '" alt="' + (produkNama||'') + '" loading="lazy" onload="this.classList.remove(\'loading\');this.classList.add(\'loaded\');this.closest(\'.kat-foto-wrap\').classList.add(\'img-ready\')">'
+      + '<img class="img-prog' + (isFirst ? '' : ' loading') + '" src="' + imgUrl + '" alt="' + (produkNama||'') + '" ' + lazyAttr + ' decoding="async"'
+      + ' onload="this.classList.remove(\'loading\');this.classList.add(\'loaded\');var w=document.getElementById(\'kat-foto-wrap\');if(w)w.classList.add(\'img-ready\')">'
       + '</div>';
   }).join('');
 
@@ -6678,6 +6685,7 @@ window.scrollToTop = scrollToTop;
 // ═══════════════════════════════════════════════════════
 var _lbIdx   = 0;
 var _lbFotos = [];
+var _lbCache = {}; // cache hi-res yang sudah diload
 
 function lbOpen(startIdx) {
   _lbFotos = _sliderFotos.slice();
@@ -6717,7 +6725,6 @@ function _lbRender() {
   var dots    = document.getElementById('lb-dots');
   var prev    = document.getElementById('lb-prev');
   var next    = document.getElementById('lb-next');
-  var spinner = document.getElementById('lb-spinner');
   var n       = _lbFotos.length;
 
   if (ctr) ctr.textContent = n > 1 ? (_lbIdx+1) + ' / ' + n : '';
@@ -6730,34 +6737,52 @@ function _lbRender() {
   if (next) next.classList.toggle('hidden', n <= 1 || _lbIdx === n-1);
 
   if (!img) return;
-  var baseUrl  = _lbFotos[_lbIdx];
-  var thumbUrl = clMedium(baseUrl);
-  var hiresUrl = clHires(baseUrl);
-  var currentIdx = _lbIdx;
 
-  if (spinner) spinner.classList.remove('hidden');
-  img.style.opacity = '0.4';
+  var currentIdx = _lbIdx;
+  var baseUrl    = _lbFotos[currentIdx];
+  // Gunakan ukuran yang sama dengan slider (sudah di-cache browser)
+  var mobileW    = _isMobile ? 480 : 900;
+  var thumbUrl   = clUrl(baseUrl, mobileW, _isMobile ? 65 : 72);
+  var hiresUrl   = clHires(baseUrl);
+
+  // Tampil instan — pakai slider image yang sudah cached
   img.src = thumbUrl;
-  img.onload = function(){
+  img.style.transition = 'none';
+  img.style.opacity = '1';
+
+  // Hi-res sudah di cache — langsung swap
+  if (_lbCache[currentIdx] && _lbCache[currentIdx].complete) {
+    img.src = hiresUrl;
+    _lbPreloadNeighbour(currentIdx, n);
+    return;
+  }
+
+  // Load hi-res background — fade swap halus saat ready
+  var h = new Image();
+  h.onload = function() {
+    _lbCache[currentIdx] = h;
     if (_lbIdx !== currentIdx) return;
-    img.style.transition = 'opacity .25s';
-    img.style.opacity = '1';
-    if (spinner) spinner.classList.add('hidden');
-    // Load hi-res di background, swap smooth
-    var h = new Image();
-    h.onload = function(){
+    img.style.transition = 'opacity .35s';
+    img.style.opacity = '0';
+    setTimeout(function() {
       if (_lbIdx !== currentIdx) return;
-      img.style.transition = 'opacity .35s';
-      img.style.opacity = '0';
-      setTimeout(function(){
-        if (_lbIdx !== currentIdx) return;
-        img.src = hiresUrl;
-        img.style.opacity = '1';
-      }, 120);
-    };
-    h.src = hiresUrl;
+      img.src = hiresUrl;
+      img.style.opacity = '1';
+    }, 175);
+    _lbPreloadNeighbour(currentIdx, n);
   };
-  img.onerror = function(){ if (spinner) spinner.classList.add('hidden'); };
+  h.onerror = function() {};
+  h.src = hiresUrl;
+}
+
+function _lbPreloadNeighbour(idx, n) {
+  [idx + 1, idx - 1].forEach(function(ni) {
+    ni = ((ni % n) + n) % n;
+    if (_lbCache[ni]) return;
+    var pre = new Image();
+    pre.onload = function() { _lbCache[ni] = pre; };
+    pre.src = clHires(_lbFotos[ni]);
+  });
 }
 
 // Keyboard nav + tap-outside close
