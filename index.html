@@ -6271,12 +6271,24 @@ function _hsLoadSlide(n) {
   var img = slide.querySelector('img');
   if (!img || img.dataset.loaded) return;
   img.dataset.loaded = '1';
-  // Slide 0 sudah punya src langsung; slide lain pakai data-src
-  var src = img.dataset.src;
-  if (src) img.src = src;
-  // Jika src belum valid, batalkan
-  if (!img.src || img.src === window.location.href) { delete img.dataset.loaded; return; }
+
+  // Hitung ukuran optimal: CSS width × DPR (max 2x supaya file tidak terlalu besar)
+  var dpr  = Math.min(window.devicePixelRatio || 1, 2);
+  var cssW = slide.offsetWidth || window.innerWidth;
+  var px   = Math.ceil(cssW * dpr);
+  // Snap ke Cloudinary breakpoints supaya CDN cache efisien
+  var w    = px <= 700 ? 750 : px <= 1000 ? 1080 : px <= 1400 ? 1400 : 1600;
+
+  // Ambil URL dari data-src (slide 1–9) atau src langsung (slide 0)
+  var rawUrl = img.dataset.src || img.getAttribute('src') || '';
+  if (!rawUrl || rawUrl === window.location.href) { delete img.dataset.loaded; return; }
+
+  // Apply ukuran & quality optimal via Cloudinary transform
+  var finalUrl = clUrl(rawUrl, w, 85);
+
   img.classList.add('loading');
+  img.src = finalUrl;
+
   function onReady() {
     img.classList.remove('loading');
     img.classList.add('loaded');
