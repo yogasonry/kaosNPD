@@ -48,7 +48,11 @@
 <meta property="og:locale:alternate" content="en_US">
 <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="image" href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774415260/Hero-5_fz9ile.png" fetchpriority="high">
+<link rel="preload" as="image"
+  href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1774415260/Hero-5_fz9ile.png"
+  fetchpriority="high"
+  imagesrcset="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_65,f_auto/v1774415260/Hero-5_fz9ile.png 600w, https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_65,f_auto/v1774415260/Hero-5_fz9ile.png 900w"
+  imagesizes="100vw">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet"></noscript>
@@ -1609,8 +1613,79 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 /* Scroll animation fallback — elements visible without JS */
 .step-card,.gal-item,.product-info,.price-wrap{transition:opacity .5s ease,transform .5s ease;}
-/* ─── TYPEWRITER ─── */
-.typewriter-cursor{
+/* ─── PROGRESSIVE IMAGE LOADING ────────────────────────── */
+/* img-prog: blur placeholder → sharp on load */
+.img-prog{
+  transition:filter .4s ease, opacity .4s ease;
+}
+.img-prog.loading{
+  filter:blur(8px);
+  opacity:.7;
+}
+.img-prog.loaded{
+  filter:none;
+  opacity:1;
+}
+/* Skeleton shimmer for katalog card images */
+.kat-img-wrap::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(
+    90deg,
+    rgba(61,26,8,.15) 0%,
+    rgba(200,134,10,.08) 50%,
+    rgba(61,26,8,.15) 100%
+  );
+  background-size:200% 100%;
+  animation:imgSkeleton 1.4s ease-in-out infinite;
+  opacity:1;
+  transition:opacity .3s;
+  z-index:1;
+  pointer-events:none;
+}
+.kat-img-wrap.img-ready::before{
+  opacity:0;
+}
+@keyframes imgSkeleton{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+/* Gallery item skeleton */
+.gal-item::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(
+    90deg,
+    rgba(61,26,8,.15) 0%,
+    rgba(200,134,10,.08) 50%,
+    rgba(61,26,8,.15) 100%
+  );
+  background-size:200% 100%;
+  animation:imgSkeleton 1.4s ease-in-out infinite;
+  opacity:1;transition:opacity .3s;
+  z-index:1;pointer-events:none;border-radius:8px;
+}
+.gal-item.img-ready::before{ opacity:0; }
+/* Hero slide skeleton */
+.hero-slide::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(22,15,10,.6);
+  opacity:1;transition:opacity .5s;
+  pointer-events:none;z-index:1;
+}
+.hero-slide.img-ready::before{ opacity:0; }
+/* Lightbox loading spinner */
+.lb-spinner{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:32px;height:32px;
+  border:3px solid rgba(200,134,10,.2);
+  border-top-color:var(--amber);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  pointer-events:none;
+}
+.lb-spinner.hidden{ display:none; }
   display:inline-block;color:var(--amber);
   animation:twBlink .7s step-end infinite;
   font-style:normal;margin-left:2px;
@@ -3445,7 +3520,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       "@type": "Product",
       "name": "Kaos NPD Classic",
       "description": "Kaos awareness NPD (Narcissistic Personality Disorder) desain original AWAS BAHAYA NPD. Bahan Cotton Combed 24s premium 170-180 GSM. Tersedia warna Hitam, Putih, Orange. Ukuran S hingga XXXL.",
-      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg",
+      "image": "https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716112/NPD_CLASSIC_All_Black_oubfrq.jpg",
       "brand": { "@type": "Brand", "name": "AWAS BAHAYA NPD" },
       "material": "Cotton Combed 24s 170-180 GSM",
       "color": "Hitam, Putih, Orange",
@@ -3561,45 +3636,66 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <div class="hero-section-wrap">
 <div class="hero-slide-wrap">
   <div class="hero-track" id="hs-track">
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774415260/Hero-5_fz9ile.png"
-           alt="Kaos AWAS BAHAYA NPD — Desain Bhuta Kala Modern, kaos awareness NPD dari Bali" loading="eager">
+    <div class="hero-slide" id="hs-slide-0">
+      <img class="img-prog"
+           src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1774415260/Hero-5_fz9ile.png"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774415260/Hero-5_fz9ile.png"
+           alt="Kaos AWAS BAHAYA NPD — Desain Bhuta Kala Modern, kaos awareness NPD dari Bali"
+           fetchpriority="high">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774415266/Hero-6_kpywog.png"
-           alt="Kaos NPD Bhuta Kala Modern — koleksi awareness Narcissistic Personality Disorder" loading="lazy">
+    <div class="hero-slide" id="hs-slide-1">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1774415266/Hero-6_kpywog.png"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774415266/Hero-6_kpywog.png"
+           src="" alt="Kaos NPD Bhuta Kala Modern — koleksi awareness Narcissistic Personality Disorder">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311241/NPD_Series_Hero_1_aslmlx.jpg"
-           alt="Kaos NPD Series — Mebakti Kapah, desain eksklusif awareness NPD Bali" loading="lazy">
+    <div class="hero-slide" id="hs-slide-2">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775311241/NPD_Series_Hero_1_aslmlx.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311241/NPD_Series_Hero_1_aslmlx.jpg"
+           src="" alt="Kaos NPD Series — Mebakti Kapah, desain eksklusif awareness NPD Bali">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311229/NPD_Series_Hero_2_nh25rv.jpg"
-           alt="Kaos NPD Series — Rahajeng Sabar, koleksi mental health awareness dari Bali" loading="lazy">
+    <div class="hero-slide" id="hs-slide-3">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775311229/NPD_Series_Hero_2_nh25rv.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775311229/NPD_Series_Hero_2_nh25rv.jpg"
+           src="" alt="Kaos NPD Series — Rahajeng Sabar, koleksi mental health awareness dari Bali">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775703909/HOODIE_Mockup_NEW_ff1eyi.jpg"
-           alt="Hoodie NPD Bhuta Kala Modern — tersedia warna Hitam, Navy, Maroon" loading="lazy">
+    <div class="hero-slide" id="hs-slide-4">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775703909/HOODIE_Mockup_NEW_ff1eyi.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775703909/HOODIE_Mockup_NEW_ff1eyi.jpg"
+           src="" alt="Hoodie NPD Bhuta Kala Modern — tersedia warna Hitam, Navy, Maroon">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545379/HeroSeries-3_pwocld.jpg"
-           alt="NPD Series limited edition — kaos awareness Narcissistic Personality Disorder" loading="lazy">
+    <div class="hero-slide" id="hs-slide-5">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775545379/HeroSeries-3_pwocld.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545379/HeroSeries-3_pwocld.jpg"
+           src="" alt="NPD Series limited edition — kaos awareness Narcissistic Personality Disorder">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545380/Hero-Tumbler_wnuvru.jpg"
-           alt="Tumbler NPD Bhuta Kala Modern — stainless steel premium dari Bali" loading="lazy">
+    <div class="hero-slide" id="hs-slide-6">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775545380/Hero-Tumbler_wnuvru.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545380/Hero-Tumbler_wnuvru.jpg"
+           src="" alt="Tumbler NPD Bhuta Kala Modern — stainless steel premium dari Bali">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545502/Hero-Hoodie-1_zqa31a.jpg"
-           alt="Hoodie NPD premium — fleece 240gsm, unisex, desain Bhuta Kala Modern" loading="lazy">
+    <div class="hero-slide" id="hs-slide-7">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775545502/Hero-Hoodie-1_zqa31a.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775545502/Hero-Hoodie-1_zqa31a.jpg"
+           src="" alt="Hoodie NPD premium — fleece 240gsm, unisex, desain Bhuta Kala Modern">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775610746/HeroNewClassic_oxfvlx.jpg"
-           alt="Kaos NPD Classic — cotton combed 24s premium, group order Bali" loading="lazy">
+    <div class="hero-slide" id="hs-slide-8">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1775610746/HeroNewClassic_oxfvlx.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775610746/HeroNewClassic_oxfvlx.jpg"
+           src="" alt="Kaos NPD Classic — cotton combed 24s premium, group order Bali">
     </div>
-    <div class="hero-slide">
-      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
-           alt="AWAS BAHAYA NPD — koleksi fashion awareness mental health dari Bali" loading="lazy">
+    <div class="hero-slide" id="hs-slide-9">
+      <img class="img-prog"
+           data-src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
+           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774233710/Hero-4_tcmbo8.jpg"
+           src="" alt="AWAS BAHAYA NPD — koleksi fashion awareness mental health dari Bali">
     </div>
   </div>
   <button class="hs-btn hs-prev" onclick="hsNav(-1)" aria-label="Slide sebelumnya">&#8249;</button>
@@ -3774,34 +3870,64 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="gallery-strip-wrap">
     <div class="gallery-strip" id="gallery-strip">
       <div class="gal-item" onclick="dlbOpen(0)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg" alt="Pasangan muda pakai kaos AWAS BAHAYA NPD — street style Bali" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg"
+             alt="Pasangan muda pakai kaos AWAS BAHAYA NPD — street style Bali">
       </div>
       <div class="gal-item" onclick="dlbOpen(1)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775527735/Young_couple_laughing_202604071008_mnkjns.jpg" alt="Couple outfit kaos NPD Bhuta Kala Modern — lifestyle awareness" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775527735/Young_couple_laughing_202604071008_mnkjns.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775527735/Young_couple_laughing_202604071008_mnkjns.jpg"
+             alt="Couple outfit kaos NPD Bhuta Kala Modern — lifestyle awareness">
       </div>
       <div class="gal-item" onclick="dlbOpen(2)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Young_female_model_202604070727_y3qxrg.jpg" alt="Model perempuan pakai kaos NPD Classic — fashion awareness mental health" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775518941/Young_female_model_202604070727_y3qxrg.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775518941/Young_female_model_202604070727_y3qxrg.jpg"
+             alt="Model perempuan pakai kaos NPD Classic — fashion awareness mental health">
       </div>
       <div class="gal-item" onclick="dlbOpen(3)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775525574/Young_female_influencer_202604070930_hx4ul6.jpg" alt="Influencer muda dengan kaos NPD — awareness Narcissistic Personality Disorder" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775525574/Young_female_influencer_202604070930_hx4ul6.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775525574/Young_female_influencer_202604070930_hx4ul6.jpg"
+             alt="Influencer muda dengan kaos NPD — awareness Narcissistic Personality Disorder">
       </div>
       <div class="gal-item" onclick="dlbOpen(4)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg" alt="Hoodie NPD hitam Bhuta Kala Modern — premium fleece 240gsm dari Bali" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg"
+             alt="Hoodie NPD hitam Bhuta Kala Modern — premium fleece 240gsm dari Bali">
       </div>
       <div class="gal-item" onclick="dlbOpen(5)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775525574/Young_female_at_202604070931_ld66jf.jpg" alt="Model perempuan dengan koleksi kaos NPD Series dari Bali" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775525574/Young_female_at_202604070931_ld66jf.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775525574/Young_female_at_202604070931_ld66jf.jpg"
+             alt="Model perempuan dengan koleksi kaos NPD Series dari Bali">
       </div>
       <div class="gal-item" onclick="dlbOpen(6)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775527451/Young_woman_sitting_202604071000_nztcdq.jpg" alt="Kaos NPD awareness — fashion statement untuk generasi muda Indonesia" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775527451/Young_woman_sitting_202604071000_nztcdq.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775527451/Young_woman_sitting_202604071000_nztcdq.jpg"
+             alt="Kaos NPD awareness — fashion statement untuk generasi muda Indonesia">
       </div>
       <div class="gal-item" onclick="dlbOpen(7)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775526311/Woman_holding_tumbler_202604070944_yqbb5l.jpg" alt="Tumbler NPD Bhuta Kala Modern — eksklusif stainless steel premium" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775526311/Woman_holding_tumbler_202604070944_yqbb5l.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775526311/Woman_holding_tumbler_202604070944_yqbb5l.jpg"
+             alt="Tumbler NPD Bhuta Kala Modern — eksklusif stainless steel premium">
       </div>
       <div class="gal-item" onclick="dlbOpen(8)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775525860/Woman_holding_tumbler_202604070937_vhfmdl.jpg" alt="Tumbler NPD — merchandise eksklusif AWAS BAHAYA NPD dari Bali" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775525860/Woman_holding_tumbler_202604070937_vhfmdl.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775525860/Woman_holding_tumbler_202604070937_vhfmdl.jpg"
+             alt="Tumbler NPD — merchandise eksklusif AWAS BAHAYA NPD dari Bali">
       </div>
       <div class="gal-item" onclick="dlbOpen(9)">
-        <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_auto,f_auto/v1775527542/Young_male_walking_202604071004_juozud.jpg" alt="Pemuda pakai kaos NPD — street fashion awareness dari Bali" loading="lazy">
+        <img class="img-prog" loading="lazy"
+             src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_400,q_55,f_auto/v1775527542/Young_male_walking_202604071004_juozud.jpg"
+             data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1200,q_auto:best,f_auto/v1775527542/Young_male_walking_202604071004_juozud.jpg"
+             alt="Pemuda pakai kaos NPD — street fashion awareness dari Bali">
       </div>
     </div>
   </div>
@@ -3812,7 +3938,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <button id="dlb-close" aria-label="Tutup galeri" style="position:fixed;top:14px;right:14px;width:48px;height:48px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">✕</button>
   <div id="dlb-wrap" style="position:relative;width:100%;max-width:min(94vw,700px);display:flex;align-items:center;justify-content:center;">
     <button id="dlb-prev" class="dlb-nav-btn dlb-prev-btn" aria-label="Foto sebelumnya">&#8249;</button>
-    <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;will-change:opacity;transition:opacity .25s;background:rgba(255,255,255,.03);">
+    <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;will-change:opacity;transition:opacity .3s;background:rgba(255,255,255,.03);">
+    <div class="lb-spinner hidden" id="dlb-spinner"></div>
     <button id="dlb-next" class="dlb-nav-btn dlb-next-btn" aria-label="Foto berikutnya">&#8250;</button>
   </div>
   <div id="dlb-counter" style="font-family:'Anton SC',sans-serif;font-size:13px;letter-spacing:2px;color:var(--amber);margin-top:12px;opacity:.75;"></div>
@@ -4219,6 +4346,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="lb-wrap" id="lb-wrap">
     <button class="lb-nav lb-prev hidden" id="lb-prev" onclick="lbNav(-1)" aria-label="Sebelumnya">&#8249;</button>
     <img id="lb-img" class="lb-img" src="" alt="">
+    <div class="lb-spinner hidden" id="lb-spinner"></div>
     <button class="lb-nav lb-next hidden" id="lb-next" onclick="lbNav(1)" aria-label="Berikutnya">&#8250;</button>
   </div>
   <div class="lb-dots" id="lb-dots"></div>
@@ -4264,6 +4392,87 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 // MAIN SCRIPT — AWAS BAHAYA NPD
 // ═══════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════
+// PROGRESSIVE IMAGE HELPERS — Cloudinary URL transform
+// ═══════════════════════════════════════════════════════
+
+// Deteksi apakah layar mobile (≤599px) atau retina
+var _isMobile = window.innerWidth <= 599;
+var _isRetina = window.devicePixelRatio >= 2;
+
+// Transform Cloudinary URL ke resolusi tertentu
+function clUrl(url, w, q) {
+  if (!url || url.indexOf('res.cloudinary.com') < 0) return url;
+  return url.replace(/\/upload\/[^/]+\//, '/upload/w_' + w + ',q_' + q + ',f_auto/');
+}
+
+// Thumbnail untuk grid/card — kecil, cepat load
+function clThumb(url) {
+  var w = _isMobile ? 320 : 500;
+  return clUrl(url, w, 55);
+}
+
+// Medium untuk slider panel produk — medium quality
+function clMedium(url) {
+  var w = _isMobile ? 600 : 900;
+  return clUrl(url, w, 72);
+}
+
+// Hi-res untuk lightbox/zoom — hanya load saat dibutuhkan
+function clHires(url) {
+  var w = _isMobile ? 900 : (_isRetina ? 2000 : 1600);
+  return clUrl(url, w, 'auto:best');
+}
+
+// Blur placeholder — sangat kecil + blur, untuk LQIP
+function clBlur(url) {
+  return clUrl(url, 40, 10).replace('/f_auto/', '/e_blur:1000,f_auto/');
+}
+
+// Progressive load: tampilkan blur dulu, lalu swap ke hires saat loaded
+function progressiveLoad(imgEl, thumbUrl, hiresUrl, onReady) {
+  if (!imgEl) return;
+  var container = imgEl.parentElement;
+
+  // Step 1: Load thumb dulu
+  imgEl.classList.add('img-prog', 'loading');
+  imgEl.src = thumbUrl;
+  imgEl.onload = function() {
+    imgEl.classList.remove('loading');
+    imgEl.classList.add('loaded');
+    if (container) container.classList.add('img-ready');
+    if (onReady) onReady();
+    // Step 2: Swap ke hi-res di background
+    if (hiresUrl && hiresUrl !== thumbUrl) {
+      var hi = new Image();
+      hi.onload = function() {
+        // Hanya swap kalau imgEl masih menampilkan thumbUrl yang sama
+        if (imgEl.src === thumbUrl || imgEl.dataset.hiresLoading === hiresUrl) {
+          imgEl.style.transition = 'opacity .3s';
+          imgEl.style.opacity = '0';
+          setTimeout(function() {
+            imgEl.src = hiresUrl;
+            imgEl.style.opacity = '1';
+            delete imgEl.dataset.hiresLoading;
+          }, 150);
+        }
+      };
+      imgEl.dataset.hiresLoading = hiresUrl;
+      hi.src = hiresUrl;
+    }
+  };
+  imgEl.onerror = function() {
+    imgEl.classList.remove('loading');
+    imgEl.classList.add('loaded');
+    if (container) container.classList.add('img-ready');
+  };
+}
+
+// Update on resize
+window.addEventListener('resize', function() {
+  _isMobile = window.innerWidth <= 599;
+});
+
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyL3gBuQeQCEQh4bBgAmdU3vuAI_v3-VlqMqTK_uO2bEaqpkwPCpP8989qrAPhrfu60Pw/exec';
 
 // ─── COLORS — bilingual labels ──────────────────────────
@@ -4291,14 +4500,14 @@ var KATALOG = [
     material:'Cotton Combed 24s · 170–180 GSM · 100% Cotton',
     desc:{ id:'Design original AWAS BAHAYA NPD. Bahan premium combed 24s — tebal, berisi, collector vibes. Multi warna tersedia.', en:'Original AWAS BAHAYA NPD design. Premium combed 24s fabric — thick, substantial, collector\'s item. Multiple colors available.' },
     foto:[
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
-      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716112/NPD_CLASSIC_All_Black_oubfrq.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716134/NPD_CLASSIC_All_White_xjl2ti.jpg',
+      'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716112/NPD_CLASSIC_All_Orange_uil0n1.jpg'
     ],
     colorFotoMap:{
-      hitam:  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Black_y9nmi8.jpg',
-      putih:  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_White_ywuuhw.jpg',
-      orange: 'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282062/NPD_CLASSIC_All_Orange_grrwoc.jpg'
+      hitam:  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716112/NPD_CLASSIC_All_Black_oubfrq.jpg',
+      putih:  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716134/NPD_CLASSIC_All_White_xjl2ti.jpg',
+      orange: 'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775716112/NPD_CLASSIC_All_Orange_uil0n1.jpg'
     },
     designs:null,
     sizeChart:{
@@ -4410,9 +4619,12 @@ function renderFotoSlider(fotos, produkNama) {
   }
 
   var single = _sliderFotos.length === 1;
-  var slides  = _sliderFotos.map(function(f, si){
+
+  // Gunakan medium URL untuk panel slider — hi-res hanya saat user tap zoom
+  var slides = _sliderFotos.map(function(f, si){
+    var medUrl = clMedium(f);
     return '<div class="kat-slider-slide" onclick="lbOpen('+si+')" style="cursor:zoom-in;">'
-      + '<img src="' + f + '" alt="' + (produkNama||'') + '" loading="lazy">'
+      + '<img class="img-prog loading" src="' + medUrl + '" data-hires="' + f + '" alt="' + (produkNama||'') + '" loading="lazy" onload="this.classList.remove(\'loading\');this.classList.add(\'loaded\');this.closest(\'.kat-foto-wrap\').classList.add(\'img-ready\')">'
       + '</div>';
   }).join('');
 
@@ -4699,7 +4911,10 @@ function renderKatalog() {
   grid.innerHTML = KATALOG.map(function(p) {
     var active = _katActive===p.id?' kat-active':'';
     var firstFoto = (p.foto||[]).filter(function(f){return f;})[0];
-    var imgEl = firstFoto ? '<img src="'+firstFoto+'" alt="'+p.nama+'" loading="lazy">' : '<svg class="kat-img-placeholder" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="4" stroke="#c8860a" stroke-width="1.5"/><circle cx="17" cy="18" r="4" stroke="#c8860a" stroke-width="1.2"/><path d="M4 36l10-10 8 8 6-6 16 12" stroke="#c8860a" stroke-width="1.2"/></svg>';
+    var thumbUrl  = firstFoto ? clThumb(firstFoto) : null;
+    var imgEl = thumbUrl
+      ? '<img class="img-prog loading" src="'+thumbUrl+'" data-hires="'+firstFoto+'" alt="'+p.nama+'" loading="lazy" onload="this.classList.remove(\'loading\');this.classList.add(\'loaded\');this.closest(\'.kat-img-wrap\').classList.add(\'img-ready\')">'
+      : '<svg class="kat-img-placeholder" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="4" stroke="#c8860a" stroke-width="1.5"/><circle cx="17" cy="18" r="4" stroke="#c8860a" stroke-width="1.2"/><path d="M4 36l10-10 8 8 6-6 16 12" stroke="#c8860a" stroke-width="1.2"/></svg>';
     var designBadge = p.designs ? '<span class="kat-design-badge">'+p.designs.length+' Design</span>' : '';
     return '<div class="kat-card'+active+'" id="kat-item-'+p.id+'" onclick="katToggle(\''+p.id+'\')" role="button" aria-label="Lihat '+p.nama+'">'
       +'<div class="kat-img-wrap">'+imgEl
@@ -6044,6 +6259,63 @@ function sndSuccess(){
   }catch(e){}
 }
 
+// ─── HERO SLIDE LAZY LOAD ──────────────────────────────
+function _hsLoadSlide(n) {
+  var slide = document.getElementById('hs-slide-' + n);
+  if (!slide) return;
+  var img = slide.querySelector('img');
+  if (!img || img.src) return; // already loaded
+  var src = img.dataset.src;
+  if (!src) return;
+  img.src = src;
+  img.classList.add('loading');
+  img.onload = function(){
+    img.classList.remove('loading');
+    img.classList.add('loaded');
+    slide.classList.add('img-ready');
+    // Setelah medium loaded, queue hi-res di background
+    var hires = img.dataset.hires;
+    if (hires && hires !== src) {
+      setTimeout(function(){
+        var h = new Image();
+        h.onload = function(){
+          if (img.src === src) { // masih tampil medium, swap ke hires
+            img.style.transition = 'opacity .4s';
+            img.style.opacity = '0';
+            setTimeout(function(){ img.src = hires; img.style.opacity = '1'; }, 200);
+          }
+        };
+        h.src = hires;
+      }, 300);
+    }
+  };
+}
+
+// Init: load slide 0 hi-res immediately (already has src set)
+(function(){
+  var slide0 = document.getElementById('hs-slide-0');
+  if (slide0) {
+    var img = slide0.querySelector('img');
+    if (img) {
+      img.classList.add('loading');
+      img.onload = function(){
+        img.classList.remove('loading');
+        img.classList.add('loaded');
+        slide0.classList.add('img-ready');
+        // Preload slide 1 dan 2
+        _hsLoadSlide(1);
+        _hsLoadSlide(2);
+      };
+      if (img.complete) { // already cached
+        img.classList.remove('loading');
+        img.classList.add('loaded');
+        slide0.classList.add('img-ready');
+        _hsLoadSlide(1);
+      }
+    }
+  }
+})();
+
 // ─── HERO SLIDESHOW ─────────────────────────────────────
 var HS_TOTAL=10, hsCur=0, hsTimer;
 function hsGo(n){
@@ -6052,6 +6324,10 @@ function hsGo(n){
   if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i%HS_TOTAL===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
+  // Lazy load current + neighbours
+  _hsLoadSlide(hsCur);
+  _hsLoadSlide((hsCur+1)%HS_TOTAL);
+  _hsLoadSlide((hsCur-1+HS_TOTAL)%HS_TOTAL);
 }
 function hsNav(d){clearInterval(hsTimer);hsGo(hsCur+d);hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);}
 hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
@@ -6078,28 +6354,31 @@ window.hsNav=hsNav; window.hsGo=hsGo;
 })();
 
 // ─── LIGHTBOX ───────────────────────────────────────────
-var DLB_IMGS=[
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775527735/Young_couple_laughing_202604071008_mnkjns.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Young_female_model_202604070727_y3qxrg.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775525574/Young_female_influencer_202604070930_hx4ul6.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775525574/Young_female_at_202604070931_ld66jf.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775527451/Young_woman_sitting_202604071000_nztcdq.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775526311/Woman_holding_tumbler_202604070944_yqbb5l.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775525860/Woman_holding_tumbler_202604070937_vhfmdl.jpg',
-  'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_auto,f_auto/v1775527542/Young_male_walking_202604071004_juozud.jpg',
+// Gallery lightbox — base URLs (medium), hi-res loaded on demand
+var DLB_IMGS_BASE=[
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775518941/Young_couple_laughing_202604070731_ycidvs.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775527735/Young_couple_laughing_202604071008_mnkjns.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775518941/Young_female_model_202604070727_y3qxrg.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775525574/Young_female_influencer_202604070930_hx4ul6.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775518941/Black_hoodie_in_202604070738_lozae6.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775525574/Young_female_at_202604070931_ld66jf.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775527451/Young_woman_sitting_202604071000_nztcdq.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775526311/Woman_holding_tumbler_202604070944_yqbb5l.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775525860/Woman_holding_tumbler_202604070937_vhfmdl.jpg',
+  'https://res.cloudinary.com/dqqdjhb2x/image/upload/v1775527542/Young_male_walking_202604071004_juozud.jpg',
 ];
+// Keep DLB_IMGS as medium for backward compat
+var DLB_IMGS = DLB_IMGS_BASE.map(function(u){ return clUrl(u,900,75); });
 var dlbIdx=0;
-var _dlbCache={};  // preload cache
+var _dlbCache={};  // preload cache — stores hi-res Image objects
 
-// Preload satu gambar ke cache
+// Preload hi-res untuk neighbour slide
 function _dlbPreload(idx) {
-  if (idx < 0 || idx >= DLB_IMGS.length) return;
+  if (idx < 0 || idx >= DLB_IMGS_BASE.length) return;
   if (_dlbCache[idx]) return;
   var img = new Image();
-  img.src = DLB_IMGS[idx];
-  _dlbCache[idx] = img;
+  img.src = clHires(DLB_IMGS_BASE[idx]);
+  img.onload = function(){ _dlbCache[idx] = img; };
 }
 
 function dlbOpen(i) {
@@ -6107,63 +6386,80 @@ function dlbOpen(i) {
   var d = $('dlb');
   if (d) { d.style.display = 'flex'; dlbRender(); }
   document.addEventListener('keydown', dlbKey);
-  // Preload semua gambar saat lightbox dibuka
-  DLB_IMGS.forEach(function(_, j) { _dlbPreload(j); });
 }
 function dlbClose() {
   var d = $('dlb');
   if (d) d.style.display = 'none';
   document.removeEventListener('keydown', dlbKey);
 }
-function dlbNav(dir) { dlbIdx = (dlbIdx + dir + DLB_IMGS.length) % DLB_IMGS.length; dlbRender(); }
+function dlbNav(dir) { dlbIdx = (dlbIdx + dir + DLB_IMGS_BASE.length) % DLB_IMGS_BASE.length; dlbRender(); }
 function dlbGo(i)    { dlbIdx = i; dlbRender(); }
 
 function dlbRender() {
-  var imgEl = $('dlb-img');
-  var ctr   = $('dlb-counter');
-  var dot   = $('dlb-dots');
+  var imgEl   = $('dlb-img');
+  var ctr     = $('dlb-counter');
+  var dot     = $('dlb-dots');
+  var spinner = $('dlb-spinner');
+  var n       = DLB_IMGS_BASE.length;
 
-  if (ctr) ctr.textContent = (dlbIdx + 1) + ' / ' + DLB_IMGS.length;
-  if (dot) dot.innerHTML = DLB_IMGS.map(function(_, i) {
+  if (ctr) ctr.textContent = (dlbIdx + 1) + ' / ' + n;
+  if (dot) dot.innerHTML = DLB_IMGS_BASE.map(function(_, i) {
     return '<button class="dlb-dot' + (i === dlbIdx ? ' active' : '') + '" onclick="dlbGo(' + i + ');event.stopPropagation()"></button>';
   }).join('');
 
   if (!imgEl) return;
 
-  var url = DLB_IMGS[dlbIdx];
+  var baseUrl  = DLB_IMGS_BASE[dlbIdx];
+  var thumbUrl = clUrl(baseUrl, 500, 65);  // tampilkan thumb dulu
+  var hiresUrl = clHires(baseUrl);          // hi-res load di background
 
-  // Kalau sudah di cache dan loaded — langsung tampil
-  if (_dlbCache[dlbIdx] && _dlbCache[dlbIdx].complete) {
-    imgEl.style.opacity = '0';
-    imgEl.src = url;
-    imgEl.style.transition = 'opacity .25s';
-    setTimeout(function() { imgEl.style.opacity = '1'; }, 20);
-    // Preload next & prev
-    _dlbPreload((dlbIdx + 1) % DLB_IMGS.length);
-    _dlbPreload((dlbIdx - 1 + DLB_IMGS.length) % DLB_IMGS.length);
+  var currentIdx = dlbIdx; // capture untuk async check
+
+  // Show spinner
+  if (spinner) spinner.classList.remove('hidden');
+  imgEl.style.opacity = '0.4';
+
+  // Kalau hi-res sudah di cache — langsung tampil
+  if (_dlbCache[currentIdx] && _dlbCache[currentIdx].complete) {
+    imgEl.src = hiresUrl;
+    imgEl.style.transition = 'opacity .3s';
+    imgEl.style.opacity = '1';
+    if (spinner) spinner.classList.add('hidden');
+    _dlbPreload((currentIdx + 1) % n);
+    _dlbPreload((currentIdx - 1 + n) % n);
     return;
   }
 
-  // Belum di cache — tampilkan spinner, load, lalu fade in
-  imgEl.style.opacity   = '0.3';
-  imgEl.style.transition = 'none';
-
-  var newImg    = new Image();
-  newImg.onload = function() {
-    _dlbCache[dlbIdx] = newImg;
-    if (DLB_IMGS[dlbIdx] !== url) return; // user sudah pindah slide
-    imgEl.src              = url;
+  // Step 1: Load thumb dulu — tampil cepat
+  var t = new Image();
+  t.onload = function(){
+    if (dlbIdx !== currentIdx) return;
+    imgEl.src = thumbUrl;
     imgEl.style.transition = 'opacity .25s';
-    imgEl.style.opacity    = '1';
+    imgEl.style.opacity = '1';
+    if (spinner) spinner.classList.add('hidden');
+  };
+  t.src = thumbUrl;
+  imgEl.src = thumbUrl; // set langsung
+
+  // Step 2: Load hi-res di background, swap saat ready
+  var h = new Image();
+  h.onload = function(){
+    _dlbCache[currentIdx] = h;
+    if (dlbIdx !== currentIdx) return; // user sudah pindah
+    imgEl.style.transition = 'opacity .3s';
+    imgEl.style.opacity = '0';
+    setTimeout(function(){
+      if (dlbIdx !== currentIdx) return;
+      imgEl.src = hiresUrl;
+      imgEl.style.opacity = '1';
+    }, 150);
     // Preload neighbours
-    _dlbPreload((dlbIdx + 1) % DLB_IMGS.length);
-    _dlbPreload((dlbIdx - 1 + DLB_IMGS.length) % DLB_IMGS.length);
+    _dlbPreload((currentIdx + 1) % n);
+    _dlbPreload((currentIdx - 1 + n) % n);
   };
-  newImg.onerror = function() {
-    imgEl.style.opacity = '1'; // tetap tampilkan walau error
-  };
-  newImg.src = url;
-  imgEl.src  = url; // set langsung juga supaya browser mulai load
+  h.onerror = function(){ if (spinner) spinner.classList.add('hidden'); };
+  h.src = hiresUrl;
 }
 function dlbKey(e){if(e.key==='ArrowLeft')dlbNav(-1);if(e.key==='ArrowRight')dlbNav(1);if(e.key==='Escape')dlbClose();}
 (function(){
@@ -6203,6 +6499,7 @@ window.dlbOpen=dlbOpen;window.dlbClose=dlbClose;window.dlbNav=dlbNav;window.dlbG
 // ─── i18n ────────────────────────────────────────────────
 function setLang(lang){
   currentLang=lang;
+  document.documentElement.lang = lang; // update <html lang> for accessibility & SEO
   var btnId=$('btn-id'),btnEn=$('btn-en');
   if(btnId)btnId.classList.toggle('active',lang==='id');
   if(btnEn)btnEn.classList.toggle('active',lang==='en');
@@ -6459,14 +6756,14 @@ function lbNav(dir) {
 }
 
 function _lbRender() {
-  var img = document.getElementById('lb-img');
-  var ctr = document.getElementById('lb-counter');
-  var dots = document.getElementById('lb-dots');
-  var prev = document.getElementById('lb-prev');
-  var next = document.getElementById('lb-next');
-  var n = _lbFotos.length;
+  var img     = document.getElementById('lb-img');
+  var ctr     = document.getElementById('lb-counter');
+  var dots    = document.getElementById('lb-dots');
+  var prev    = document.getElementById('lb-prev');
+  var next    = document.getElementById('lb-next');
+  var spinner = document.getElementById('lb-spinner');
+  var n       = _lbFotos.length;
 
-  if (img) { img.style.opacity = '0'; img.src = _lbFotos[_lbIdx]; img.onload = function(){ img.style.opacity='1'; }; }
   if (ctr) ctr.textContent = n > 1 ? (_lbIdx+1) + ' / ' + n : '';
   if (dots) {
     dots.innerHTML = n > 1 ? _lbFotos.map(function(_,i){
@@ -6475,6 +6772,36 @@ function _lbRender() {
   }
   if (prev) prev.classList.toggle('hidden', n <= 1 || _lbIdx === 0);
   if (next) next.classList.toggle('hidden', n <= 1 || _lbIdx === n-1);
+
+  if (!img) return;
+  var baseUrl  = _lbFotos[_lbIdx];
+  var thumbUrl = clMedium(baseUrl);
+  var hiresUrl = clHires(baseUrl);
+  var currentIdx = _lbIdx;
+
+  if (spinner) spinner.classList.remove('hidden');
+  img.style.opacity = '0.4';
+  img.src = thumbUrl;
+  img.onload = function(){
+    if (_lbIdx !== currentIdx) return;
+    img.style.transition = 'opacity .25s';
+    img.style.opacity = '1';
+    if (spinner) spinner.classList.add('hidden');
+    // Load hi-res di background, swap smooth
+    var h = new Image();
+    h.onload = function(){
+      if (_lbIdx !== currentIdx) return;
+      img.style.transition = 'opacity .35s';
+      img.style.opacity = '0';
+      setTimeout(function(){
+        if (_lbIdx !== currentIdx) return;
+        img.src = hiresUrl;
+        img.style.opacity = '1';
+      }, 120);
+    };
+    h.src = hiresUrl;
+  };
+  img.onerror = function(){ if (spinner) spinner.classList.add('hidden'); };
 }
 
 // Keyboard nav + tap-outside close
@@ -6489,6 +6816,34 @@ document.addEventListener('keydown', function(e){
   var lb = document.getElementById('foto-lightbox');
   if (!lb) return;
   lb.addEventListener('click', function(e){ if (e.target === lb) lbClose(); });
+})();
+
+// ─── GALLERY LAZY PROGRESSIVE LOAD ─────────────────────
+(function(){
+  if (!window.IntersectionObserver) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var img = e.target.querySelector('img.img-prog');
+      if (!img || img.classList.contains('loaded')) { obs.unobserve(e.target); return; }
+      // Sudah ada src (thumbnail) — tandai loaded saat onload
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.remove('loading');
+        img.classList.add('loaded');
+        e.target.classList.add('img-ready');
+      } else {
+        img.classList.add('loading');
+        img.onload = function(){
+          img.classList.remove('loading');
+          img.classList.add('loaded');
+          e.target.classList.add('img-ready');
+        };
+      }
+      obs.unobserve(e.target);
+    });
+  }, { threshold:0.05, rootMargin:'0px 0px 100px 0px' });
+
+  document.querySelectorAll('.gal-item').forEach(function(el){ obs.observe(el); });
 })();
 
 window.lbOpen  = lbOpen;
