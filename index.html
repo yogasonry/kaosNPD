@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0a0705">
+<meta name="theme-color" content="#160f0a">
 <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_64,h_64,c_fit,e_make_transparent:10,e_colorize:100,co_rgb:c8860a,q_auto,f_png/v1774191326/barong_bali_line_art_ke9x3y.png">
 <meta name="description" content="Kaos AWAS BAHAYA NPD — Bhuta Kala Modern. Cotton Combed 24s. Limited Group Order.">
 <title>AWAS BAHAYA NPD — Bhuta Kala Modern</title>
@@ -39,9 +39,11 @@
 <noscript><link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
-  --black:#0a0705;--rust:#3d1a08;--gold:#c8860a;
+  --black:#160f0a;--rust:#3d1a08;--gold:#c8860a;
   --amber:#e8a020;--cream:#f0e0c0;--white:#faf5ee;
   --red:#8b1a0a;
+  /* section alternates */
+  --bg-alt:#1c1208;--bg-deep:#120c07;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
@@ -51,14 +53,14 @@ body.loader-active{overflow:hidden;height:100%;}
 
 /* grain — z-index 1 so it never blocks anything */
 body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.3;mix-blend-mode:overlay;
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
 }
 
 /* ─── HEADER ─── */
 header{
   text-align:center;padding:20px 16px 0;
-  background:radial-gradient(ellipse 60% 40% at top,#2e1206 0%,var(--black) 100%);
+  background:radial-gradient(ellipse 80% 60% at top,#3a1a08 0%,#200e05 45%,var(--black) 100%);
   border-bottom:3px solid var(--gold);overflow:hidden;position:relative;
 }
 @media(max-width:480px){
@@ -68,7 +70,7 @@ header{
 .hero-hl{
   font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(32px,9vw,76px);
   line-height:.92;color:var(--white);letter-spacing:1px;
-  text-shadow:3px 3px 0 #000,0 0 40px rgba(200,134,10,.3);
+  text-shadow:3px 3px 0 #000,0 0 60px rgba(200,134,10,.5),0 0 120px rgba(232,160,32,.15);
   animation:flicker 6s infinite;
   display:inline-block;
   cursor:default;
@@ -113,7 +115,7 @@ header{
 @keyframes flicker{0%,93%,97%,100%{opacity:1}95%{opacity:.82}}
 .hero-desc{
   font-family:'Roboto',sans-serif;font-size:clamp(12px,3vw,15px);
-  color:var(--cream);opacity:.88;max-width:480px;margin:10px auto 0;line-height:1.65;
+  color:var(--cream);opacity:.92;max-width:480px;margin:10px auto 0;line-height:1.65;
   padding:0 12px;min-height:3.6em;/* reserve space so layout doesn't jump */
 }
 @media(max-width:380px){
@@ -193,7 +195,7 @@ header{
 .product-info{
   max-width:860px;margin:0 auto;
   display:grid;grid-template-columns:1fr 1fr;gap:0;
-  border-bottom:2px solid rgba(200,134,10,.15);
+  border-bottom:2px solid rgba(200,134,10,.28);
 }
 @media(max-width:400px){.pi-left,.pi-right{padding:12px 10px;}}
 @media(max-width:580px){.product-info{grid-template-columns:1fr;}}
@@ -325,16 +327,16 @@ header{
 .sym-list{list-style:none;margin:0 0 12px;}
 .sym-list li{
   display:flex;align-items:center;gap:10px;font-size:15px;color:var(--cream);
-  padding:7px 0;border-bottom:1px solid rgba(200,134,10,.1);letter-spacing:1px;
+  padding:7px 0;border-bottom:1px solid rgba(200,134,10,.18);letter-spacing:1px;
 }
 .sym-list li:last-child{border-bottom:none;}
 .sym-list li::before{content:'⚡';color:var(--amber);flex-shrink:0;font-size:13px;}
-.product-desc{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.82;line-height:1.75;}
+.product-desc{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.90;line-height:1.75;}
 
 /* ─── PRICE ─── */
 .price-wrap{
   text-align:center;padding:32px 16px 18px;
-  background:linear-gradient(180deg,transparent,rgba(61,26,8,.2),transparent);
+  background:linear-gradient(180deg,rgba(61,26,8,.15),rgba(61,26,8,.38),rgba(61,26,8,.15));
   perspective:800px;
   overflow:visible;
 }
@@ -375,8 +377,8 @@ header{
 .price-sep{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:rgba(200,134,10,.28);padding-bottom:10px;}
 .price-note{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.75;margin-top:12px;}
 .price-note strong{color:var(--amber);}
-.divider{width:100%;max-width:540px;margin:16px auto;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:divPulse 3s ease-in-out infinite;}
-@keyframes divPulse{0%,100%{opacity:.6;transform:scaleX(.9);}50%{opacity:1;transform:scaleX(1);}}
+.divider{width:100%;max-width:540px;margin:16px auto;height:2px;background:linear-gradient(90deg,transparent,var(--amber),transparent);animation:divPulse 3s ease-in-out infinite;}
+@keyframes divPulse{0%,100%{opacity:.7;transform:scaleX(.9);}50%{opacity:1;transform:scaleX(1);}}
 
 /* ─── BRAND GALLERY — horizontal scroll strip ─── */
 .gallery-section{max-width:860px;margin:0 auto;padding:0 0 32px;}
@@ -443,13 +445,13 @@ header{
 
 /* Size chart card */
 .size-section-card{
-  background:linear-gradient(160deg,rgba(61,26,8,.45) 0%,rgba(30,12,3,.55) 100%);
-  border:1.5px solid rgba(200,134,10,.3);
+  background:linear-gradient(160deg,rgba(61,26,8,.55) 0%,rgba(30,12,3,.65) 100%);
+  border:1.5px solid rgba(200,134,10,.4);
   border-radius:4px;
   padding:20px 16px 16px;
   margin-top:12px;
   box-shadow:0 4px 32px rgba(0,0,0,.35),
-             inset 0 1px 0 rgba(200,134,10,.12);
+             inset 0 1px 0 rgba(200,134,10,.18);
   position:relative;overflow:hidden;
 }
 /* subtle corner accent */
@@ -488,16 +490,16 @@ header{
 
 .chart-note{
   font-family:'Roboto',sans-serif;font-size:11px;
-  color:var(--cream);opacity:.6;
+  color:var(--cream);opacity:.75;
   text-align:center;margin-top:12px;line-height:1.65;
-  border-top:1px solid rgba(200,134,10,.12);
+  border-top:1px solid rgba(200,134,10,.18);
   padding-top:10px;
 }
 
 /* ─── ORDER FORM ─── */
 .form-section{
-  background:linear-gradient(180deg,var(--black),#160c05,var(--black));
-  border-top:2px solid rgba(200,134,10,.18);
+  background:linear-gradient(180deg,var(--bg-alt),#1f1409,var(--bg-alt));
+  border-top:2px solid rgba(200,134,10,.28);
   padding:32px 14px 140px; /* 140px bottom for sticky CTA */
 }
 @media(max-width:400px){.form-section{padding:20px 10px 130px;}}
@@ -548,16 +550,17 @@ header{
 }
 @media(max-width:480px){.cart-summary-section{padding:0 12px 28px;}}
 .cart-summary-wrap{
-  border:1.5px solid rgba(200,134,10,.2);
+  border:1.5px solid rgba(200,134,10,.35);
   border-radius:10px;
-  background:rgba(18,13,9,.95);
+  background:rgba(28,18,10,.98);
   overflow:hidden;
+  box-shadow:0 4px 32px rgba(200,134,10,.08);
 }
 .cart-summary-header{
   display:flex;align-items:center;gap:10px;
   padding:14px 16px;
-  border-bottom:1px solid rgba(200,134,10,.12);
-  background:rgba(61,26,8,.25);
+  border-bottom:1px solid rgba(200,134,10,.22);
+  background:rgba(61,26,8,.40);
 }
 .cart-summary-icon{flex-shrink:0;}
 .cart-summary-title{
@@ -630,6 +633,23 @@ header{
   -webkit-tap-highlight-color:transparent;
 }
 .cart-item-remove:hover{color:rgba(200,60,30,.7);}
+/* Edit item button inside cart row */
+.cart-item-edit-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(200,134,10,.08);
+  border:1px solid rgba(200,134,10,.28);
+  color:rgba(200,134,10,.75);
+  font-family:'Rubik Dirt',sans-serif;font-size:9px;
+  letter-spacing:1.5px;padding:4px 8px;
+  cursor:pointer;border-radius:3px;margin-left:6px;
+  transition:background .2s,border-color .2s,color .2s;
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;
+}
+.cart-item-edit-btn:hover{background:rgba(200,134,10,.18);border-color:var(--amber);color:var(--amber);}
+.cart-item-edit-btn:active{transform:scale(.95);}
+.cart-item-edit-btn.active{
+  background:rgba(200,134,10,.2);border-color:var(--amber);color:var(--amber);
+}
 .cart-qty-ctrl{
   display:flex;align-items:center;gap:6px;margin-top:6px;
 }
@@ -693,8 +713,8 @@ header{
 
 /* ─── SECTION CARDS (Opsi A) ────────────────────────── */
 .form-section-card{
-  background:rgba(255,255,255,.025);
-  border:1.5px solid rgba(200,134,10,.2);
+  background:rgba(255,255,255,.035);
+  border:1.5px solid rgba(200,134,10,.32);
   border-radius:12px;
   padding:18px 16px 14px;
   margin-bottom:12px;
@@ -998,7 +1018,21 @@ textarea.finp{resize:vertical;min-height:80px;}
 .btn-main.full-width{width:100%;border-radius:0;font-size:20px;padding:17px;}
 .spinner{display:none;width:20px;height:20px;border:3px solid rgba(0,0,0,.2);border-top-color:var(--black);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.stock-warn{text-align:center;margin-top:10px;font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:3px;color:#e05050;text-transform:uppercase;animation:bp 1.5s infinite;}
+.stock-warn{
+  text-align:center;
+  margin-top:14px;
+  font-family:'Rubik Dirt',sans-serif;
+  font-size:12px;
+  letter-spacing:3px;
+  color:var(--white);
+  text-transform:uppercase;
+  animation:bp 1.5s infinite;
+  border:1.5px solid rgba(224,80,80,.3);
+  border-radius:6px;
+  padding:12px 16px;
+  background:rgba(139,26,10,.08);
+  line-height:1.6;
+}
 
 /* ─── STEP 2 ─── */
 #step2{display:none;}
@@ -1009,11 +1043,11 @@ textarea.finp{resize:vertical;min-height:80px;}
 .orow:last-child{border-bottom:none;}
 .okey{color:var(--gold);font-weight:600;letter-spacing:1px;flex-shrink:0;}
 .oval{color:var(--cream);text-align:right;word-break:break-word;}
-.pay-box{background:rgba(200,134,10,.07);border:2px solid var(--amber);padding:14px;margin-bottom:14px;}
+.pay-box{background:rgba(200,134,10,.10);border:2px solid var(--amber);padding:14px;margin-bottom:14px;}
 @media(max-width:400px){.pay-box{padding:10px;}}
 .pay-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:18px;letter-spacing:3px;color:var(--amber);text-align:center;margin-bottom:10px;}
-.pay-desc{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.88;text-align:center;line-height:1.7;margin-bottom:14px;}
-.bank-card{background:var(--black);border:1px solid rgba(200,134,10,.28);padding:14px;cursor:pointer;transition:border-color .35s ease,transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;}
+.pay-desc{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.92;text-align:center;line-height:1.7;margin-bottom:14px;}
+.bank-card{background:rgba(22,15,10,.95);border:1px solid rgba(200,134,10,.42);padding:14px;cursor:pointer;transition:border-color .35s ease,transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;}
 .bank-card:active,.bank-card:hover{border-color:var(--amber);transform:translateY(-2px);box-shadow:0 6px 20px rgba(200,134,10,.15);}
 @media(max-width:400px){.bank-card{padding:10px;}}
 .bank-card:active,.bank-card:hover{border-color:var(--amber);}
@@ -1282,16 +1316,155 @@ textarea.finp{resize:vertical;min-height:80px;}
   border-color:var(--amber);color:var(--amber);
 }
 
+/* ─── EDIT CART BUTTON ─── */
+.btn-edit-cart{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(200,134,10,.1);
+  border:1.5px solid rgba(200,134,10,.35);
+  color:rgba(200,134,10,.85);
+  font-family:'Rubik Dirt',sans-serif;font-size:10px;
+  letter-spacing:2px;padding:6px 10px;
+  cursor:pointer;border-radius:4px;
+  transition:background .2s,border-color .2s,color .2s,transform .15s;
+  white-space:nowrap;flex-shrink:0;
+  -webkit-user-select:none;user-select:none;
+  touch-action:manipulation;
+}
+.btn-edit-cart:hover{background:rgba(200,134,10,.2);border-color:var(--amber);color:var(--amber);}
+.btn-edit-cart:active{transform:scale(.95);background:rgba(200,134,10,.25);}
+
+/* ─── CART ITEM INLINE EDIT PANEL ─── */
+.cart-item-edit-panel{
+  display:none;
+  background:rgba(30,18,8,.98);
+  border-top:1px solid rgba(200,134,10,.2);
+  padding:14px 14px 10px;
+  animation:editPanelIn .22s cubic-bezier(.34,1.1,.64,1);
+}
+.cart-item-edit-panel.open{ display:block; }
+@keyframes editPanelIn{
+  0%{opacity:0;transform:translateY(-6px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+.cep-label{
+  font-family:'Rubik Dirt',sans-serif;font-size:9px;
+  letter-spacing:2px;color:rgba(200,134,10,.6);
+  text-transform:uppercase;margin-bottom:7px;display:block;
+}
+/* Size buttons inside edit panel */
+.cep-sizes{
+  display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;
+}
+.cep-sopt{
+  background:transparent;border:1.5px solid rgba(200,134,10,.25);
+  color:var(--cream);font-family:'Rubik Dirt',sans-serif;font-size:11px;
+  padding:5px 8px;cursor:pointer;border-radius:3px;
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  min-width:38px;transition:all .18s;touch-action:manipulation;
+  -webkit-user-select:none;user-select:none;
+}
+.cep-sopt-price{font-family:'Roboto',sans-serif;font-size:7px;opacity:.5;}
+.cep-sopt:active{transform:scale(.95);}
+@media(hover:hover){.cep-sopt:hover{border-color:var(--amber);color:var(--amber);}}
+.cep-sopt.active{
+  background:var(--amber);color:var(--black);border-color:var(--amber);
+  box-shadow:0 0 10px rgba(232,160,32,.25);
+}
+/* Color swatches inside edit panel */
+.cep-colors{
+  display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;
+}
+.cep-copt{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:8px 6px 6px;border:1.5px solid rgba(200,134,10,.2);
+  border-radius:8px;cursor:pointer;min-width:52px;flex:1;
+  background:rgba(61,26,8,.15);
+  transition:border-color .2s,background .2s,transform .25s cubic-bezier(.34,1.56,.64,1);
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;
+}
+.cep-copt:active{transform:scale(.96);}
+@media(hover:hover){.cep-copt:hover{border-color:rgba(200,134,10,.5);transform:translateY(-2px);}}
+.cep-copt.active{
+  border-color:var(--amber);background:rgba(200,134,10,.18);
+  box-shadow:0 3px 12px rgba(200,134,10,.18);
+}
+.cep-swatch{
+  width:28px;height:28px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.15);position:relative;
+}
+.cep-copt.active .cep-swatch::after{
+  content:'✓';position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--amber);
+}
+.cep-cname{
+  font-family:'Roboto',sans-serif;font-size:8px;font-weight:600;
+  letter-spacing:1.5px;color:var(--cream);opacity:.8;text-align:center;
+}
+.cep-copt.active .cep-cname{color:var(--amber);opacity:1;}
+/* Design chips inside edit panel */
+.cep-designs{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;
+}
+.cep-design-chip{
+  position:relative;border-radius:6px;overflow:hidden;
+  border:1.5px solid rgba(200,134,10,.2);cursor:pointer;
+  aspect-ratio:4/3;background:rgba(10,5,2,.7);
+  transition:border-color .2s,transform .25s cubic-bezier(.34,1.56,.64,1);
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;
+}
+.cep-design-chip:active{transform:scale(.97);}
+@media(hover:hover){.cep-design-chip:hover{border-color:rgba(200,134,10,.5);transform:translateY(-2px);}}
+.cep-design-chip.active{border-color:var(--amber);box-shadow:0 0 0 2px rgba(200,134,10,.2);}
+.cep-design-chip img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+.cep-design-name{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(10,5,2,.88));
+  font-family:'Rubik Dirt',sans-serif;font-size:9px;
+  color:var(--cream);letter-spacing:1px;text-align:center;
+  padding:10px 4px 6px;
+}
+.cep-design-chip.active .cep-design-name{color:var(--amber);}
+.cep-design-chip-check{
+  position:absolute;top:5px;right:5px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--amber);color:var(--black);
+  font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+/* Save/Cancel row */
+.cep-actions{
+  display:flex;gap:8px;margin-top:4px;
+}
+.cep-btn-save{
+  flex:1;padding:10px;background:var(--amber);border:none;
+  color:var(--black);font-family:'Rubik Dirt',sans-serif;
+  font-size:12px;letter-spacing:2px;cursor:pointer;border-radius:4px;
+  transition:background .2s,transform .15s;
+  box-shadow:0 3px 12px rgba(232,160,32,.25);
+}
+.cep-btn-save:hover{background:#f0b030;}
+.cep-btn-save:active{transform:scale(.97);}
+.cep-btn-cancel{
+  padding:10px 14px;background:transparent;
+  border:1px solid rgba(200,134,10,.3);
+  color:rgba(200,134,10,.7);font-family:'Roboto',sans-serif;
+  font-size:11px;letter-spacing:1.5px;cursor:pointer;border-radius:4px;
+  transition:border-color .2s,color .2s;
+}
+.cep-btn-cancel:hover{border-color:var(--amber);color:var(--amber);}
+.cep-btn-cancel:active{transform:scale(.97);}
+
 /* ─── HOW SECTION ─── */
 .how-section{
   padding:48px 10px;
-  border-top:2px solid rgba(200,134,10,.25);
-  border-bottom:2px solid rgba(200,134,10,.15);
+  border-top:2px solid rgba(200,134,10,.35);
+  border-bottom:2px solid rgba(200,134,10,.25);
   position:relative;overflow:hidden;
   background:linear-gradient(180deg,
-    rgba(61,26,8,.12) 0%,
-    rgba(30,14,4,.18) 50%,
-    rgba(61,26,8,.12) 100%);
+    rgba(61,26,8,.22) 0%,
+    rgba(45,20,6,.30) 50%,
+    rgba(61,26,8,.22) 100%);
 }
 .how-inner{max-width:700px;margin:0 auto;position:relative;z-index:2;}
 
@@ -1316,13 +1489,13 @@ textarea.finp{resize:vertical;min-height:80px;}
 .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px;}
 @media(min-width:560px){.steps-grid{grid-template-columns:repeat(4,1fr);}}
 .step-card{
-  border:1px solid rgba(200,134,10,.28);
+  border:1px solid rgba(200,134,10,.38);
   border-radius:16px;
   padding:24px 20px 20px;
   text-align:left;
   position:relative;
   overflow:hidden;
-  background:rgba(200,134,10,.07);
+  background:rgba(200,134,10,.10);
   backdrop-filter:blur(4px);
   transition:
     transform .45s cubic-bezier(.34,1.56,.64,1),
@@ -1380,12 +1553,12 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 
 .stitle{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:17px;color:var(--amber);letter-spacing:2px;margin-bottom:8px;}
-.sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.65;line-height:1.65;}
+.sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.82;line-height:1.65;}
 
 /* footer */
-footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.1);}
-.hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.55;margin-bottom:10px;}
-.fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.55;letter-spacing:2px;}
+footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.2);}
+.hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.75;margin-bottom:10px;}
+.fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.7;letter-spacing:2px;}
 
 /* toast — max-width so it doesn't overflow mobile */
 .toast{
@@ -1984,19 +2157,23 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   padding-right:32px;
 }
 .ongkir-clear{
-  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
   background:none;border:none;color:rgba(200,134,10,.45);
-  font-size:14px;cursor:pointer;padding:4px;line-height:1;
-  display:none;
+  font-size:14px;cursor:pointer;
+  padding:10px 8px;line-height:1;
+  min-width:36px;min-height:36px;
+  display:none;align-items:center;justify-content:center;
+  touch-action:manipulation;
 }
-.ongkir-clear.visible{ display:block; }
+.ongkir-clear.visible{ display:flex; }
 .ongkir-dropdown{
   position:absolute;top:calc(100% + 4px);left:0;right:0;
   background:rgba(18,10,4,.97);
   border:1.5px solid rgba(200,134,10,.35);
   border-radius:6px;
-  z-index:100;
+  z-index:600;
   max-height:200px;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
   box-shadow:0 8px 24px rgba(0,0,0,.6);
   display:none;
 }
@@ -2111,6 +2288,20 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   .how-section { padding:32px 10px; }
   /* Price wrap tighter */
   .price-wrap { padding:18px 10px 14px; }
+  /* Ongkir dropdown lebih pendek di mobile agar tidak tertutup sticky bar */
+  .ongkir-dropdown { max-height:160px; }
+  /* Stock warn sedikit lebih kecil di mobile */
+  .stock-warn { font-size:10px; letter-spacing:2px; padding:10px 12px; }
+  /* Rubik Dirt — lebih tebal di mobile via stroke tipis (font hanya punya weight 400) */
+  [style*="Rubik Dirt"],[class*="rubik"],
+  .hero-hl, .product-title, .sec-title, .price-num,
+  .sdot-l, .flbl, .kat-tab, .kat-detail-name, .kat-detail-price,
+  .warning-badge, .order-num-big, .pay-title, .btn-main,
+  .cart-summary-title, .care-guide-title, .ongkir-result-city,
+  .ongkir-row-val, .success-title, .tbig, .tkey,
+  .chart-tbl thead tr, .chart-tbl td:first-child {
+    -webkit-text-stroke: 0.4px currentColor;
+  }
 }
 
 /* Safe area for notch/home bar */
@@ -3613,10 +3804,14 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
       <div class="form-section-card">
         <div class="form-card-header">
           <span class="form-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>
-          <div>
+          <div style="flex:1;">
             <div class="form-card-title" data-i18n="cardOrder">PESANAN KAMU</div>
             <div class="form-card-sub" data-i18n="cardOrderSub">Ringkasan item · ubah qty jika perlu</div>
           </div>
+          <button class="btn-edit-cart" id="btn-edit-cart" onclick="editCart()" type="button">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span data-i18n="btnEditCart">UBAH</span>
+          </button>
         </div>
         <!-- Order review items rendered by JS -->
         <div id="order-review"></div>
@@ -3669,7 +3864,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
             <label class="flbl" for="f-kota" data-i18n="lblKota">Kota / Kabupaten *</label>
             <div class="ongkir-wrap">
               <div class="ongkir-input-wrap">
-                <input class="finp" type="text" id="f-kota" placeholder="Ketik nama kota..." autocomplete="off" autocorrect="off" spellcheck="false">
+                <input class="finp" type="text" id="f-kota" placeholder="Ketik nama kota..." autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
                 <button type="button" class="ongkir-clear" id="ongkir-clear" aria-label="Hapus">✕</button>
               </div>
               <div class="ongkir-dropdown" id="ongkir-dropdown"></div>
@@ -4661,7 +4856,18 @@ function renderCartSummary() {
         if(!item.warnaTetap) tags.push(colorLbl);
         else tags.push(colorLbl);
         tags.push('×'+item.qty);
-        return '<div class="cart-item-row">'
+
+        // Edit button — only show if item has editable fields
+        var kat = KATALOG.find(function(k){return k.id===item.produkId;});
+        var canEdit = kat && (!kat.warnaTetap || !kat.sizeTetap);
+        var editBtnLbl = currentLang==='en'?'EDIT':'UBAH';
+        var editBtn = canEdit
+          ? '<button class="cart-item-edit-btn" onclick="cartToggleEdit(\''+item.id+'\')" aria-label="Edit item">'
+            +'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
+            +' '+editBtnLbl+'</button>'
+          : '';
+
+        return '<div class="cart-item-row" id="ci-row-'+item.id+'">'
           +'<div class="cart-item-num">'+(i+1)+'</div>'
           +'<div class="cart-item-body">'
           +'<div class="cart-item-name">'+item.produkNama+'</div>'
@@ -4672,12 +4878,17 @@ function renderCartSummary() {
           +'<button class="cart-qty-btn" onclick="cartQtyChange(\''+item.id+'\',-1)">−</button>'
           +'<span class="cart-qty-num">'+item.qty+'</span>'
           +'<button class="cart-qty-btn" onclick="cartQtyChange(\''+item.id+'\',1)">+</button>'
+          +editBtn
           +'</div>'
           +'</div>'
           +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">'
           +'<button class="cart-item-remove" onclick="cartRemoveItem(\''+item.id+'\')" aria-label="Hapus">✕</button>'
           +'<div class="cart-item-subtotal">'+fmtRp(item.price*item.qty)+'</div>'
           +'</div>'
+          +'</div>'
+          // Inline edit panel — rendered collapsed
+          +'<div class="cart-item-edit-panel" id="ci-edit-'+item.id+'">'
+          + buildCartEditPanel(item)
           +'</div>';
       }).join('')
     + '</div>';
@@ -4705,6 +4916,197 @@ function cartQtyChange(id, delta) {
   renderItems(); renderCartSummary();
 }
 
+// ─── CART INLINE EDIT ────────────────────────────────────
+var _cartEditId = null; // id item yang sedang di-edit
+
+function buildCartEditPanel(item) {
+  var kat = KATALOG.find(function(k){return k.id===item.produkId;}); if(!kat) return '';
+  var lang = currentLang;
+  var html = '';
+
+  // Design picker (NPD Series)
+  if (kat.designs && kat.designs.length) {
+    html += '<span class="cep-label">'+(lang==='en'?'DESIGN':'DESIGN')+'</span>';
+    html += '<div class="cep-designs">';
+    kat.designs.forEach(function(d){
+      var sel = item.designId===d.id;
+      html += '<div class="cep-design-chip'+(sel?' active':'')+'" onclick="cartEditSetDesign(\''+item.id+'\',\''+d.id+'\')">'
+        +(d.foto?'<img src="'+d.foto+'" alt="'+d.nama+'" loading="lazy">':'')
+        +'<div class="cep-design-name">'+d.nama+'</div>'
+        +(sel?'<div class="cep-design-chip-check">✓</div>':'')
+        +'</div>';
+    });
+    html += '</div>';
+  }
+
+  // Size picker
+  if (!kat.sizeTetap && kat.sizes && kat.sizes.length > 1) {
+    html += '<span class="cep-label">'+(lang==='en'?'SIZE':'UKURAN')+'</span>';
+    html += '<div class="cep-sizes">';
+    kat.sizes.forEach(function(s){
+      var price = kat.hargaFn ? kat.hargaFn(s) : priceForSize(s);
+      var pTag = price>=270000?Math.round(price/1000)+'K':price===170000?'170K':price===120000?'120K':'150K';
+      var sel = item.size===s;
+      html += '<button type="button" class="cep-sopt'+(sel?' active':'')+'" onclick="cartEditSetSize(\''+item.id+'\',\''+s+'\')">'
+        +s+'<span class="cep-sopt-price">'+pTag+'</span></button>';
+    });
+    html += '</div>';
+  }
+
+  // Color picker (NPD Classic only — produk tanpa warnaTetap dan tanpa designs)
+  if (!kat.warnaTetap && !kat.designs) {
+    html += '<span class="cep-label">'+(lang==='en'?'COLOR':'WARNA')+'</span>';
+    html += '<div class="cep-colors">';
+    COLORS.forEach(function(c){
+      var lbl = getColorLabel(c);
+      var sel = item.color===c.id;
+      var borderStyle = c.id==='putih'?'border:1.5px solid rgba(200,134,10,.4);':'';
+      html += '<div class="cep-copt'+(sel?' active':'')+'" onclick="cartEditSetColor(\''+item.id+'\',\''+c.id+'\')">'
+        +'<div class="cep-swatch" style="background:'+c.hex+';'+borderStyle+'"></div>'
+        +'<div class="cep-cname">'+lbl+'</div>'
+        +'</div>';
+    });
+    html += '</div>';
+  }
+
+  // Save / Cancel
+  var saveLbl   = lang==='en'?'SAVE':'SIMPAN';
+  var cancelLbl = lang==='en'?'CANCEL':'BATAL';
+  html += '<div class="cep-actions">'
+    +'<button type="button" class="cep-btn-cancel" onclick="cartToggleEdit(\''+item.id+'\')">'+cancelLbl+'</button>'
+    +'<button type="button" class="cep-btn-save" onclick="cartSaveEdit(\''+item.id+'\')">✓ '+saveLbl+'</button>'
+    +'</div>';
+
+  return html;
+}
+
+function cartToggleEdit(id) {
+  var panel = document.getElementById('ci-edit-'+id);
+  var btn   = document.querySelector('#ci-row-'+id+' .cart-item-edit-btn');
+  if (!panel) return;
+  var isOpen = panel.classList.contains('open');
+  // Close any other open panels first
+  document.querySelectorAll('.cart-item-edit-panel.open').forEach(function(p){
+    p.classList.remove('open');
+  });
+  document.querySelectorAll('.cart-item-edit-btn.active').forEach(function(b){
+    b.classList.remove('active');
+  });
+  if (!isOpen) {
+    // Rebuild panel with fresh state before opening
+    var item = ITEMS.find(function(x){return x.id===id;});
+    if (item) panel.innerHTML = buildCartEditPanel(item);
+    panel.classList.add('open');
+    if (btn) btn.classList.add('active');
+    _cartEditId = id;
+    // Scroll panel into view smoothly
+    setTimeout(function(){ panel.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 80);
+  } else {
+    _cartEditId = null;
+  }
+}
+
+// Temp state for in-progress edit
+var _cepDraft = {}; // { itemId: { size, color, designId, colorLabel } }
+
+function _getDraft(id) {
+  var item = ITEMS.find(function(x){return x.id===id;}); if(!item) return {};
+  if (!_cepDraft[id]) _cepDraft[id] = { size:item.size, color:item.color, designId:item.designId, colorLabel:item.colorLabel };
+  return _cepDraft[id];
+}
+
+function cartEditSetSize(id, size) {
+  var d = _getDraft(id);
+  d.size = size;
+  // Re-render size buttons
+  var panel = document.getElementById('ci-edit-'+id); if(!panel) return;
+  panel.querySelectorAll('.cep-sopt').forEach(function(btn){
+    btn.classList.toggle('active', btn.textContent.trim().startsWith(size));
+  });
+}
+
+function cartEditSetColor(id, colorId) {
+  var d = _getDraft(id);
+  d.color = colorId;
+  var cObj = COLORS.find(function(c){return c.id===colorId;});
+  d.colorLabel = cObj ? getColorLabel(cObj) : colorId.toUpperCase();
+  // Re-render color buttons
+  var panel = document.getElementById('ci-edit-'+id); if(!panel) return;
+  panel.querySelectorAll('.cep-copt').forEach(function(el,i){
+    var isActive = COLORS[i] && COLORS[i].id===colorId;
+    el.classList.toggle('active', isActive);
+    var check = el.querySelector('.cep-swatch');
+    if (check) {
+      // Update checkmark via CSS (active class on parent handles it)
+    }
+  });
+}
+
+function cartEditSetDesign(id, designId) {
+  var d = _getDraft(id);
+  d.designId = designId;
+  var item = ITEMS.find(function(x){return x.id===id;}); if(!item) return;
+  var kat = KATALOG.find(function(k){return k.id===item.produkId;}); if(!kat||!kat.designs) return;
+  var dObj = kat.designs.find(function(x){return x.id===designId;});
+  if (dObj) { d.color = dObj.warna; d.colorLabel = dObj.warnaLabel; }
+  // Re-render design chips
+  var panel = document.getElementById('ci-edit-'+id); if(!panel) return;
+  panel.querySelectorAll('.cep-design-chip').forEach(function(el){
+    var isActive = el.querySelector('.cep-design-name') &&
+      kat.designs.some(function(x){ return x.id===designId && x.nama === el.querySelector('.cep-design-name').textContent; });
+    el.classList.toggle('active', isActive);
+    var existing = el.querySelector('.cep-design-chip-check');
+    if (isActive && !existing) {
+      var ck = document.createElement('div');
+      ck.className = 'cep-design-chip-check'; ck.textContent = '✓';
+      el.appendChild(ck);
+    } else if (!isActive && existing) {
+      existing.remove();
+    }
+  });
+}
+
+function cartSaveEdit(id) {
+  var item = ITEMS.find(function(x){return x.id===id;}); if(!item) return;
+  var d = _cepDraft[id]; if(!d) { cartToggleEdit(id); return; }
+  var kat = KATALOG.find(function(k){return k.id===item.produkId;});
+
+  // Apply size
+  if (d.size && d.size !== item.size) {
+    item.size  = d.size;
+    item.price = kat && kat.hargaFn ? kat.hargaFn(d.size) : priceForSize(d.size);
+  }
+  // Apply color
+  if (d.color) { item.color = d.color; item.colorLabel = d.colorLabel||d.color.toUpperCase(); }
+  // Apply design + update produkNama suffix
+  if (d.designId && kat && kat.designs) {
+    var dObj = kat.designs.find(function(x){return x.id===d.designId;});
+    if (dObj) {
+      item.designId    = d.designId;
+      item.color       = dObj.warna;
+      item.colorLabel  = dObj.warnaLabel;
+      // Update produkNama — replace design suffix
+      var baseName = kat.nama;
+      item.produkNama  = baseName + ' — ' + dObj.nama;
+    }
+  }
+  // Clear draft + close panel
+  delete _cepDraft[id];
+  cartToggleEdit(id); // close
+  sndColor();
+  renderCartSummary();
+  renderOrderReview();
+  updateCartBubble();
+  _saveDraftSafe();
+  toast(currentLang==='en'?'Item updated!':'Item diperbarui!');
+}
+
+window.cartToggleEdit    = cartToggleEdit;
+window.cartEditSetSize   = cartEditSetSize;
+window.cartEditSetColor  = cartEditSetColor;
+window.cartEditSetDesign = cartEditSetDesign;
+window.cartSaveEdit      = cartSaveEdit;
+
 function cartRemoveItem(id) {
   ITEMS=ITEMS.filter(function(x){return x.id!==id;});
   if(ITEMS.length===0){
@@ -4729,6 +5131,19 @@ function cartGoCheckout() {
   var sec=document.getElementById('order-section');
   if(sec){ sec.style.display='block'; goToStep(1); }
 }
+
+function editCart() {
+  // Sembunyikan form, scroll ke cart-summary
+  var sec = document.getElementById('order-section');
+  if (sec) sec.style.display = 'none';
+  var cartSec = document.getElementById('cart-summary-section');
+  if (cartSec) {
+    setTimeout(function(){
+      cartSec.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 50);
+  }
+}
+window.editCart = editCart;
 
 window.katToggle      = katToggle;
 window.katClose       = katClose;
@@ -5710,6 +6125,7 @@ function setLang(lang){
     oItems:       {id:'Item',en:'Items'},
     cardOrder:    {id:'PESANAN KAMU',          en:'YOUR ORDER'},
     cardOrderSub: {id:'Ringkasan item · ubah qty jika perlu', en:'Order summary · adjust qty if needed'},
+    btnEditCart:  {id:'UBAH',                  en:'EDIT'},
     cardData:     {id:'DATA KAMU',            en:'YOUR DETAILS'},
     cardDataSub:  {id:'Untuk konfirmasi & pengiriman', en:'For confirmation & delivery'},
     totalLbl:     {id:'TOTAL PESANAN',        en:'ORDER TOTAL'},
@@ -6043,84 +6459,84 @@ window.miniCartClose   = miniCartClose;
   // zona: 'instant' | 'bali' | 'jawa' | 'luar' | 'timur'
   var KOTA_DATA = [
     // INSTANT — Denpasar & area sangat dekat
-    { nama:'Denpasar',        zona:'instant', provinsi:'Bali' },
+    { nama:'Denpasar',        zona:'instant', provinsi:'Bali',                    kodepos:'80111' },
 
     // BALI KABUPATEN — JNE REG
-    { nama:'Badung',          zona:'bali', provinsi:'Bali' },
-    { nama:'Kuta',            zona:'bali', provinsi:'Bali' },
-    { nama:'Seminyak',        zona:'bali', provinsi:'Bali' },
-    { nama:'Canggu',          zona:'bali', provinsi:'Bali' },
-    { nama:'Nusa Dua',        zona:'bali', provinsi:'Bali' },
-    { nama:'Jimbaran',        zona:'bali', provinsi:'Bali' },
-    { nama:'Gianyar',         zona:'bali', provinsi:'Bali' },
-    { nama:'Ubud',            zona:'bali', provinsi:'Bali' },
-    { nama:'Tabanan',         zona:'bali', provinsi:'Bali' },
-    { nama:'Singaraja',       zona:'bali', provinsi:'Bali' },
-    { nama:'Klungkung',       zona:'bali', provinsi:'Bali' },
-    { nama:'Semarapura',      zona:'bali', provinsi:'Bali' },
-    { nama:'Bangli',          zona:'bali', provinsi:'Bali' },
-    { nama:'Karangasem',      zona:'bali', provinsi:'Bali' },
-    { nama:'Amlapura',        zona:'bali', provinsi:'Bali' },
-    { nama:'Jembrana',        zona:'bali', provinsi:'Bali' },
-    { nama:'Negara',          zona:'bali', provinsi:'Bali' },
-    { nama:'Buleleng',        zona:'bali', provinsi:'Bali' },
+    { nama:'Badung',          zona:'bali', provinsi:'Bali',                       kodepos:'80351' },
+    { nama:'Kuta',            zona:'bali', provinsi:'Bali',                       kodepos:'80361' },
+    { nama:'Seminyak',        zona:'bali', provinsi:'Bali',                       kodepos:'80361' },
+    { nama:'Canggu',          zona:'bali', provinsi:'Bali',                       kodepos:'80361' },
+    { nama:'Nusa Dua',        zona:'bali', provinsi:'Bali',                       kodepos:'80363' },
+    { nama:'Jimbaran',        zona:'bali', provinsi:'Bali',                       kodepos:'80364' },
+    { nama:'Gianyar',         zona:'bali', provinsi:'Bali',                       kodepos:'80511' },
+    { nama:'Ubud',            zona:'bali', provinsi:'Bali',                       kodepos:'80571' },
+    { nama:'Tabanan',         zona:'bali', provinsi:'Bali',                       kodepos:'82111' },
+    { nama:'Singaraja',       zona:'bali', provinsi:'Bali',                       kodepos:'81111' },
+    { nama:'Klungkung',       zona:'bali', provinsi:'Bali',                       kodepos:'80711' },
+    { nama:'Semarapura',      zona:'bali', provinsi:'Bali',                       kodepos:'80711' },
+    { nama:'Bangli',          zona:'bali', provinsi:'Bali',                       kodepos:'80611' },
+    { nama:'Karangasem',      zona:'bali', provinsi:'Bali',                       kodepos:'80811' },
+    { nama:'Amlapura',        zona:'bali', provinsi:'Bali',                       kodepos:'80811' },
+    { nama:'Jembrana',        zona:'bali', provinsi:'Bali',                       kodepos:'82211' },
+    { nama:'Negara',          zona:'bali', provinsi:'Bali',                       kodepos:'82211' },
+    { nama:'Buleleng',        zona:'bali', provinsi:'Bali',                       kodepos:'81111' },
 
     // JAWA — JNE REG
-    { nama:'Jakarta',         zona:'jawa', provinsi:'DKI Jakarta' },
-    { nama:'Surabaya',        zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Bandung',         zona:'jawa', provinsi:'Jawa Barat' },
-    { nama:'Yogyakarta',      zona:'jawa', provinsi:'DIY' },
-    { nama:'Semarang',        zona:'jawa', provinsi:'Jawa Tengah' },
-    { nama:'Malang',          zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Bogor',           zona:'jawa', provinsi:'Jawa Barat' },
-    { nama:'Bekasi',          zona:'jawa', provinsi:'Jawa Barat' },
-    { nama:'Tangerang',       zona:'jawa', provinsi:'Banten' },
-    { nama:'Depok',           zona:'jawa', provinsi:'Jawa Barat' },
-    { nama:'Solo',            zona:'jawa', provinsi:'Jawa Tengah' },
-    { nama:'Surakarta',       zona:'jawa', provinsi:'Jawa Tengah' },
-    { nama:'Sidoarjo',        zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Mojokerto',       zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Kediri',          zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Banyuwangi',      zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Jember',          zona:'jawa', provinsi:'Jawa Timur' },
-    { nama:'Cirebon',         zona:'jawa', provinsi:'Jawa Barat' },
-    { nama:'Serang',          zona:'jawa', provinsi:'Banten' },
+    { nama:'Jakarta',         zona:'jawa', provinsi:'DKI Jakarta',               kodepos:'10110' },
+    { nama:'Surabaya',        zona:'jawa', provinsi:'Jawa Timur',                kodepos:'60111' },
+    { nama:'Bandung',         zona:'jawa', provinsi:'Jawa Barat',                kodepos:'40111' },
+    { nama:'Yogyakarta',      zona:'jawa', provinsi:'DIY',                        kodepos:'55111' },
+    { nama:'Semarang',        zona:'jawa', provinsi:'Jawa Tengah',               kodepos:'50111' },
+    { nama:'Malang',          zona:'jawa', provinsi:'Jawa Timur',                kodepos:'65111' },
+    { nama:'Bogor',           zona:'jawa', provinsi:'Jawa Barat',                kodepos:'16111' },
+    { nama:'Bekasi',          zona:'jawa', provinsi:'Jawa Barat',                kodepos:'17111' },
+    { nama:'Tangerang',       zona:'jawa', provinsi:'Banten',                    kodepos:'15111' },
+    { nama:'Depok',           zona:'jawa', provinsi:'Jawa Barat',                kodepos:'16411' },
+    { nama:'Solo',            zona:'jawa', provinsi:'Jawa Tengah',               kodepos:'57111' },
+    { nama:'Surakarta',       zona:'jawa', provinsi:'Jawa Tengah',               kodepos:'57111' },
+    { nama:'Sidoarjo',        zona:'jawa', provinsi:'Jawa Timur',                kodepos:'61211' },
+    { nama:'Mojokerto',       zona:'jawa', provinsi:'Jawa Timur',                kodepos:'61311' },
+    { nama:'Kediri',          zona:'jawa', provinsi:'Jawa Timur',                kodepos:'64111' },
+    { nama:'Banyuwangi',      zona:'jawa', provinsi:'Jawa Timur',                kodepos:'68411' },
+    { nama:'Jember',          zona:'jawa', provinsi:'Jawa Timur',                kodepos:'68111' },
+    { nama:'Cirebon',         zona:'jawa', provinsi:'Jawa Barat',                kodepos:'45111' },
+    { nama:'Serang',          zona:'jawa', provinsi:'Banten',                    kodepos:'42111' },
 
     // LUAR JAWA — JNE REG
-    { nama:'Medan',           zona:'luar', provinsi:'Sumatera Utara' },
-    { nama:'Palembang',       zona:'luar', provinsi:'Sumatera Selatan' },
-    { nama:'Pekanbaru',       zona:'luar', provinsi:'Riau' },
-    { nama:'Batam',           zona:'luar', provinsi:'Kepri' },
-    { nama:'Padang',          zona:'luar', provinsi:'Sumatera Barat' },
-    { nama:'Banda Aceh',      zona:'luar', provinsi:'Aceh' },
-    { nama:'Bandar Lampung',  zona:'luar', provinsi:'Lampung' },
-    { nama:'Bengkulu',        zona:'luar', provinsi:'Bengkulu' },
-    { nama:'Jambi',           zona:'luar', provinsi:'Jambi' },
-    { nama:'Balikpapan',      zona:'luar', provinsi:'Kalimantan Timur' },
-    { nama:'Samarinda',       zona:'luar', provinsi:'Kalimantan Timur' },
-    { nama:'Banjarmasin',     zona:'luar', provinsi:'Kalimantan Selatan' },
-    { nama:'Pontianak',       zona:'luar', provinsi:'Kalimantan Barat' },
-    { nama:'Palangkaraya',    zona:'luar', provinsi:'Kalimantan Tengah' },
-    { nama:'Tarakan',         zona:'luar', provinsi:'Kalimantan Utara' },
-    { nama:'Makassar',        zona:'luar', provinsi:'Sulawesi Selatan' },
-    { nama:'Manado',          zona:'luar', provinsi:'Sulawesi Utara' },
-    { nama:'Palu',            zona:'luar', provinsi:'Sulawesi Tengah' },
-    { nama:'Kendari',         zona:'luar', provinsi:'Sulawesi Tenggara' },
-    { nama:'Gorontalo',       zona:'luar', provinsi:'Gorontalo' },
+    { nama:'Medan',           zona:'luar', provinsi:'Sumatera Utara',            kodepos:'20111' },
+    { nama:'Palembang',       zona:'luar', provinsi:'Sumatera Selatan',          kodepos:'30111' },
+    { nama:'Pekanbaru',       zona:'luar', provinsi:'Riau',                      kodepos:'28111' },
+    { nama:'Batam',           zona:'luar', provinsi:'Kepri',                     kodepos:'29411' },
+    { nama:'Padang',          zona:'luar', provinsi:'Sumatera Barat',            kodepos:'25111' },
+    { nama:'Banda Aceh',      zona:'luar', provinsi:'Aceh',                      kodepos:'23111' },
+    { nama:'Bandar Lampung',  zona:'luar', provinsi:'Lampung',                   kodepos:'35111' },
+    { nama:'Bengkulu',        zona:'luar', provinsi:'Bengkulu',                  kodepos:'38111' },
+    { nama:'Jambi',           zona:'luar', provinsi:'Jambi',                     kodepos:'36111' },
+    { nama:'Balikpapan',      zona:'luar', provinsi:'Kalimantan Timur',          kodepos:'76111' },
+    { nama:'Samarinda',       zona:'luar', provinsi:'Kalimantan Timur',          kodepos:'75111' },
+    { nama:'Banjarmasin',     zona:'luar', provinsi:'Kalimantan Selatan',        kodepos:'70111' },
+    { nama:'Pontianak',       zona:'luar', provinsi:'Kalimantan Barat',          kodepos:'78111' },
+    { nama:'Palangkaraya',    zona:'luar', provinsi:'Kalimantan Tengah',         kodepos:'73111' },
+    { nama:'Tarakan',         zona:'luar', provinsi:'Kalimantan Utara',          kodepos:'77111' },
+    { nama:'Makassar',        zona:'luar', provinsi:'Sulawesi Selatan',          kodepos:'90111' },
+    { nama:'Manado',          zona:'luar', provinsi:'Sulawesi Utara',            kodepos:'95111' },
+    { nama:'Palu',            zona:'luar', provinsi:'Sulawesi Tengah',           kodepos:'94111' },
+    { nama:'Kendari',         zona:'luar', provinsi:'Sulawesi Tenggara',         kodepos:'93111' },
+    { nama:'Gorontalo',       zona:'luar', provinsi:'Gorontalo',                 kodepos:'96111' },
 
     // TIMUR — JNE REG
-    { nama:'Lombok',          zona:'timur', provinsi:'NTB' },
-    { nama:'Mataram',         zona:'timur', provinsi:'NTB' },
-    { nama:'Kupang',          zona:'timur', provinsi:'NTT' },
-    { nama:'Flores',          zona:'timur', provinsi:'NTT' },
-    { nama:'Labuan Bajo',     zona:'timur', provinsi:'NTT' },
-    { nama:'Ambon',           zona:'timur', provinsi:'Maluku' },
-    { nama:'Ternate',         zona:'timur', provinsi:'Maluku Utara' },
-    { nama:'Jayapura',        zona:'timur', provinsi:'Papua' },
-    { nama:'Manokwari',       zona:'timur', provinsi:'Papua Barat' },
-    { nama:'Sorong',          zona:'timur', provinsi:'Papua Barat Daya' },
-    { nama:'Timika',          zona:'timur', provinsi:'Papua Tengah' },
-    { nama:'Merauke',         zona:'timur', provinsi:'Papua Selatan' }
+    { nama:'Lombok',          zona:'timur', provinsi:'NTB',                      kodepos:'83111' },
+    { nama:'Mataram',         zona:'timur', provinsi:'NTB',                      kodepos:'83111' },
+    { nama:'Kupang',          zona:'timur', provinsi:'NTT',                      kodepos:'85111' },
+    { nama:'Flores',          zona:'timur', provinsi:'NTT',                      kodepos:'86411' },
+    { nama:'Labuan Bajo',     zona:'timur', provinsi:'NTT',                      kodepos:'86554' },
+    { nama:'Ambon',           zona:'timur', provinsi:'Maluku',                   kodepos:'97211' },
+    { nama:'Ternate',         zona:'timur', provinsi:'Maluku Utara',             kodepos:'97711' },
+    { nama:'Jayapura',        zona:'timur', provinsi:'Papua',                    kodepos:'99111' },
+    { nama:'Manokwari',       zona:'timur', provinsi:'Papua Barat',              kodepos:'98311' },
+    { nama:'Sorong',          zona:'timur', provinsi:'Papua Barat Daya',         kodepos:'98411' },
+    { nama:'Timika',          zona:'timur', provinsi:'Papua Tengah',             kodepos:'99911' },
+    { nama:'Merauke',         zona:'timur', provinsi:'Papua Selatan',            kodepos:'99611' }
   ];
 
   // ── Info per zona ─────────────────────────────────
@@ -6250,6 +6666,24 @@ window.miniCartClose   = miniCartClose;
     if (dd) dd.classList.remove('open');
     var clr = document.getElementById('ongkir-clear');
     if (clr) clr.classList.add('visible');
+
+    // Auto-fill kode pos representatif
+    var kpInp = document.getElementById('f-kodepos');
+    if (kpInp && kota.kodepos) {
+      kpInp.value = kota.kodepos;
+      // Tampil hint di bawah field kodepos
+      var hint = document.getElementById('kodepos-hint');
+      if (!hint) {
+        hint = document.createElement('div');
+        hint.id = 'kodepos-hint';
+        hint.style.cssText = 'font-size:10px;color:rgba(200,134,10,.45);margin-top:4px;letter-spacing:.5px;line-height:1.6;font-family:\'Roboto\',sans-serif;';
+        kpInp.parentNode.appendChild(hint);
+      }
+      hint.innerHTML = '⚠ Kode pos representatif · Sesuaikan dengan kelurahanmu via '
+        + '<a href="https://kodepos.posindonesia.go.id" target="_blank" rel="noopener" '
+        + 'style="color:rgba(200,134,10,.65);text-decoration:underline;">kodepos.posindonesia.go.id</a>';
+    }
+
     tampilResult(kota);
   }
 
@@ -6344,7 +6778,19 @@ window.miniCartClose   = miniCartClose;
         if (dd) dd.classList.remove('open');
         var res = document.getElementById('ongkir-result');
         if (res) res.classList.remove('visible');
+        // Hapus hint kodepos saat kota di-clear
+        var hint = document.getElementById('kodepos-hint');
+        if (hint) hint.remove();
         inp.focus();
+      });
+    }
+
+    // Sembunyikan hint kodepos kalau user edit manual
+    var kpInp = document.getElementById('f-kodepos');
+    if (kpInp) {
+      kpInp.addEventListener('input', function() {
+        var hint = document.getElementById('kodepos-hint');
+        if (hint) hint.style.display = 'none';
       });
     }
   }
