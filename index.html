@@ -48,11 +48,7 @@
 <meta property="og:locale:alternate" content="en_US">
 <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="image"
-  href="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1774415260/Hero-5_fz9ile.png"
-  fetchpriority="high"
-  imagesrcset="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_600,q_65,f_auto/v1774415260/Hero-5_fz9ile.png 600w, https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_65,f_auto/v1774415260/Hero-5_fz9ile.png 900w"
-  imagesizes="100vw">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet"></noscript>
@@ -160,6 +156,7 @@ header{
   cursor:default;
   aspect-ratio:16/10;
   overflow:hidden;
+  position:relative; /* required: scopes ::before skeleton overlay to this slide */
 }
 .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .hs-btn{
@@ -1676,7 +1673,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 .hero-slide.img-ready::before{ opacity:0; }
 /* Lightbox loading spinner */
 .lb-spinner{
-  position:absolute;top:50%;left:50%;
+  position:fixed;top:50%;left:50%;
   transform:translate(-50%,-50%);
   width:32px;height:32px;
   border:3px solid rgba(200,134,10,.2);
@@ -1684,6 +1681,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   border-radius:50%;
   animation:spin .7s linear infinite;
   pointer-events:none;
+  z-index:9999;
 }
 .lb-spinner.hidden{ display:none; }
   display:inline-block;color:var(--amber);
@@ -3638,10 +3636,10 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="hero-track" id="hs-track">
     <div class="hero-slide" id="hs-slide-0">
       <img class="img-prog"
-           src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_800,q_65,f_auto/v1774415260/Hero-5_fz9ile.png"
-           data-hires="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1774415260/Hero-5_fz9ile.png"
+           src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_900,q_70,f_auto/v1774415260/Hero-5_fz9ile.png"
            alt="Kaos AWAS BAHAYA NPD — Desain Bhuta Kala Modern, kaos awareness NPD dari Bali"
-           fetchpriority="high">
+           loading="eager"
+           decoding="async">
     </div>
     <div class="hero-slide" id="hs-slide-1">
       <img class="img-prog"
@@ -6264,57 +6262,31 @@ function _hsLoadSlide(n) {
   var slide = document.getElementById('hs-slide-' + n);
   if (!slide) return;
   var img = slide.querySelector('img');
-  if (!img || img.src) return; // already loaded
+  if (!img || img.dataset.loaded) return;
+  img.dataset.loaded = '1';
+  // Slide 0 sudah punya src langsung; slide lain pakai data-src
   var src = img.dataset.src;
-  if (!src) return;
-  img.src = src;
+  if (src) img.src = src;
+  // Jika src belum valid, batalkan
+  if (!img.src || img.src === window.location.href) { delete img.dataset.loaded; return; }
   img.classList.add('loading');
-  img.onload = function(){
+  function onReady() {
     img.classList.remove('loading');
     img.classList.add('loaded');
     slide.classList.add('img-ready');
-    // Setelah medium loaded, queue hi-res di background
-    var hires = img.dataset.hires;
-    if (hires && hires !== src) {
-      setTimeout(function(){
-        var h = new Image();
-        h.onload = function(){
-          if (img.src === src) { // masih tampil medium, swap ke hires
-            img.style.transition = 'opacity .4s';
-            img.style.opacity = '0';
-            setTimeout(function(){ img.src = hires; img.style.opacity = '1'; }, 200);
-          }
-        };
-        h.src = hires;
-      }, 300);
-    }
-  };
+  }
+  if (img.complete && img.naturalWidth > 0) {
+    onReady();
+  } else {
+    img.onload  = onReady;
+    img.onerror = function() { delete img.dataset.loaded; img.classList.remove('loading'); };
+  }
 }
 
-// Init: load slide 0 hi-res immediately (already has src set)
-(function(){
-  var slide0 = document.getElementById('hs-slide-0');
-  if (slide0) {
-    var img = slide0.querySelector('img');
-    if (img) {
-      img.classList.add('loading');
-      img.onload = function(){
-        img.classList.remove('loading');
-        img.classList.add('loaded');
-        slide0.classList.add('img-ready');
-        // Preload slide 1 dan 2
-        _hsLoadSlide(1);
-        _hsLoadSlide(2);
-      };
-      if (img.complete) { // already cached
-        img.classList.remove('loading');
-        img.classList.add('loaded');
-        slide0.classList.add('img-ready');
-        _hsLoadSlide(1);
-      }
-    }
-  }
-})();
+// Init: load slide 0 langsung, preload 2 slide berikutnya
+_hsLoadSlide(0);
+_hsLoadSlide(1);
+_hsLoadSlide(2);
 
 // ─── HERO SLIDESHOW ─────────────────────────────────────
 var HS_TOTAL=10, hsCur=0, hsTimer;
@@ -6324,7 +6296,7 @@ function hsGo(n){
   if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i%HS_TOTAL===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
-  // Lazy load current + neighbours
+  // Lazy load current & neighbours
   _hsLoadSlide(hsCur);
   _hsLoadSlide((hsCur+1)%HS_TOTAL);
   _hsLoadSlide((hsCur-1+HS_TOTAL)%HS_TOTAL);
@@ -6396,11 +6368,10 @@ function dlbNav(dir) { dlbIdx = (dlbIdx + dir + DLB_IMGS_BASE.length) % DLB_IMGS
 function dlbGo(i)    { dlbIdx = i; dlbRender(); }
 
 function dlbRender() {
-  var imgEl   = $('dlb-img');
-  var ctr     = $('dlb-counter');
-  var dot     = $('dlb-dots');
-  var spinner = $('dlb-spinner');
-  var n       = DLB_IMGS_BASE.length;
+  var imgEl = $('dlb-img');
+  var ctr   = $('dlb-counter');
+  var dot   = $('dlb-dots');
+  var n     = DLB_IMGS_BASE.length;
 
   if (ctr) ctr.textContent = (dlbIdx + 1) + ' / ' + n;
   if (dot) dot.innerHTML = DLB_IMGS_BASE.map(function(_, i) {
@@ -6409,56 +6380,41 @@ function dlbRender() {
 
   if (!imgEl) return;
 
-  var baseUrl  = DLB_IMGS_BASE[dlbIdx];
-  var thumbUrl = clUrl(baseUrl, 500, 65);  // tampilkan thumb dulu
-  var hiresUrl = clHires(baseUrl);          // hi-res load di background
+  var currentIdx = dlbIdx;
+  var baseUrl    = DLB_IMGS_BASE[currentIdx];
+  // w_400,q_55 = persis sama dengan gallery strip — sudah ada di cache browser
+  var thumbUrl   = clUrl(baseUrl, 400, 55);
+  var hiresUrl   = clHires(baseUrl);
 
-  var currentIdx = dlbIdx; // capture untuk async check
+  // Tampil instan tanpa loading state — pakai thumbnail yang sudah cached
+  imgEl.src = thumbUrl;
+  imgEl.style.transition = 'none';
+  imgEl.style.opacity = '1';
 
-  // Show spinner
-  if (spinner) spinner.classList.remove('hidden');
-  imgEl.style.opacity = '0.4';
-
-  // Kalau hi-res sudah di cache — langsung tampil
+  // Hi-res sudah di cache — langsung swap tanpa fade
   if (_dlbCache[currentIdx] && _dlbCache[currentIdx].complete) {
     imgEl.src = hiresUrl;
-    imgEl.style.transition = 'opacity .3s';
-    imgEl.style.opacity = '1';
-    if (spinner) spinner.classList.add('hidden');
     _dlbPreload((currentIdx + 1) % n);
     _dlbPreload((currentIdx - 1 + n) % n);
     return;
   }
 
-  // Step 1: Load thumb dulu — tampil cepat
-  var t = new Image();
-  t.onload = function(){
-    if (dlbIdx !== currentIdx) return;
-    imgEl.src = thumbUrl;
-    imgEl.style.transition = 'opacity .25s';
-    imgEl.style.opacity = '1';
-    if (spinner) spinner.classList.add('hidden');
-  };
-  t.src = thumbUrl;
-  imgEl.src = thumbUrl; // set langsung
-
-  // Step 2: Load hi-res di background, swap saat ready
+  // Load hi-res di background — swap halus saat ready
   var h = new Image();
-  h.onload = function(){
+  h.onload = function() {
     _dlbCache[currentIdx] = h;
-    if (dlbIdx !== currentIdx) return; // user sudah pindah
-    imgEl.style.transition = 'opacity .3s';
+    if (dlbIdx !== currentIdx) return;
+    imgEl.style.transition = 'opacity .35s';
     imgEl.style.opacity = '0';
-    setTimeout(function(){
+    setTimeout(function() {
       if (dlbIdx !== currentIdx) return;
       imgEl.src = hiresUrl;
       imgEl.style.opacity = '1';
-    }, 150);
-    // Preload neighbours
+    }, 175);
     _dlbPreload((currentIdx + 1) % n);
     _dlbPreload((currentIdx - 1 + n) % n);
   };
-  h.onerror = function(){ if (spinner) spinner.classList.add('hidden'); };
+  h.onerror = function() {};
   h.src = hiresUrl;
 }
 function dlbKey(e){if(e.key==='ArrowLeft')dlbNav(-1);if(e.key==='ArrowRight')dlbNav(1);if(e.key==='Escape')dlbClose();}
