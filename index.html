@@ -4248,7 +4248,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <span style="display:inline-flex;align-items:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span>
             </button>
           </li>
-          <li style="list-style:none">✓ <span data-i18n="successLi1">Bukti transfer tersimpan di sistem</li>
+          <li style="list-style:none">✓ <span data-i18n="successLi1">Bukti transfer tersimpan di sistem</span></li>
           <li data-i18n="successLi2">Notif email sudah dikirim ke admin</li>
         </ul>
         <p class="copy-ordernum-hint" data-i18n="copyHint">Tap nomor order untuk copy</p>
@@ -5893,8 +5893,9 @@ var ccEl=$('f-cc'); if(ccEl) ccEl.addEventListener('change',saveDraft);
 function waFloatUpdate() {
   var wa = document.querySelector('.wa-float');
   if (!wa) return;
-  var panelOpen  = !!(document.getElementById('kat-detail-panel') || {classList:{contains:function(){return false;}}}).classList.contains('kdp-open')
-                || !!(document.querySelector('.kat-detail-panel.kdp-open'));
+  // Desktop (≥600px) — selalu tampil, tidak ganggu UI
+  if (window.innerWidth >= 600) { wa.classList.remove('wa-hidden'); return; }
+  var panelOpen  = !!(document.querySelector('.kat-detail-panel.kdp-open'));
   var orderOpen  = (function(){
     var s1=$('step1'),s2=$('step2'),s3=$('step3');
     return (s1&&s1.style.display==='block')||(s2&&s2.style.display==='block')||(s3&&s3.style.display==='block');
@@ -5902,6 +5903,7 @@ function waFloatUpdate() {
   wa.classList.toggle('wa-hidden', !!(panelOpen || orderOpen));
 }
 window.waFloatUpdate = waFloatUpdate;
+window.addEventListener('resize', debounce(waFloatUpdate, 200));
 
 // ─── STEP NAVIGATION ────────────────────────────────────
 function goToStep(n) {
