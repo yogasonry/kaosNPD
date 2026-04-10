@@ -4505,7 +4505,7 @@ window.addEventListener('resize', function() {
   _isMobile = window.innerWidth <= 599;
 });
 
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyL3gBuQeQCEQh4bBgAmdU3vuAI_v3-VlqMqTK_uO2bEaqpkwPCpP8989qrAPhrfu60Pw/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7gfclY391JUyTsIgJAzvI8y34SiNsC0ijydOfPT_8DqccXJM5K8Wfqdt3JMZhFLj_Bw/exec';
 
 // ─── COLORS — bilingual labels ──────────────────────────
 var COLORS = [
@@ -5546,7 +5546,7 @@ var TOAST_MSGS = {
   noUpload     : { id:'Upload bukti transfer dulu!',en:'Please upload payment proof first!' },
   compressing  : { id:'Mengompres gambar...',       en:'Compressing image...' },
   draftRestored: { id:'Draft form dipulihkan',   en:'Form draft restored' },
-  retrying     : { id:'Koneksi lambat, mencoba ulang...', en:'Slow connection, retrying...' },
+  retrying     : { id:'Mengirim ulang, harap tunggu...', en:'Resending, please wait...' },
   savedWarn    : { id:'⚡ Tersimpan! Cek WA admin untuk konfirmasi.', en:'⚡ Saved! Check WA admin to confirm.' },
   bcaCopied    : { id:'No. BCA disalin!',           en:'BCA number copied!' },
   gopayCopied  : { id:'No. GoPay/Dana disalin!',    en:'GoPay/Dana number copied!' },
@@ -5554,6 +5554,7 @@ var TOAST_MSGS = {
   notImage     : { id:'File harus berupa gambar!',  en:'File must be an image!' },
   tooLarge     : { id:'Ukuran file maks 10MB!',     en:'File size max 10MB!' },
   imgReady     : { id:'Foto siap ✓',               en:'Photo ready ✓' },
+
 };
 
 function t(key) { var m = TOAST_MSGS[key]; return m ? (m[currentLang] || m.id) : key; }
@@ -6109,7 +6110,7 @@ function validate() {
 
 // ─── IMAGE COMPRESSION ──────────────────────────────────
 function compressImage(file, cb) {
-  var MAX=1200, Q=0.75, reader=new FileReader();
+  var MAX=900, Q=0.70, reader=new FileReader();
   reader.onerror=function(){cb(null,null,'read_error');};
   reader.onload=function(e){
     var img=new Image();
@@ -6168,7 +6169,8 @@ function resetSubmitBtn(){
   if(btn)btn.disabled=false;
   if(txt)txt.textContent=currentLang==='en'?'CONFIRM PAYMENT':'KONFIRMASI PEMBAYARAN';
   if(sp)sp.style.display='none';
-}function doSubmit(){
+}
+function doSubmit(){
   SUBMIT_ATTEMPT++;
   var retryLabel = '';
   if (SUBMIT_ATTEMPT > 1) {
@@ -6179,19 +6181,13 @@ function resetSubmitBtn(){
   if(txt)txt.textContent=(currentLang==='en'?'SENDING':'MENGIRIM')+retryLabel+'...';
   if(sp)sp.style.display='inline-block';
   var payload = JSON.parse(JSON.stringify(ORDER));
-  // Hapus items array dari payload — berat & tidak diperlukan server
-  // Semua info multi-item sudah ada di field catatan dan itemsStr
   delete payload.items;
   payload.imageData = IMG_B64;
   payload.imageMime = IMG_MIME;
-  var ctrl=window.AbortController?new AbortController():null;
-  var tid=ctrl?setTimeout(function(){ctrl.abort();},30000):null;
   var opts={method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),mode:'no-cors'};
-  if(ctrl)opts.signal=ctrl.signal;
   fetch(APPS_SCRIPT_URL,opts)
-  .then(function(){if(tid)clearTimeout(tid);onSubmitSuccess();})
+  .then(function(){onSubmitSuccess();})
   .catch(function(){
-    if(tid)clearTimeout(tid);
     if(SUBMIT_ATTEMPT<MAX_ATTEMPTS){toast(t('retrying'));setTimeout(doSubmit,2500);}
     else{toast(t('savedWarn'));onSubmitSuccess();}
   });
