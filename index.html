@@ -46,10 +46,12 @@
 <meta name="ICBM" content="-8.3405, 115.0920">
 <meta property="og:locale" content="id_ID">
 <meta property="og:locale:alternate" content="en_US">
+<link rel="dns-prefetch" href="https://res.cloudinary.com">
 <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="https://res.cloudinary.com/dqqdjhb2x/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_jpg/v1774415260/Hero-5_fz9ile.png" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Roboto:wght@300;400;500&family=Anton+SC&family=Special+Elite&display=swap" rel="stylesheet"></noscript>
 <style>
@@ -366,7 +368,7 @@ header{
 .price-lbl{font-family:'Roboto',sans-serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
 .price-grid{display:flex;justify-content:center;align-items:flex-end;gap:24px;flex-wrap:wrap;}
 .price-item{text-align:center;}
-.price-sizes{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:3px;color:var(--gold);opacity:.85;margin-bottom:4px;}
+.price-sizes{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:3px;color:var(--gold);opacity:.95;margin-bottom:4px;}
 .price-num{
   font-family:'Rubik Dirt',sans-serif;font-weight:400;line-height:.9;
   color:var(--amber);
@@ -391,7 +393,7 @@ header{
 .price-num.mid{font-size:clamp(36px,9vw,84px);color:#d09018;}
 .price-num.mid:hover,.price-num.mid.hovered{color:#e8a020;}
 .price-sep{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:rgba(200,134,10,.28);padding-bottom:10px;}
-.price-note{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.75;margin-top:12px;}
+.price-note{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.88;margin-top:12px;}
 .price-note strong{color:var(--amber);}
 .divider{width:100%;max-width:540px;margin:16px auto;height:2px;background:linear-gradient(90deg,transparent,var(--amber),transparent);animation:divPulse 3s ease-in-out infinite;}
 @keyframes divPulse{0%,100%{opacity:.7;transform:scaleX(.9);}50%{opacity:1;transform:scaleX(1);}}
@@ -399,7 +401,7 @@ header{
 /* ─── BRAND GALLERY — horizontal scroll strip ─── */
 .gallery-section{max-width:860px;margin:0 auto;padding:0 0 32px;}
 .sec-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(22px,5vw,34px);color:var(--amber);letter-spacing:3px;text-align:center;margin-bottom:5px;}
-.sec-note{text-align:center;font-family:'Roboto',sans-serif;font-size:12px;color:var(--gold);opacity:.82;letter-spacing:2px;margin-bottom:16px;}
+.sec-note{text-align:center;font-family:'Roboto',sans-serif;font-size:12px;color:var(--gold);opacity:.92;letter-spacing:2px;margin-bottom:16px;}
 
 .gallery-strip{
   display:flex;
@@ -541,15 +543,15 @@ header{
   width:20px;height:20px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-family:'Anton SC',sans-serif;font-size:10px;letter-spacing:0;
-  border:1.5px solid rgba(200,134,10,.45);
-  color:rgba(200,134,10,.6);background:transparent;
+  border:1.5px solid rgba(200,134,10,.55);
+  color:rgba(200,134,10,.80);background:transparent;
   transition:all .3s;flex-shrink:0;
 }
 .sdot.active .sdot-c{border-color:rgba(0,0,0,.35);color:var(--black);}
 .sdot.done   .sdot-c{border-color:#3a9a3a;color:#3a9a3a;}
 .sdot-l{
   font-family:'Rubik Dirt',sans-serif;font-size:9px;
-  color:rgba(200,134,10,.55);letter-spacing:1.5px;white-space:nowrap;
+  color:rgba(200,134,10,.75);letter-spacing:1.5px;white-space:nowrap;
   transition:color .3s;
 }
 .sdot.active .sdot-l{color:var(--black);}
@@ -598,11 +600,11 @@ header{
 }
 .cart-empty-txt{
   font-family:'Roboto',sans-serif;font-size:12px;
-  letter-spacing:2px;color:rgba(200,134,10,.4);
+  letter-spacing:2px;color:rgba(200,134,10,.65);
   text-transform:uppercase;margin-bottom:6px;
 }
 .cart-empty-hint{
-  font-size:11px;color:rgba(200,134,10,.25);letter-spacing:1px;
+  font-size:11px;color:rgba(200,134,10,.50);letter-spacing:1px;
 }
 .cart-items-list{padding:8px 0;}
 .cart-item-row{
@@ -631,7 +633,7 @@ header{
 .cart-item-tag{
   font-size:9px;letter-spacing:1.5px;
   background:rgba(61,26,8,.5);border:1px solid rgba(200,134,10,.2);
-  color:rgba(200,134,10,.7);padding:2px 7px;border-radius:2px;
+  color:rgba(200,134,10,.88);padding:2px 7px;border-radius:2px;
   text-transform:uppercase;
 }
 .cart-item-subtotal{
@@ -640,8 +642,7 @@ header{
 }
 .cart-item-remove{
   background:none;border:none;cursor:pointer;
-  color:rgba(200,134,10,.3);font-size:14px;
-  /* touch target min 44px agar mudah di-tap di mobile */
+  color:rgba(200,134,10,.55);font-size:14px;
   min-width:44px;min-height:44px;
   display:flex;align-items:center;justify-content:center;
   padding:0;
@@ -654,7 +655,7 @@ header{
   display:inline-flex;align-items:center;gap:4px;
   background:rgba(200,134,10,.08);
   border:1px solid rgba(200,134,10,.28);
-  color:rgba(200,134,10,.75);
+  color:rgba(200,134,10,.90);
   font-family:'Rubik Dirt',sans-serif;font-size:9px;
   letter-spacing:1.5px;padding:4px 8px;
   cursor:pointer;border-radius:3px;margin-left:6px;
@@ -695,7 +696,7 @@ header{
 }
 .cart-total-label{
   font-family:'Roboto',sans-serif;font-size:10px;
-  letter-spacing:3px;color:rgba(200,134,10,.5);text-transform:uppercase;
+  letter-spacing:3px;color:rgba(200,134,10,.75);text-transform:uppercase;
 }
 .cart-total-amount{
   font-family:'Rubik Dirt',sans-serif;font-size:26px;
@@ -703,7 +704,7 @@ header{
 }
 .cart-total-sub{
   font-size:9px;letter-spacing:2px;
-  color:rgba(240,224,192,.25);text-transform:uppercase;
+  color:rgba(240,224,192,.55);text-transform:uppercase;
   margin-bottom:14px;
 }
 .cart-checkout-btn{
@@ -723,7 +724,7 @@ header{
 }
 .cart-checkout-hint{
   font-size:10px;letter-spacing:2px;
-  color:rgba(200,134,10,.3);text-align:center;
+  color:rgba(200,134,10,.55);text-align:center;
   margin-top:8px;text-transform:uppercase;
 }
 
@@ -747,12 +748,12 @@ header{
 }
 .form-card-sub{
   font-family:'Roboto',sans-serif;font-size:10px;
-  color:var(--cream);opacity:.4;letter-spacing:1px;margin-top:1px;
+  color:var(--cream);opacity:.65;letter-spacing:1px;margin-top:1px;
 }
 
 /* Inputs — 16px minimum to prevent iOS zoom */
 .fg{margin-bottom:12px;}
-.flbl{display:block;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;opacity:.8;}
+.flbl{display:block;font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;opacity:.92;}
 .finp{
   width:100%;background:rgba(255,255,255,.04);
   border:2px solid rgba(200,134,10,.22);color:var(--cream);
@@ -760,7 +761,7 @@ header{
   padding:13px 16px;outline:none;transition:border-color .2s;
   -webkit-appearance:none;border-radius:0;
 }
-.finp::placeholder{color:rgba(240,224,192,.22);}
+.finp::placeholder{color:rgba(240,224,192,.40);}
 .finp:focus{border-color:var(--amber);background:rgba(200,134,10,.05);}
 select.finp{
   -webkit-appearance:none;appearance:none;
@@ -794,6 +795,7 @@ textarea.finp{resize:vertical;min-height:80px;}
   width:100%;
   cursor:pointer;
   position:relative;overflow:hidden;
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;
   transition:transform .35s cubic-bezier(.34,1.56,.64,1),
     border-color .25s,background .25s,box-shadow .35s;
 }
@@ -907,7 +909,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .color-wa-btn svg{flex-shrink:0;}
 .color-note{
   font-family:'Roboto',sans-serif;font-weight:400;font-size:11px;
-  color:var(--cream);opacity:.5;margin-top:7px;line-height:1.5;
+  color:var(--cream);opacity:.72;margin-top:7px;line-height:1.5;
   letter-spacing:.3px;
 }
 
@@ -920,9 +922,10 @@ textarea.finp{resize:vertical;min-height:80px;}
   padding:8px 1px;cursor:pointer;transition:all .2s;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:2px;
   min-height:48px;justify-content:center;
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;
 }
 @media(max-width:360px){.sopt{font-size:12px;min-height:44px;}}
-.sopt-price{font-family:'Roboto',sans-serif;font-size:7px;letter-spacing:.5px;opacity:.55;line-height:1;}
+.sopt-price{font-family:'Roboto',sans-serif;font-size:9px;letter-spacing:.5px;opacity:.75;line-height:1;}
 .sopt{transition:all .28s cubic-bezier(.34,1.56,.64,1);}
 .sopt:active{border-color:var(--amber);transform:scale(.95);}
 @media(hover:hover){.sopt:hover{border-color:var(--amber);color:var(--amber);}}
@@ -975,11 +978,11 @@ textarea.finp{resize:vertical;min-height:80px;}
   padding:0;margin:0;
 }
 .trow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;}
-.tkey{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:1.5px;color:var(--gold);font-weight:300;opacity:.8;}
+.tkey{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:1.5px;color:var(--gold);font-weight:300;opacity:.92;}
 .tval{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);}
 .tdiv{border:none;border-top:1px solid rgba(200,134,10,.15);margin:8px 0;}
 .tbig{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:var(--white);}
-.tsub{font-family:'Roboto',sans-serif;font-size:10px;color:var(--cream);opacity:.3;letter-spacing:2px;}
+.tsub{font-family:'Roboto',sans-serif;font-size:10px;color:var(--cream);opacity:.55;letter-spacing:2px;}
 
 /* ─── STICKY CTA BAR (Opsi C) ───────────────────────── */
 .sticky-cta{
@@ -997,7 +1000,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .sticky-cta-label{
   font-family:'Roboto',sans-serif;font-size:10px;
-  letter-spacing:2px;color:var(--gold);opacity:.6;
+  letter-spacing:2px;color:var(--gold);opacity:.80;
   white-space:nowrap;
 }
 .sticky-cta-amount{
@@ -1007,7 +1010,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .sticky-cta-sub{
   font-family:'Roboto',sans-serif;font-size:9px;
-  letter-spacing:1.5px;color:var(--cream);opacity:.3;
+  letter-spacing:1.5px;color:var(--cream);opacity:.55;
 }
 
 /* CTA button inside sticky bar */
@@ -1094,7 +1097,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .upload-sub{
   font-family:'Roboto',sans-serif;font-size:11px;
-  color:var(--cream);opacity:.7;margin-top:6px;
+  color:var(--cream);opacity:.85;margin-top:6px;
   display:block;pointer-events:none;
 }
 /* preview */
@@ -1109,7 +1112,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .preview-name{
   font-family:'Roboto',sans-serif;font-size:11px;
-  color:var(--gold);margin-top:8px;opacity:.7;
+  color:var(--gold);margin-top:8px;opacity:.85;
   word-break:break-all;
 }
 .remove-btn{
@@ -1127,11 +1130,11 @@ textarea.finp{resize:vertical;min-height:80px;}
 .success-icon{display:flex;justify-content:center;margin-bottom:14px;animation:pop .5s cubic-bezier(.34,1.56,.64,1);}
 @keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
 .success-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:36px;color:var(--amber);letter-spacing:4px;margin-bottom:10px;}
-.success-msg{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);opacity:.7;line-height:1.8;max-width:380px;margin:0 auto 20px;}
+.success-msg{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);opacity:.85;line-height:1.8;max-width:380px;margin:0 auto 20px;}
 .success-box{background:rgba(45,106,45,.13);border:2px solid #3a9a3a;padding:16px;margin-bottom:18px;text-align:left;}
 .success-box-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:2px;color:#80d080;margin-bottom:8px;}
 .success-box ul{list-style:none;}
-.success-box li{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.76;padding:3px 0;display:flex;gap:8px;}
+.success-box li{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.90;padding:3px 0;display:flex;gap:8px;}
 .success-box li::before{content:'✓';color:#80d080;flex-shrink:0;}
 /* Tap to copy order number */
 .copy-ordernum{
@@ -1142,7 +1145,7 @@ textarea.finp{resize:vertical;min-height:80px;}
   border-radius:4px;
 }
 .copy-ordernum:active,.copy-ordernum:hover{background:rgba(200,134,10,.22);border-color:var(--amber);}
-.copy-ordernum-hint{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.65;margin-top:4px;}
+.copy-ordernum-hint{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.80;margin-top:4px;}
 
 /* ─── MULTI-ITEM ROWS ─── */
 .items-container{
@@ -1251,7 +1254,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .item-sum-row{
   display:flex;justify-content:space-between;align-items:center;
   font-family:'Roboto',sans-serif;font-size:12px;
-  color:var(--cream);opacity:.75;
+  color:var(--cream);opacity:.88;
   padding:3px 0;
   border-bottom:1px dashed rgba(200,134,10,.1);
 }
@@ -1320,8 +1323,8 @@ textarea.finp{resize:vertical;min-height:80px;}
 /* ─── BACK BUTTON (Step 2) ─── */
 .btn-back-form{
   background:transparent;
-  border:1px solid rgba(200,134,10,.3);
-  color:rgba(200,134,10,.7);
+  border:1px solid rgba(200,134,10,.45);
+  color:rgba(200,134,10,.85);
   font-family:'Roboto',sans-serif;font-size:12px;
   letter-spacing:2px;padding:7px 14px;cursor:pointer;
   margin-bottom:18px;
@@ -1364,7 +1367,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .cep-label{
   font-family:'Rubik Dirt',sans-serif;font-size:9px;
-  letter-spacing:2px;color:rgba(200,134,10,.6);
+  letter-spacing:2px;color:rgba(200,134,10,.80);
   text-transform:uppercase;margin-bottom:7px;display:block;
 }
 /* Size buttons inside edit panel */
@@ -1463,8 +1466,8 @@ textarea.finp{resize:vertical;min-height:80px;}
 .cep-btn-save:active{transform:scale(.97);}
 .cep-btn-cancel{
   padding:10px 14px;background:transparent;
-  border:1px solid rgba(200,134,10,.3);
-  color:rgba(200,134,10,.7);font-family:'Roboto',sans-serif;
+  border:1px solid rgba(200,134,10,.4);
+  color:rgba(200,134,10,.85);font-family:'Roboto',sans-serif;
   font-size:11px;letter-spacing:1.5px;cursor:pointer;border-radius:4px;
   transition:border-color .2s,color .2s;
 }
@@ -1563,18 +1566,18 @@ textarea.finp{resize:vertical;min-height:80px;}
 .step-num{
   font-family:'Roboto',sans-serif;font-weight:300;
   font-size:11px;letter-spacing:4px;
-  color:rgba(200,134,10,.6);
+  color:rgba(200,134,10,.80);
   margin-bottom:14px;
   display:block;
 }
 
 .stitle{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:17px;color:var(--amber);letter-spacing:2px;margin-bottom:8px;}
-.sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.82;line-height:1.65;}
+.sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.90;line-height:1.65;}
 
 /* footer */
 footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.2);}
-.hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.75;margin-bottom:10px;}
-.fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.7;letter-spacing:2px;}
+.hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.88;margin-bottom:10px;}
+.fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.85;letter-spacing:2px;}
 
 /* toast — max-width so it doesn't overflow mobile */
 .toast{
@@ -1989,10 +1992,10 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* Bottom label */
 .sh-loading-txt{
   font-family:'Roboto',sans-serif;font-size:9px;
-  letter-spacing:3px;color:rgba(200,134,10,.4);
+  letter-spacing:3px;color:rgba(200,134,10,.65);
   text-transform:uppercase;
   animation:fadeUp .5s ease .8s both;
-  margin-top:4px;/* sedikit spacing dari progress bar */
+  margin-top:4px;
   line-height:1.4;
 }
 
@@ -2023,13 +2026,13 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 }
 .ctrl-btn{
   background:transparent;border:1px solid rgba(200,134,10,.35);
-  color:rgba(200,134,10,.6);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;
+  color:rgba(200,134,10,.80);font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:11px;
   letter-spacing:2px;padding:4px 10px;cursor:pointer;
   transition:all .2s;border-radius:2px;
 }
 .ctrl-btn:hover{border-color:var(--amber);color:var(--amber);}
 .ctrl-btn.active{background:var(--amber);color:var(--black);border-color:var(--amber);}
-.ctrl-sep{color:rgba(200,134,10,.25);font-size:11px;padding:0 2px;}
+.ctrl-sep{color:rgba(200,134,10,.50);font-size:11px;padding:0 2px;}
 
 /* ─── FLOATING WA BUTTON ─── */
 .wa-float{
@@ -2110,7 +2113,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 }
 .preorder-pill span.icon{font-size:13px;}
 .preorder-pill strong{color:var(--amber);}
-.preorder-sep{color:rgba(200,134,10,.4);font-size:14px;padding:0 4px;flex-shrink:0;}
+.preorder-sep{color:rgba(200,134,10,.65);font-size:14px;padding:0 4px;flex-shrink:0;}
 
 
 /* ─── IN-FEED VIDEO ───────────────────────────────────── */
@@ -2140,7 +2143,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 /* Label */
 .ads-infeed-label{
   font-family:'Roboto',sans-serif;font-size:9px;
-  letter-spacing:2px;color:rgba(200,134,10,.55);
+  letter-spacing:2px;color:rgba(200,134,10,.75);
   text-transform:uppercase;
   padding:8px 12px 6px;
   border-bottom:1px solid rgba(200,134,10,.1);
@@ -2328,14 +2331,14 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   display:flex;align-items:center;justify-content:space-between;
   font-family:'Roboto',sans-serif;font-size:12px;
 }
-.ongkir-row-label{ color:rgba(240,224,192,.6);letter-spacing:.5px; }
+.ongkir-row-label{ color:rgba(240,224,192,.80);letter-spacing:.5px; }
 .ongkir-row-val{
   font-family:'Rubik Dirt',sans-serif;font-size:13px;
   color:var(--amber);letter-spacing:1px;
 }
 .ongkir-row-val.instant-val{ color:#80d080; }
 .ongkir-etd{
-  font-size:10px;color:rgba(200,134,10,.5);
+  font-size:10px;color:rgba(200,134,10,.70);
   letter-spacing:.5px;margin-left:4px;
   font-family:'Roboto',sans-serif;
 }
@@ -2343,10 +2346,10 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   margin-top:7px;padding-top:7px;
   border-top:1px solid rgba(200,134,10,.1);
   font-family:'Roboto',sans-serif;font-size:10px;
-  color:rgba(240,224,192,.35);letter-spacing:.5px;line-height:1.6;
+  color:rgba(240,224,192,.60);letter-spacing:.5px;line-height:1.6;
 }
 .ongkir-weight-info{
-  font-size:10px;color:rgba(200,134,10,.4);letter-spacing:.5px;
+  font-size:10px;color:rgba(200,134,10,.65);letter-spacing:.5px;
   margin-top:4px;font-family:'Roboto',sans-serif;
 }
 
@@ -3604,7 +3607,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <div class="sh-top-border"></div>
   <div class="sh-barong-wrap">
     <div class="sh-badge">⚡ LIMITED GROUP ORDER ⚡</div>
-    <img class="sh-barong-img"
+    <img class="sh-barong-img" loading="eager" fetchpriority="high"
          src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774191326/barong_bali_line_art_ke9x3y.png"
          alt="Loading..."
          fetchpriority="high">
@@ -3613,7 +3616,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <div class="sh-progress-wrap">
       <div class="sh-progress-bar"></div>
     </div>
-    <div class="sh-loading-txt">Memuat halaman...</div>
+    <div class="sh-loading-txt">Loading...</div>
   </div>
   <div class="sh-bottom-txt">BHUTA KALA MODERN</div>
 </div>
@@ -3756,7 +3759,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Ukuran
       </div>
       <div class="kat-tab" data-tab="perawatan" onclick="katSwitchTab('perawatan')" id="tab-perawatan">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Perawatan
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span id="tab-perawatan-label">Perawatan</span>
       </div>
     </div>
     <div id="kat-tab-foto">
@@ -3782,16 +3785,16 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
     <!-- Tab Perawatan -->
     <div id="kat-tab-perawatan" style="display:none">
       <div class="care-guide">
-        <p class="care-guide-title">Cara Merawat Sablon DTF</p>
-        <p class="care-guide-sub">Ikuti panduan ini agar sablon tetap awet dan tidak mudah retak.</p>
+        <p class="care-guide-title" id="care-title">Cara Merawat Sablon DTF</p>
+        <p class="care-guide-sub" id="care-sub">Ikuti panduan ini agar sablon tetap awet dan tidak mudah retak.</p>
         <div class="care-grid">
           <div class="care-item care-do">
             <div class="care-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label">Balik Kaos</div>
-              <div class="care-desc">Balik kaos sebelum dicuci — sablon menghadap ke dalam</div>
+              <div class="care-label" id="care-lbl1">Balik Kaos</div>
+              <div class="care-desc" id="care-desc1">Balik kaos sebelum dicuci — sablon menghadap ke dalam</div>
             </div>
           </div>
           <div class="care-item care-do">
@@ -3799,8 +3802,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label">Air Dingin / Sejuk</div>
-              <div class="care-desc">Gunakan air dingin atau suhu maks 30°C saat mencuci</div>
+              <div class="care-label" id="care-lbl2">Air Dingin / Sejuk</div>
+              <div class="care-desc" id="care-desc2">Gunakan air dingin atau suhu maks 30°C saat mencuci</div>
             </div>
           </div>
           <div class="care-item care-do">
@@ -3808,8 +3811,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10l3 8H4l3-8z"/><path d="M4 10v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10"/><line x1="12" y1="14" x2="12" y2="18"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label">Cuci Tangan</div>
-              <div class="care-desc">Cuci tangan lebih aman, hindari gesekan langsung di area sablon</div>
+              <div class="care-label" id="care-lbl3">Cuci Tangan</div>
+              <div class="care-desc" id="care-desc3">Cuci tangan lebih aman, hindari gesekan langsung di area sablon</div>
             </div>
           </div>
           <div class="care-item care-do">
@@ -3817,8 +3820,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label">Setrika Bagian Dalam</div>
-              <div class="care-desc">Jika perlu disetrika, gunakan suhu rendah di bagian dalam kaos</div>
+              <div class="care-label" id="care-lbl4">Setrika Bagian Dalam</div>
+              <div class="care-desc" id="care-desc4">Jika perlu disetrika, gunakan suhu rendah di bagian dalam kaos</div>
             </div>
           </div>
           <div class="care-item care-dont">
@@ -3826,8 +3829,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label care-label-dont">Jangan Pakai Pemutih</div>
-              <div class="care-desc">Bleach / cairan pemutih merusak lapisan sablon DTF</div>
+              <div class="care-label care-label-dont" id="care-lbl5">Jangan Pakai Pemutih</div>
+              <div class="care-desc" id="care-desc5">Bleach / cairan pemutih merusak lapisan sablon DTF</div>
             </div>
           </div>
           <div class="care-item care-dont">
@@ -3835,8 +3838,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label care-label-dont">Jangan Dry Clean</div>
-              <div class="care-desc">Proses dry cleaning merusak transfer film DTF</div>
+              <div class="care-label care-label-dont" id="care-lbl6">Jangan Dry Clean</div>
+              <div class="care-desc" id="care-desc6">Proses dry cleaning merusak transfer film DTF</div>
             </div>
           </div>
           <div class="care-item care-dont">
@@ -3844,8 +3847,8 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20M20 2v20M4 12h16M4 7h4M4 17h4M16 7h4M16 17h4"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label care-label-dont">Jangan Peras Keras</div>
-              <div class="care-desc">Hindari memeras atau meremas area sablon secara berlebihan</div>
+              <div class="care-label care-label-dont" id="care-lbl7">Jangan Peras Keras</div>
+              <div class="care-desc" id="care-desc7">Hindari memeras atau meremas area sablon secara berlebihan</div>
             </div>
           </div>
           <div class="care-item care-dont">
@@ -3853,12 +3856,12 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             </div>
             <div class="care-text">
-              <div class="care-label care-label-dont">Jangan Jemur di Terik</div>
-              <div class="care-desc">Hindari sinar matahari langsung — angin-anginkan di tempat teduh</div>
+              <div class="care-label care-label-dont" id="care-lbl8">Jangan Jemur di Terik</div>
+              <div class="care-desc" id="care-desc8">Hindari sinar matahari langsung — angin-anginkan di tempat teduh</div>
             </div>
           </div>
         </div>
-        <div class="care-note">
+        <div class="care-note" id="care-note-txt">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:5px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Sablon DTF tahan lama jika dirawat dengan benar. Pertama kali cuci, warnanya mungkin sedikit memudar — itu normal.
         </div>
@@ -4102,7 +4105,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
         </div>
         <div class="fg" style="margin-bottom:0;">
           <label class="flbl" for="f-catatan" data-i18n="lblCatatan">Catatan (opsional)</label>
-          <input class="finp" type="text" id="f-catatan" placeholder="Request khusus, catatan pengiriman...">
+          <input class="finp" type="text" id="f-catatan" placeholder="Request khusus, catatan pengiriman..." autocomplete="off">
         </div>
 
         <!-- Tombol bayar ke-2 — di dalam card, full width -->
@@ -4519,11 +4522,11 @@ var KATALOG = [
     },
     designs:null,
     sizeChart:{
-      headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],
+      headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],headers_en:['Size','Chest Width','Length','Sleeve','Price'],
       rows:[['S','47 cm','67 cm','19 cm','150K'],['M','50 cm','70 cm','19.5 cm','150K'],
             ['L','53 cm','73 cm','20 cm','150K'],['XL','56 cm','75 cm','20.5 cm','150K'],
             ['XXL','59 cm','77 cm','21 cm','170K'],['XXXL','62 cm','80 cm','21.5 cm','170K']],
-      note:'Cotton Combed 24s · 170–180 gsm · XXL & XXXL Rp 170K · Toleransi 1–2.5 cm'
+      note:'Cotton Combed 24s · 170–180 gsm · XXL & XXXL Rp 170K · Toleransi 1–2.5 cm',note_en:'Cotton Combed 24s · 170–180 gsm · XXL & XXXL Rp 170K · Tolerance ±1–2.5 cm'
     },
     sizes:['S','M','L','XL','XXL','XXXL']
   },
@@ -4533,7 +4536,7 @@ var KATALOG = [
     hargaFn:function(){ return 270000; },
     status:'tersedia', warnaTetap:null, sizeTetap:null,
     warnaInfo:{ id:'Hitam · Navy · Maroon', en:'Black · Navy · Maroon' },
-    material:'Fleece 240gsm · Unisex · 3 Warna',
+    material:'Fleece 240gsm · Unisex · 3 Colors',
     desc:{ id:'Hoodie premium AWAS BAHAYA NPD. Bahan fleece tebal dan nyaman. Tersedia dalam 3 warna — Hitam, Navy, Maroon.', en:'Premium AWAS BAHAYA NPD hoodie. Thick and comfortable fleece fabric. Available in 3 colors — Black, Navy, Maroon.' },
     foto:[
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775700591/Hoodie_BLACK_hzthag.jpg',
@@ -4550,10 +4553,10 @@ var KATALOG = [
     ],
     designs:null,
     sizeChart:{
-      headers:['Size','Lebar Dada','Panjang','Lengan'],
+      headers:['Size','Lebar Dada','Panjang','Lengan'],headers_en:['Size','Chest Width','Length','Sleeve'],
       rows:[['S','51 cm','65 cm','59 cm'],['M','53 cm','67 cm','60 cm'],
             ['L','56 cm','70 cm','61 cm'],['XL','61 cm','73 cm','62 cm'],['2XL','64 cm','76 cm','63 cm']],
-      note:'Fleece 240gsm · Semua ukuran Rp 270K · Toleransi 1–2.5 cm'
+      note:'Fleece 240gsm · Semua ukuran Rp 270K · Toleransi 1–2.5 cm',note_en:'Fleece 240gsm · All sizes Rp 270K · Tolerance ±1–2.5 cm'
     },
     sizes:['S','M','L','XL','2XL']
   },
@@ -4563,7 +4566,7 @@ var KATALOG = [
     hargaFn:function(size){ return (size==='XXL'||size==='XXXL')?170000:150000; },
     status:'tersedia', warnaTetap:null, sizeTetap:null,
     warnaInfo:{ id:'Merah Maroon · Abu-abu', en:'Maroon Red · Grey' },
-    material:'Cotton Combed 24s · Pilih Design · Warna per design',
+    material:'Cotton Combed 24s · Choose Design · Color per design',
     desc:{ id:'Seri terbatas dengan design eksklusif. Mebakti Kapah (Merah Maroon) · Rahajeng Sabar (Abu-abu).', en:'Limited series with exclusive designs. Mebakti Kapah (Maroon Red) · Rahajeng Sabar (Grey).' },
     foto:[
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775703200/NPD_SERIES_Mebakti_Kapah_vqdplw.jpg',
@@ -4580,11 +4583,11 @@ var KATALOG = [
       {id:'rahajeng-sabar', nama:'Rahajeng Sabar', warna:'abu-abu',  warnaHex:'#6b6b6b', warnaLabel:'Abu-abu',      foto:'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775282075/T-Shirt_Mockup_NPD_SERIES_gqok2y.jpg'}
     ],
     sizeChart:{
-      headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],
+      headers:['Ukuran','Lebar Dada','Panjang','Lengan','Harga'],headers_en:['Size','Chest Width','Length','Sleeve','Price'],
       rows:[['S','47 cm','67 cm','19 cm','150K'],['M','50 cm','70 cm','19.5 cm','150K'],
             ['L','53 cm','73 cm','20 cm','150K'],['XL','56 cm','75 cm','20.5 cm','150K'],
             ['XXL','59 cm','77 cm','21 cm','170K'],['XXXL','62 cm','80 cm','21.5 cm','170K']],
-      note:'Cotton Combed 24s · XXL & XXXL Rp 170K · Toleransi 1–2.5 cm'
+      note:'Cotton Combed 24s · XXL & XXXL Rp 170K · Toleransi 1–2.5 cm',note_en:'Cotton Combed 24s · XXL & XXXL Rp 170K · Tolerance ±1–2.5 cm'
     },
     sizes:['S','M','L','XL','XXL','XXXL']
   },
@@ -4593,8 +4596,8 @@ var KATALOG = [
     hargaLabel:'Rp 120.000',
     hargaFn:function(){ return 120000; },
     status:'tersedia', warnaTetap:'Hitam', sizeTetap:'One Size',
-    material:'Stainless Steel · One Size · 1 Warna',
-    desc:{ id:'Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD.', en:'Exclusive Bhuta Kala Modern tumbler. Premium stainless steel with AWAS BAHAYA NPD branding.' },
+    material:'Stainless Steel · One Size · 1 Color',
+    desc:{ id:'Tumbler eksklusif Bhuta Kala Modern. Stainless steel premium dengan branding AWAS BAHAYA NPD. Kapasitas besar, tutup rapat, cocok untuk aktivitas sehari-hari.', en:'Exclusive Bhuta Kala Modern tumbler. Premium stainless steel with AWAS BAHAYA NPD branding. Large capacity, tight lid, perfect for daily use.' },
     foto:[
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349970/Tumblr_Mockup_1_kxzijn.jpg',
       'https://res.cloudinary.com/dqqdjhb2x/image/upload/w_1600,q_auto:best,f_auto/v1775349969/Tumblr_Mockup_2_b9pj9w.jpg'
@@ -4812,7 +4815,7 @@ function renderPanelPicker(p, skipScroll) {
 
   var sizeHtml = '';
   if (p.sizeTetap) {
-    sizeHtml = '<div class="kat-fixed-val"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:5px"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' + (p.sizeTetap) + '</div>';
+    sizeHtml = ''; // One Size — tidak perlu ditampilkan di picker
   } else {
     var fewSizes = sizesArr.length <= 5 ? ' few-sizes' : '';
     sizeHtml = '<div class="kat-picker-label">'+(currentLang==='en'?'SIZE':'UKURAN')+'</div>'
@@ -4831,11 +4834,8 @@ function renderPanelPicker(p, skipScroll) {
 
   var colorHtml = '';
   if (p.warnaTetap) {
-    // Fixed color product (Tumbler)
-    var wHex = COLORS.find(function(c){ return c.label.id.toLowerCase()===p.warnaTetap.toLowerCase(); });
-    colorHtml = '<div class="kat-fixed-val">'
-      + (wHex ? '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:'+wHex.hex+';border:1px solid rgba(255,255,255,.2);"></span> ' : '')
-      + p.warnaTetap.toUpperCase() + '</div>';
+    // Fixed color product (Tumbler) — tidak perlu color picker
+    colorHtml = '';
   } else if (p.designs) {
     // NPD Series — warna sudah terepresentasi di chip design, tidak perlu color picker
     colorHtml = '';
@@ -4863,7 +4863,7 @@ function renderPanelPicker(p, skipScroll) {
     + '<div class="kat-qty-row">'
     + '<div class="kat-qty-ctrl">'
     + '<button type="button" class="kat-qty-btn" onclick="katPanelSetQty(-1)" aria-label="Kurangi jumlah">−</button>'
-    + '<input class="kat-qty-num" type="number" id="kat-panel-qty-num" value="'+curQty
+    + '<input class="kat-qty-num" type="number" id="kat-panel-qty-num" autocomplete="off" value="'+curQty
     +'" min="1" max="99" inputmode="numeric"'
     +' onchange="katPanelInputQty(this.value)" oninput="katPanelInputQty(this.value)">'
     + '<button type="button" class="kat-qty-btn" onclick="katPanelSetQty(1)" aria-label="Tambah jumlah">+</button>'
@@ -4938,7 +4938,7 @@ function renderKatalog() {
       +'<div class="kat-info">'
       +'<div class="kat-name">'+p.nama+'</div>'
       +'<div class="kat-price">'+p.hargaLabel+'</div>'
-      +((p.warnaInfo||p.warnaTetap)?'<div class="kat-sub">'+(p.warnaInfo?(typeof p.warnaInfo==='object'?(p.warnaInfo[currentLang]||p.warnaInfo.id):p.warnaInfo):p.warnaTetap)+'</div>':'<div class="kat-sub">&nbsp;</div>')
+      +((p.warnaInfo||p.warnaTetap)?'<div class="kat-sub">'+(p.warnaInfo?(typeof p.warnaInfo==='object'?(p.warnaInfo[currentLang]||p.warnaInfo.id):p.warnaInfo):(function(){var _wc=COLORS.find(function(c){return c.label.id.toLowerCase()===(p.warnaTetap||'').toLowerCase();});return _wc?(typeof _wc.label==='object'?(_wc.label[currentLang]||_wc.label.id):_wc.label):p.warnaTetap;})())+'</div>':'<div class="kat-sub">&nbsp;</div>')
       +'</div></div>';
   }).join('');
 }
@@ -5033,16 +5033,16 @@ function katFillDetail(p) {
   if(tbl) {
     if(p.sizeChart) {
       var sc=p.sizeChart;
-      tbl.innerHTML = '<thead><tr>'+sc.headers.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead>'
+      var hdrs=(sc.headers_en&&currentLang==='en')?sc.headers_en:sc.headers;tbl.innerHTML = '<thead><tr>'+hdrs.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead>'
         +'<tbody>'+sc.rows.map(function(row){
           return '<tr>'+row.map(function(c,i){
             var cls=(sc.headers[i]==='Harga'||sc.headers[i]==='Price')?' class="pc'+(c==='170K'?' sp':'')+'\"':'';
             return '<td'+cls+'>'+c+'</td>';
           }).join('')+'</tr>';
         }).join('')+'</tbody>';
-      if(note) note.textContent=sc.note;
+      if(note) note.textContent=(sc.note_en&&currentLang==='en')?sc.note_en:sc.note;
     } else {
-      tbl.innerHTML='<tbody><tr><td colspan="5" style="text-align:center;color:rgba(200,134,10,.4);padding:18px;">One size — tidak ada panduan ukuran</td></tr></tbody>';
+      tbl.innerHTML='<tbody><tr><td colspan="5" style="text-align:center;color:rgba(200,134,10,.4);padding:18px;">'+(currentLang==='en'?'One size — no size guide needed':'One size — tidak ada panduan ukuran')+'</td></tr></tbody>';
       if(note) note.textContent='';
     }
   }
@@ -5089,6 +5089,9 @@ function katSwitchTab(tab) {
   document.querySelectorAll('.kat-tab').forEach(function(el){
     el.classList.toggle('kat-tab-active',el.dataset.tab===tab);
   });
+  // Sembunyikan tombol add-to-cart saat tab ukuran atau perawatan aktif
+  var orderBtn=document.getElementById('kat-order-btn');
+  if(orderBtn) orderBtn.style.display=(tab==='ukuran'||tab==='perawatan')?'none':'';
 }
 
 function katAddToOrder() {
@@ -5679,7 +5682,7 @@ function renderItemRow(item) {
   var colorsHtml = item.warnaTetap
     ? '<div class="item-section-label">'+colorLabel+'</div>'
       +'<div style="padding:6px 0 4px;font-size:12px;color:var(--amber);letter-spacing:2px;">'
-      +(item.color||'HITAM').toUpperCase()+'</div>'
+      +(function(){ var _c=COLORS.find(function(x){return x.id===(item.color||'hitam');}); return _c?(typeof _c.label==='object'?(_c.label[currentLang]||_c.label.id):_c.label).toUpperCase():(item.color||'HITAM').toUpperCase(); })()+'</div>'
     : '<div class="item-section-label">'+colorLabel+'</div>'
       +'<div class="copt-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">'
       +COLORS.map(function(c){
@@ -6616,6 +6619,44 @@ function setLang(lang){
   if(tabFoto)tabFoto.lastChild.textContent=isEn2?' Photos':' Foto';
   var tabUkuran=document.getElementById('tab-ukuran');
   if(tabUkuran)tabUkuran.lastChild.textContent=isEn2?' Size Guide':' Ukuran';
+  var tabPerawatanLbl=document.getElementById('tab-perawatan-label');
+  if(tabPerawatanLbl)tabPerawatanLbl.textContent=isEn2?'Care Guide':'Perawatan';
+  // ─── Care Guide i18n ───
+  var CARE={
+    title:   {id:'Cara Merawat Sablon DTF',        en:'How to Care for DTF Print'},
+    sub:     {id:'Ikuti panduan ini agar sablon tetap awet dan tidak mudah retak.',en:'Follow these tips to keep your DTF print long-lasting and crack-free.'},
+    lbl1:    {id:'Balik Kaos',                     en:'Turn Inside Out'},
+    desc1:   {id:'Balik kaos sebelum dicuci — sablon menghadap ke dalam',en:'Turn shirt inside out before washing — print faces inward'},
+    lbl2:    {id:'Air Dingin / Sejuk',              en:'Cold / Cool Water'},
+    desc2:   {id:'Gunakan air dingin atau suhu maks 30°C saat mencuci',en:'Use cold water or max 30°C when washing'},
+    lbl3:    {id:'Cuci Tangan',                    en:'Hand Wash'},
+    desc3:   {id:'Cuci tangan lebih aman, hindari gesekan langsung di area sablon',en:'Hand washing is safer — avoid direct friction on the print area'},
+    lbl4:    {id:'Setrika Bagian Dalam',            en:'Iron Inside Out'},
+    desc4:   {id:'Jika perlu disetrika, gunakan suhu rendah di bagian dalam kaos',en:'If ironing is needed, use low heat on the inside of the shirt'},
+    lbl5:    {id:'Jangan Pakai Pemutih',            en:'No Bleach'},
+    desc5:   {id:'Bleach / cairan pemutih merusak lapisan sablon DTF',en:'Bleach / whitening agents damage the DTF print layer'},
+    lbl6:    {id:'Jangan Dry Clean',               en:'No Dry Cleaning'},
+    desc6:   {id:'Proses dry cleaning merusak transfer film DTF',en:'Dry cleaning damages the DTF transfer film'},
+    lbl7:    {id:'Jangan Peras Keras',             en:'No Wringing'},
+    desc7:   {id:'Hindari memeras atau meremas area sablon secara berlebihan',en:'Avoid wringing or squeezing the print area excessively'},
+    lbl8:    {id:'Jangan Jemur di Terik',          en:'No Direct Sunlight'},
+    desc8:   {id:'Hindari sinar matahari langsung — angin-anginkan di tempat teduh',en:'Avoid direct sunlight — air dry in the shade'},
+    'note-txt':{id:'Sablon DTF tahan lama jika dirawat dengan benar. Pertama kali cuci, warnanya mungkin sedikit memudar — itu normal.',
+              en:'DTF prints last long when cared for properly. First wash may cause slight fading — this is normal.'}
+  };
+  var careIds=['title','sub','lbl1','desc1','lbl2','desc2','lbl3','desc3','lbl4','desc4',
+               'lbl5','desc5','lbl6','desc6','lbl7','desc7','lbl8','desc8','note-txt'];
+  careIds.forEach(function(k){
+    var elC=document.getElementById('care-'+k);
+    if(elC&&CARE[k]){
+      if(k==='note-txt'){
+        var svgIcon='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:5px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+        elC.innerHTML=svgIcon+(CARE[k][lang]||CARE[k].id);
+      } else {
+        elC.textContent=CARE[k][lang]||CARE[k].id;
+      }
+    }
+  });
   var eyebrow=document.getElementById('katalog-eyebrow');
   if(eyebrow)eyebrow.innerHTML=isEn2?'&#9889; Bhuta Kala Modern Collection &#9889;':'&#9889; Koleksi Bhuta Kala Modern &#9889;';
   var mcTitle=document.getElementById('mc-title-txt');
@@ -6634,12 +6675,14 @@ function setLang(lang){
   renderCartSummary();
   // Re-render katalog — handles bilingual warnaInfo and desc
   renderKatalog();
-  // Re-render active detail panel desc if open
+  // Re-render active detail panel desc + config jika katalog terbuka
   if (_katActive) {
     var _p = KATALOG.find(function(x){ return x.id===_katActive; });
     if (_p) {
       var _descEl = document.getElementById('kat-detail-desc');
       if (_descEl) _descEl.textContent = (_p.desc && typeof _p.desc==='object') ? (_p.desc[lang]||_p.desc.id) : (_p.desc||'');
+      // Re-render color picker + tombol supaya label ikut lang
+      renderPanelPicker(_p, true);
     }
   }
 }
