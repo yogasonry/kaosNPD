@@ -5525,6 +5525,9 @@ var SEL_SIZE       = 'S';
 var SEL_PRICE      = 150000;
 var IMG_B64        = '';
 var IMG_MIME       = '';
+var IMG_FILE       = null;
+var CLOUDINARY_CLOUD  = 'dqqdjhb2x';
+var CLOUDINARY_PRESET = 'bukti-transfer';
 var ORDER          = {};
 var currentLang    = 'id';
 var _pushStateDone = false;
@@ -5546,7 +5549,7 @@ var TOAST_MSGS = {
   noUpload     : { id:'Upload bukti transfer dulu!',en:'Please upload payment proof first!' },
   compressing  : { id:'Mengompres gambar...',       en:'Compressing image...' },
   draftRestored: { id:'Draft form dipulihkan',   en:'Form draft restored' },
-  retrying     : { id:'Koneksi lambat, mencoba ulang...', en:'Slow connection, retrying...' },
+  retrying     : { id:'Mengirim ulang, harap tunggu...', en:'Resending, please wait...' },
   savedWarn    : { id:'⚡ Tersimpan! Cek WA admin untuk konfirmasi.', en:'⚡ Saved! Check WA admin to confirm.' },
   bcaCopied    : { id:'No. BCA disalin!',           en:'BCA number copied!' },
   gopayCopied  : { id:'No. GoPay/Dana disalin!',    en:'GoPay/Dana number copied!' },
@@ -5554,6 +5557,9 @@ var TOAST_MSGS = {
   notImage     : { id:'File harus berupa gambar!',  en:'File must be an image!' },
   tooLarge     : { id:'Ukuran file maks 10MB!',     en:'File size max 10MB!' },
   imgReady     : { id:'Foto siap ✓',               en:'Photo ready ✓' },
+  uploadingImg : { id:'Mengupload bukti ke Cloudinary...', en:'Uploading proof to Cloudinary...' },
+  uploadImgOk  : { id:'Bukti terupload ✓',             en:'Proof uploaded ✓' },
+  uploadImgFail: { id:'Upload foto gagal, coba lagi.',  en:'Photo upload failed, try again.' },
 };
 
 function t(key) { var m = TOAST_MSGS[key]; return m ? (m[currentLang] || m.id) : key; }
@@ -6109,7 +6115,7 @@ function validate() {
 
 // ─── IMAGE COMPRESSION ──────────────────────────────────
 function compressImage(file, cb) {
-  var MAX=1200, Q=0.75, reader=new FileReader();
+  var MAX=900, Q=0.70, reader=new FileReader();
   reader.onerror=function(){cb(null,null,'read_error');};
   reader.onload=function(e){
     var img=new Image();
@@ -6141,16 +6147,16 @@ function processFile(file) {
   toast(t('compressing'));
   compressImage(file, function(b64,mime,err){
     if(err||!b64){
-      var r=new FileReader(); r.onload=function(e){IMG_B64=e.target.result;IMG_MIME=file.type;showPreview(file.name,IMG_B64);toast(t('imgReady'));};
+      var r=new FileReader(); r.onload=function(e){IMG_B64=e.target.result;IMG_MIME=file.type;IMG_FILE=file;showPreview(file.name,IMG_B64);toast(t('imgReady'));};
       r.readAsDataURL(file); return;
     }
-    IMG_B64=b64; IMG_MIME=mime; showPreview(file.name,b64);
+    IMG_B64=b64; IMG_MIME=mime; IMG_FILE=file; showPreview(file.name,b64);
     toast(t('imgReady')+' (~'+Math.round(b64.length*0.75/1024)+' KB)');
   });
 }
 (function(){ var el=$('f-bukti'); if(el) el.addEventListener('change', function(){ if(this.files[0]) processFile(this.files[0]); }); })();
 (function(){ var _br=$('btn-remove'); if(!_br) return; _br.addEventListener('click', function(){
-  IMG_B64='';IMG_MIME='';
+  IMG_B64='';IMG_MIME='';IMG_FILE=null;
   var pi=$('preview-img'),pn=$('preview-name'),pw=$('preview-wrap'),fb=$('f-bukti');
   if(pi)pi.src='';if(pn)pn.textContent='';if(pw)pw.style.display='none';if(fb)fb.value='';
 }); })();
@@ -6168,7 +6174,31 @@ function resetSubmitBtn(){
   if(btn)btn.disabled=false;
   if(txt)txt.textContent=currentLang==='en'?'CONFIRM PAYMENT':'KONFIRMASI PEMBAYARAN';
   if(sp)sp.style.display='none';
-}function doSubmit(){
+}
+
+// ── TAHAP 1: Upload foto ke Cloudinary langsung dari browser ──────────
+// Menggunakan File object asli (bukan base64) → FormData multipart
+// Lebih cepat, tidak kena no-cors, bisa baca response URL
+function uploadToCloudinary(file, cb) {
+  var fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  fd.append('folder', 'bukti-transfer');
+  fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/image/upload', {
+    method: 'POST',
+    body: fd
+  })
+  .then(function(res){ return res.json(); })
+  .then(function(data){
+    if(data && data.secure_url){ cb(data.secure_url, null); }
+    else { cb(null, 'no_url: ' + JSON.stringify(data).slice(0,100)); }
+  })
+  .catch(function(err){ cb(null, err.toString()); });
+}
+
+// ── TAHAP 2: Kirim order data (+ URL foto) ke Apps Script ────────────
+// Payload ringan — hanya string URL, bukan base64 besar
+function doSubmit(){
   SUBMIT_ATTEMPT++;
   var retryLabel = '';
   if (SUBMIT_ATTEMPT > 1) {
@@ -6176,25 +6206,51 @@ function resetSubmitBtn(){
   }
   var btn=$('btn-submit'),txt=$('btn-submit-txt'),sp=$('spinner-submit');
   if(btn)btn.disabled=true;
-  if(txt)txt.textContent=(currentLang==='en'?'SENDING':'MENGIRIM')+retryLabel+'...';
   if(sp)sp.style.display='inline-block';
-  var payload = JSON.parse(JSON.stringify(ORDER));
-  // Hapus items array dari payload — berat & tidak diperlukan server
-  // Semua info multi-item sudah ada di field catatan dan itemsStr
-  delete payload.items;
-  payload.imageData = IMG_B64;
-  payload.imageMime = IMG_MIME;
-  var ctrl=window.AbortController?new AbortController():null;
-  var tid=ctrl?setTimeout(function(){ctrl.abort();},30000):null;
-  var opts={method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),mode:'no-cors'};
-  if(ctrl)opts.signal=ctrl.signal;
-  fetch(APPS_SCRIPT_URL,opts)
-  .then(function(){if(tid)clearTimeout(tid);onSubmitSuccess();})
-  .catch(function(){
-    if(tid)clearTimeout(tid);
-    if(SUBMIT_ATTEMPT<MAX_ATTEMPTS){toast(t('retrying'));setTimeout(doSubmit,2500);}
-    else{toast(t('savedWarn'));onSubmitSuccess();}
-  });
+
+  var fileToUpload = IMG_FILE;
+
+  // TAHAP 1 — upload foto ke Cloudinary
+  if(txt)txt.textContent=(currentLang==='en'?'UPLOADING PHOTO...':'UPLOAD FOTO...')+retryLabel;
+  toast(t('uploadingImg'));
+
+  function sendToScript(buktiUrl) {
+    // TAHAP 2 — kirim order ke Apps Script
+    if(txt)txt.textContent=(currentLang==='en'?'SENDING ORDER...':'MENGIRIM ORDER...')+retryLabel;
+    var payload = JSON.parse(JSON.stringify(ORDER));
+    delete payload.items;
+    payload.imageData  = '';        // kosong — gambar sudah di Cloudinary
+    payload.imageMime  = '';
+    payload.buktiUrl   = buktiUrl;  // URL Cloudinary dikirim sebagai string
+    var ctrl=window.AbortController?new AbortController():null;
+    var tid=ctrl?setTimeout(function(){ctrl.abort();},30000):null;
+    var opts={method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),mode:'no-cors'};
+    if(ctrl)opts.signal=ctrl.signal;
+    fetch(APPS_SCRIPT_URL,opts)
+    .then(function(){if(tid)clearTimeout(tid);onSubmitSuccess();})
+    .catch(function(){
+      if(tid)clearTimeout(tid);
+      if(SUBMIT_ATTEMPT<MAX_ATTEMPTS){toast(t('retrying'));setTimeout(doSubmit,2500);}
+      else{toast(t('savedWarn'));onSubmitSuccess();}
+    });
+  }
+
+  if(fileToUpload) {
+    uploadToCloudinary(fileToUpload, function(url, err){
+      if(url){
+        toast(t('uploadImgOk'));
+        sendToScript(url);
+      } else {
+        // Cloudinary gagal — tetap kirim tanpa foto, jangan block order
+        console.warn('Cloudinary upload failed:', err);
+        toast(t('uploadImgFail'));
+        sendToScript('');
+      }
+    });
+  } else {
+    // Tidak ada file (tidak seharusnya terjadi karena sudah dicek sebelumnya)
+    sendToScript('');
+  }
 }
 function onSubmitSuccess(){
   resetSubmitBtn(); SUBMIT_ATTEMPT=0; _pushStateDone=false;
@@ -6241,7 +6297,7 @@ function onSubmitSuccess(){
 
 // ─── BACK / POPSTATE ────────────────────────────────────
 function clearUploadState() {
-  IMG_B64 = ''; IMG_MIME = '';
+  IMG_B64 = ''; IMG_MIME = ''; IMG_FILE = null;
   var pi=$('preview-img'), pn=$('preview-name'), pw=$('preview-wrap'), fb=$('f-bukti'), ur=$('upload-req');
   if(pi) pi.src='';
   if(pn) pn.textContent='';
