@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" translate="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <!-- IAB compatibility: prevent phone number auto-detection formatting -->
 <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+<meta name="google" content="notranslate">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -88,6 +89,15 @@ body::before{
   mix-blend-mode:screen;
   pointer-events:none;
   z-index:0;
+}
+/* Suppress Safari iOS native video UI */
+.barong-bg-video::-webkit-media-controls,
+.barong-bg-video::-webkit-media-controls-panel,
+.barong-bg-video::-webkit-media-controls-play-button,
+.barong-bg-video::-webkit-media-controls-start-playback-button{
+  display:none !important;
+  -webkit-appearance:none;
+  appearance:none;
 }
 
 .barong-bg-video--how{
@@ -2253,7 +2263,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   display:flex;align-items:center;gap:6px;
 }
 .ads-infeed-label::before{
-  content:'▶';font-size:7px;color:var(--amber);
+  content:'▶\FE0E';font-size:7px;color:var(--amber);
 }
 
 /* Video container — 4:3 sesuai resolusi 640×480 */
@@ -3968,7 +3978,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 <!-- Detail panel katalog -->
 <div class="kat-detail-panel" id="kat-detail-panel">
   <div class="kat-detail-inner" style="position:relative;max-width:560px;margin:0 auto;">
-  <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">✕</button>
+  <button class="kat-close-btn" onclick="katClose()" aria-label="Tutup detail produk">&#x2715;</button>
     <div class="kat-tabs">
       <div class="kat-tab kat-tab-active" data-tab="foto" onclick="katSwitchTab('foto')" id="tab-foto">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Foto
@@ -4164,7 +4174,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 
 <!-- DETAIL LIGHTBOX -->
 <div id="dlb" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9000;flex-direction:column;align-items:center;justify-content:center;padding:12px;">
-  <button id="dlb-close" aria-label="Tutup galeri" style="position:fixed;top:14px;right:14px;width:48px;height:48px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">✕</button>
+  <button id="dlb-close" aria-label="Tutup galeri" style="position:fixed;top:14px;right:14px;width:48px;height:48px;background:var(--amber);border:none;color:var(--black);font-size:20px;font-weight:bold;border-radius:50%;cursor:pointer;z-index:9001;display:flex;align-items:center;justify-content:center;">&#x2715;</button>
   <div id="dlb-wrap" style="position:relative;width:100%;max-width:min(94vw,700px);display:flex;align-items:center;justify-content:center;">
     <button id="dlb-prev" class="dlb-nav-btn dlb-prev-btn" aria-label="Foto sebelumnya">&#8249;</button>
     <img id="dlb-img" src="" alt="" style="max-width:100%;max-height:min(78vh,78dvh);object-fit:contain;border:2px solid var(--gold);display:block;touch-action:manipulation;will-change:opacity;transition:opacity .3s;background:rgba(255,255,255,.03);">
@@ -4188,7 +4198,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
              playsinline muted loop preload="none"
              aria-label="Video promosi AWAS BAHAYA NPD">
       </video>
-      <div class="ads-infeed-play"><div class="ads-infeed-play-icon">▶</div></div>
+      <div class="ads-infeed-play"><div class="ads-infeed-play-icon">&#x25B6;&#xFE0E;</div></div>
       <button class="ads-infeed-expand" type="button" aria-label="Fullscreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> FULLSCREEN</button>
     </div>
     <div class="ads-infeed-footer">
@@ -4308,7 +4318,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
             <div class="ongkir-wrap">
               <div class="ongkir-input-wrap">
                 <input class="finp" type="text" id="f-kota" placeholder="Ketik nama kota..." autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
-                <button type="button" class="ongkir-clear" id="ongkir-clear" aria-label="Hapus">✕</button>
+                <button type="button" class="ongkir-clear" id="ongkir-clear" aria-label="Hapus">&#x2715;</button>
               </div>
               <div class="ongkir-dropdown" id="ongkir-dropdown"></div>
             </div>
@@ -4421,7 +4431,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
         <div id="preview-wrap" style="display:none;margin-top:14px;text-align:center;">
           <img id="preview-img" class="preview-img" src="" alt="preview">
           <div id="preview-name" class="preview-name"></div>
-          <button type="button" id="btn-remove" class="remove-btn" data-i18n="removeBtn">✕ HAPUS FOTO</button>
+          <button type="button" id="btn-remove" class="remove-btn" data-i18n="removeBtn">&#x2715; HAPUS FOTO</button>
         </div>
         <p id="upload-req" style="display:none;font-family:'Roboto',sans-serif;font-size:12px;color:var(--red);text-align:center;margin-top:8px;" data-i18n="uploadReq">⚡ Upload bukti transfer dulu ya!</p>
       </div>
@@ -4584,7 +4594,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 
 <!-- FOTO LIGHTBOX -->
 <div id="foto-lightbox" role="dialog" aria-modal="true" aria-label="Foto produk">
-  <button class="lb-close" onclick="lbClose()" aria-label="Tutup foto">✕</button>
+  <button class="lb-close" onclick="lbClose()" aria-label="Tutup foto">&#x2715;</button>
   <div class="lb-wrap" id="lb-wrap">
     <button class="lb-nav lb-prev hidden" id="lb-prev" onclick="lbNav(-1)" aria-label="Sebelumnya">&#8249;</button>
     <img id="lb-img" class="lb-img" src="" alt="">
@@ -4604,7 +4614,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   <div class="mc-header">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
     <div class="mc-title" id="mc-title-txt">CART KAMU</div>
-    <button class="mc-close" onclick="miniCartClose()" aria-label="Tutup keranjang">✕</button>
+    <button class="mc-close" onclick="miniCartClose()" aria-label="Tutup keranjang">&#x2715;</button>
   </div>
   <div class="mc-items" id="mc-items"></div>
   <div class="mc-total-row">
@@ -5489,7 +5499,7 @@ function renderCartSummary() {
           +'</div>'
           +'</div>'
           +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">'
-          +'<button class="cart-item-remove" onclick="cartRemoveItem(\''+item.id+'\')" aria-label="Hapus">✕</button>'
+          +'<button class="cart-item-remove" onclick="cartRemoveItem(\''+item.id+'\')" aria-label="Hapus">&#x2715;</button>'
           +'<div class="cart-item-subtotal">'+fmtRp(item.price*item.qty)+'</div>'
           +'</div>'
           +'</div>'
@@ -6998,7 +7008,7 @@ function setLang(lang){
     lblUpload:    {id:'Upload Bukti Transfer *',en:'Upload Payment Proof *'},
     uploadLabel:  {id:'TAP UNTUK PILIH FOTO',en:'TAP TO CHOOSE PHOTO'},
     uploadSub:    {id:'Screenshot bukti transfer · JPG/PNG · Maks 10MB',en:'Payment screenshot · JPG/PNG · Max 10MB'},
-    removeBtn:    {id:'✕ HAPUS FOTO',en:'✕ REMOVE PHOTO'},
+    removeBtn:    {id:'&#x2715; HAPUS FOTO',en:'&#x2715; REMOVE PHOTO'},
     uploadReq:    {id:'⚡ Upload bukti transfer dulu ya!',en:'⚡ Please upload your payment proof first!'},
     btnConfirm:   {id:'KONFIRMASI PEMBAYARAN',en:'CONFIRM PAYMENT'},
     adminVerif:   {id:'Admin verifikasi dalam 1×24 jam',en:'Admin will verify within 24 hours'},
