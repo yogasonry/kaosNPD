@@ -99,8 +99,9 @@ header{
   border-bottom:3px solid var(--gold);overflow:hidden;position:relative;
 }
 @media(min-width:601px){
-  header{ padding-bottom:60px; }
+  header{ padding-bottom:30px; }
   .top-tag{ margin-top:40px; }
+  .hero-ttd{ width:clamp(240px,32vw,380px); }
 }
 /* semua direct children header tampil di atas video */
 header > *:not(.barong-bg-video){ position:relative; z-index:1; }
@@ -162,7 +163,15 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 @media(max-width:380px){
   .hero-desc{font-size:12px;padding:0 8px;}
 }
-.hero-desc strong{color:var(--amber);}
+.hero-ttd{
+  display:block;
+  width:clamp(140px,38vw,260px);
+  margin:6px auto 0;
+  pointer-events:none;
+}
+@media(max-width:480px){
+  .hero-ttd{ width:clamp(200px,72vw,300px); }
+}
 
 /* ─── HERO SLIDESHOW 16:9 ─── */
 .hero-slide-wrap{
@@ -1625,7 +1634,14 @@ textarea.finp{resize:vertical;min-height:80px;}
 .sdesc{font-family:'Roboto',sans-serif;font-size:12px;color:var(--cream);opacity:.90;line-height:1.65;}
 
 /* footer */
-footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.2);}
+footer{padding:28px 14px calc(140px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid rgba(200,134,10,.2);}
+footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px));}
+.footer-ttd{
+  display:block;
+  width:clamp(220px,55vw,400px);
+  margin:0 auto;
+  pointer-events:none;
+}
 .hashtags{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(12px,3.5vw,18px);color:var(--gold);letter-spacing:3px;opacity:.88;margin-bottom:10px;}
 .fnote{font-family:'Roboto',sans-serif;font-size:11px;color:var(--cream);opacity:.85;letter-spacing:2px;}
 
@@ -3706,7 +3722,11 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl" id="hero-hl" data-glitch="AWAS BAHAYA NPD." data-i18n="heroHl"><span class="glitch" data-text="AWAS BAHAYA">AWAS BAHAYA</span> <em class="glitch" data-text="NPD." style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
   <p class="hero-desc"><span id="tw-text"></span><em class="typewriter-cursor">|</em></p>
-  <div style="height:14px"></div>
+  <img id="hero-ttd"
+       src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_320,q_auto,f_png/v1775888455/TTD-header_ihtohu.png"
+       alt="Tanda tangan" aria-hidden="true"
+       class="hero-ttd">
+  <div style="height:6px"></div>
 </header>
 
 <!-- ═══ PRE-ORDER INFO BAR — ROLLING MARQUEE ═══ -->
@@ -4415,9 +4435,9 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 </section>
 
 <footer>
-  <p class="hashtags" data-i18n="hashtags">#GRABFAST &nbsp; #AWASNPD &nbsp; #BHUTAKALAMODERN</p>
-  <p class="fnote" data-i18n="fnote">Made with chaos in Bali · Limited Group Order Only</p>
-  <div style="height:20px"></div>
+  <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_480,q_auto,f_png/v1775888289/TTD_fdrter.png"
+       alt="Yoga Purnama signature" aria-hidden="true"
+       class="footer-ttd">
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -5713,8 +5733,7 @@ function startTypewriter(lang) {
       else { phase = 2; ci = 0; _twTimer = setTimeout(tick, 320); }
     } else {
       ci++; el.innerHTML = data.L1 + '<br><strong style="color:var(--amber)">' + data.L2.slice(0, ci) + '</strong>';
-      if (ci < data.L2.length) _twTimer = setTimeout(tick, 38);
-    }
+      if (ci < data.L2.length) _twTimer = setTimeout(tick, 38);    }
   }
   _twTimer = setTimeout(tick, 700);
 }
@@ -6841,6 +6860,8 @@ window.scrollToTop = scrollToTop;
     if (visible) syncStickyTotal();
     var waFloat = document.querySelector('.wa-float');
     if (waFloat) waFloat.classList.toggle('sticky-up', !!visible);
+    var footer = document.querySelector('footer');
+    if (footer) footer.classList.toggle('sticky-offset', !!visible);
   }
 
   var _origGoTo = goToStep;
