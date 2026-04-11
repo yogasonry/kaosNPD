@@ -5176,8 +5176,16 @@ function katAddToOrder() {
   renderItems();
   renderCartSummary();
   updateCartBubble();
-  // Show mini cart drawer instead of just scrolling
-  setTimeout(function(){ miniCartOpen(); }, 150);
+  // Toast feedback singkat
+  toast(t('itemAdded'));
+  // Buka mini cart kalau user idle 10 detik setelah tambah item
+  clearTimeout(window._cartIdleTimer);
+  window._cartIdleTimer = setTimeout(function(){
+    // Hanya buka kalau user tidak sedang di halaman lain (step 2/3)
+    var s2 = $('step2'), s3 = $('step3');
+    var onStep = (s2 && s2.style.display !== 'none') || (s3 && s3.style.display !== 'none');
+    if (!onStep) miniCartOpen();
+  }, 10000);
 }
 
 // ─── RENDER CART SUMMARY ─────────────────────────────
@@ -5554,6 +5562,7 @@ var TOAST_MSGS = {
   notImage     : { id:'File harus berupa gambar!',  en:'File must be an image!' },
   tooLarge     : { id:'Ukuran file maks 10MB!',     en:'File size max 10MB!' },
   imgReady     : { id:'Foto siap ✓',               en:'Photo ready ✓' },
+  itemAdded    : { id:'Item ditambahkan ✓',           en:'Item added ✓' },
 
 };
 
@@ -6939,6 +6948,14 @@ window.lbNav   = lbNav;
 // ═══════════════════════════════════════════════════════
 // MINI CART DRAWER
 // ═══════════════════════════════════════════════════════
+// ─── IDLE CART TIMER — reset saat user aktif ────────────────────
+(function(){
+  function resetIdleTimer() { clearTimeout(window._cartIdleTimer); }
+  ['click','touchstart','scroll','keydown'].forEach(function(ev){
+    document.addEventListener(ev, resetIdleTimer, { passive: true });
+  });
+})();
+
 function miniCartOpen() {
   var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
   if (activeItems.length === 0) return; // tidak buka kalau kosong
