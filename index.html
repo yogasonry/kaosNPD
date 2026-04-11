@@ -182,22 +182,20 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 }
 .hero-track{
   display:flex;
-  /* Each slide is 100% of wrap, track width = n * 100% */
+  /* Track lebar = HS_TOTAL slides, tiap slide 100% wrap = track 1000% */
+  width:1000%; /* 10 slides * 100% */
   transition:transform .75s cubic-bezier(.25,.46,.45,.94);
   will-change:transform;
-  /* iOS Safari: force GPU compositing */
-  -webkit-transform:translateZ(0);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
 }
 .hero-slide{
   flex-shrink:0;
-  width:100%;  /* 100% of the hero-slide-wrap */
+  width:10%; /* 1/10 dari track = 100% wrap */
   cursor:default;
   aspect-ratio:16/10;
   overflow:hidden;
-  position:relative; /* required: scopes ::before skeleton overlay to this slide */
-  /* Prevent sub-pixel rendering issues on iOS */
+  position:relative;
   -webkit-transform:translateZ(0);
 }
 .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
@@ -450,10 +448,6 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   width:max-content;
   animation:galleryScroll 55s linear infinite;
   will-change:transform;
-  /* Android Chrome: force GPU layer untuk smooth animation */
-  -webkit-transform:translateZ(0);
-  transform:translateZ(0);
-  /* Isolasi paint area — mencegah repaint ke luar strip */
   contain:layout style;
 }
 .gallery-strip:hover,.gallery-strip:active{
@@ -4542,11 +4536,6 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
     <source src="https://res.cloudinary.com/dqqdjhb2x/video/upload/q_auto,vc_auto/v1775886276/header_video_barong_tkeppt.mp4" type="video/mp4">
   </video>
 
-  <!-- Barong background -->
-  <img class="how-barong" id="how-barong"
-       src="https://res.cloudinary.com/dqqdjhb2x/image/upload/v1774191326/barong_bali_line_art_ke9x3y.png"
-       alt="" aria-hidden="true" loading="lazy">
-
   <div class="how-inner">
     <h3 class="sec-title sr sr-up" style="text-align:center;" data-i18n="howTitle">ALUR ORDER</h3>
     <div class="steps-grid">
@@ -6774,20 +6763,14 @@ _hsLoadSlide(2);
 
 // ─── HERO SLIDESHOW ─────────────────────────────────────
 var HS_TOTAL=10, hsCur=0, hsTimer;
-function _hsSlideWidth(){
-  var slide=document.querySelector('.hero-slide');
-  if(!slide) return window.innerWidth;
-  // getBoundingClientRect lebih reliable dari offsetWidth di Android
-  var w = slide.getBoundingClientRect().width;
-  return w > 0 ? w : (slide.offsetWidth || window.innerWidth);
-}
 function hsGo(n){
   hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
   var track=$('hs-track');
-  if(track) track.style.transform='translateX(-'+(hsCur*_hsSlideWidth())+'px)';
+  // Pakai % bukan px — tidak bergantung offsetWidth/getBoundingClientRect
+  // Setiap slide = 100% dari wrap, jadi slide ke-n = n * (100/HS_TOTAL)% dari track
+  if(track) track.style.transform='translateX(-'+(hsCur*(100/HS_TOTAL))+'%)';
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i%HS_TOTAL===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
-  // Lazy load current & neighbours
   _hsLoadSlide(hsCur);
   _hsLoadSlide((hsCur+1)%HS_TOTAL);
   _hsLoadSlide((hsCur-1+HS_TOTAL)%HS_TOTAL);
@@ -6797,20 +6780,8 @@ function _hsStartTimer(){
   hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
 }
 function hsNav(d){clearInterval(hsTimer);hsGo(hsCur+d);_hsStartTimer();}
-// Defer autoplay: mulai setelah loader hide + satu frame extra untuk reflow
-(function(){
-  function _startWhenReady(){
-    // Pastikan slide width sudah valid sebelum mulai interval
-    var attempts=0;
-    function check(){
-      if(_hsSlideWidth()>0){ _hsStartTimer(); }
-      else if(++attempts<20){ setTimeout(check,100); }
-    }
-    setTimeout(check,300);
-  }
-  if(document.readyState==='complete'){ _startWhenReady(); }
-  else { window.addEventListener('load', _startWhenReady); }
-})();
+// Start langsung — tidak perlu tunggu width karena sudah pakai %
+_hsStartTimer();
 window.addEventListener('resize',debounce(function(){hsGo(hsCur);},150));
 document.addEventListener('visibilitychange',function(){if(document.hidden)clearInterval(hsTimer);else _hsStartTimer();});
 (function(){
