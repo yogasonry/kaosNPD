@@ -407,13 +407,18 @@ header{
 .gallery-strip{
   display:flex;
   gap:8px;
-  overflow-x:auto;
-  padding:0 16px 12px;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none; /* Firefox */
+  padding:4px 0 12px;
+  width:max-content;
+  animation:galleryScroll 55s linear infinite;
+  will-change:transform;
 }
-.gallery-strip::-webkit-scrollbar{ display:none; }
+.gallery-strip:hover,.gallery-strip:active{
+  animation-play-state:paused;
+}
+@keyframes galleryScroll{
+  0%  { transform:translateX(0); }
+  100%{ transform:translateX(-50%); }
+}
 
 .gal-item{
   flex-shrink:0;
@@ -422,7 +427,6 @@ header{
   position:relative;overflow:hidden;cursor:zoom-in;
   border:1.5px solid rgba(200,134,10,.18);
   border-radius:8px;
-  scroll-snap-align:start;
   transition:border-color .3s, transform .3s cubic-bezier(.34,1.56,.64,1);
 }
 @media(hover:hover){.gal-item:hover{transform:scale(1.03);border-color:var(--amber);}}
@@ -433,12 +437,19 @@ header{
 /* Scroll hint fade on right edge */
 .gallery-strip-wrap{
   position:relative;
+  overflow:hidden;
+}
+.gallery-strip-wrap::before{
+  content:'';
+  position:absolute;top:0;left:0;bottom:12px;
+  width:60px;pointer-events:none;z-index:2;
+  background:linear-gradient(90deg,var(--black),transparent);
 }
 .gallery-strip-wrap::after{
   content:'';
-  position:absolute; top:0; right:0; bottom:12px;
-  width:48px; pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(10,7,5,.85));
+  position:absolute;top:0;right:0;bottom:12px;
+  width:60px;pointer-events:none;z-index:2;
+  background:linear-gradient(90deg,transparent,var(--black));
 }
 
 
@@ -2392,7 +2403,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
   /* Mini cart max height smaller on short phones */
   #mini-cart { max-height:82vh; }
   /* Gallery strip padding */
-  .gallery-strip { padding:0 10px 12px; }
+  /* gallery-strip marquee: no override needed */
   /* Step bar smaller on tiny screens */
   .step-bar { padding:5px 6px; }
   /* Order review tighter */
@@ -3910,7 +3921,7 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 <!-- BRAND GALLERY — horizontal scroll strip -->
 <section class="gallery-section">
   <h3 class="sec-title sr sr-up" data-i18n="galleryTitle">BHUTA KALA MODERN</h3>
-  <p class="sec-note" data-i18n="galleryNote">← Swipe · Tap untuk zoom →</p>
+  <p class="sec-note" data-i18n="galleryNote">Auto-scroll · Tap untuk zoom →</p>
   <div class="gallery-strip-wrap">
     <div class="gallery-strip" id="gallery-strip">
       <div class="gal-item" onclick="dlbOpen(0)">
@@ -6575,7 +6586,7 @@ function setLang(lang){
     priceNote:    {id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',en:'<strong>Price per piece</strong> · shipping not included'},
     priceLblExtra:{id:'Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing',en:'Full payment upfront · Shipping fee notified after GO closes'},
     galleryTitle: {id:'BHUTA KALA MODERN',en:'BHUTA KALA MODERN'},
-    galleryNote:  {id:'← Swipe · Tap untuk zoom →',en:'← Swipe · Tap to zoom →'},
+    galleryNote:  {id:'Auto-scroll · Tap untuk zoom →',en:'Auto-scroll · Tap to zoom →'},
     sizeChartTitle:{id:'SIZE CHART',en:'SIZE CHART'},
     sizeNote:     {id:'Cotton Combed 24s · ukuran dalam cm',en:'Cotton Combed 24s · measurements in cm'},
     thUkuran:     {id:'Ukuran',en:'Size'},thLebar:{id:'Lebar Dada',en:'Chest Width'},thPanjang:{id:'Panjang',en:'Length'},thLengan:{id:'Lengan',en:'Sleeve'},thHarga:{id:'Harga',en:'Price'},
@@ -7392,6 +7403,16 @@ window.miniCartClose   = miniCartClose;
   }
 
 })();
+
+  // ─── GALLERY MARQUEE — clone items for infinite scroll ───
+  (function(){
+    var strip = document.getElementById('gallery-strip');
+    if (!strip) return;
+    var items = Array.from(strip.children);
+    items.forEach(function(item){
+      strip.appendChild(item.cloneNode(true));
+    });
+  })();
 
 restoreDraft();
 window.setLang = setLang;
