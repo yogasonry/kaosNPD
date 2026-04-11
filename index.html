@@ -174,6 +174,7 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 @media(max-width:380px){
   .hero-desc{font-size:12px;padding:0 8px;}
 }
+
 .hero-ttd{
   display:block;
   width:clamp(140px,38vw,260px);
@@ -3855,7 +3856,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   </div>
   <p class="top-tag" data-i18n="topTag">⚡ Limited Drop — Bhuta Kala Modern ⚡</p>
   <h1 class="hero-hl" id="hero-hl" data-glitch="AWAS BAHAYA NPD." data-i18n="heroHl"><span class="glitch" data-text="AWAS BAHAYA">AWAS BAHAYA</span> <em class="glitch" data-text="NPD." style="display:inline;font-style:normal;color:var(--amber)">NPD.</em></h1>
-  <p class="hero-desc"><span id="tw-text"></span><em class="typewriter-cursor">|</em></p>
+  <p class="hero-desc"><span id="tw-text"></span></p>
   <img id="hero-ttd"
        src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_320,q_auto,f_png/v1775888455/TTD-header_ihtohu.png"
        alt="Tanda tangan" aria-hidden="true"
@@ -5927,8 +5928,8 @@ function buildMarquee(lang) {
 
 // ─── TYPEWRITER ─────────────────────────────────────────
 var TW_TEXT = {
-  id: { L1:'Orang tidak akan sadar dirinya NPD —', L2:'kadang kita perlu merefleksikan diri kita sendiri.' },
-  en: { L1:'People rarely realize they have NPD —', L2:'sometimes we need to reflect on ourselves.' }
+  id: { L1:'Orang tidak akan sadar dirinya <strong>NPD</strong>', L2:'kadang kita perlu merefleksikan diri kita sendiri.' },
+  en: { L1:'People rarely realize they have <strong>NPD</strong>', L2:'sometimes we need to reflect on ourselves.' }
 };
 var _twTimer;
 function startTypewriter(lang) {
