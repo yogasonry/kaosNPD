@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- IAB compatibility: prevent phone number auto-detection formatting -->
+<meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -183,6 +185,10 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   /* Each slide is 100% of wrap, track width = n * 100% */
   transition:transform .75s cubic-bezier(.25,.46,.45,.94);
   will-change:transform;
+  /* iOS Safari: force GPU compositing */
+  -webkit-transform:translateZ(0);
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
 }
 .hero-slide{
   flex-shrink:0;
@@ -191,6 +197,8 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   aspect-ratio:16/10;
   overflow:hidden;
   position:relative; /* required: scopes ::before skeleton overlay to this slide */
+  /* Prevent sub-pixel rendering issues on iOS */
+  -webkit-transform:translateZ(0);
 }
 .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .hs-btn{
@@ -311,7 +319,7 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   border-color:#f5c030;
   animation-play-state:paused;
 }
-@keyframes bp{0%,100%{box-shadow:0 0 6px rgba(232,160,32,.3)}50%{box-shadow:0 0 18px rgba(232,160,32,.7)}}
+@keyframes bp{0%,100%{opacity:.7}50%{opacity:1}}
 .product-title{
   font-family:'Rubik Dirt',sans-serif;font-weight:400;
   font-size:clamp(28px,5.5vw,54px);
@@ -442,6 +450,11 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   width:max-content;
   animation:galleryScroll 55s linear infinite;
   will-change:transform;
+  /* Android Chrome: force GPU layer untuk smooth animation */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+  /* Isolasi paint area — mencegah repaint ke luar strip */
+  contain:layout style;
 }
 .gallery-strip:hover,.gallery-strip:active{
   animation-play-state:paused;
@@ -684,7 +697,7 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 .cart-item-row{
   display:flex;align-items:flex-start;gap:12px;
   padding:12px 16px;
-  border-bottom:1px solid rgba(61,26,8,.4);
+  border-bottom:1px solid rgba(200,134,10,.12);
   transition:background .2s;
 }
 .cart-item-row:last-child{border-bottom:none;}
@@ -1808,6 +1821,8 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 }
 @media(max-width:600px){
   .glitch::before,.glitch::after{mix-blend-mode:normal;opacity:.6;}
+  /* Mobile: matikan glitch always-on — terlalu berat untuk GPU mobile */
+  .glitch::before,.glitch::after{ animation:none !important; }
 }
 @keyframes glitchTop{
   0%,82%,100%{clip-path:inset(0 0 95% 0);transform:none;}
@@ -2027,7 +2042,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   filter:invert(1) sepia(1) saturate(2.2) hue-rotate(5deg) brightness(.7);
   animation:barongIn .9s cubic-bezier(.34,1.56,.64,1) .1s both,
             barongFloat 3.5s ease-in-out infinite 1.2s;
-  will-change:transform,filter;
+  will-change:transform;
   margin-bottom:20px;/* dikurangi dari 28px agar tidak overflow di HP kecil */
 }
 @keyframes barongIn{
@@ -2152,8 +2167,8 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 .wa-float-btn:active{transform:scale(.93);}
 @media(hover:hover){.wa-float-btn:hover{transform:scale(1.08);animation:none;background:#1ebe5e;}}
 @keyframes wa-pulse{
-  0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.45);}
-  50%{box-shadow:0 4px 32px rgba(37,211,102,.75),0 0 0 8px rgba(37,211,102,.12);}
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.06);opacity:.88;}
 }
 .wa-float-btn svg{width:30px;height:30px;fill:white;}
 .wa-float-tooltip{
@@ -2526,6 +2541,21 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   .sr{opacity:1!important;transform:none!important;}
   .ptc{display:none!important;}
   .marquee-track{animation:none!important;}
+}
+
+/* ─── MOBILE ANIMATION PERFORMANCE ─── */
+/* Low-end Android & semua mobile: matikan animasi yang paint-expensive */
+@media(max-width:600px){
+  /* Matikan divider pulse — tidak perlu di mobile */
+  .divider{ animation:none; opacity:.6; }
+  /* Skeleton shimmer tetap jalan — penting untuk UX loading */
+  /* Particle tetap jalan — sudah dikurangi via JS */
+  /* flicker hero title — kurangi frekuensi lewat CSS */
+  .hero-hl{ animation:flicker 10s infinite; }
+  /* howBarongPulse — kurangi ke opacity saja, lebih ringan */
+  .how-barong.visible{ animation:none; opacity:.85; }
+  /* barongFloat di how-section — matikan float, tetap masuk */
+  .how-barong img{ animation:none !important; }
 }
 
 /* Pastikan sh-top-border dan sh-bottom-txt tidak menyebabkan overflow */
@@ -6451,8 +6481,44 @@ function validate() {
 })();
 
 // ─── COPY BANK ──────────────────────────────────────────
-(function(){ var el=$('bca-card'); if(el) el.addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('7730320901').then(function(){toast(t('bcaCopied'));}); }); })();
-(function(){ var el=$('gopay-card'); if(el) el.addEventListener('click', function(){ navigator.clipboard&&navigator.clipboard.writeText('081236869035').then(function(){toast(t('gopayCopied'));}); }); })();
+// ─── COPY HELPER — IAB safe (Instagram, WhatsApp, Telegram) ───
+function _copyText(text, successKey) {
+  // Modern Clipboard API (Chrome, Safari 13.1+, Firefox)
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(function(){ toast(t(successKey)); })
+      .catch(function(){
+        // Fallback kalau clipboard API ada tapi gagal (permission, IAB, dll)
+        _copyFallback(text, successKey);
+      });
+  } else {
+    _copyFallback(text, successKey);
+  }
+}
+function _copyFallback(text, successKey) {
+  // execCommand fallback — support Instagram IAB, WhatsApp IAB, WKWebView lama
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0;';
+    ta.setAttribute('readonly', '');
+    document.body.appendChild(ta);
+    // iOS Safari: perlu select range
+    var range = document.createRange();
+    range.selectNodeContents(ta);
+    var sel = window.getSelection();
+    if (sel) { sel.removeAllRanges(); sel.addRange(range); }
+    ta.setSelectionRange(0, 99999);
+    var ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) { toast(t(successKey)); }
+    else { toast(text); } // last resort: tampilkan teks supaya bisa manual copy
+  } catch(e) {
+    toast(text); // tampilkan teksnya jika semua fallback gagal
+  }
+}
+(function(){ var el=$('bca-card'); if(el) el.addEventListener('click', function(){ _copyText('7730320901','bcaCopied'); }); })();
+(function(){ var el=$('gopay-card'); if(el) el.addEventListener('click', function(){ _copyText('081236869035','gopayCopied'); }); })();
 
 // ─── IMAGE COMPRESSION ──────────────────────────────────
 function compressImage(file, cb) {
@@ -6545,8 +6611,8 @@ function onSubmitSuccess(){
   var cpBtn=$('copy-ordernum-btn');
   if(cpBtn) cpBtn.onclick=function(){
     var num=ORDER.orderNum;
-    if(navigator.clipboard){navigator.clipboard.writeText(num).then(function(){toast(t('orderCopied'));});}
-    else{var ta=document.createElement('textarea');ta.value=num;ta.style.cssText='position:fixed;opacity:0;';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(t('orderCopied'));}catch(e){}document.body.removeChild(ta);}
+    if(navigator.clipboard){navigator.clipboard.writeText(num).then(function(){toast(t('orderCopied'));}).catch(function(){_copyText(num,'orderCopied');});}
+    else{_copyText(num,'orderCopied');}
   };
   var isEn = currentLang === 'en';
   // Build items lines
@@ -6708,10 +6774,17 @@ _hsLoadSlide(2);
 
 // ─── HERO SLIDESHOW ─────────────────────────────────────
 var HS_TOTAL=10, hsCur=0, hsTimer;
+function _hsSlideWidth(){
+  var slide=document.querySelector('.hero-slide');
+  if(!slide) return window.innerWidth;
+  // getBoundingClientRect lebih reliable dari offsetWidth di Android
+  var w = slide.getBoundingClientRect().width;
+  return w > 0 ? w : (slide.offsetWidth || window.innerWidth);
+}
 function hsGo(n){
   hsCur=((n%HS_TOTAL)+HS_TOTAL)%HS_TOTAL;
-  var track=$('hs-track'),slide=document.querySelector('.hero-slide');
-  if(track) track.style.transform='translateX(-'+(hsCur*(slide?slide.offsetWidth:window.innerWidth))+'px)';
+  var track=$('hs-track');
+  if(track) track.style.transform='translateX(-'+(hsCur*_hsSlideWidth())+'px)';
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i%HS_TOTAL===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
   // Lazy load current & neighbours
@@ -6719,14 +6792,31 @@ function hsGo(n){
   _hsLoadSlide((hsCur+1)%HS_TOTAL);
   _hsLoadSlide((hsCur-1+HS_TOTAL)%HS_TOTAL);
 }
-function hsNav(d){clearInterval(hsTimer);hsGo(hsCur+d);hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);}
-hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
+function _hsStartTimer(){
+  clearInterval(hsTimer);
+  hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);
+}
+function hsNav(d){clearInterval(hsTimer);hsGo(hsCur+d);_hsStartTimer();}
+// Defer autoplay: mulai setelah loader hide + satu frame extra untuk reflow
+(function(){
+  function _startWhenReady(){
+    // Pastikan slide width sudah valid sebelum mulai interval
+    var attempts=0;
+    function check(){
+      if(_hsSlideWidth()>0){ _hsStartTimer(); }
+      else if(++attempts<20){ setTimeout(check,100); }
+    }
+    setTimeout(check,300);
+  }
+  if(document.readyState==='complete'){ _startWhenReady(); }
+  else { window.addEventListener('load', _startWhenReady); }
+})();
 window.addEventListener('resize',debounce(function(){hsGo(hsCur);},150));
-document.addEventListener('visibilitychange',function(){if(document.hidden)clearInterval(hsTimer);else hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);});
+document.addEventListener('visibilitychange',function(){if(document.hidden)clearInterval(hsTimer);else _hsStartTimer();});
 (function(){
   var wrap=document.querySelector('.hero-slide-wrap'),sx=0; if(!wrap) return;
   wrap.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;clearInterval(hsTimer);},{passive:true});
-  wrap.addEventListener('touchend',  function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>36)hsGo(hsCur+(dx<0?1:-1));hsTimer=setInterval(function(){hsGo(hsCur+1);},4500);},{passive:true});
+  wrap.addEventListener('touchend',  function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>36)hsGo(hsCur+(dx<0?1:-1));_hsStartTimer();},{passive:true});
 })();
 window.hsNav=hsNav; window.hsGo=hsGo;
 
@@ -6854,14 +6944,16 @@ window.dlbOpen=dlbOpen;window.dlbClose=dlbClose;window.dlbNav=dlbNav;window.dlbG
 (function(){
   function glitch(el){if(!el)return;el.classList.add('glitch-on');setTimeout(function(){el.classList.remove('glitch-on');},350);}
   var pt=$('product-title'),hl=$('hero-hl');
-  if(pt){pt.addEventListener('mouseenter',function(){glitch(pt);});setInterval(function(){glitch(pt);},9000);}
-  if(hl){setInterval(function(){glitch(hl);},7000);}
+  // Skip setInterval glitch di touch device — clip-path animation berat di low-end mobile
+  var isTouch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+  if(pt){pt.addEventListener('mouseenter',function(){glitch(pt);});if(!isTouch)setInterval(function(){glitch(pt);},9000);}
+  if(hl){if(!isTouch)setInterval(function(){glitch(hl);},7000);}
 })();
 
 // ─── PARTICLES ──────────────────────────────────────────
 (function(){
   var bg=$('particle-bg'); if(!bg) return;
-  var N=window.innerWidth<600?20:35, C=['#e8a020','#c8860a','#f5c050','#d09018','#f0e0c0'];
+  var N=window.innerWidth<600?10:30, C=['#e8a020','#c8860a','#f5c050','#d09018','#f0e0c0'];
   for(var i=0;i<N;i++){
     var el=document.createElement('div'); el.className='ptc';
     var sz=1+Math.random()*1.8,dur=12+Math.random()*16,del=-(Math.random()*dur);
@@ -7717,11 +7809,64 @@ window.miniCartClose   = miniCartClose;
     items.forEach(function(item){
       strip.appendChild(item.cloneNode(true));
     });
+    // Android Chrome fix: restart animation setelah semua image loaded
+    // agar width:max-content sudah terhitung dengan benar
+    function restartGalleryAnim(){
+      strip.style.animation = 'none';
+      // Force reflow
+      void strip.offsetWidth;
+      strip.style.animation = 'galleryScroll 55s linear infinite';
+    }
+    if(document.readyState === 'complete'){
+      restartGalleryAnim();
+    } else {
+      window.addEventListener('load', restartGalleryAnim);
+    }
   })();
 
 restoreDraft();
 window.setLang = setLang;
 setLang('id');
+
+// ─── IN-APP BROWSER DETECTION & COMPENSATION ────────────
+(function(){
+  var ua = navigator.userAgent || '';
+  // Deteksi common IAB: Instagram, Facebook, WhatsApp, Line, TikTok, Twitter/X
+  var isIAB = /Instagram|FBAN|FBAV|FB_IAB|WhatsApp|Line\/|musical_ly|TikTok|TwitterAndroid|TwitteriPhone/i.test(ua);
+  // Tambahan: Android WebView tanpa Chrome (bukan browser biasa)
+  var isWebView = /wv\)|\.0\.0\.0 |WebView/i.test(ua) && !/Chrome\/[0-9]/.test(ua);
+
+  if (isIAB || isWebView) {
+    // Tandai di body untuk CSS targeting jika perlu
+    document.body.classList.add('is-iab');
+
+    // Matikan animasi dekoratif yang tidak kritikal
+    // Particles — kurangi drastis
+    var ptcs = document.querySelectorAll('.ptc');
+    if (ptcs.length > 5) {
+      // Sisakan hanya 5 partikel
+      for (var i = 5; i < ptcs.length; i++) {
+        ptcs[i].style.display = 'none';
+      }
+    }
+
+    // Inject CSS overrides untuk IAB
+    var s = document.createElement('style');
+    s.textContent = [
+      // Matikan grain overlay — mix-blend-mode berat di IAB
+      'body::before{display:none!important;}',
+      // Simplify barong video blend mode
+      '.barong-bg-video{mix-blend-mode:normal;opacity:.08;}',
+      // Matikan glitch di IAB
+      '.glitch::before,.glitch::after{display:none!important;}',
+      // Kurangi backdrop-filter — sering blank putih di IAB
+      '.mini-cart,.kat-detail-panel{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}',
+      // Stable sticky bar
+      '.sticky-cta{position:sticky;bottom:0;}',
+    ].join('');
+    document.head.appendChild(s);
+  }
+})();
 
 
 
