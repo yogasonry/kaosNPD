@@ -2432,8 +2432,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   .cart-summary-section { padding:0 10px 24px; }
   /* Katalog card info tighter */
   .kat-info { padding:10px 10px 12px; min-height:60px; }
-  /* Detail panel full-width on mobile */
-  .kat-detail-panel { margin:8px 0 0; border-radius:12px 12px 0 0; }
+  /* Detail panel full-width on mobile — handled by drawer CSS */
   /* Tab bar: kurangi letter-spacing & padding agar 3 tab + X button muat di HP kecil */
   .kat-tab { padding:11px 4px; letter-spacing:.5px; font-size:10px; }
   .kat-tabs .kat-tab svg { display:none; } /* sembunyikan icon SVG tab di mobile */
@@ -2689,6 +2688,9 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   z-index:7000; display:none;
   cursor:pointer;
   animation:bubblePop .35s cubic-bezier(.34,1.56,.64,1);
+}
+@media(max-width:859px){
+  #cart-bubble{ z-index:790; } /* below drawer (800) on mobile */
 }
 #cart-bubble.visible{ display:flex; }
 @keyframes bubblePop{
@@ -2950,12 +2952,15 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 /* ─── INLINE DESIGN CHIPS (NPD Series) ─── */
 .kat-design-inline{
   display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
+  padding:0 16px;
   margin-bottom:14px;
+  max-width:320px;
+  margin-left:auto; margin-right:auto;
 }
 .kat-design-chip{
   position:relative; border-radius:8px; overflow:hidden;
   border:1.5px solid rgba(200,134,10,.2);
-  cursor:pointer; aspect-ratio:4/5;
+  cursor:pointer; aspect-ratio:1/1;
   background:rgba(10,5,2,.7);
   transition:border-color .2s, transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
   -webkit-user-select:none; user-select:none; touch-action:manipulation;
@@ -3157,20 +3162,62 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 
 /* ─── DETAIL PANEL — centered, constrained ─── */
 .kat-detail-panel{
-  display:none;
-  position:relative;
-  max-width:560px;
-  margin:12px auto 0;
-  background:linear-gradient(160deg,rgba(26,14,5,.97) 0%,rgba(12,7,3,.98) 100%);
-  border:1.5px solid rgba(200,134,10,.3);
-  border-radius:12px;
-  overflow:hidden;
-  animation:kdpSlideIn .32s cubic-bezier(.34,1.56,.64,1);
+  display:block;
+  position:fixed;
+  top:0; right:0;
+  width:min(480px,100vw);
+  height:100vh; height:100dvh;
+  background:linear-gradient(160deg,rgba(26,14,5,.99) 0%,rgba(12,7,3,1) 100%);
+  border-left:1.5px solid rgba(200,134,10,.3);
+  border-radius:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  z-index:800;
+  transform:translateX(100%);
+  transition:transform .38s cubic-bezier(.25,.46,.45,.94);
+  will-change:transform;
+  -webkit-overflow-scrolling:touch;
 }
-.kat-detail-panel.kdp-open{ display:block; }
-@keyframes kdpSlideIn{
-  0%{ opacity:0; transform:translateY(-10px) scale(.98); }
-  100%{ opacity:1; transform:translateY(0) scale(1); }
+.kat-detail-panel.kdp-open{
+  transform:translateX(0);
+}
+/* ─── DESKTOP: centered modal ─── */
+@media(min-width:860px){
+  .kat-detail-panel{
+    top:50%; left:50%;
+    right:auto;
+    width:min(640px,90vw);
+    height:auto;
+    max-height:90dvh;
+    overflow-y:auto;
+    overflow-x:hidden;
+    transform:translate(-50%,-48%) scale(.97);
+    border:1.5px solid rgba(200,134,10,.3);
+    border-left:1.5px solid rgba(200,134,10,.3);
+    border-radius:16px;
+    transition:transform .32s cubic-bezier(.34,1.56,.64,1), opacity .28s ease;
+    opacity:0;
+    pointer-events:none;
+  }
+  .kat-detail-panel.kdp-open{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;
+    pointer-events:auto;
+  }
+}
+.kat-drawer-overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:799;
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  opacity:0;
+  transition:opacity .38s ease;
+}
+.kat-drawer-overlay.kdp-open{
+  display:block;
+  opacity:1;
 }
 
 .kat-detail-inner{
@@ -3229,6 +3276,26 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   background:#251208;
 }
 @media(min-width:480px){ .kat-slider-slide{ height:400px; } }
+@media(min-width:480px){
+  #kat-tab-ukuran .size-section-card{ min-height:400px; }
+  #kat-tab-perawatan{ min-height:400px; }
+  /* Size chart — lebih besar di desktop */
+  .chart-tbl thead tr{ font-size:15px; }
+  .chart-tbl td{ font-size:16px; padding:12px 10px; }
+  .chart-tbl td:first-child{ font-size:21px; }
+  .chart-tbl td.pc{ font-size:18px; }
+  .chart-tbl th .unit{ font-size:10px; }
+  /* Care guide — lebih besar di desktop */
+  .care-guide-title{ font-size:20px; }
+  .care-guide-sub{ font-size:14px; }
+  .care-label{ font-size:13px; }
+  .care-desc{ font-size:13px; }
+  .care-note{ font-size:12px; }
+  .care-icon{ width:44px; height:44px; }
+  .care-icon svg{ width:26px; height:26px; }
+  .care-item{ padding:14px; gap:14px; }
+  .care-grid{ gap:10px; }
+}
 .kat-slider-slide img{
   width:100%; height:100%;
   object-fit:contain;
@@ -3326,8 +3393,10 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 .kat-design-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  padding:12px 12px 4px;
+  gap:8px;
+  padding:10px 16px 4px;
+  max-width:360px;
+  margin:0 auto;
 }
 .kat-design-card{
   border:1.5px solid rgba(200,134,10,.2);
@@ -3351,7 +3420,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   box-shadow:0 0 0 2px rgba(200,134,10,.25), 0 6px 20px rgba(200,134,10,.2);
 }
 .kat-design-img{
-  width:100%; aspect-ratio:3/4;
+  width:100%; aspect-ratio:1/1;
   overflow:hidden;
   background:rgba(10,5,2,.8);
   position:relative;
@@ -3384,7 +3453,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 /* ─── ORDER BUTTON ─── */
 .kat-order-btn{
   display:block; width:calc(100% - 24px);
-  margin:12px auto 14px;
+  margin:12px auto 0;
   padding:15px;
   background:var(--amber);
   border:none; border-radius:6px;
@@ -3394,6 +3463,8 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   cursor:pointer;
   transition:background .2s, transform .15s, box-shadow .3s;
   box-shadow:0 4px 18px rgba(232,160,32,.3);
+  position:sticky; bottom:0;
+  z-index:10;
 }
 .kat-order-btn:hover{ background:#f0b030; box-shadow:0 6px 24px rgba(232,160,32,.45); }
 .kat-order-btn:active{ transform:scale(.97); background:#d09010; }
@@ -3411,16 +3482,17 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 
 /* ─── CLOSE BUTTON ─── */
 .kat-close-btn{
-  position:absolute; top:6px; right:8px;
-  width:24px; height:24px; border-radius:50%;
-  background:rgba(61,26,8,.85);
-  border:1px solid rgba(200,134,10,.35);
-  color:rgba(200,134,10,.75); font-size:11px;
+  position:sticky; top:10px; float:right; margin:10px 10px 0 0;
+  width:26px; height:26px; border-radius:50%;
+  background:rgba(61,26,8,.95);
+  border:1px solid rgba(200,134,10,.4);
+  color:var(--amber); font-size:11px;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
   transition:background .2s, color .2s, border-color .2s, transform .2s;
   z-index:30;
-  box-shadow:0 1px 6px rgba(0,0,0,.45);
+  box-shadow:0 2px 8px rgba(0,0,0,.5);
   line-height:1;
+  flex-shrink:0;
 }
 .kat-close-btn:hover{ background:var(--rust); color:var(--amber); border-color:var(--amber); transform:scale(1.1); }
 .kat-close-btn:active{ transform:scale(.93); }
@@ -3836,6 +3908,9 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   <div id="katalog-grid" class="katalog-grid"></div>
 </div>
 
+<!-- Drawer overlay -->
+<div class="kat-drawer-overlay" id="kat-drawer-overlay" onclick="katClose()"></div>
+
 <!-- Detail panel katalog -->
 <div class="kat-detail-panel" id="kat-detail-panel">
   <div class="kat-detail-inner" style="position:relative;max-width:560px;margin:0 auto;">
@@ -3865,14 +3940,14 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
       <div id="kat-order-config"></div>
     </div>
     <div id="kat-tab-ukuran" style="display:none">
-      <div class="size-section-card" style="margin:12px;">
+      <div class="size-section-card" style="margin:12px;min-height:clamp(260px,72vw,360px);display:flex;flex-direction:column;justify-content:center;">
         <table class="chart-tbl" id="kat-size-table"></table>
         <p class="kat-size-note" id="kat-size-note" style="font-size:10px;color:rgba(200,134,10,.4);margin-top:10px;line-height:1.65;"></p>
       </div>
     </div>
     <!-- Design tab removed: inline in picker -->
     <!-- Tab Perawatan -->
-    <div id="kat-tab-perawatan" style="display:none">
+    <div id="kat-tab-perawatan" style="display:none;min-height:clamp(260px,72vw,360px);">
       <div class="care-guide">
         <p class="care-guide-title" id="care-title">Cara Merawat Sablon DTF</p>
         <p class="care-guide-sub" id="care-sub">Ikuti panduan ini agar sablon tetap awet dan tidak mudah retak.</p>
@@ -3966,7 +4041,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 <!-- BRAND GALLERY — horizontal scroll strip -->
 <section class="gallery-section">
   <h3 class="sec-title sr sr-up" data-i18n="galleryTitle">BHUTA KALA MODERN</h3>
-  <p class="sec-note" data-i18n="galleryNote">Auto-scroll · Tap untuk zoom →</p>
+  <p class="sec-note" data-i18n="galleryNote">Tap untuk zoom →</p>
   <div class="gallery-strip-wrap">
     <div class="gallery-strip" id="gallery-strip">
       <div class="gal-item" onclick="dlbOpen(0)">
@@ -5046,46 +5121,43 @@ function renderKatalog() {
 // ─── CLOSE PANEL ─────────────────────────────────────
 function katClose() {
   var panel = document.getElementById('kat-detail-panel');
+  var overlay = document.getElementById('kat-drawer-overlay');
   if (panel) panel.classList.remove('kdp-open');
+  if (overlay) overlay.classList.remove('kdp-open');
+  document.body.style.overflow = '';
   _katActive = null; _katDesign = null;
   renderKatalog();
   waFloatUpdate();
+  updateCartBubble();
 }
 
 // ─── OPEN PRODUCT via banner anchor ──────────────────
 // Scrolls to catalog section, then opens the product panel
 function openProduct(id) {
-  // If already open → just scroll
+  var panel = document.getElementById('kat-detail-panel');
+  var overlay = document.getElementById('kat-drawer-overlay');
   if (_katActive === id) {
-    var panel = document.getElementById('kat-detail-panel');
-    if (panel) { panel.scrollIntoView({behavior:'smooth', block:'start'}); }
+    if (panel) panel.scrollTop = 0;
     return;
   }
-  // Open product (this renders the grid + opens panel)
   _katActive = id; _katDesign = null; renderKatalog();
   var p = KATALOG.find(function(x){ return x.id === id; });
   if (!p) return;
   katFillDetail(p);
-  // Always open foto tab — design picker is inline
   katSwitchTab('foto');
-  var panel = document.getElementById('kat-detail-panel');
-  if (panel) panel.classList.add('kdp-open');
+  if (panel) { panel.classList.add('kdp-open'); panel.scrollTop = 0; }
+  if (overlay) overlay.classList.add('kdp-open');
+  document.body.style.overflow = 'hidden';
   waFloatUpdate();
-  // Scroll: first land on the katalog section, then let panel slide in
   var katSec = document.getElementById('katalog-section');
-  if (katSec) {
-    katSec.scrollIntoView({behavior:'smooth', block:'start'});
-    // After scroll settles, nudge to show panel
-    setTimeout(function(){
-      if (panel) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
-    }, 500);
-  }
+  if (katSec) katSec.scrollIntoView({behavior:'smooth', block:'start'});
 }
 window.openProduct = openProduct;
 
 // ─── TOGGLE DETAIL PANEL ─────────────────────────────
 function katToggle(id) {
   var panel = document.getElementById('kat-detail-panel');
+  var overlay = document.getElementById('kat-drawer-overlay');
   if (!panel) return;
   if (_katActive===id) {
     katClose(); return;
@@ -5094,11 +5166,12 @@ function katToggle(id) {
   var p = KATALOG.find(function(x){return x.id===id;});
   if (!p) return;
   katFillDetail(p);
-  // Always start on foto tab — design selection is now inline in the picker
   katSwitchTab('foto');
   panel.classList.add('kdp-open');
+  if (overlay) overlay.classList.add('kdp-open');
+  document.body.style.overflow = 'hidden';
+  panel.scrollTop = 0;
   waFloatUpdate();
-  setTimeout(function(){ panel.scrollIntoView({behavior:'smooth',block:'nearest'}); },80);
 }
 
 function katFillDetail(p) {
@@ -5123,11 +5196,26 @@ function katFillDetail(p) {
   if(dtab) dtab.style.display = p.designs?'block':'none';
   // Tab Perawatan: hanya tampil untuk produk berbasis sablon (kaos/hoodie), bukan tumbler
   var tabPerawatan = document.getElementById('tab-perawatan');
+  var tabUkuran    = document.getElementById('tab-ukuran');
   var isTumbler = p.id === 'tumbler-npd';
   if(tabPerawatan) tabPerawatan.style.display = isTumbler ? 'none' : '';
-  // Kalau sedang di tab perawatan tapi produknya tumbler, pindah ke foto
-  if(isTumbler && typeof _katTab !== 'undefined' && _katTab === 'perawatan') {
+  if(tabUkuran)    tabUkuran.style.display    = isTumbler ? 'none' : '';
+  // Kalau sedang di tab ukuran/perawatan tapi produknya tumbler, pindah ke foto
+  if(isTumbler && typeof _katTab !== 'undefined' && (_katTab === 'perawatan' || _katTab === 'ukuran')) {
     katSwitchTab('foto');
+  }
+  // Badge one size one color untuk tumbler
+  var descEl = document.getElementById('kat-detail-desc');
+  var badgeEl = document.getElementById('kat-onesize-badge');
+  if(!badgeEl && isTumbler) {
+    var badge = document.createElement('div');
+    badge.id = 'kat-onesize-badge';
+    badge.style.cssText = 'display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;';
+    badge.innerHTML = '<span style="font-size:9px;letter-spacing:2px;background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.35);color:var(--gold);padding:3px 9px;border-radius:2px;text-transform:uppercase;">⚡ One Size</span>'
+      + '<span style="font-size:9px;letter-spacing:2px;background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.35);color:var(--gold);padding:3px 9px;border-radius:2px;text-transform:uppercase;">● One Color · Hitam</span>';
+    if(descEl) descEl.parentNode.insertBefore(badge, descEl.nextSibling);
+  } else if(badgeEl && !isTumbler) {
+    badgeEl.remove();
   }
   var tbl=el('kat-size-table'), note=el('kat-size-note');
   if(tbl) {
@@ -5247,7 +5335,10 @@ function katAddToOrder() {
 
   // Close panel + feedback
   var panel=document.getElementById('kat-detail-panel');
+  var overlay=document.getElementById('kat-drawer-overlay');
   if(panel) panel.classList.remove('kdp-open');
+  if(overlay) overlay.classList.remove('kdp-open');
+  document.body.style.overflow = '';
   _katActive=null; _katDesign=null; _katSize=null; _katColor=null; _katQty=1;
   renderKatalog();
 
@@ -5276,7 +5367,9 @@ function updateCartBubble() {
   var activeItems = ITEMS.filter(function(x){ return x.qty>0&&x.produkId; });
   var totalQty    = activeItems.reduce(function(s,x){ return s+x.qty; }, 0);
   if (countEl) countEl.textContent = totalQty;
-  if (bubble) bubble.classList.toggle('visible', totalQty > 0);
+  var panel = document.getElementById('kat-detail-panel');
+  var drawerOpen = panel && panel.classList.contains('kdp-open');
+  if (bubble) bubble.classList.toggle('visible', totalQty > 0 && !drawerOpen);
 }
 
 function renderCartSummary() {
@@ -5604,6 +5697,43 @@ window.editCart = editCart;
 
 window.katToggle      = katToggle;
 window.katClose       = katClose;
+// ─── KEYBOARD SHORTCUTS ─────────────────────────────────
+// Context-aware: priority → lightbox → dlb → drawer slider → hero
+document.addEventListener('keydown', function(e){
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+  var key = e.key;
+
+  // Escape — drawer (lightbox handled separately)
+  if (key === 'Escape') {
+    var p = document.getElementById('kat-detail-panel');
+    if (p && p.classList.contains('kdp-open')) { katClose(); e.preventDefault(); }
+    return;
+  }
+
+  var isLeft  = key === 'ArrowLeft';
+  var isRight = key === 'ArrowRight';
+  if (!isLeft && !isRight) return;
+
+  var dir = isRight ? 1 : -1;
+
+  // 1. Foto lightbox open → handled by its own listener, skip
+  var lb = document.getElementById('foto-lightbox');
+  if (lb && lb.classList.contains('open')) return;
+
+  // 2. Detail lightbox (dlb) open → handled by its own listener, skip
+  var dlb = document.getElementById('dlb');
+  if (dlb && dlb.style.display !== 'none') return;
+
+  // 3. Drawer open → navigate product foto slider
+  var drawer = document.getElementById('kat-detail-panel');
+  if (drawer && drawer.classList.contains('kdp-open')) {
+    if (typeof sliderNav === 'function') { sliderNav(dir); e.preventDefault(); }
+    return;
+  }
+
+  // 4. Default → hero slideshow
+  if (typeof hsNav === 'function') { hsNav(dir); e.preventDefault(); }
+});
 window.katSwitchTab   = katSwitchTab;
 window.katPickDesign  = katPickDesign;
 window.katAddToOrder  = katAddToOrder;
@@ -6635,7 +6765,7 @@ function setLang(lang){
     priceNote:    {id:'<strong>Harga per pcs</strong> · belum termasuk ongkos kirim',en:'<strong>Price per piece</strong> · shipping not included'},
     priceLblExtra:{id:'Pembayaran LUNAS di awal · Ongkir diinfo setelah GO closing',en:'Full payment upfront · Shipping fee notified after GO closes'},
     galleryTitle: {id:'BHUTA KALA MODERN',en:'BHUTA KALA MODERN'},
-    galleryNote:  {id:'Auto-scroll · Tap untuk zoom →',en:'Auto-scroll · Tap to zoom →'},
+    galleryNote:  {id:'Tap untuk zoom →',en:'Tap to zoom →'},
     sizeChartTitle:{id:'SIZE CHART',en:'SIZE CHART'},
     sizeNote:     {id:'Cotton Combed 24s · ukuran dalam cm',en:'Cotton Combed 24s · measurements in cm'},
     thUkuran:     {id:'Ukuran',en:'Size'},thLebar:{id:'Lebar Dada',en:'Chest Width'},thPanjang:{id:'Panjang',en:'Length'},thLengan:{id:'Lengan',en:'Sleeve'},thHarga:{id:'Harga',en:'Price'},
