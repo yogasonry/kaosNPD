@@ -444,6 +444,9 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 .gallery-strip:hover,.gallery-strip:active{
   animation-play-state:paused;
 }
+@media(max-width:600px){
+  .gallery-strip:active{ animation-play-state:running; }
+}
 @keyframes galleryScroll{
   0%  { transform:translateX(0); }
   100%{ transform:translateX(-50%); }
