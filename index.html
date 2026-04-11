@@ -60,6 +60,8 @@
   --black:#160f0a;--rust:#3d1a08;--gold:#c8860a;
   --amber:#e8a020;--cream:#f0e0c0;--white:#faf5ee;
   --red:#8b1a0a;
+  /* total price green — dark forest/emerald, hanya untuk total akhir */
+  --total-green:#8aab52;
   /* section alternates */
   --bg-alt:#1c1208;--bg-deep:#120c07;
 }
@@ -568,6 +570,34 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 .form-inner{max-width:520px;margin:0 auto;}
 
 /* ─── STEP BAR — 5 steps ─────────────────────────────── */
+/* ─── PROGRESS BAR HORIZONTAL ─── */
+.order-progress-wrap{
+  max-width:520px;margin:0 auto 16px;padding:0 4px;
+}
+.order-progress-track{
+  height:3px;background:rgba(200,134,10,.12);border-radius:999px;overflow:hidden;
+}
+.order-progress-fill{
+  height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--amber));
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+  width:20%; /* step 1 of 5 = 20% */
+}
+
+/* ─── SIZE GUIDE SHORTCUT LINK ─── */
+.size-guide-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Roboto',sans-serif;font-size:10px;
+  letter-spacing:1.5px;color:rgba(200,134,10,.65);
+  text-decoration:none;cursor:pointer;
+  border:none;background:none;padding:0;
+  margin-top:6px;margin-bottom:2px;
+  transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.size-guide-link:hover{ color:var(--amber); }
+.size-guide-link svg{ opacity:.7; }
+
 .step-bar{
   display:flex;justify-content:center;align-items:center;
   margin-bottom:28px;gap:0;
@@ -744,7 +774,7 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 }
 .cart-total-amount{
   font-family:'Rubik Dirt',sans-serif;font-size:26px;
-  color:var(--amber);line-height:1;
+  color:#8aab52;line-height:1;
 }
 .cart-total-sub{
   font-size:9px;letter-spacing:2px;
@@ -1039,7 +1069,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 .tkey{font-family:'Roboto',sans-serif;font-size:12px;letter-spacing:1.5px;color:var(--gold);font-weight:300;opacity:.92;}
 .tval{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);}
 .tdiv{border:none;border-top:1px solid rgba(200,134,10,.15);margin:8px 0;}
-.tbig{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:var(--white);}
+.tbig{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:28px;color:#8aab52;}
 .tsub{font-family:'Roboto',sans-serif;font-size:10px;color:var(--cream);opacity:.55;letter-spacing:2px;}
 
 /* ─── STICKY CTA BAR (Opsi C) ───────────────────────── */
@@ -1064,7 +1094,7 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .sticky-cta-amount{
   font-family:'Rubik Dirt',sans-serif;font-size:22px;
-  color:var(--amber);line-height:1.1;
+  color:#8aab52;line-height:1.1;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .sticky-cta-sub{
@@ -2645,7 +2675,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   letter-spacing:3px; color:rgba(200,134,10,.5); text-transform:uppercase;
 }
 .mc-total-amount{
-  font-family:'Rubik Dirt',sans-serif; font-size:24px; color:var(--amber);
+  font-family:'Rubik Dirt',sans-serif; font-size:24px; color:#8aab52;
 }
 .mc-actions{
   display:grid; grid-template-columns:1fr 2fr; gap:10px;
@@ -4166,6 +4196,13 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 <section class="form-section" id="order-section" style="display:none;">
   <div class="form-inner">
 
+    <!-- Progress Bar -->
+    <div class="order-progress-wrap">
+      <div class="order-progress-track">
+        <div class="order-progress-fill" id="order-progress-fill"></div>
+      </div>
+    </div>
+
     <!-- Step Bar — 5 steps -->
     <div class="step-bar">
       <div class="sdot done"   id="sd1"><div class="sdot-c">✓</div><div class="sdot-l" data-i18n="stepPilih">PILIH</div></div>
@@ -4313,8 +4350,8 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
           <div class="order-items-list" id="r-items-list"></div>
         </div>
         <div class="orow" style="margin-top:6px;">
-          <span class="okey" style="color:var(--amber)" data-i18n="oTotal">TOTAL</span>
-          <span class="oval" id="r-total" style="color:var(--amber);font-family:'Rubik Dirt',sans-serif;font-size:20px;">—</span>
+          <span class="okey" style="color:#8aab52" data-i18n="oTotal">TOTAL</span>
+          <span class="oval" id="r-total" style="color:#8aab52;font-family:'Rubik Dirt',sans-serif;font-size:20px;">—</span>
         </div>
         <div class="orow">
           <span class="okey" data-i18n="oOngkir">Ongkir</span>
@@ -5004,7 +5041,11 @@ function renderPanelPicker(p, skipScroll) {
             +' onclick="katPanelSetSize(\''+s.size+'\','+s.price+')">'
             + s.size + '<span class="kat-sopt-price">' + pTag + '</span></button>';
         }).join('')
-      + '</div>';
+      + '</div>'
+      + '<button type="button" class="size-guide-link" onclick="katSwitchTab(\'ukuran\');this.closest(\'.kat-detail-panel\')&&this.closest(\'.kat-detail-panel\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">'
+      + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 6H3"/><path d="M21 12H9"/><path d="M21 18H3"/></svg>'
+      + (currentLang==='en'?'SIZE GUIDE →':'PANDUAN UKURAN →')
+      + '</button>';
   }
 
   var colorHtml = '';
@@ -5675,6 +5716,19 @@ function cartGoCheckout() {
     toast(currentLang==='id'?'Pilih produk dulu!':'Select a product first!');
     return;
   }
+  // Guard: pastikan semua item NPD Series punya designId dan color yang valid
+  for(var i=0;i<activeItems.length;i++){
+    var itm=activeItems[i];
+    var katC=KATALOG.find(function(k){return k.id===itm.produkId;});
+    if(katC&&katC.designs){
+      if(!itm.designId||!itm.color){
+        toast(currentLang==='en'
+          ?'Please re-add "'+itm.produkNama+'" — design info incomplete.'
+          :'Tambah ulang "'+katC.nama+'" dari katalog — info design belum lengkap.');
+        return;
+      }
+    }
+  }
   ITEMS=activeItems;
   renderItems();
   renderOrderReview();
@@ -5927,6 +5981,20 @@ function renderItemRow(item) {
     ? '<div class="item-section-label">'+colorLabel+'</div>'
       +'<div style="padding:6px 0 4px;font-size:12px;color:var(--amber);letter-spacing:2px;">'
       +(function(){ var _c=COLORS.find(function(x){return x.id===(item.color||'hitam');}); return _c?(typeof _c.label==='object'?(_c.label[currentLang]||_c.label.id):_c.label).toUpperCase():(item.color||'HITAM').toUpperCase(); })()+'</div>'
+    : item.designId
+    // NPD Series — warna fixed dari design, tampilkan read-only dengan warna badge
+    ? (function(){
+        var kat2 = KATALOG.find(function(k){return k.id===item.produkId;});
+        var dObj = kat2 && kat2.designs && kat2.designs.find(function(d){return d.id===item.designId;});
+        var hex  = dObj ? (dObj.warnaHex||'#888') : '#888';
+        var lbl  = item.colorLabel || (dObj ? dObj.warnaLabel : (item.color||'').toUpperCase());
+        return '<div class="item-section-label">'+colorLabel+'</div>'
+          +'<div style="display:inline-flex;align-items:center;gap:6px;padding:6px 0 4px;">'
+          +'<span style="width:14px;height:14px;border-radius:50%;background:'+hex+';border:1px solid rgba(255,255,255,.25);flex-shrink:0;display:inline-block;"></span>'
+          +'<span style="font-size:12px;color:var(--amber);letter-spacing:2px;">'+lbl.toUpperCase()+'</span>'
+          +'<span style="font-size:9px;color:rgba(200,134,10,.45);letter-spacing:1px;">(dari design)</span>'
+          +'</div>';
+      })()
     : '<div class="item-section-label">'+colorLabel+'</div>'
       +'<div class="copt-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">'
       +COLORS.map(function(c){
@@ -6029,7 +6097,11 @@ function itemPickSize(id, size, price) {
 function itemPickColor(id, colorId) {
   if (!COLORS.some(function(c){ return c.id === colorId; })) return;
   var item = ITEMS.find(function(x){ return x.id === id; }); if (!item) return;
+  // Guard: produk dengan designId (NPD Series) — warna tidak boleh diubah manual
+  if (item.designId) return;
   item.color = colorId;
+  var cObj = COLORS.find(function(c){return c.id===colorId;});
+  item.colorLabel = cObj ? getColorLabel(cObj) : colorId.toUpperCase();
   sndColor(); renderItems(); renderCartSummary();
 }
 
@@ -6101,15 +6173,42 @@ function restoreDraft() {
     if(d.items && Array.isArray(d.items) && d.items.length > 0) {
       var validColors = COLORS.map(function(c){ return c.id; });
       var restored = d.items.filter(function(item){
-        return item.id && item.size && item.qty > 0;
+        if(!item.id || !item.size || !(item.qty > 0)) return false;
+        // Item NPD Series (products with designs) wajib punya designId yang valid
+        var kat = KATALOG.find(function(k){ return k.id === item.produkId; });
+        if(kat && kat.designs) {
+          if(!item.designId) return false; // buang item tanpa design
+          var designValid = kat.designs.some(function(d){ return d.id === item.designId; });
+          if(!designValid) return false; // buang item dengan designId yang tidak dikenal
+        }
+        return true;
       }).map(function(item){
         var kat = KATALOG.find(function(k){ return k.id === item.produkId; });
+        // Resolve warna: cek global COLORS, hoodiColors produk, atau warna dari designs
+        var resolvedColor = '';
+        if(kat && kat.designs && item.designId) {
+          // NPD Series — warna ikut design
+          var dObj = kat.designs.find(function(d){ return d.id === item.designId; });
+          resolvedColor = dObj ? dObj.warna : '';
+        } else if(validColors.indexOf(item.color) >= 0) {
+          resolvedColor = item.color;
+        } else if(kat && kat.hoodiColors) {
+          var hc = kat.hoodiColors.find(function(c){ return c.id === item.color; });
+          resolvedColor = hc ? hc.id : (kat.hoodiColors[0] ? kat.hoodiColors[0].id : '');
+        }
+        // Rebuild colorLabel dari resolvedColor
+        var resolvedColorLabel = item.colorLabel || '';
+        if(kat && kat.designs && item.designId) {
+          var dObj2 = kat.designs.find(function(d){ return d.id === item.designId; });
+          resolvedColorLabel = dObj2 ? dObj2.warnaLabel : resolvedColorLabel;
+        }
         return {
           id        : item.id,
           produkId  : item.produkId  || null,
           produkNama: item.produkNama|| '',
           designId  : item.designId  || null,
-          color     : validColors.indexOf(item.color)>=0 ? item.color : '',
+          color     : resolvedColor,
+          colorLabel: resolvedColorLabel,
           size      : item.size,
           price     : kat ? kat.hargaFn(item.size) : priceForSize(item.size),
           qty       : Math.max(0,Math.min(99,parseInt(item.qty,10)||0)),
@@ -6174,6 +6273,10 @@ function goToStep(n) {
   for(var j=1;j<=4;j++){
     var ln=$('sl'+j); if(ln) ln.className='sline'+(lines[j]?' '+lines[j]:'');
   }
+  // Progress bar fill: step n=1→40%, n=2→75%, n=3→100%
+  var pct = n===1?'40%':n===2?'75%':'100%';
+  var pf = document.getElementById('order-progress-fill');
+  if(pf) pf.style.width = pct;
   if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
   setTimeout(waFloatUpdate, 50);
 }
@@ -6205,12 +6308,33 @@ function validate() {
   }
   // Validate each item: if qty > 0, must have color (kecuali warnaTetap)
   for (var i = 0; i < ITEMS.length; i++) {
-    if (ITEMS[i].qty > 0 && !ITEMS[i].warnaTetap && !ITEMS[i].color) {
+    var item = ITEMS[i];
+    if (item.qty <= 0) continue;
+    // Cek produk dengan designs (NPD Series) — wajib punya designId
+    var katItem = KATALOG.find(function(k){ return k.id === item.produkId; });
+    if (katItem && katItem.designs) {
+      if (!item.designId) {
+        var msgD = currentLang === 'en'
+          ? 'Please select a design for "' + item.produkNama + '"!'
+          : 'Pilih design untuk "' + item.produkNama + '" dulu!';
+        toast(msgD);
+        var rowD = $('item-row-' + item.id);
+        if (rowD) rowD.scrollIntoView({ behavior:'smooth', block:'center' });
+        return false;
+      }
+      if (!item.color) {
+        var msgC2 = currentLang === 'en'
+          ? 'Item "' + item.produkNama + '" has incomplete color info. Please re-add it.'
+          : 'Item "' + item.produkNama + '" belum lengkap. Hapus & tambah ulang dari katalog.';
+        toast(msgC2);
+        return false;
+      }
+    } else if (!item.warnaTetap && !item.color) {
       var msg = currentLang === 'en'
         ? 'Please choose a color for Item ' + (i+1) + '!'
         : 'Pilih warna untuk Item ' + (i+1) + '!';
       toast(msg);
-      var row = $('item-row-' + ITEMS[i].id);
+      var row = $('item-row-' + item.id);
       if (row) row.scrollIntoView({ behavior:'smooth', block:'center' });
       return false;
     }
