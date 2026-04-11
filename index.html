@@ -718,6 +718,20 @@ header{
 }
 .cart-checkout-btn:hover{background:#f0b030;}
 .cart-checkout-btn:active{transform:scale(.98);}
+.cart-tambah-lagi-btn{
+  display:block;width:100%;
+  background:transparent;
+  border:1.5px solid var(--amber);
+  color:var(--amber);
+  font-family:'Rubik Dirt',sans-serif;
+  font-size:13px;letter-spacing:1px;
+  padding:13px;min-height:44px;border-radius:8px;
+  cursor:pointer;margin-top:10px;
+  transition:background .2s,color .2s;
+}
+.cart-tambah-lagi-btn:hover,.cart-tambah-lagi-btn:active{
+  background:var(--amber);color:#0a0705;
+}
 .cart-checkout-btn:disabled{
   background:rgba(200,134,10,.2);
   color:rgba(200,134,10,.35);
@@ -994,8 +1008,9 @@ textarea.finp{resize:vertical;min-height:80px;}
 }
 .sticky-cta-inner{
   max-width:520px;margin:0 auto;
-  display:flex;align-items:center;gap:12px;
+  display:flex;align-items:center;gap:10px;
 }
+
 .sticky-cta-total{
   flex:1;min-width:0;
 }
@@ -2679,27 +2694,30 @@ footer{padding:28px 14px calc(28px + env(safe-area-inset-bottom,0px));text-align
 
 /* ─── CATALOG CARD — equal size, portrait ─── */
 .kat-card{
-  background:rgba(20,12,5,.8);
-  border:1.5px solid rgba(200,134,10,.18);
+  background:linear-gradient(160deg,#3d1f0a 0%,#251208 100%);
+  border:1.5px solid rgba(200,134,10,.35);
+  box-shadow:0 4px 20px rgba(0,0,0,.6);
   border-radius:12px;
   overflow:hidden;
   cursor:pointer;
   display:flex; flex-direction:column;
-  transition:border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  transition:background .25s, border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
   -webkit-user-select:none; user-select:none;
   touch-action:manipulation;
 }
 @media(hover:hover){
   .kat-card:hover{
-    border-color:rgba(200,134,10,.55);
+    background:linear-gradient(160deg,#4a2610 0%,#2e1609 100%);
+    border-color:rgba(200,134,10,.65);
     transform:translateY(-4px);
-    box-shadow:0 8px 28px rgba(200,134,10,.13);
+    box-shadow:0 8px 28px rgba(200,134,10,.2);
   }
 }
 .kat-card:active{ transform:scale(.97); }
 .kat-card.kat-active{
+  background:linear-gradient(160deg,#5a300f 0%,#3a1e09 100%);
   border-color:var(--amber);
-  box-shadow:0 0 0 2px rgba(200,134,10,.25), 0 8px 28px rgba(200,134,10,.18);
+  box-shadow:0 0 0 2px rgba(232,160,32,.35), 0 8px 32px rgba(200,134,10,.25);
 }
 
 /* Card image — 3:4 portrait lebih tinggi */
@@ -5178,10 +5196,12 @@ function katAddToOrder() {
   updateCartBubble();
   // Toast feedback singkat
   toast(t('itemAdded'));
-  // Buka mini cart kalau user idle 10 detik setelah tambah item
+  // Scroll ke cart summary section langsung
+  var cartSec = document.getElementById('cart-summary-section');
+  if (cartSec) setTimeout(function(){ cartSec.scrollIntoView({ behavior:'smooth', block:'start' }); }, 150);
+  // Idle timer: buka mini cart kalau user diam 10 detik (misal tidak scroll ke mana-mana)
   clearTimeout(window._cartIdleTimer);
   window._cartIdleTimer = setTimeout(function(){
-    // Hanya buka kalau user tidak sedang di halaman lain (step 2/3)
     var s2 = $('step2'), s3 = $('step3');
     var onStep = (s2 && s2.style.display !== 'none') || (s3 && s3.style.display !== 'none');
     if (!onStep) miniCartOpen();
@@ -5275,6 +5295,9 @@ function renderCartSummary() {
     +'<button class="cart-checkout-btn" onclick="cartGoCheckout()" id="cart-checkout-btn">'
     +'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
     +(currentLang==='en'?' CHECKOUT':' LANJUT CHECKOUT')
+    +'</button>'
+    +'<button class="cart-tambah-lagi-btn" onclick="var k=document.getElementById(\'katalog-section\');if(k)k.scrollIntoView({behavior:\'smooth\',block:\'start\'});">'
+    +'+ '+(currentLang==='en'?'ADD MORE PRODUCTS':'TAMBAH PRODUK LAGI')
     +'</button>'
     +'<div class="cart-checkout-hint">'+(currentLang==='en'?'Fill in your details &amp; upload payment proof in the next step':'Isi data &amp; upload bukti bayar di langkah berikutnya')+'</div>'
     +'</div>';
