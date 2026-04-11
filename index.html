@@ -1800,11 +1800,6 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   z-index:9999;
 }
 .lb-spinner.hidden{ display:none; }
-  display:inline-block;color:var(--amber);
-  animation:twBlink .7s step-end infinite;
-  font-style:normal;margin-left:2px;
-}
-@keyframes twBlink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ─── GLITCH TEXT ─── */
 .glitch{position:relative;display:inline-block;}
@@ -5928,24 +5923,32 @@ function buildMarquee(lang) {
 
 // ─── TYPEWRITER ─────────────────────────────────────────
 var TW_TEXT = {
-  id: { L1:'Orang tidak akan sadar dirinya <strong>NPD</strong>', L2:'kadang kita perlu merefleksikan diri kita sendiri.' },
-  en: { L1:'People rarely realize they have <strong>NPD</strong>', L2:'sometimes we need to reflect on ourselves.' }
+  id: { L1p:'Orang tidak akan sadar dirinya ', L1b:'NPD', L2:'kadang kita perlu merefleksikan diri kita sendiri.' },
+  en: { L1p:'People rarely realize they have ', L1b:'NPD', L2:'sometimes we need to reflect on ourselves.' }
 };
 var _twTimer;
 function startTypewriter(lang) {
   clearTimeout(_twTimer);
   var el = $('tw-text'); if (!el) return;
   var data = TW_TEXT[lang] || TW_TEXT.id;
+  var L1full = data.L1p + data.L1b;
   el.innerHTML = '';
   var ci = 0, phase = 1;
   function tick() {
     if (phase === 1) {
-      ci++; el.innerHTML = data.L1.slice(0, ci);
-      if (ci < data.L1.length) { _twTimer = setTimeout(tick, 38); }
+      ci++;
+      var plain = L1full.slice(0, ci);
+      if (ci <= data.L1p.length) {
+        el.innerHTML = plain;
+      } else {
+        el.innerHTML = data.L1p + '<strong>' + plain.slice(data.L1p.length) + '</strong>';
+      }
+      if (ci < L1full.length) { _twTimer = setTimeout(tick, 38); }
       else { phase = 2; ci = 0; _twTimer = setTimeout(tick, 320); }
     } else {
-      ci++; el.innerHTML = data.L1 + '<br><strong style="color:var(--amber)">' + data.L2.slice(0, ci) + '</strong>';
-      if (ci < data.L2.length) _twTimer = setTimeout(tick, 38);    }
+      ci++; el.innerHTML = data.L1p + '<strong>' + data.L1b + '</strong><br><strong style="color:var(--amber)">' + data.L2.slice(0, ci) + '</strong>';
+      if (ci < data.L2.length) _twTimer = setTimeout(tick, 38);
+    }
   }
   _twTimer = setTimeout(tick, 700);
 }
