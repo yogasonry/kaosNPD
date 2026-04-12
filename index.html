@@ -191,6 +191,9 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   overflow:hidden;border-bottom:3px solid var(--gold);background:var(--black);
   aspect-ratio:16/10;
 }
+@media(min-width:860px){
+  .hero-slide-wrap{ aspect-ratio:16/10; width:min(1000px,100%); margin:0 auto; }
+}
 .hero-track{
   display:flex;
   width:1000%;
@@ -638,18 +641,18 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   transition:all .3s;flex-shrink:0;
 }
 .sdot.active .sdot-c{border-color:rgba(0,0,0,.35);color:var(--black);}
-.sdot.done   .sdot-c{border-color:#3a9a3a;color:#3a9a3a;}
+.sdot.done   .sdot-c{border-color:#8aab52;color:#8aab52;}
 .sdot-l{
   font-family:'Rubik Dirt',sans-serif;font-size:9px;
   color:rgba(200,134,10,.75);letter-spacing:1.5px;white-space:nowrap;
   transition:color .3s;
 }
 .sdot.active .sdot-l{color:var(--black);}
-.sdot.done   .sdot-l{color:rgba(58,154,58,.9);}
+.sdot.done   .sdot-l{color:rgba(138,171,82,.9);}
 @media(max-width:440px){.sdot-l{display:none;}.sdot{padding:5px 6px;}}
 @media(max-width:360px){.sdot{padding:4px 5px;}.sdot-c{width:18px;height:18px;font-size:9px;}}
 .sline{flex:1;height:1.5px;background:rgba(200,134,10,.15);min-width:4px;max-width:20px;transition:background .4s;}
-.sline.done{background:rgba(58,154,58,.5);}
+.sline.done{background:rgba(138,171,82,.5);}
 
 /* ─── CART SUMMARY SECTION ─────────────────────────────── */
 .cart-summary-section{
@@ -706,29 +709,29 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 .cart-item-row:last-child{border-bottom:none;}
 .cart-item-row:hover{background:rgba(200,134,10,.04);}
 .cart-item-num{
-  width:22px;height:22px;border-radius:50%;
+  width:26px;height:26px;border-radius:50%;
   background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.25);
-  font-family:'Anton SC',sans-serif;font-size:10px;
+  font-family:'Anton SC',sans-serif;font-size:12px;
   color:var(--amber);display:flex;align-items:center;justify-content:center;
   flex-shrink:0;margin-top:2px;
 }
 .cart-item-body{flex:1;min-width:0;}
 .cart-item-name{
-  font-family:'Roboto',sans-serif;font-size:12px;font-weight:500;
-  color:var(--cream);margin-bottom:4px;letter-spacing:.5px;
+  font-family:'Rubik Dirt',sans-serif;font-size:16px;font-weight:700;
+  color:var(--white);margin-bottom:6px;letter-spacing:.5px;
 }
 .cart-item-details{
   display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;
 }
 .cart-item-tag{
-  font-size:9px;letter-spacing:1.5px;
+  font-size:12px;letter-spacing:1.5px;
   background:rgba(61,26,8,.5);border:1px solid rgba(200,134,10,.2);
-  color:rgba(200,134,10,.88);padding:2px 7px;border-radius:2px;
-  text-transform:uppercase;
+  color:rgba(200,134,10,.88);padding:4px 10px;border-radius:3px;
+  text-transform:uppercase;font-family:'Roboto',sans-serif;font-weight:700;
 }
 .cart-item-subtotal{
-  font-family:'Rubik Dirt',sans-serif;font-size:13px;
-  color:var(--amber);
+  font-family:'Rubik Dirt',sans-serif;font-size:15px;font-weight:700;
+  color:var(--amber);white-space:nowrap;
 }
 .cart-item-remove{
   background:none;border:none;cursor:pointer;
@@ -758,12 +761,12 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   background:rgba(200,134,10,.2);border-color:var(--amber);color:var(--amber);
 }
 .cart-qty-ctrl{
-  display:flex;align-items:center;gap:6px;margin-top:6px;
+  display:flex;align-items:center;gap:5px;margin-top:5px;
 }
 .cart-qty-btn{
-  width:36px;height:36px;border-radius:50%;
+  width:24px;height:24px;border-radius:50%;
   background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.25);
-  color:var(--amber);font-size:16px;cursor:pointer;
+  color:var(--amber);font-size:13px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .2s;flex-shrink:0;
   -webkit-tap-highlight-color:transparent;
@@ -772,8 +775,8 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 .cart-qty-btn:hover{background:rgba(200,134,10,.2);}
 .cart-qty-btn:active{background:rgba(200,134,10,.35);}
 .cart-qty-num{
-  font-family:'Anton SC',sans-serif;font-size:14px;
-  color:var(--cream);min-width:28px;text-align:center;
+  font-family:'Anton SC',sans-serif;font-size:13px;
+  color:var(--cream);min-width:22px;text-align:center;
 }
 .cart-total-row{
   padding:14px 16px;
@@ -1127,7 +1130,7 @@ textarea.finp{resize:vertical;min-height:80px;}
   letter-spacing:3px;cursor:pointer;
   box-shadow:0 4px 20px rgba(232,160,32,.3);
   display:flex;align-items:center;justify-content:center;gap:8px;
-  -webkit-appearance:none;border-radius:4px;
+  -webkit-appearance:none;border-radius:10px;
   transition:background .25s, transform .2s, box-shadow .3s;
   white-space:nowrap;
 }
@@ -1140,7 +1143,15 @@ textarea.finp{resize:vertical;min-height:80px;}
 @media(hover:hover){.btn-main:hover{background:#f0b030;box-shadow:0 6px 24px rgba(232,160,32,.4);}}
 .btn-main:disabled{background:rgba(200,134,10,.28);color:rgba(0,0,0,.45);cursor:not-allowed;box-shadow:none;}
 /* Full-width btn-main when NOT inside sticky (step2 submit, etc) */
-.btn-main.full-width{width:100%;border-radius:0;font-size:20px;padding:17px;}
+.btn-main.full-width{width:100%;border-radius:10px;font-size:20px;padding:17px;}
+/* Tombol BAYAR & KONFIRMASI — warna hijau */
+#btn-next, #btn-next-2, #btn-submit{
+  background:var(--total-green);
+  box-shadow:0 4px 20px rgba(138,171,82,.35);
+  color:#fff;
+}
+#btn-next:hover, #btn-next-2:hover, #btn-submit:hover{ background:#9dc060; box-shadow:0 6px 24px rgba(138,171,82,.5); }
+#btn-next:active, #btn-next-2:active, #btn-submit:active{ background:#7a9a48; }
 .spinner{display:none;width:20px;height:20px;border:3px solid rgba(0,0,0,.2);border-top-color:var(--black);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .stock-warn{
@@ -1239,11 +1250,11 @@ textarea.finp{resize:vertical;min-height:80px;}
 @keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
 .success-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:36px;color:var(--amber);letter-spacing:4px;margin-bottom:10px;}
 .success-msg{font-family:'Roboto',sans-serif;font-size:14px;color:var(--cream);opacity:.85;line-height:1.8;max-width:380px;margin:0 auto 20px;}
-.success-box{border-radius:8px;background:rgba(45,106,45,.13);border:2px solid #3a9a3a;padding:16px;margin-bottom:18px;text-align:left;}
-.success-box-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:2px;color:#80d080;margin-bottom:8px;}
+.success-box{border-radius:8px;background:rgba(138,171,82,.1);border:2px solid #8aab52;padding:16px;margin-bottom:18px;text-align:left;}
+.success-box-title{font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:14px;letter-spacing:2px;color:#8aab52;margin-bottom:8px;}
 .success-box ul{list-style:none;}
 .success-box li{font-family:'Roboto',sans-serif;font-size:13px;color:var(--cream);opacity:.90;padding:3px 0;display:flex;gap:8px;}
-.success-box li::before{content:'✓';color:#80d080;flex-shrink:0;}
+.success-box li::before{content:'✓';color:#8aab52;flex-shrink:0;}
 /* Tap to copy order number */
 .copy-ordernum{
   display:inline-flex;align-items:center;gap:8px;
@@ -1674,6 +1685,12 @@ textarea.finp{resize:vertical;min-height:80px;}
   100%{background-position:100% 100%;opacity:1;}
 }
 @media(max-width:400px){.step-card{padding:12px 8px;}}
+@media(min-width:860px){
+  .step-card{ padding:32px 28px 28px; }
+  .stitle{ font-size:20px; }
+  .sdesc{ font-size:14px; }
+  .step-num{ font-size:13px; margin-bottom:18px; }
+}
 .step-num{
   font-family:'Roboto',sans-serif;font-weight:300;
   font-size:11px;letter-spacing:4px;
@@ -2558,6 +2575,10 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 /* ─── MOBILE ANIMATION PERFORMANCE ─── */
 /* Low-end Android & semua mobile: matikan animasi yang paint-expensive */
 @media(max-width:600px){
+  /* Rubik Dirt bold di mobile */
+  .hero-hl, .top-tag, .kat-name, .kat-detail-name, .kat-detail-price,
+  .kat-order-btn, .btn-main, .sticky-cta-amount, .mc-title,
+  .sec-title, .step-num, .care-guide-title { font-weight:700 !important; }
   /* Matikan divider pulse — tidak perlu di mobile */
   .divider{ animation:none; opacity:.6; }
   /* Skeleton shimmer tetap jalan — penting untuk UX loading */
@@ -2658,14 +2679,14 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   position:fixed; bottom:0; left:0; right:0; margin:0 auto; z-index:8500;
   -webkit-transform:translateY(110%);
   transform:translateY(110%);
-  width:100%; max-width:560px;
+  width:100%; max-width:680px;
   background:linear-gradient(0deg,#0d0804 0%,rgba(20,12,5,.98) 100%);
   border-top:2px solid var(--amber);
   border-radius:18px 18px 0 0;
   padding:0 0 calc(env(safe-area-inset-bottom,0px) + 8px);
   -webkit-transition:-webkit-transform .4s cubic-bezier(.34,1.1,.64,1);
   transition:transform .4s cubic-bezier(.34,1.1,.64,1);
-  max-height:75vh; overflow-y:auto;
+  max-height:82vh; overflow-y:auto;
   box-shadow:0 -8px 40px rgba(0,0,0,.5);
 }
 #mini-cart.open{ -webkit-transform:translateY(0); transform:translateY(0); }
@@ -2877,9 +2898,9 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   padding:3px 8px; border-radius:2px;
 }
 .kat-status-tersedia{
-  background:rgba(37,150,60,.2);
-  border:1px solid rgba(37,150,60,.5);
-  color:#5dce7a;
+  background:rgba(138,171,82,.15);
+  border:1px solid rgba(138,171,82,.5);
+  color:#8aab52;
 }
 .kat-status-segera{
   background:rgba(200,134,10,.15);
@@ -2904,16 +2925,19 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   flex:1; display:flex; flex-direction:column; justify-content:space-between;
   min-height:72px;
 }
+@media(min-width:860px){
+  .kat-info{ padding:14px 16px 18px; min-height:80px; }
+}
 .kat-name{
   font-family:'Rubik Dirt',sans-serif; font-weight:400;
-  font-size:clamp(13px,3.5vw,20px);
+  font-size:clamp(15px,4vw,22px);
   color:var(--white); letter-spacing:1px;
   line-height:1.2; margin-bottom:5px;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .kat-price{
   font-family:'Roboto',sans-serif;
-  font-size:clamp(11px,2vw,13px);
+  font-size:clamp(12px,2.5vw,15px);
   font-weight:600; color:var(--amber); letter-spacing:.3px;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
@@ -3260,7 +3284,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   .kat-detail-panel{
     top:50%; left:50%;
     right:auto;
-    width:min(640px,90vw);
+    width:min(780px,92vw);
     height:auto;
     max-height:90dvh;
     overflow-y:auto;
@@ -3534,7 +3558,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   margin:10px auto 16px;
   padding:13px;
   background:var(--amber);
-  border:none; border-radius:6px;
+  border:none; border-radius:10px;
   color:var(--black);
   font-family:'Rubik Dirt',sans-serif; font-weight:400;
   font-size:15px; letter-spacing:3px;
@@ -3602,8 +3626,8 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   background:rgba(61,26,8,.12);
 }
 .care-item.care-do{
-  border-color:rgba(58,154,58,.25);
-  background:rgba(45,106,45,.1);
+  border-color:rgba(138,171,82,.3);
+  background:rgba(138,171,82,.07);
 }
 .care-item.care-dont{
   border-color:rgba(139,26,10,.3);
@@ -3612,10 +3636,10 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 .care-icon{
   flex-shrink:0; width:40px; height:40px;
   border-radius:50%;
-  background:rgba(45,106,45,.2);
-  border:1px solid rgba(58,154,58,.35);
+  background:rgba(138,171,82,.15);
+  border:1px solid rgba(138,171,82,.4);
   display:flex; align-items:center; justify-content:center;
-  color:#5dce7a;
+  color:#8aab52;
 }
 .care-icon svg{ width:22px; height:22px; }
 .care-icon-dont{
@@ -3627,7 +3651,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 .care-label{
   font-family:'Rubik Dirt',sans-serif; font-weight:400;
   font-size:11px; letter-spacing:1.5px;
-  color:#5dce7a; margin-bottom:4px;
+  color:#8aab52; margin-bottom:4px;
 }
 .care-label-dont{ color:#e06060; }
 .care-desc{
@@ -3988,7 +4012,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 <!-- ═══ KATALOG PRODUK ═══ -->
 <div class="katalog-section sr sr-up" id="katalog-section" style="max-width:1000px;margin:0 auto;padding:36px 20px 32px;border-bottom:2px solid rgba(200,134,10,.15);">
   <style>@media(max-width:699px){#katalog-section{padding:24px 12px 24px!important;}}</style>
-  <p style="font-family:'Rubik Dirt',sans-serif;font-size:13px;letter-spacing:3px;color:var(--amber);opacity:.92;text-transform:uppercase;text-align:center;margin-bottom:20px;"id="katalog-eyebrow">⚡ Koleksi Bhuta Kala Modern ⚡</p>
+  <p style="font-family:'Rubik Dirt',sans-serif;font-size:clamp(13px,1.8vw,22px);letter-spacing:clamp(3px,.4vw,6px);color:var(--amber);opacity:.92;text-transform:uppercase;text-align:center;margin-bottom:20px;"id="katalog-eyebrow">⚡ Koleksi Bhuta Kala Modern ⚡</p>
   <div id="katalog-grid" class="katalog-grid"></div>
 </div>
 
@@ -4312,15 +4336,15 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
         <div class="fg">
           <label class="flbl" for="f-phone" data-i18n="lblPhone">Nomor WhatsApp *</label>
           <div style="display:flex;">
-            <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 8px;background:#1a0f06;border-right:none;min-width:90px;cursor:pointer;font-size:16px;">
-              <option value="62">ID +62</option>
-              <option value="1">US +1</option>
-              <option value="44">UK +44</option>
-              <option value="61">AU +61</option>
-              <option value="65">SG +65</option>
-              <option value="60">MY +60</option>
+            <select id="f-cc" class="finp" style="width:auto;flex-shrink:0;padding:0 10px;background:#1a0f06;border-right:none;min-width:110px;cursor:pointer;font-size:15px;border-radius:8px 0 0 8px;">
+              <option value="62">🇮🇩 +62</option>
+              <option value="1">🇺🇸 +1</option>
+              <option value="44">🇬🇧 +44</option>
+              <option value="61">🇦🇺 +61</option>
+              <option value="65">🇸🇬 +65</option>
+              <option value="60">🇲🇾 +60</option>
             </select>
-            <input class="finp" type="tel" id="f-phone" placeholder="81xxxxxxxx" inputmode="numeric" style="flex:1;border-left:none;" autocomplete="tel">
+            <input class="finp" type="tel" id="f-phone" placeholder="81xxxxxxxx" inputmode="numeric" style="flex:1;border-left:1px solid rgba(200,134,10,.2);padding-left:12px;border-radius:0 8px 8px 0;" autocomplete="tel">
           </div>
         </div>
         <div class="fg">
@@ -4472,7 +4496,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
       <p class="success-msg" data-i18n="successMsg">Detail pesanan dan bukti transfer kamu<br>sudah diterima oleh sistem.</p>
 
       <div style="margin-bottom:20px;">
-        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(45,106,45,.15);border:1px solid #3a9a3a;margin-bottom:8px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(138,171,82,.1);border:1px solid #8aab52;margin-bottom:8px;">
           <span style="flex-shrink:0;display:flex;align-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#80d080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
           <div style="text-align:left;">
             <div style="font-family:'Rubik Dirt',sans-serif;font-size:14px;letter-spacing:1px;color:#80d080;" data-i18n="s3t1">BUKTI TRANSFER DITERIMA</div>
