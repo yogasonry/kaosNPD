@@ -193,8 +193,8 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 }
 .hero-track{
   display:flex;
-  /* Track lebar = HS_TOTAL slides, tiap slide 100% wrap = track 1000% */
-  width:1000%; /* 10 slides * 100% */
+  width:1000%;
+  -webkit-transition:-webkit-transform .75s cubic-bezier(.25,.46,.45,.94);
   transition:transform .75s cubic-bezier(.25,.46,.45,.94);
   will-change:transform;
   backface-visibility:hidden;
@@ -457,19 +457,8 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   gap:8px;
   padding:4px 0 12px;
   width:max-content;
-  animation:galleryScroll 55s linear infinite;
   will-change:transform;
   contain:layout style;
-}
-.gallery-strip:hover,.gallery-strip:active{
-  animation-play-state:paused;
-}
-@media(max-width:600px){
-  .gallery-strip:active{ animation-play-state:running; }
-}
-@keyframes galleryScroll{
-  0%  { transform:translateX(0); }
-  100%{ transform:translateX(-50%); }
 }
 
 .gal-item{
@@ -1695,8 +1684,9 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 .toast{
   position:fixed;
   bottom:calc(100px + env(safe-area-inset-bottom, 0px));
-  left:50%;
-  transform:translateX(-50%) translateY(120px);
+  left:0; right:0; margin:0 auto;
+  -webkit-transform:translateY(120px);
+  transform:translateY(120px);
   opacity:0;
   background:var(--amber);color:var(--black);
   font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:13px;letter-spacing:2px;
@@ -1706,7 +1696,7 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   max-width:calc(100vw - 32px);text-align:center;
   white-space:normal;word-break:break-word;
 }
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.show{-webkit-transform:translateY(0);transform:translateY(0);opacity:1;}
 
 /* ─── SHIPPING BADGE ─── */
 .shipping-badge{
@@ -2643,18 +2633,20 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
    MINI CART DRAWER — slides up from bottom
    ══════════════════════════════════════════ */
 #mini-cart{
-  position:fixed; bottom:0; left:50%; z-index:8500;
-  transform:translateX(-50%) translateY(110%);
+  position:fixed; bottom:0; left:0; right:0; margin:0 auto; z-index:8500;
+  -webkit-transform:translateY(110%);
+  transform:translateY(110%);
   width:100%; max-width:560px;
   background:linear-gradient(0deg,#0d0804 0%,rgba(20,12,5,.98) 100%);
   border-top:2px solid var(--amber);
   border-radius:18px 18px 0 0;
   padding:0 0 calc(env(safe-area-inset-bottom,0px) + 8px);
+  -webkit-transition:-webkit-transform .4s cubic-bezier(.34,1.1,.64,1);
   transition:transform .4s cubic-bezier(.34,1.1,.64,1);
   max-height:75vh; overflow-y:auto;
   box-shadow:0 -8px 40px rgba(0,0,0,.5);
 }
-#mini-cart.open{ transform:translateX(-50%) translateY(0); }
+#mini-cart.open{ -webkit-transform:translateY(0); transform:translateY(0); }
 .mc-handle{
   width:36px; height:4px; border-radius:2px;
   background:rgba(200,134,10,.3); margin:10px auto 0;
@@ -4640,6 +4632,25 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 // MAIN SCRIPT — AWAS BAHAYA NPD
 // ═══════════════════════════════════════════════════════
 
+// ─── DEBUG ERROR OVERLAY (hapus setelah selesai debug) ───
+(function(){
+  var errs=[];
+  window.onerror=function(msg,src,line){
+    errs.push((src||'').split('/').pop()+':'+line+' — '+msg);
+    showDbg();return false;
+  };
+  window.addEventListener('unhandledrejection',function(e){
+    errs.push('Promise: '+(e.reason&&e.reason.message||e.reason));showDbg();
+  });
+  function showDbg(){
+    var d=document.getElementById('_dbg');
+    if(!d){d=document.createElement('div');d.id='_dbg';
+      d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(180,0,0,.95);color:#fff;font:12px/1.5 monospace;padding:8px 10px;max-height:40vh;overflow-y:auto;';
+      document.body.appendChild(d);}
+    d.innerHTML='<strong>JS ERROR:</strong><br>'+errs.join('<br>');
+  }
+})();
+
 // ═══════════════════════════════════════════════════════
 // PROGRESSIVE IMAGE HELPERS — Cloudinary URL transform
 // ═══════════════════════════════════════════════════════
@@ -5898,7 +5909,10 @@ var MARQUEE_PILLS = {
     { icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--cream)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>', text:'Full payment upfront · <strong>Shipping follows</strong>' },
   ]
 };
-var _marqueeStyle = null;
+var _marqueeRAF = null;
+var _marqueeX = 0;
+var _marqueeW = 0;
+var _marqueeSpeed = 0.6;
 function buildMarquee(lang) {
   var track = $('marquee-track');
   if (!track) return;
@@ -5908,15 +5922,20 @@ function buildMarquee(lang) {
   }).join('');
   track.innerHTML = html + html + html;
   track.style.animation = 'none';
-  if (_marqueeStyle && _marqueeStyle.parentNode) _marqueeStyle.parentNode.removeChild(_marqueeStyle);
+  track.style.willChange = 'transform';
+  if (_marqueeRAF) { cancelAnimationFrame(_marqueeRAF); _marqueeRAF = null; }
+  _marqueeX = 0;
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
-      var w = Math.round(track.scrollWidth / 3);
-      if (!w) return;
-      _marqueeStyle = document.createElement('style');
-      _marqueeStyle.textContent = '@keyframes mqx{0%{transform:translateX(0)}100%{transform:translateX(-' + w + 'px)}}';
-      document.head.appendChild(_marqueeStyle);
-      track.style.animation = 'mqx ' + (w / 55) + 's linear infinite';
+      _marqueeW = Math.round(track.scrollWidth / 3);
+      if (!_marqueeW) return;
+      function step() {
+        _marqueeX += _marqueeSpeed;
+        if (_marqueeX >= _marqueeW) _marqueeX -= _marqueeW;
+        track.style.transform = 'translateX(-' + _marqueeX + 'px)';
+        _marqueeRAF = requestAnimationFrame(step);
+      }
+      _marqueeRAF = requestAnimationFrame(step);
     });
   });
 }
@@ -6782,7 +6801,7 @@ function hsGo(n){
   var track=$('hs-track');
   // Pakai % bukan px — tidak bergantung offsetWidth/getBoundingClientRect
   // Setiap slide = 100% dari wrap, jadi slide ke-n = n * (100/HS_TOTAL)% dari track
-  if(track) track.style.transform='translateX(-'+(hsCur*(100/HS_TOTAL))+'%)';
+  if(track){ track.style.webkitTransform='translateX(-'+(hsCur*(100/HS_TOTAL))+'%)'; track.style.transform='translateX(-'+(hsCur*(100/HS_TOTAL))+'%)'; }
   document.querySelectorAll('.hs-dot').forEach(function(d,i){d.classList.toggle('active',i%HS_TOTAL===hsCur);});
   var ctr=$('hs-counter'); if(ctr) ctr.textContent=(hsCur+1)+' / '+HS_TOTAL;
   _hsLoadSlide(hsCur);
@@ -7786,7 +7805,7 @@ window.miniCartClose   = miniCartClose;
 
 })();
 
-  // ─── GALLERY MARQUEE — clone items for infinite scroll ───
+  // ─── GALLERY MARQUEE — rAF loop (Android 10 compatible) ───
   (function(){
     var strip = document.getElementById('gallery-strip');
     if (!strip) return;
@@ -7794,18 +7813,24 @@ window.miniCartClose   = miniCartClose;
     items.forEach(function(item){
       strip.appendChild(item.cloneNode(true));
     });
-    // Android Chrome fix: restart animation setelah semua image loaded
-    // agar width:max-content sudah terhitung dengan benar
-    function restartGalleryAnim(){
-      strip.style.animation = 'none';
-      // Force reflow
-      void strip.offsetWidth;
-      strip.style.animation = 'galleryScroll 55s linear infinite';
+    strip.style.animation = 'none';
+    strip.style.willChange = 'transform';
+    var gx = 0, gw = 0, gSpeed = 0.35;
+    function startGalleryRAF(){
+      gw = Math.round(strip.scrollWidth / 2);
+      if (!gw) return;
+      function step(){
+        gx += gSpeed;
+        if (gx >= gw) gx -= gw;
+        strip.style.transform = 'translateX(-' + gx + 'px)';
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     }
     if(document.readyState === 'complete'){
-      restartGalleryAnim();
+      startGalleryRAF();
     } else {
-      window.addEventListener('load', restartGalleryAnim);
+      window.addEventListener('load', startGalleryRAF);
     }
   })();
 
