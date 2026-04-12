@@ -2575,10 +2575,17 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 /* ─── MOBILE ANIMATION PERFORMANCE ─── */
 /* Low-end Android & semua mobile: matikan animasi yang paint-expensive */
 @media(max-width:600px){
-  /* Rubik Dirt bold di mobile */
+  /* Rubik Dirt bold di mobile — semua elemen */
+  *[style*="Rubik Dirt"],
   .hero-hl, .top-tag, .kat-name, .kat-detail-name, .kat-detail-price,
-  .kat-order-btn, .btn-main, .sticky-cta-amount, .mc-title,
-  .sec-title, .step-num, .care-guide-title { font-weight:700 !important; }
+  .kat-order-btn, .btn-main, .sticky-cta-amount, .mc-title, .mc-title,
+  .sec-title, .step-num, .care-guide-title, .stitle, .cart-item-name,
+  .cart-item-subtotal, .cart-total-amount, .cart-bubble-btn,
+  .kat-panel-subtotal, .success-title, .pay-title, .order-num-big,
+  .warning-badge, .tbig, .tkey, .kat-tab, .kat-size-picker .kat-sopt,
+  .produk-banner-name, .produk-banner-cta, .kat-detail-name,
+  .cart-summary-title, .care-guide-title, .toast,
+  .kat-order-btn, .kat-coming-btn { font-weight:700 !important; }
   /* Matikan divider pulse — tidak perlu di mobile */
   .divider{ animation:none; opacity:.6; }
   /* Skeleton shimmer tetap jalan — penting untuk UX loading */
@@ -3596,6 +3603,85 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 }
 .kat-close-btn:hover{ background:var(--rust); color:var(--amber); border-color:var(--amber); transform:scale(1.1); }
 .kat-close-btn:active{ transform:scale(.93); }
+
+/* ─── MOBILE GLOBAL — semua Rubik Dirt bold ─── */
+@media(max-width:600px){
+  .ads-infeed-cta,
+  .ads-infeed-title,
+  .bank-name-lbl,
+  .bank-num,
+  .btn-add-item,
+  .btn-back-home,
+  .btn-edit-cart,
+  .btn-main,
+  .btn-order-again,
+  .care-guide-title,
+  .care-label,
+  .cart-bubble-btn,
+  .cart-checkout-btn,
+  .cart-item-edit-btn,
+  .cart-item-name,
+  .cart-item-subtotal,
+  .cart-summary-title,
+  .cart-tambah-lagi-btn,
+  .cart-total-amount,
+  .cep-btn-save,
+  .cep-design-name,
+  .cep-label,
+  .cep-sopt,
+  .cpop-label,
+  .ctrl-btn,
+  .flbl,
+  .form-card-title,
+  .hero-hl,
+  .item-qty-label,
+  .item-row-num,
+  .item-section-label,
+  .item-subtotal,
+  .kat-design-chip-name,
+  .kat-design-name,
+  .kat-detail-name,
+  .kat-detail-price,
+  .kat-name,
+  .kat-order-btn,
+  .kat-panel-subtotal,
+  .kat-picker-label,
+  .kat-qty-num,
+  .kat-sopt,
+  .kat-tab,
+  .mc-btn-checkout,
+  .mc-btn-continue,
+  .mc-item-price,
+  .mc-title,
+  .mc-total-amount,
+  .ongkir-result-city,
+  .ongkir-row-val,
+  .order-num-big,
+  .order-review-price,
+  .pay-title,
+  .pc,
+  .price-num,
+  .price-sep,
+  .product-title,
+  .produk-banner-cta,
+  .produk-banner-name,
+  .qty-num,
+  .remove-btn,
+  .sdot-l,
+  .sec-title,
+  .sh-brand,
+  .sopt,
+  .sticky-cta-amount,
+  .stitle,
+  .stock-warn,
+  .success-box-title,
+  .success-title,
+  .tbig,
+  .toast,
+  .upload-label,
+  .wa-summary-btn,
+  .warning-badge {font-weight:700!important;}
+}
 
 /* ─── TAB PERAWATAN — Care Guide ─── */
 .care-guide-title{
