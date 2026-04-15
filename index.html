@@ -3777,6 +3777,11 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
     l.classList.add('hiding');
     document.body.classList.remove('loader-active');
     setTimeout(function(){ l.style.display='none'; }, 850);
+    // Theme song popup — 1x per sesi
+    if(!sessionStorage.getItem('npd_themesong_shown')){
+      sessionStorage.setItem('npd_themesong_shown','1');
+      setTimeout(showThemeSongPopup, 1350);
+    }
   }
 
   function tryHide(){
@@ -8075,6 +8080,268 @@ setLang('id');
   v.addEventListener('pause', function(){ if (play) play.classList.remove('hidden'); });
 })();
 
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     THEME SONG POPUP
+════════════════════════════════════════════════════════ -->
+<style>
+/* Backdrop */
+#ts-backdrop{
+  display:none;
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(5,3,1,.82);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+  opacity:0;transition:opacity .4s ease;
+}
+#ts-backdrop.ts-visible{
+  display:flex;
+}
+#ts-backdrop.ts-in{
+  opacity:1;
+}
+
+/* Card — mobile default */
+#ts-card{
+  position:relative;
+  width:min(360px,90vw);
+  background:linear-gradient(160deg,#1c1205 0%,#0d0800 100%);
+  border:1px solid rgba(200,134,10,.45);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 0 40px rgba(200,134,10,.18), 0 8px 32px rgba(0,0,0,.7);
+  transform:translateY(28px) scale(.96);
+  transition:transform .45s cubic-bezier(.22,1,.36,1), opacity .4s ease;
+  opacity:0;
+}
+#ts-backdrop.ts-in #ts-card{
+  transform:translateY(0) scale(1);
+  opacity:1;
+}
+
+/* Desktop: card lebih lebar, thumbnail full 16/9 tanpa crop */
+@media(min-width:680px){
+  #ts-card{
+    width:min(640px,88vw);
+    display:block;
+    border-radius:14px;
+  }
+  #ts-card::before{width:42px;height:42px;top:10px;left:10px;}
+  #ts-card::after {width:42px;height:42px;bottom:10px;right:10px;}
+  .ts-thumb-wrap{
+    width:100%;
+    aspect-ratio:16/9 !important;
+    border-radius:0;
+  }
+  .ts-thumb-wrap img{
+    object-fit:cover;
+    object-position:center center;
+  }
+  .ts-body{
+    display:block;
+    padding:18px 24px 20px !important;
+  }
+  .ts-label{ font-size:11px; }
+  .ts-title{ font-size:20px !important; margin-bottom:14px !important; }
+  .ts-cta{ padding:12px 0 !important; font-size:14px !important; }
+  .ts-dismiss{ font-size:12px; margin-top:10px; }
+  .ts-play-btn svg{ width:68px; height:68px; }
+}
+
+/* Corner ornament lines */
+#ts-card::before,#ts-card::after{
+  content:'';position:absolute;
+  width:32px;height:32px;
+  border-color:rgba(200,134,10,.55);
+  border-style:solid;
+  pointer-events:none;
+  z-index:2;
+}
+#ts-card::before{top:8px;left:8px;border-width:1.5px 0 0 1.5px;border-radius:3px 0 0 0;}
+#ts-card::after {bottom:8px;right:8px;border-width:0 1.5px 1.5px 0;border-radius:0 0 3px 0;}
+
+/* Badge */
+.ts-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(200,134,10,.15);
+  border:1px solid rgba(200,134,10,.35);
+  border-radius:20px;
+  padding:3px 10px;
+  font-size:10px;font-weight:700;letter-spacing:.08em;
+  color:var(--amber);text-transform:uppercase;
+}
+.ts-badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--amber);
+  animation:ts-pulse 1.4s ease infinite;
+}
+@keyframes ts-pulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:.4;transform:scale(.7);}
+}
+
+/* Thumbnail */
+.ts-thumb-wrap{
+  position:relative;
+  width:100%;aspect-ratio:16/9;
+  background:#0a0601;
+  overflow:hidden;cursor:pointer;
+  display:block;
+}
+.ts-thumb-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease, filter .5s ease;
+  filter:brightness(.95) saturate(1.05) contrast(1.02);
+}
+.ts-thumb-wrap:hover img{
+  transform:scale(1.06);
+  filter:brightness(1.08) saturate(1.15) contrast(1.04);
+}
+/* Play button overlay */
+.ts-play-btn{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.ts-play-btn svg{
+  width:56px;height:56px;
+  filter:drop-shadow(0 2px 16px rgba(0,0,0,.9));
+  transition:transform .3s ease;
+}
+@media(min-width:680px){
+  .ts-play-btn svg{ width:72px;height:72px; }
+}
+.ts-thumb-wrap:hover .ts-play-btn svg{transform:scale(1.14);}
+
+/* Vignette overlay supaya play button lebih pop */
+.ts-thumb-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.45) 100%);
+  pointer-events:none;
+}
+
+/* Amber gradient bar bawah thumbnail */
+.ts-thumb-bar{
+  position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent);
+  opacity:.8;
+}
+
+/* Body content */
+.ts-body{padding:16px 20px 20px;}
+
+.ts-label{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(200,134,10,.6);margin-bottom:4px;
+}
+.ts-title{
+  font-family:'Rubik Dirt',cursive;
+  font-size:clamp(15px,4vw,19px);
+  color:#e8a830;
+  line-height:1.2;
+  margin:0 0 14px;
+  text-shadow:0 0 18px rgba(200,134,10,.3);
+}
+.ts-title span{color:rgba(240,180,60,.75);}
+
+/* CTA button */
+.ts-cta{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:11px 0;
+  background:linear-gradient(135deg,#c8860a 0%,#a06708 100%);
+  border:none;border-radius:7px;
+  font-size:13px;font-weight:700;letter-spacing:.06em;
+  color:#0d0800;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;
+  transition:filter .2s ease, transform .15s ease;
+  box-shadow:0 2px 14px rgba(200,134,10,.35);
+}
+.ts-cta:hover{filter:brightness(1.12);transform:translateY(-1px);}
+.ts-cta:active{transform:translateY(0);filter:brightness(.95);}
+
+/* Dismiss */
+.ts-dismiss{
+  display:block;text-align:center;margin-top:10px;
+  font-size:11px;color:rgba(200,134,10,.45);
+  cursor:pointer;background:none;border:none;padding:2px;
+  letter-spacing:.05em;transition:color .2s;
+}
+.ts-dismiss:hover{color:rgba(200,134,10,.75);}
+
+/* Close X */
+#ts-close{
+  position:absolute;top:10px;right:12px;
+  background:rgba(13,8,0,.7);border:1px solid rgba(200,134,10,.3);
+  border-radius:50%;width:26px;height:26px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:rgba(200,134,10,.7);font-size:13px;line-height:1;
+  transition:background .2s,color .2s;z-index:1;
+}
+#ts-close:hover{background:rgba(200,134,10,.2);color:var(--amber);}
+</style>
+
+<!-- Popup DOM -->
+<div id="ts-backdrop" role="dialog" aria-modal="true" aria-label="Theme Song AWAS NPD">
+  <div id="ts-card">
+    <button id="ts-close" aria-label="Tutup">✕</button>
+
+    <!-- Thumbnail clickable → YouTube -->
+    <a class="ts-thumb-wrap" href="https://youtu.be/q1YWllFcXuk?si=NrLr1mtgQIItcqF6" target="_blank" rel="noopener noreferrer" aria-label="Dengarkan di YouTube">
+      <img src="https://img.youtube.com/vi/q1YWllFcXuk/maxresdefault.jpg"
+           onerror="this.src='https://img.youtube.com/vi/q1YWllFcXuk/hqdefault.jpg'"
+           alt="AWAS NPD - Official Theme Song" loading="lazy" decoding="async">
+      <div class="ts-play-btn">
+        <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="34" cy="34" r="34" fill="rgba(0,0,0,.55)"/>
+          <polygon points="27,21 52,34 27,47" fill="#e8a830"/>
+        </svg>
+      </div>
+      <div class="ts-thumb-vignette"></div>
+      <div class="ts-thumb-bar"></div>
+    </a>
+
+    <div class="ts-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span class="ts-badge"><span class="ts-badge-dot"></span>New Release</span>
+      </div>
+      <p class="ts-label">Official Theme Song</p>
+      <h2 class="ts-title">AWAS NPD <span>— Bhuta Kala Modern</span></h2>
+      <a class="ts-cta" href="https://youtu.be/q1YWllFcXuk?si=NrLr1mtgQIItcqF6" target="_blank" rel="noopener noreferrer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Dengarkan Sekarang
+      </a>
+      <button class="ts-dismiss" id="ts-dismiss">Nanti saja</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showThemeSongPopup(){
+  var bd = document.getElementById('ts-backdrop');
+  if(!bd) return;
+  bd.style.display = 'flex';
+  // force reflow untuk trigger transition
+  bd.offsetHeight;
+  bd.classList.add('ts-in');
+
+  function closePopup(){
+    bd.classList.remove('ts-in');
+    setTimeout(function(){ bd.style.display='none'; }, 420);
+  }
+
+  document.getElementById('ts-close').addEventListener('click', closePopup);
+  document.getElementById('ts-dismiss').addEventListener('click', closePopup);
+  // Klik backdrop di luar card = tutup
+  bd.addEventListener('click', function(e){
+    if(e.target === bd) closePopup();
+  });
+  // ESC key
+  document.addEventListener('keydown', function escHandler(e){
+    if(e.key === 'Escape'){ closePopup(); document.removeEventListener('keydown', escHandler); }
+  });
+}
 </script>
 </body>
 </html>
