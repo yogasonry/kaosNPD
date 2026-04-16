@@ -3781,6 +3781,9 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
     if(!sessionStorage.getItem('npd_themesong_shown')){
       sessionStorage.setItem('npd_themesong_shown','1');
       setTimeout(showThemeSongPopup, 1350);
+    } else {
+      // Popup sudah pernah muncul → langsung tampilkan SC player
+      setTimeout(showScPlayer, 800);
     }
   }
 
@@ -8329,6 +8332,8 @@ function showThemeSongPopup(){
   function closePopup(){
     bd.classList.remove('ts-in');
     setTimeout(function(){ bd.style.display='none'; }, 420);
+    // Setelah popup YouTube ditutup → tampilkan SC player (desktop only)
+    setTimeout(showScPlayer, 500);
   }
 
   document.getElementById('ts-close').addEventListener('click', closePopup);
@@ -8342,6 +8347,439 @@ function showThemeSongPopup(){
     if(e.key === 'Escape'){ closePopup(); document.removeEventListener('keydown', escHandler); }
   });
 }
+</script>
+
+<!-- ═══ SOUNDCLOUD PLAYER — UX-friendly: tab + expand + minimize + stop ═══ -->
+<style>
+  /* ─── Tooltip ─── */
+  #sc-tooltip{
+    position:absolute;
+    bottom:calc(100% + 8px);
+    left:0;
+    background:#1e1008;
+    border:1px solid rgba(200,134,10,.5);
+    border-radius:6px;
+    padding:6px 10px;
+    font-family:'Roboto',sans-serif;font-size:9.5px;font-weight:500;
+    color:#f0d090;white-space:nowrap;
+    box-shadow:0 4px 16px rgba(0,0,0,.7);
+    pointer-events:none;
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  #sc-tooltip::after{
+    content:'';position:absolute;bottom:-5px;left:18px;
+    width:8px;height:8px;background:#1e1008;
+    border-right:1px solid rgba(200,134,10,.5);
+    border-bottom:1px solid rgba(200,134,10,.5);
+    transform:rotate(45deg);
+  }
+  #sc-tooltip.sc-tip-show{
+    opacity:1;transform:translateY(0);
+  }
+
+  /* ─── Container utama ─── */
+  #sc-wrap{
+    position:fixed;
+    bottom:0;left:20px;
+    z-index:9000;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(8px);
+    transition:opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  #sc-wrap.sc-visible{
+    opacity:1;pointer-events:all;transform:translateY(0);
+  }
+
+  /* ─── Player card ─── */
+  #sc-player{
+    width:320px;
+    background:linear-gradient(160deg,#1e1008 0%,#100800 100%);
+    border:1px solid rgba(200,134,10,.45);
+    border-bottom:none;
+    border-radius:10px 10px 0 0;
+    box-shadow:0 -4px 32px rgba(0,0,0,.75);
+    overflow:hidden;
+    max-height:0;opacity:0;
+    transition:max-height .45s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+  }
+  #sc-player.sc-open{ max-height:280px;opacity:1; }
+
+  /* ─── Header player ─── */
+  #sc-player-head{
+    display:flex;align-items:center;gap:7px;
+    padding:7px 8px 6px;
+    background:rgba(200,134,10,.07);
+    border-bottom:1px solid rgba(200,134,10,.15);
+  }
+  #sc-player-head svg.sc-icon{
+    flex-shrink:0;width:15px;height:15px;fill:#ff5500;
+    filter:drop-shadow(0 0 3px rgba(255,85,0,.5));
+  }
+  #sc-player-meta{ flex:1;min-width:0; }
+  #sc-player-title{
+    font-family:'Roboto',sans-serif;font-weight:700;font-size:10px;
+    letter-spacing:.04em;color:#f0d090;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;
+  }
+  #sc-player-artist{
+    font-family:'Roboto',sans-serif;font-weight:400;font-size:9px;
+    color:rgba(200,134,10,.6);margin-top:1px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  /* Tombol di header player */
+  .sc-head-btn{
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:none;border:none;cursor:pointer;
+    transition:color .2s,background .2s;border-radius:4px;
+    padding:3px 5px;
+  }
+  /* Link buka SC */
+  #sc-open-link{
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:50%;
+    background:rgba(255,85,0,.12);border:1px solid rgba(255,85,0,.25);
+    color:#ff6622;font-size:8px;text-decoration:none;
+    transition:background .2s,border-color .2s;
+  }
+  #sc-open-link:hover{background:rgba(255,85,0,.25);border-color:#ff5500;}
+  /* ▾ Minimize — audio TETAP jalan */
+  #sc-minimize{
+    color:rgba(200,134,10,.5);font-size:14px;line-height:1;
+  }
+  #sc-minimize:hover{ color:#e8a020;background:rgba(200,134,10,.08); }
+  /* ✕ Stop — audio MATI, iframe dihapus */
+  #sc-stop{
+    color:rgba(180,60,40,.6);font-size:12px;line-height:1;
+  }
+  #sc-stop:hover{ color:#e05030;background:rgba(180,60,40,.12); }
+  /* Divider tipis antara minimize & stop */
+  .sc-btn-divider{
+    width:1px;height:14px;background:rgba(200,134,10,.18);flex-shrink:0;
+  }
+
+  /* ─── Keterangan tombol (hint kecil) ─── */
+  #sc-hint{
+    display:flex;align-items:center;justify-content:flex-end;gap:12px;
+    padding:2px 10px 3px;
+    background:rgba(0,0,0,.25);
+    border-bottom:1px solid rgba(200,134,10,.08);
+  }
+  .sc-hint-item{
+    display:flex;align-items:center;gap:4px;
+    font-family:'Roboto',sans-serif;font-size:7.5px;
+    color:rgba(200,134,10,.35);letter-spacing:.03em;
+  }
+  .sc-hint-key{
+    font-size:8px;color:rgba(200,134,10,.45);
+  }
+
+  /* iframe slot */
+  #sc-iframe-slot iframe{
+    display:block;width:100%;height:148px;border:none;
+  }
+
+  /* credit */
+  #sc-credit{
+    padding:3px 10px 5px;
+    background:rgba(0,0,0,.4);
+    border-top:1px solid rgba(200,134,10,.1);
+    font-size:8px;color:rgba(200,134,10,.4);
+    font-family:'Roboto',sans-serif;
+    display:flex;align-items:center;gap:4px;
+    overflow:hidden;white-space:nowrap;
+  }
+  #sc-credit a{
+    color:rgba(255,140,30,.55);text-decoration:none;transition:color .2s;
+    overflow:hidden;text-overflow:ellipsis;
+  }
+  #sc-credit a:hover{ color:#e8a020; }
+  #sc-credit span{ opacity:.35;flex-shrink:0; }
+
+  /* ─── Tab kecil ─── */
+  #sc-tab{
+    display:flex;align-items:center;gap:7px;
+    padding:7px 13px 9px;
+    background:linear-gradient(135deg,#1e1008 0%,#100800 100%);
+    border:1px solid rgba(200,134,10,.45);
+    border-top:3px solid #ff5500;
+    border-radius:0 8px 0 0;
+    cursor:pointer;
+    box-shadow:0 -2px 16px rgba(0,0,0,.6);
+    user-select:none;
+    transition:background .2s, border-color .2s;
+    position:relative; /* untuk tooltip */
+  }
+  #sc-tab:hover{
+    background:linear-gradient(135deg,#261408 0%,#160a00 100%);
+    border-color:rgba(200,134,10,.7);
+  }
+  #sc-tab svg.sc-icon{
+    width:15px;height:15px;fill:#ff5500;flex-shrink:0;
+    filter:drop-shadow(0 0 3px rgba(255,85,0,.6));
+  }
+  #sc-tab-text{
+    font-family:'Roboto',sans-serif;font-size:9.5px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:#c8860a;line-height:1;
+    transition:color .2s;
+  }
+
+  /* ── Dot default (idle) ── */
+  #sc-tab-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#ff5500;flex-shrink:0;
+    box-shadow:0 0 5px rgba(255,85,0,.7);
+    animation:scDotPulse 2.4s ease-in-out infinite;
+    transition:opacity .3s;
+  }
+  @keyframes scDotPulse{
+    0%,100%{opacity:.45;transform:scale(1);}
+    50%{opacity:1;transform:scale(1.4);}
+  }
+
+  /* ── Equalizer bars — tampil saat audio playing ── */
+  #sc-eq{
+    display:none;
+    align-items:flex-end;gap:2px;height:12px;flex-shrink:0;
+  }
+  #sc-eq span{
+    display:block;width:3px;border-radius:1px;
+    background:#ff5500;
+    box-shadow:0 0 4px rgba(255,85,0,.6);
+  }
+  #sc-eq span:nth-child(1){ animation:eqBar 0.8s ease-in-out infinite; }
+  #sc-eq span:nth-child(2){ animation:eqBar 0.6s ease-in-out infinite 0.15s; }
+  #sc-eq span:nth-child(3){ animation:eqBar 0.9s ease-in-out infinite 0.05s; }
+  #sc-eq span:nth-child(4){ animation:eqBar 0.7s ease-in-out infinite 0.25s; }
+  @keyframes eqBar{
+    0%,100%{ height:3px;opacity:.5; }
+    50%{ height:12px;opacity:1; }
+  }
+  /* Saat playing: sembunyikan dot, tampilkan eq */
+  #sc-wrap.sc-playing #sc-tab-dot{ display:none; }
+  #sc-wrap.sc-playing #sc-eq{ display:flex; }
+  #sc-wrap.sc-playing #sc-tab-text{ color:#e8a020; }
+
+  /* Chevron */
+  #sc-tab-chevron{
+    font-size:9px;color:rgba(200,134,10,.5);
+    transition:transform .35s ease;
+  }
+  #sc-wrap.sc-open-state #sc-tab-chevron{ transform:rotate(180deg); }
+
+  /* ─── Mobile: hidden ─── */
+  @media(max-width:768px){
+    #sc-wrap{ display:none !important; }
+  }
+</style>
+
+<div id="sc-wrap" role="region" aria-label="Theme Song Player">
+
+  <!-- Player card -->
+  <div id="sc-player">
+    <div id="sc-player-head">
+      <svg class="sc-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M0 20.8c0 2 1.6 3.6 3.6 3.6s3.6-1.6 3.6-3.6c0-.2 0-.4-.1-.6l-.1-.6H3.6C1.6 19.6 0 21.2 0 20.8zm7.5 0c0-.2 0-.3.1-.5l.8-5.7c-.3-.1-.5-.1-.8-.1-1.9 0-3.4 1.5-3.4 3.4s1.5 3.4 3.4 3.4c.9 0 1.7-.3 2.2-.9l-.2-1.7c-.5.6-1.3.1-2.1.1zm4.3-9.2c-.4 0-.8.1-1.2.2L9.8 20.8c0 .2.1.4.1.6 0 1.9 1.5 3.4 3.4 3.4s3.4-1.5 3.4-3.4c0-.2 0-.4-.1-.6l-1-8.2c-.5-.7-1.2-1-1.8-1zm4.5 1.8c-.3 0-.6.1-.9.2l.9 7.2c0 .2.1.4.1.6 0 1.9 1.5 3.4 3.4 3.4s3.4-1.5 3.4-3.4l-1.3-8.5c-.7-.4-1.4-.6-2.2-.6-.5 0-1 .1-1.4.3zm5.1-3.2c0 1 .5 2 1.4 2.5l.8-5.1c-.2 0-.5-.1-.7-.1-1.9 0-3.4 1.2-3.4 2.7h1.9zm4.2 0c0-1.9-1.3-3.3-3-3.3h-.5l-.9 5.8c1.9 0 3.4-1.1 3.4-2.5h1zm2.7 2.6c-1.3 0-2.3.8-2.7 1.9l-.1 1h1.9l.9-6c-.7.5-1.2 1.2-1.3 2.1.4-.6 1-.9 1.5-.9.9 0 1.7.7 1.7 1.9 0 1.2-1 1.9-1.9 1.9z"/>
+      </svg>
+      <div id="sc-player-meta">
+        <div id="sc-player-title">AWAS NPD — Stop Naskleng</div>
+        <div id="sc-player-artist">Yoga Purnama · SoundCloud</div>
+      </div>
+      <a id="sc-open-link" href="https://soundcloud.com/yogasonry/awas-npd-stop-naskleng-theme"
+         target="_blank" rel="noopener noreferrer" aria-label="Buka di SoundCloud" title="Buka di SoundCloud">↗</a>
+      <div class="sc-btn-divider"></div>
+      <!-- ▾ Minimize: card mengecil, AUDIO TETAP JALAN -->
+      <button id="sc-minimize" class="sc-head-btn" aria-label="Minimize — audio tetap jalan" title="Minimize (audio tetap jalan)">▾</button>
+      <!-- ✕ Stop: iframe dihapus, AUDIO MATI -->
+      <button id="sc-stop" class="sc-head-btn" aria-label="Stop dan tutup player" title="Stop & tutup (audio mati)">✕</button>
+    </div>
+
+    <!-- Hint row -->
+    <div id="sc-hint">
+      <span class="sc-hint-item"><span class="sc-hint-key">▾</span> minimize, audio jalan</span>
+      <span class="sc-hint-item"><span class="sc-hint-key">✕</span> stop & tutup</span>
+    </div>
+
+    <!-- iframe lazy-loaded di sini -->
+    <div id="sc-iframe-slot"></div>
+
+    <div id="sc-credit">
+      <span>♫</span>
+      <a href="https://soundcloud.com/yogasonry" target="_blank" rel="noopener">Yoga Purnama</a>
+      <span>·</span>
+      <a href="https://soundcloud.com/yogasonry/awas-npd-stop-naskleng-theme" target="_blank" rel="noopener">AWAS NPD - Stop Naskleng</a>
+    </div>
+  </div>
+
+  <!-- Tab kecil -->
+  <div id="sc-tab" role="button" tabindex="0" aria-expanded="false"
+       aria-controls="sc-player" aria-label="Buka/tutup Theme Song player">
+    <!-- Tooltip muncul sekali saat tab pertama tampil -->
+    <div id="sc-tooltip">🎵 Ada theme song — klik untuk dengar</div>
+
+    <svg class="sc-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 20.8c0 2 1.6 3.6 3.6 3.6s3.6-1.6 3.6-3.6c0-.2 0-.4-.1-.6l-.1-.6H3.6C1.6 19.6 0 21.2 0 20.8zm7.5 0c0-.2 0-.3.1-.5l.8-5.7c-.3-.1-.5-.1-.8-.1-1.9 0-3.4 1.5-3.4 3.4s1.5 3.4 3.4 3.4c.9 0 1.7-.3 2.2-.9l-.2-1.7c-.5.6-1.3.1-2.1.1zm4.3-9.2c-.4 0-.8.1-1.2.2L9.8 20.8c0 .2.1.4.1.6 0 1.9 1.5 3.4 3.4 3.4s3.4-1.5 3.4-3.4c0-.2 0-.4-.1-.6l-1-8.2c-.5-.7-1.2-1-1.8-1zm4.5 1.8c-.3 0-.6.1-.9.2l.9 7.2c0 .2.1.4.1.6 0 1.9 1.5 3.4 3.4 3.4s3.4-1.5 3.4-3.4l-1.3-8.5c-.7-.4-1.4-.6-2.2-.6-.5 0-1 .1-1.4.3zm5.1-3.2c0 1 .5 2 1.4 2.5l.8-5.1c-.2 0-.5-.1-.7-.1-1.9 0-3.4 1.2-3.4 2.7h1.9zm4.2 0c0-1.9-1.3-3.3-3-3.3h-.5l-.9 5.8c1.9 0 3.4-1.1 3.4-2.5h1zm2.7 2.6c-1.3 0-2.3.8-2.7 1.9l-.1 1h1.9l.9-6c-.7.5-1.2 1.2-1.3 2.1.4-.6 1-.9 1.5-.9.9 0 1.7.7 1.7 1.9 0 1.2-1 1.9-1.9 1.9z"/>
+    </svg>
+    <span id="sc-tab-text">Theme Song</span>
+    <!-- Dot idle -->
+    <span id="sc-tab-dot" aria-hidden="true"></span>
+    <!-- Equalizer — muncul saat audio playing -->
+    <span id="sc-eq" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </span>
+    <span id="sc-tab-chevron" aria-hidden="true">▴</span>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var SC_STOPPED_KEY = 'sc_stopped'; // sessionStorage key
+
+  var wrap     = document.getElementById('sc-wrap');
+  var player   = document.getElementById('sc-player');
+  var tab      = document.getElementById('sc-tab');
+  var btnMin   = document.getElementById('sc-minimize');
+  var btnStop  = document.getElementById('sc-stop');
+  var slot     = document.getElementById('sc-iframe-slot');
+  var tooltip  = document.getElementById('sc-tooltip');
+
+  var iframeLoaded = false;
+  var isOpen       = false;
+  var isStopped    = false; // true setelah user klik Stop
+
+  /* ── SoundCloud Widget API untuk deteksi play/pause ── */
+  var scWidget = null;
+
+  /* ── Lazy load iframe ── */
+  function loadIframe(){
+    if(iframeLoaded) return;
+    iframeLoaded = true;
+    var f = document.createElement('iframe');
+    f.id = 'sc-iframe';
+    f.scrolling = 'no'; f.frameBorder = 'no'; f.allow = 'autoplay';
+    f.style.cssText = 'display:block;width:100%;height:148px;border:none;';
+    f.src = 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/yogasonry/awas-npd-stop-naskleng-theme&color=%23c8860a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false';
+    slot.appendChild(f);
+
+    /* Hubungkan ke SC Widget API untuk deteksi play/pause */
+    if(window.SC && window.SC.Widget){
+      bindWidget(f);
+    } else {
+      /* Muat SC Widget API script jika belum ada */
+      var s = document.createElement('script');
+      s.src = 'https://w.soundcloud.com/player/api.js';
+      s.onload = function(){ bindWidget(f); };
+      document.head.appendChild(s);
+    }
+  }
+
+  function bindWidget(iframe){
+    try{
+      scWidget = window.SC.Widget(iframe);
+      scWidget.bind(window.SC.Widget.Events.PLAY, function(){
+        wrap.classList.add('sc-playing');
+      });
+      scWidget.bind(window.SC.Widget.Events.PAUSE, function(){
+        wrap.classList.remove('sc-playing');
+      });
+      scWidget.bind(window.SC.Widget.Events.FINISH, function(){
+        wrap.classList.remove('sc-playing');
+      });
+    } catch(e){}
+  }
+
+  /* ── Buka player ── */
+  function openPlayer(){
+    loadIframe();
+    isOpen = true;
+    isStopped = false;
+    player.classList.add('sc-open');
+    wrap.classList.add('sc-open-state');
+    tab.setAttribute('aria-expanded','true');
+  }
+
+  /* ── Minimize: card hilang, AUDIO TETAP JALAN ── */
+  function minimizePlayer(){
+    isOpen = false;
+    player.classList.remove('sc-open');
+    wrap.classList.remove('sc-open-state');
+    tab.setAttribute('aria-expanded','false');
+    /* simpan state minimize (bukan stop) */
+    try{ sessionStorage.removeItem(SC_STOPPED_KEY); } catch(e){}
+  }
+
+  /* ── Stop: hapus iframe → AUDIO MATI, simpan preferensi ── */
+  function stopPlayer(){
+    /* Hapus iframe dari DOM = audio langsung mati */
+    var f = document.getElementById('sc-iframe');
+    if(f) f.parentNode.removeChild(f);
+    iframeLoaded = false;
+    scWidget = null;
+
+    isOpen = false;
+    isStopped = true;
+    player.classList.remove('sc-open');
+    wrap.classList.remove('sc-open-state');
+    wrap.classList.remove('sc-playing');
+    tab.setAttribute('aria-expanded','false');
+
+    /* Sembunyikan tab supaya tidak mengganggu lagi di sesi ini */
+    wrap.classList.remove('sc-visible');
+    wrap.style.pointerEvents = 'none';
+
+    /* Ingat preferensi: user tidak mau player di sesi ini */
+    try{ sessionStorage.setItem(SC_STOPPED_KEY,'1'); } catch(e){}
+  }
+
+  /* ── Toggle tab ── */
+  tab.addEventListener('click', function(){
+    if(isStopped) return;
+    if(isOpen) minimizePlayer();
+    else openPlayer();
+  });
+  tab.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tab.click(); }
+  });
+
+  btnMin.addEventListener('click', function(e){
+    e.stopPropagation();
+    minimizePlayer();
+  });
+  btnStop.addEventListener('click', function(e){
+    e.stopPropagation();
+    stopPlayer();
+  });
+
+  /* ── Tooltip sekali tampil ── */
+  function showTooltip(){
+    /* Jangan tampilkan lagi kalau sudah pernah lihat di sesi ini */
+    try{ if(sessionStorage.getItem('sc_tip_seen')) return; } catch(e){}
+    setTimeout(function(){
+      tooltip.classList.add('sc-tip-show');
+      setTimeout(function(){
+        tooltip.classList.remove('sc-tip-show');
+        try{ sessionStorage.setItem('sc_tip_seen','1'); } catch(e){}
+      }, 3200);
+    }, 600);
+  }
+
+  /* ── Dipanggil dari popup YouTube close handler ── */
+  window.showScPlayer = function(){
+    if(window.innerWidth <= 768) return;
+    /* Kalau user sudah Stop di sesi ini, jangan muncul lagi */
+    try{ if(sessionStorage.getItem(SC_STOPPED_KEY)) return; } catch(e){}
+
+    wrap.classList.add('sc-visible');
+    showTooltip();
+  };
+})();
 </script>
 </body>
 </html>
