@@ -8223,7 +8223,7 @@ setLang('id');
 #ts-backdrop{
   display:none;
   position:fixed;inset:0;z-index:9000;
-  background:rgba(5,3,1,.82);
+  background:rgba(5,3,1,.88);
   backdrop-filter:blur(6px);
   -webkit-backdrop-filter:blur(6px);
   align-items:center;justify-content:center;
@@ -8318,19 +8318,35 @@ setLang('id');
 /* Thumbnail */
 .ts-thumb-wrap{
   position:relative;
-  width:100%;aspect-ratio:16/9;
+  width:100%;
+  /* aspect-ratio fallback untuk browser jadul */
+  padding-top:56.25%; /* 16:9 fallback */
+  aspect-ratio:16/9;
   background:#0a0601;
   overflow:hidden;cursor:pointer;
   display:block;
 }
-.ts-thumb-wrap img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .5s ease, filter .5s ease;
-  filter:brightness(.95) saturate(1.05) contrast(1.02);
+/* Reset padding-top jika aspect-ratio didukung */
+@supports (aspect-ratio: 16/9){
+  .ts-thumb-wrap{ padding-top:0; }
 }
-.ts-thumb-wrap:hover img{
-  transform:scale(1.06);
-  filter:brightness(1.08) saturate(1.15) contrast(1.04);
+.ts-thumb-wrap img{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  /* fallback object-fit untuk browser jadul */
+  font-family:'object-fit:cover';
+  filter:brightness(.95) saturate(1.05) contrast(1.02);
+  /* hanya transition di non-touch device */
+  transition:filter .4s ease;
+}
+@media(hover:hover){
+  .ts-thumb-wrap img{ transition:transform .5s ease, filter .5s ease; }
+  .ts-thumb-wrap:hover img{
+    transform:scale(1.06);
+    filter:brightness(1.08) saturate(1.15) contrast(1.04);
+  }
 }
 /* Play button overlay */
 .ts-play-btn{
@@ -8346,7 +8362,9 @@ setLang('id');
 @media(min-width:680px){
   .ts-play-btn svg{ width:72px;height:72px; }
 }
-.ts-thumb-wrap:hover .ts-play-btn svg{transform:scale(1.14);}
+@media(hover:hover){
+  .ts-thumb-wrap:hover .ts-play-btn svg{transform:scale(1.14);}
+}
 
 /* Vignette overlay supaya play button lebih pop */
 .ts-thumb-vignette{
@@ -8388,31 +8406,44 @@ setLang('id');
   font-size:13px;font-weight:700;letter-spacing:.06em;
   color:#0d0800;text-transform:uppercase;
   cursor:pointer;text-decoration:none;
+  /* tap target minimum 44px */
+  min-height:44px;
   transition:filter .2s ease, transform .15s ease;
   box-shadow:0 2px 14px rgba(200,134,10,.35);
+  -webkit-tap-highlight-color:transparent;
 }
-.ts-cta:hover{filter:brightness(1.12);transform:translateY(-1px);}
+@media(hover:hover){
+  .ts-cta:hover{filter:brightness(1.12);transform:translateY(-1px);}
+}
 .ts-cta:active{transform:translateY(0);filter:brightness(.95);}
 
-/* Dismiss */
+/* Dismiss — tap target lebih besar di mobile */
 .ts-dismiss{
-  display:block;text-align:center;margin-top:10px;
+  display:block;text-align:center;margin-top:6px;
   font-size:11px;color:rgba(200,134,10,.45);
-  cursor:pointer;background:none;border:none;padding:2px;
+  cursor:pointer;background:none;border:none;
+  padding:10px;width:100%;
+  min-height:40px;
   letter-spacing:.05em;transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
 }
-.ts-dismiss:hover{color:rgba(200,134,10,.75);}
+@media(hover:hover){
+  .ts-dismiss:hover{color:rgba(200,134,10,.75);}
+}
 
-/* Close X */
+/* Close X — tap target 44px */
 #ts-close{
   position:absolute;top:10px;right:12px;
   background:rgba(13,8,0,.7);border:1px solid rgba(200,134,10,.3);
-  border-radius:50%;width:26px;height:26px;
+  border-radius:50%;width:36px;height:36px;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:rgba(200,134,10,.7);font-size:13px;line-height:1;
+  cursor:pointer;color:rgba(200,134,10,.7);font-size:14px;line-height:1;
   transition:background .2s,color .2s;z-index:1;
+  -webkit-tap-highlight-color:transparent;
 }
-#ts-close:hover{background:rgba(200,134,10,.2);color:var(--amber);}
+@media(hover:hover){
+  #ts-close:hover{background:rgba(200,134,10,.2);color:var(--amber);}
+}
 </style>
 
 <!-- Popup DOM -->
@@ -8422,7 +8453,7 @@ setLang('id');
 
     <!-- Thumbnail clickable → YouTube -->
     <a class="ts-thumb-wrap" href="https://youtu.be/rCwwEgsjf3s?si=F78BZDQDUpf7J4OE" target="_blank" rel="noopener noreferrer" aria-label="Dengarkan di YouTube">
-      <img src="https://img.youtube.com/vi/rCwwEgsjf3s/maxresdefault.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_520,h_293,c_fill,q_auto,f_auto/v1779022570/ChatGPT_Image_May_17_2026_07_46_00_PM_xwt8gt.png"
            onerror="this.src='https://img.youtube.com/vi/rCwwEgsjf3s/hqdefault.jpg'"
            alt="AWAS NPD - Official Theme Song" loading="lazy" decoding="async">
       <div class="ts-play-btn">
@@ -8491,7 +8522,19 @@ function showThemeSongPopup(){
     align-items:flex-end;
     gap:8px;
   }
-  @media(max-width:768px){ #bottom-player-row{ display:none !important; } }
+  /* Mobile/tablet: SC tetap hidden, YT tetap tampil */
+  @media(max-width:768px){
+    #bottom-player-row{
+      left:0;
+      justify-content:flex-start;
+      padding-left:16px;
+    }
+    #sc-wrap{ display:none !important; }
+  }
+  /* Pastikan YT card tidak overflow layar di mobile kecil */
+  @media(max-width:480px){
+    #yt-card{ width:calc(100vw - 32px); max-width:320px; }
+  }
 
   #yt-wrap{
     display:flex;
@@ -8515,21 +8558,26 @@ function showThemeSongPopup(){
   #yt-card.yt-open{ max-height:340px;opacity:1; }
   #yt-thumb-link{
     display:block;position:relative;
-    width:100%;aspect-ratio:16/9;
+    width:100%;
+    padding-top:56.25%;
+    aspect-ratio:16/9;
     background:#050308;overflow:hidden;cursor:pointer;
   }
+  @supports (aspect-ratio: 16/9){
+    #yt-thumb-link{ padding-top:0; }
+  }
   #yt-thumb-link img{
+    position:absolute;top:0;left:0;
     width:100%;height:100%;object-fit:cover;
-    transition:transform .5s ease, filter .5s ease;
+    font-family:'object-fit:cover';
     filter:brightness(.92) saturate(1.1);
+    transition:filter .4s ease;
   }
-  #yt-thumb-link:hover img{ transform:scale(1.06);filter:brightness(1.08) saturate(1.2); }
-  .yt-play-btn{
-    position:absolute;inset:0;
-    display:flex;align-items:center;justify-content:center;pointer-events:none;
+  @media(hover:hover){
+    #yt-thumb-link img{ transition:transform .5s ease, filter .5s ease; }
+    #yt-thumb-link:hover img{ transform:scale(1.06);filter:brightness(1.08) saturate(1.2); }
+    #yt-thumb-link:hover .yt-play-btn svg{ transform:scale(1.14); }
   }
-  .yt-play-btn svg{ width:48px;height:48px;filter:drop-shadow(0 2px 14px rgba(0,0,0,.9));transition:transform .3s ease; }
-  #yt-thumb-link:hover .yt-play-btn svg{ transform:scale(1.14); }
   .yt-thumb-vignette{
     position:absolute;inset:0;
     background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.5) 100%);
@@ -8570,18 +8618,26 @@ function showThemeSongPopup(){
     font-size:12px;font-weight:700;letter-spacing:.06em;
     color:#fff;text-transform:uppercase;
     cursor:pointer;text-decoration:none;
+    min-height:44px;
     transition:filter .2s ease, transform .15s ease;
     box-shadow:0 2px 14px rgba(200,0,0,.35);
+    -webkit-tap-highlight-color:transparent;
   }
-  #yt-cta:hover{filter:brightness(1.15);transform:translateY(-1px);}
+  @media(hover:hover){
+    #yt-cta:hover{filter:brightness(1.15);transform:translateY(-1px);}
+  }
   #yt-cta:active{transform:translateY(0);filter:brightness(.9);}
   #yt-dismiss{
-    display:block;text-align:center;margin-top:8px;
+    display:block;text-align:center;margin-top:6px;
     font-size:10px;color:rgba(180,140,255,.35);
-    cursor:pointer;background:none;border:none;padding:2px;
+    cursor:pointer;background:none;border:none;
+    padding:10px;width:100%;min-height:40px;
     letter-spacing:.05em;transition:color .2s;
+    -webkit-tap-highlight-color:transparent;
   }
-  #yt-dismiss:hover{ color:rgba(180,140,255,.65); }
+  @media(hover:hover){
+    #yt-dismiss:hover{ color:rgba(180,140,255,.65); }
+  }
   #yt-tab{
     display:flex;align-items:center;gap:6px;
     padding:7px 13px 9px;
@@ -8624,7 +8680,7 @@ function showThemeSongPopup(){
 <div id="yt-wrap" role="region" aria-label="YouTube Music Video">
   <div id="yt-card">
     <a id="yt-thumb-link" href="https://youtu.be/rCwwEgsjf3s?si=F78BZDQDUpf7J4OE" target="_blank" rel="noopener noreferrer" aria-label="Tonton di YouTube">
-      <img src="https://img.youtube.com/vi/rCwwEgsjf3s/maxresdefault.jpg"
+      <img src="https://res.cloudinary.com/dqqdjhb2x/image/upload/w_520,h_293,c_fill,q_auto,f_auto/v1779022570/ChatGPT_Image_May_17_2026_07_46_00_PM_xwt8gt.png"
            onerror="this.src='https://img.youtube.com/vi/rCwwEgsjf3s/hqdefault.jpg'"
            alt="AWAS NPD - Official Music Video" loading="lazy" decoding="async">
       <div class="yt-play-btn">
