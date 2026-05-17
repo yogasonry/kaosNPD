@@ -3782,8 +3782,8 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
       sessionStorage.setItem('npd_themesong_shown','1');
       setTimeout(showThemeSongPopup, 1350);
     } else {
-      // Popup sudah pernah muncul → langsung tampilkan SC player
-      setTimeout(showScPlayer, 800);
+      // Theme Song sementara di-hide
+      // setTimeout(showScPlayer, 800);
     }
   }
 
@@ -8421,9 +8421,9 @@ setLang('id');
     <button id="ts-close" aria-label="Tutup">✕</button>
 
     <!-- Thumbnail clickable → YouTube -->
-    <a class="ts-thumb-wrap" href="https://youtu.be/q1YWllFcXuk?si=NrLr1mtgQIItcqF6" target="_blank" rel="noopener noreferrer" aria-label="Dengarkan di YouTube">
-      <img src="https://img.youtube.com/vi/q1YWllFcXuk/maxresdefault.jpg"
-           onerror="this.src='https://img.youtube.com/vi/q1YWllFcXuk/hqdefault.jpg'"
+    <a class="ts-thumb-wrap" href="https://youtu.be/rCwwEgsjf3s?si=F78BZDQDUpf7J4OE" target="_blank" rel="noopener noreferrer" aria-label="Dengarkan di YouTube">
+      <img src="https://img.youtube.com/vi/rCwwEgsjf3s/maxresdefault.jpg"
+           onerror="this.src='https://img.youtube.com/vi/rCwwEgsjf3s/hqdefault.jpg'"
            alt="AWAS NPD - Official Theme Song" loading="lazy" decoding="async">
       <div class="ts-play-btn">
         <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -8439,9 +8439,9 @@ setLang('id');
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <span class="ts-badge"><span class="ts-badge-dot"></span>New Release</span>
       </div>
-      <p class="ts-label">Official Theme Song</p>
+      <p class="ts-label">New Release Official Music Video</p>
       <h2 class="ts-title">AWAS NPD <span>— Bhuta Kala Modern</span></h2>
-      <a class="ts-cta" href="https://youtu.be/q1YWllFcXuk?si=NrLr1mtgQIItcqF6" target="_blank" rel="noopener noreferrer">
+      <a class="ts-cta" href="https://youtu.be/rCwwEgsjf3s?si=F78BZDQDUpf7J4OE" target="_blank" rel="noopener noreferrer">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         Dengarkan Sekarang
       </a>
@@ -8462,8 +8462,8 @@ function showThemeSongPopup(){
   function closePopup(){
     bd.classList.remove('ts-in');
     setTimeout(function(){ bd.style.display='none'; }, 420);
-    // Setelah popup YouTube ditutup → tampilkan SC player (desktop only)
-    setTimeout(showScPlayer, 500);
+    // Theme Song sementara di-hide
+    // setTimeout(showScPlayer, 500);
   }
 
   document.getElementById('ts-close').addEventListener('click', closePopup);
@@ -8477,6 +8477,219 @@ function showThemeSongPopup(){
     if(e.key === 'Escape'){ closePopup(); document.removeEventListener('keydown', escHandler); }
   });
 }
+</script>
+
+<!-- ═══ YOUTUBE TAB — thumbnail card + hide ═══ -->
+<style>
+  /* ─── Shared row container ─── */
+  #bottom-player-row{
+    position:fixed;
+    bottom:0;left:20px;
+    z-index:9000;
+    display:flex;
+    flex-direction:row;
+    align-items:flex-end;
+    gap:8px;
+  }
+  @media(max-width:768px){ #bottom-player-row{ display:none !important; } }
+
+  #yt-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    opacity:1;pointer-events:all;
+    transform:translateY(0);
+    transition:opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  #yt-card{
+    width:260px;
+    background:linear-gradient(160deg,#0d0a1a 0%,#080610 100%);
+    border:1px solid rgba(100,80,220,.45);
+    border-bottom:none;
+    border-radius:10px 10px 0 0;
+    box-shadow:0 -4px 32px rgba(0,0,0,.75);
+    overflow:hidden;
+    max-height:0;opacity:0;
+    transition:max-height .45s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+  }
+  #yt-card.yt-open{ max-height:340px;opacity:1; }
+  #yt-thumb-link{
+    display:block;position:relative;
+    width:100%;aspect-ratio:16/9;
+    background:#050308;overflow:hidden;cursor:pointer;
+  }
+  #yt-thumb-link img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform .5s ease, filter .5s ease;
+    filter:brightness(.92) saturate(1.1);
+  }
+  #yt-thumb-link:hover img{ transform:scale(1.06);filter:brightness(1.08) saturate(1.2); }
+  .yt-play-btn{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;pointer-events:none;
+  }
+  .yt-play-btn svg{ width:48px;height:48px;filter:drop-shadow(0 2px 14px rgba(0,0,0,.9));transition:transform .3s ease; }
+  #yt-thumb-link:hover .yt-play-btn svg{ transform:scale(1.14); }
+  .yt-thumb-vignette{
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.5) 100%);
+    pointer-events:none;
+  }
+  .yt-thumb-bar{
+    position:absolute;bottom:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,transparent,#ff0000,transparent);opacity:.7;
+  }
+  #yt-body{ padding:10px 14px 14px; }
+  #yt-badge{
+    display:inline-flex;align-items:center;gap:5px;
+    background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.35);
+    border-radius:20px;padding:3px 9px;
+    font-size:9px;font-weight:700;letter-spacing:.08em;
+    color:#ff4444;text-transform:uppercase;margin-bottom:7px;
+  }
+  #yt-badge-dot{
+    width:6px;height:6px;border-radius:50%;background:#ff3333;
+    animation:yt-pulse 1.4s ease infinite;
+  }
+  @keyframes yt-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+  #yt-label{
+    font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:rgba(180,140,255,.55);margin-bottom:3px;
+  }
+  #yt-title{
+    font-family:'Rubik Dirt',cursive;font-size:14px;color:#d0b8ff;
+    line-height:1.2;margin:0 0 10px;
+    text-shadow:0 0 14px rgba(120,80,220,.35);
+  }
+  #yt-title span{ color:rgba(200,170,255,.6); }
+  #yt-cta{
+    display:flex;align-items:center;justify-content:center;gap:7px;
+    width:100%;padding:9px 0;
+    background:linear-gradient(135deg,#cc0000 0%,#990000 100%);
+    border:none;border-radius:7px;
+    font-size:12px;font-weight:700;letter-spacing:.06em;
+    color:#fff;text-transform:uppercase;
+    cursor:pointer;text-decoration:none;
+    transition:filter .2s ease, transform .15s ease;
+    box-shadow:0 2px 14px rgba(200,0,0,.35);
+  }
+  #yt-cta:hover{filter:brightness(1.15);transform:translateY(-1px);}
+  #yt-cta:active{transform:translateY(0);filter:brightness(.9);}
+  #yt-dismiss{
+    display:block;text-align:center;margin-top:8px;
+    font-size:10px;color:rgba(180,140,255,.35);
+    cursor:pointer;background:none;border:none;padding:2px;
+    letter-spacing:.05em;transition:color .2s;
+  }
+  #yt-dismiss:hover{ color:rgba(180,140,255,.65); }
+  #yt-tab{
+    display:flex;align-items:center;gap:6px;
+    padding:7px 13px 9px;
+    background:linear-gradient(135deg,#0d0a1a 0%,#080610 100%);
+    border:1px solid rgba(100,80,220,.45);
+    border-top:3px solid #ff0000;
+    border-radius:0 8px 0 0;
+    cursor:pointer;
+    box-shadow:0 -2px 16px rgba(0,0,0,.6);
+    user-select:none;
+    transition:background .2s, border-color .2s;
+  }
+  #yt-tab:hover{
+    background:linear-gradient(135deg,#120e22 0%,#0a0818 100%);
+    border-color:rgba(100,80,220,.7);
+  }
+  #yt-tab-icon{ width:16px;height:11px;flex-shrink:0; }
+  #yt-tab-text{
+    font-family:'Roboto',sans-serif;font-size:9.5px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(180,140,255,.9);line-height:1;
+  }
+  #yt-tab-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#ff0000;flex-shrink:0;
+    box-shadow:0 0 5px rgba(255,0,0,.7);
+    animation:ytDotPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes ytDotPulse{0%,100%{opacity:.45;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
+  #yt-tab-chevron{
+    font-size:9px;color:rgba(180,140,255,.4);
+    transition:transform .35s ease;
+  }
+  #yt-wrap.yt-open-state #yt-tab-chevron{ transform:rotate(180deg); }
+  #yt-wrap.yt-dismissed{ opacity:0;pointer-events:none;transform:translateY(12px); }
+</style>
+
+<div id="bottom-player-row">
+
+<div id="yt-wrap" role="region" aria-label="YouTube Music Video">
+  <div id="yt-card">
+    <a id="yt-thumb-link" href="https://youtu.be/rCwwEgsjf3s?si=F78BZDQDUpf7J4OE" target="_blank" rel="noopener noreferrer" aria-label="Tonton di YouTube">
+      <img src="https://img.youtube.com/vi/rCwwEgsjf3s/maxresdefault.jpg"
+           onerror="this.src='https://img.youtube.com/vi/rCwwEgsjf3s/hqdefault.jpg'"
+           alt="AWAS NPD - Official Music Video" loading="lazy" decoding="async">
+      <div class="yt-play-btn">
+        <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="34" cy="34" r="34" fill="rgba(0,0,0,.55)"/>
+          <polygon points="27,21 52,34 27,47" fill="#ff3333"/>
+        </svg>
+      </div>
+      <div class="yt-thumb-vignette"></div>
+      <div class="yt-thumb-bar"></div>
+    </a>
+    <div id="yt-body">
+      <div id="yt-badge"><span id="yt-badge-dot"></span>New Release</div>
+      <p id="yt-label">New Release Official Music Video</p>
+      <h3 id="yt-title">AWAS NPD <span>— Bhuta Kala Modern</span></h3>
+      <a id="yt-cta" href="https://youtu.be/rCwwEgsjf3s?si=F78BZDQDUpf7J4OE" target="_blank" rel="noopener noreferrer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+        </svg>
+        Tonton di YouTube
+      </a>
+      <button id="yt-dismiss">Tutup</button>
+    </div>
+  </div>
+  <div id="yt-tab" role="button" tabindex="0" aria-expanded="false"
+       aria-controls="yt-card" aria-label="Buka/tutup Music Video YouTube">
+    <svg id="yt-tab-icon" viewBox="0 0 71 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M69.5 7.8a8.9 8.9 0 00-6.3-6.3C57.8 0 35.5 0 35.5 0S13.2 0 7.8 1.5A8.9 8.9 0 001.5 7.8C0 13.2 0 24.5 0 24.5s0 11.3 1.5 16.7a8.9 8.9 0 006.3 6.3C13.2 49 35.5 49 35.5 49s22.3 0 27.7-1.5a8.9 8.9 0 006.3-6.3C71 35.8 71 24.5 71 24.5s0-11.3-1.5-16.7z" fill="#FF0000"/>
+      <path d="M28.4 34.9l18.5-10.4-18.5-10.4v20.8z" fill="#fff"/>
+    </svg>
+    <span id="yt-tab-text">Music Video</span>
+    <span id="yt-tab-dot" aria-hidden="true"></span>
+    <span id="yt-tab-chevron" aria-hidden="true">▴</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var YT_DISMISSED_KEY = 'yt_dismissed';
+  var wrap    = document.getElementById('yt-wrap');
+  var card    = document.getElementById('yt-card');
+  var tab     = document.getElementById('yt-tab');
+  var dismiss = document.getElementById('yt-dismiss');
+  var isOpen  = false;
+
+  try{ if(sessionStorage.getItem(YT_DISMISSED_KEY)){ wrap.classList.add('yt-dismissed'); return; } }catch(e){}
+
+  function openCard(){
+    isOpen=true;card.classList.add('yt-open');
+    wrap.classList.add('yt-open-state');tab.setAttribute('aria-expanded','true');
+  }
+  function closeCard(){
+    isOpen=false;card.classList.remove('yt-open');
+    wrap.classList.remove('yt-open-state');tab.setAttribute('aria-expanded','false');
+  }
+  function dismissWrap(){
+    closeCard();
+    setTimeout(function(){ wrap.classList.add('yt-dismissed'); },300);
+    try{ sessionStorage.setItem(YT_DISMISSED_KEY,'1'); }catch(e){}
+  }
+
+  tab.addEventListener('click',function(){ if(isOpen) closeCard(); else openCard(); });
+  tab.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault();tab.click(); } });
+  dismiss.addEventListener('click', dismissWrap);
+})();
 </script>
 
 <!-- ═══ SOUNDCLOUD PLAYER — UX-friendly: tab + expand + minimize + stop ═══ -->
@@ -8511,9 +8724,6 @@ function showThemeSongPopup(){
 
   /* ─── Container utama ─── */
   #sc-wrap{
-    position:fixed;
-    bottom:0;left:20px;
-    z-index:9000;
     display:flex;
     flex-direction:column;
     align-items:flex-start;
@@ -8702,11 +8912,6 @@ function showThemeSongPopup(){
     transition:transform .35s ease;
   }
   #sc-wrap.sc-open-state #sc-tab-chevron{ transform:rotate(180deg); }
-
-  /* ─── Mobile: hidden ─── */
-  @media(max-width:768px){
-    #sc-wrap{ display:none !important; }
-  }
 </style>
 
 <div id="sc-wrap" role="region" aria-label="Theme Song Player">
@@ -8767,6 +8972,8 @@ function showThemeSongPopup(){
   </div>
 
 </div>
+
+</div><!-- /#bottom-player-row -->
 
 <script>
 (function(){
