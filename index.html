@@ -8735,7 +8735,6 @@ function showThemeSongPopup(){
     #yt-label{ font-size:8.5px; margin-bottom:2px; }
     #yt-title{ font-size:13px; margin-bottom:8px; }
     #yt-cta{ min-height:42px; font-size:11px; }
-    #yt-dismiss{ padding:8px; min-height:36px; font-size:9.5px; margin-top:4px; }
   }
   @media(max-width:360px){
     #yt-card{ width:calc(100vw - 24px); }
@@ -8834,17 +8833,6 @@ function showThemeSongPopup(){
     #yt-cta:hover{filter:brightness(1.15);transform:translateY(-1px);}
   }
   #yt-cta:active{transform:translateY(0);filter:brightness(.9);}
-  #yt-dismiss{
-    display:block;text-align:center;margin-top:6px;
-    font-size:10px;color:rgba(180,140,255,.35);
-    cursor:pointer;background:none;border:none;
-    padding:10px;width:100%;min-height:40px;
-    letter-spacing:.05em;transition:color .2s;
-    -webkit-tap-highlight-color:transparent;
-  }
-  @media(hover:hover){
-    #yt-dismiss:hover{ color:rgba(180,140,255,.65); }
-  }
   #yt-tab{
     display:flex;align-items:center;gap:6px;
     padding:7px 13px 9px;
@@ -8889,7 +8877,44 @@ function showThemeSongPopup(){
     transition:transform .35s ease;
   }
   #yt-wrap.yt-open-state #yt-tab-chevron{ transform:rotate(180deg); }
-  #yt-wrap.yt-dismissed{ opacity:0;pointer-events:none;transform:translateY(12px); }
+
+  /* ── Hide strip — muncul saat tab hidden ── */
+  #yt-hide-strip{
+    display:none;
+    align-items:center;justify-content:center;
+    width:48px;
+    height:6px;
+    background:#cc0000;
+    border-radius:3px 3px 0 0;
+    cursor:pointer;
+    box-shadow:0 -2px 10px rgba(200,0,0,.5);
+    transition:height .2s ease, width .2s ease, opacity .2s ease;
+    opacity:.75;
+    -webkit-tap-highlight-color:transparent;
+    position:relative;
+  }
+  #yt-hide-strip:hover,
+  #yt-hide-strip:focus{
+    height:10px;
+    width:56px;
+    opacity:1;
+    outline:none;
+  }
+  #yt-hide-strip svg{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    opacity:0;
+    transition:opacity .2s ease;
+    pointer-events:none;
+  }
+  #yt-hide-strip:hover svg,
+  #yt-hide-strip:focus svg{
+    opacity:1;
+  }
+  /* Saat tab hidden: tampilkan strip, sembunyikan tab */
+  #yt-wrap.yt-hidden #yt-tab{ display:none; }
+  #yt-wrap.yt-hidden #yt-hide-strip{ display:flex; }
 </style>
 
 <div id="bottom-player-row">
@@ -8920,7 +8945,6 @@ function showThemeSongPopup(){
         </svg>
         Tonton di YouTube
       </a>
-      <button id="yt-dismiss">Tutup</button>
     </div>
   </div>
   <div id="yt-tab" role="button" tabindex="0" aria-expanded="false"
@@ -8932,37 +8956,75 @@ function showThemeSongPopup(){
     <span id="yt-tab-text">Music Video</span>
     <span id="yt-tab-dot" aria-hidden="true"></span>
     <span id="yt-tab-chevron" aria-hidden="true">▴</span>
+    <!-- Tombol hide — arrow bawah kecil di kanan tab -->
+    <button id="yt-hide-btn" aria-label="Sembunyikan tab" tabindex="0"
+      style="margin-left:6px;background:none;border:none;padding:2px 4px;cursor:pointer;display:flex;align-items:center;opacity:.45;transition:opacity .2s;-webkit-tap-highlight-color:transparent;"
+      onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='.45'">
+      <svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1l4 4 4-4" stroke="#ff4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+  <!-- Strip merah minimalis saat tab hidden -->
+  <div id="yt-hide-strip" role="button" tabindex="0" aria-label="Tampilkan tab Music Video">
+    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 7l5-5 5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </div>
 </div>
 
 <script>
 (function(){
-  var YT_DISMISSED_KEY = 'yt_dismissed';
-  var wrap    = document.getElementById('yt-wrap');
-  var card    = document.getElementById('yt-card');
-  var tab     = document.getElementById('yt-tab');
-  var dismiss = document.getElementById('yt-dismiss');
-  var isOpen  = false;
-
-  try{ if(sessionStorage.getItem(YT_DISMISSED_KEY)){ wrap.classList.add('yt-dismissed'); return; } }catch(e){}
+  var wrap      = document.getElementById('yt-wrap');
+  var card      = document.getElementById('yt-card');
+  var tab       = document.getElementById('yt-tab');
+  var hideBtn   = document.getElementById('yt-hide-btn');
+  var hideStrip = document.getElementById('yt-hide-strip');
+  var isOpen    = false;
 
   function openCard(){
-    isOpen=true;card.classList.add('yt-open');
-    wrap.classList.add('yt-open-state');tab.setAttribute('aria-expanded','true');
+    isOpen=true;
+    card.classList.add('yt-open');
+    wrap.classList.add('yt-open-state');
+    tab.setAttribute('aria-expanded','true');
   }
   function closeCard(){
-    isOpen=false;card.classList.remove('yt-open');
-    wrap.classList.remove('yt-open-state');tab.setAttribute('aria-expanded','false');
+    isOpen=false;
+    card.classList.remove('yt-open');
+    wrap.classList.remove('yt-open-state');
+    tab.setAttribute('aria-expanded','false');
   }
-  function dismissWrap(){
+  function hideTab(){
     closeCard();
-    setTimeout(function(){ wrap.classList.add('yt-dismissed'); },300);
-    try{ sessionStorage.setItem(YT_DISMISSED_KEY,'1'); }catch(e){}
+    wrap.classList.add('yt-hidden');
+  }
+  function showTab(){
+    wrap.classList.remove('yt-hidden');
   }
 
-  tab.addEventListener('click',function(){ if(isOpen) closeCard(); else openCard(); });
-  tab.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault();tab.click(); } });
-  dismiss.addEventListener('click', dismissWrap);
+  // Tab — toggle card open/close (kecuali klik hide button)
+  tab.addEventListener('click', function(e){
+    if(e.target.closest('#yt-hide-btn')) return;
+    if(isOpen) closeCard(); else openCard();
+  });
+  tab.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tab.click(); }
+  });
+
+  // Hide button dalam tab
+  hideBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    hideTab();
+  });
+  hideBtn.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); hideTab(); }
+  });
+
+  // Strip merah — munculkan lagi
+  hideStrip.addEventListener('click', showTab);
+  hideStrip.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showTab(); }
+  });
 })();
 </script>
 
