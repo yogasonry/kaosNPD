@@ -119,6 +119,102 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
 @media(max-width:480px){
   header{padding:14px 12px 0;}
 }
+
+/* ═══ STICKY NAVBAR MINIMALIS ═══ */
+#sticky-nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:8900;
+  height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  background:rgba(13,7,2,.82);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(200,134,10,.25);
+  box-shadow:0 2px 24px rgba(0,0,0,.6);
+  transform:translateY(-100%);
+  opacity:0;
+  transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+  pointer-events:none;
+}
+#sticky-nav.snav-visible{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:all;
+}
+
+/* Logo — absolute center */
+#snav-logo{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Rubik Dirt',cursive;
+  font-size:16px;
+  color:var(--white);
+  letter-spacing:.5px;
+  line-height:1;
+  text-shadow:0 0 12px rgba(232,168,48,.25);
+  white-space:nowrap;
+  pointer-events:none;
+}
+#snav-logo em{
+  font-style:normal;
+  color:var(--amber);
+}
+
+/* Lang toggle */
+#snav-lang{
+  display:flex;align-items:center;gap:4px;
+}
+.snav-lang-btn{
+  font-family:'Roboto',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.06em;
+  background:none;border:1px solid rgba(200,134,10,.25);
+  border-radius:4px;padding:4px 8px;
+  color:rgba(200,134,10,.55);
+  cursor:pointer;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+  min-height:32px;
+}
+.snav-lang-btn.active{
+  background:rgba(200,134,10,.15);
+  border-color:rgba(200,134,10,.6);
+  color:var(--amber);
+}
+@media(hover:hover){
+  .snav-lang-btn:hover{
+    background:rgba(200,134,10,.1);
+    border-color:rgba(200,134,10,.5);
+    color:var(--amber);
+  }
+}
+
+/* Order button */
+#snav-order{
+  font-family:'Roboto',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:linear-gradient(135deg,#c8860a 0%,#a06708 100%);
+  border:none;border-radius:6px;
+  padding:0 14px;height:34px;
+  color:#0d0800;
+  cursor:pointer;white-space:nowrap;
+  box-shadow:0 2px 10px rgba(200,134,10,.3);
+  transition:filter .2s, transform .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+@media(hover:hover){
+  #snav-order:hover{ filter:brightness(1.12);transform:translateY(-1px); }
+}
+#snav-order:active{ filter:brightness(.95);transform:scale(.97); }
+
+/* Mobile: kurangi padding supaya muat */
+@media(max-width:400px){
+  #sticky-nav{ padding:0 12px; }
+  #snav-logo{ font-size:14px; }
+  #snav-order{ font-size:10px; padding:0 10px; }
+}
+/* ═══ END STICKY NAVBAR ═══ */
 .top-tag{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.85;margin-bottom:8px;text-transform:uppercase;}
 .hero-hl{
   font-family:'Rubik Dirt',sans-serif;font-weight:400;font-size:clamp(32px,9vw,76px);
@@ -4130,6 +4226,70 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
        class="hero-ttd">
   <div style="height:6px"></div>
 </header>
+
+<!-- ═══ STICKY NAVBAR MINIMALIS ═══ -->
+<nav id="sticky-nav" role="navigation" aria-label="Navigasi cepat">
+  <!-- Lang toggle — kiri -->
+  <div id="snav-lang" role="group" aria-label="Pilih bahasa">
+    <button class="snav-lang-btn active" id="snav-btn-id" onclick="setLang('id');document.getElementById('snav-btn-id').classList.add('active');document.getElementById('snav-btn-en').classList.remove('active');">🇮🇩 ID</button>
+    <button class="snav-lang-btn" id="snav-btn-en" onclick="setLang('en');document.getElementById('snav-btn-en').classList.add('active');document.getElementById('snav-btn-id').classList.remove('active');">🇬🇧 EN</button>
+  </div>
+
+  <!-- Logo — tengah -->
+  <div id="snav-logo">AWAS BAHAYA <em>NPD.</em></div>
+
+  <!-- Order button — kanan -->
+  <button id="snav-order" onclick="var k=document.getElementById('katalog-section');if(k)k.scrollIntoView({behavior:'smooth',block:'start'});" aria-label="Pesan sekarang">
+    🛒 Order
+  </button>
+</nav>
+
+<script>
+(function(){
+  var nav    = document.getElementById('sticky-nav');
+  var header = document.querySelector('header');
+  if(!nav || !header) return;
+
+  var ticking = false;
+  function onScroll(){
+    if(!ticking){
+      requestAnimationFrame(function(){
+        var headerBottom = header.getBoundingClientRect().bottom;
+        if(headerBottom < 0){
+          nav.classList.add('snav-visible');
+        } else {
+          nav.classList.remove('snav-visible');
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Sync lang state dengan tombol header asli
+  var origBtnId = document.getElementById('btn-id');
+  var origBtnEn = document.getElementById('btn-en');
+  var snavId    = document.getElementById('snav-btn-id');
+  var snavEn    = document.getElementById('snav-btn-en');
+
+  function syncLangButtons(){
+    if(!origBtnId||!origBtnEn||!snavId||!snavEn) return;
+    if(origBtnId.classList.contains('active')){
+      snavId.classList.add('active'); snavEn.classList.remove('active');
+    } else {
+      snavEn.classList.add('active'); snavId.classList.remove('active');
+    }
+  }
+
+  // Observer untuk sync state bahasa
+  if(window.MutationObserver && origBtnId){
+    new MutationObserver(syncLangButtons).observe(origBtnId,{attributes:true,attributeFilter:['class']});
+  }
+})();
+</script>
+<!-- ═══ END STICKY NAVBAR ═══ -->
 
 <!-- ═══ PRE-ORDER INFO BAR — ROLLING MARQUEE ═══ -->
 <div class="preorder-bar">
@@ -8280,7 +8440,7 @@ setLang('id');
   .ts-title{ font-size:20px !important; margin-bottom:14px !important; }
   .ts-cta{ padding:12px 0 !important; font-size:14px !important; }
   .ts-dismiss{ font-size:12px; margin-top:10px; }
-  .ts-play-btn svg{ width:68px; height:68px; }
+  .ts-play-btn svg{ width:52px; height:52px; }
 }
 
 /* Corner ornament lines */
@@ -8353,17 +8513,29 @@ setLang('id');
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
+  background:rgba(0,0,0,0);
+  transition:background .3s ease;
+}
+.ts-thumb-wrap:focus .ts-play-btn,
+.ts-thumb-wrap:active .ts-play-btn{
+  background:rgba(0,0,0,.15);
 }
 .ts-play-btn svg{
-  width:56px;height:56px;
-  filter:drop-shadow(0 2px 16px rgba(0,0,0,.9));
-  transition:transform .3s ease;
+  width:40px;height:40px;
+  filter:drop-shadow(0 2px 10px rgba(0,0,0,.85));
+  transition:transform .25s ease, opacity .25s ease;
+  opacity:.85;
 }
 @media(min-width:680px){
-  .ts-play-btn svg{ width:72px;height:72px; }
+  .ts-play-btn svg{ width:52px;height:52px; }
 }
 @media(hover:hover){
-  .ts-thumb-wrap:hover .ts-play-btn svg{transform:scale(1.14);}
+  .ts-thumb-wrap:hover .ts-play-btn{ background:rgba(0,0,0,.15); }
+  .ts-thumb-wrap:hover .ts-play-btn svg{ transform:scale(1.1); opacity:1; }
+}
+/* Touch: sedikit lebih transparan agar tidak dominan */
+@media(hover:none){
+  .ts-play-btn svg{ opacity:.72; }
 }
 
 /* Vignette overlay supaya play button lebih pop */
@@ -8457,9 +8629,10 @@ setLang('id');
            onerror="this.src='https://img.youtube.com/vi/rCwwEgsjf3s/hqdefault.jpg'"
            alt="AWAS NPD - Official Theme Song" loading="lazy" decoding="async">
       <div class="ts-play-btn">
-        <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="34" cy="34" r="34" fill="rgba(0,0,0,.55)"/>
-          <polygon points="27,21 52,34 27,47" fill="#e8a830"/>
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="22" fill="rgba(0,0,0,.6)"/>
+          <circle cx="22" cy="22" r="21" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+          <polygon points="18,14 32,22 18,30" fill="white"/>
         </svg>
       </div>
       <div class="ts-thumb-vignette"></div>
@@ -8531,10 +8704,6 @@ function showThemeSongPopup(){
     }
     #sc-wrap{ display:none !important; }
   }
-  /* Pastikan YT card tidak overflow layar di mobile kecil */
-  @media(max-width:480px){
-    #yt-card{ width:calc(100vw - 32px); max-width:320px; }
-  }
 
   #yt-wrap{
     display:flex;
@@ -8555,7 +8724,22 @@ function showThemeSongPopup(){
     max-height:0;opacity:0;
     transition:max-height .45s cubic-bezier(.22,1,.36,1), opacity .3s ease;
   }
-  #yt-card.yt-open{ max-height:340px;opacity:1; }
+  #yt-card.yt-open{ max-height:420px;opacity:1; }
+
+  /* Mobile: card lebih lebar, body lebih compact */
+  @media(max-width:768px){
+    #yt-card{ width:min(300px, calc(100vw - 32px)); }
+    #yt-card.yt-open{ max-height:380px; }
+    #yt-body{ padding:8px 12px 10px; }
+    #yt-badge{ margin-bottom:5px; padding:2px 8px; font-size:8.5px; }
+    #yt-label{ font-size:8.5px; margin-bottom:2px; }
+    #yt-title{ font-size:13px; margin-bottom:8px; }
+    #yt-cta{ min-height:42px; font-size:11px; }
+    #yt-dismiss{ padding:8px; min-height:36px; font-size:9.5px; margin-top:4px; }
+  }
+  @media(max-width:360px){
+    #yt-card{ width:calc(100vw - 24px); }
+  }
   #yt-thumb-link{
     display:block;position:relative;
     width:100%;
@@ -8576,7 +8760,30 @@ function showThemeSongPopup(){
   @media(hover:hover){
     #yt-thumb-link img{ transition:transform .5s ease, filter .5s ease; }
     #yt-thumb-link:hover img{ transform:scale(1.06);filter:brightness(1.08) saturate(1.2); }
-    #yt-thumb-link:hover .yt-play-btn svg{ transform:scale(1.14); }
+    #yt-thumb-link:hover .yt-play-btn svg{ transform:scale(1.1); }
+  }
+
+  /* Play button overlay — tab card */
+  .yt-play-btn{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:none;
+    background:rgba(0,0,0,0);
+    transition:background .3s ease;
+  }
+  #yt-thumb-link:hover .yt-play-btn,
+  #yt-thumb-link:focus .yt-play-btn{
+    background:rgba(0,0,0,.18);
+  }
+  .yt-play-btn svg{
+    width:36px;height:36px;
+    opacity:.82;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.8));
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  /* Touch device: play button selalu visible tapi kecil */
+  @media(hover:none){
+    .yt-play-btn svg{ opacity:.7; }
   }
   .yt-thumb-vignette{
     position:absolute;inset:0;
@@ -8648,11 +8855,21 @@ function showThemeSongPopup(){
     cursor:pointer;
     box-shadow:0 -2px 16px rgba(0,0,0,.6);
     user-select:none;
+    min-height:40px;
     transition:background .2s, border-color .2s;
+    -webkit-tap-highlight-color:transparent;
   }
-  #yt-tab:hover{
-    background:linear-gradient(135deg,#120e22 0%,#0a0818 100%);
-    border-color:rgba(100,80,220,.7);
+  @media(hover:hover){
+    #yt-tab:hover{
+      background:linear-gradient(135deg,#120e22 0%,#0a0818 100%);
+      border-color:rgba(100,80,220,.7);
+    }
+  }
+  /* Mobile: tab sedikit lebih besar */
+  @media(max-width:768px){
+    #yt-tab{ padding:8px 14px 10px; min-height:44px; }
+    #yt-tab-text{ font-size:10px; }
+    #yt-tab-icon{ width:18px; height:12px; }
   }
   #yt-tab-icon{ width:16px;height:11px;flex-shrink:0; }
   #yt-tab-text{
@@ -8684,9 +8901,10 @@ function showThemeSongPopup(){
            onerror="this.src='https://img.youtube.com/vi/rCwwEgsjf3s/hqdefault.jpg'"
            alt="AWAS NPD - Official Music Video" loading="lazy" decoding="async">
       <div class="yt-play-btn">
-        <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="34" cy="34" r="34" fill="rgba(0,0,0,.55)"/>
-          <polygon points="27,21 52,34 27,47" fill="#ff3333"/>
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="22" fill="rgba(0,0,0,.6)"/>
+          <circle cx="22" cy="22" r="21" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+          <polygon points="18,14 32,22 18,30" fill="white"/>
         </svg>
       </div>
       <div class="yt-thumb-vignette"></div>
