@@ -125,9 +125,11 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   position:fixed;
   top:0;left:0;right:0;
   z-index:8900;
-  height:52px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
+  /* Tinggi base 52px + safe area untuk notch/Dynamic Island */
+  height:calc(52px + env(safe-area-inset-top, 0px));
+  display:flex;align-items:center;justify-content:center;
+  /* Dorong konten ke bawah safe area agar tidak tertutup status bar */
+  padding:env(safe-area-inset-top, 0px) 20px 0;
   background:rgba(13,7,2,.82);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
@@ -143,8 +145,17 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   opacity:1;
   pointer-events:all;
 }
+/* Inner wrapper — ikut max-width konten */
+#snav-inner{
+  width:100%;
+  max-width:1000px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
 
-/* Logo — absolute center */
+/* Logo — absolute center dalam inner wrapper */
 #snav-logo{
   position:absolute;
   left:50%;
@@ -190,29 +201,43 @@ header > *:not(.barong-bg-video){ position:relative; z-index:1; }
   }
 }
 
-/* Order button */
+/* Order button — amber solid, black text/icon */
 #snav-order{
   font-family:'Roboto',sans-serif;
-  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  background:linear-gradient(135deg,#c8860a 0%,#a06708 100%);
+  font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  background:#c8860a;
   border:none;border-radius:6px;
   padding:0 14px;height:34px;
   color:#0d0800;
   cursor:pointer;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:7px;
   box-shadow:0 2px 10px rgba(200,134,10,.3);
-  transition:filter .2s, transform .15s;
+  transition:background .2s ease, box-shadow .2s ease, transform .15s ease;
   -webkit-tap-highlight-color:transparent;
+  position:relative;
+  overflow:hidden;
 }
 @media(hover:hover){
-  #snav-order:hover{ filter:brightness(1.12);transform:translateY(-1px); }
+  #snav-order:hover{
+    background:#e8a020;
+    box-shadow:0 0 14px rgba(232,160,32,.65), 0 0 30px rgba(232,160,32,.3), 0 4px 12px rgba(0,0,0,.4);
+    transform:translateY(-1px);
+  }
 }
-#snav-order:active{ filter:brightness(.95);transform:scale(.97); }
-
-/* Mobile: kurangi padding supaya muat */
+#snav-order:active{
+  background:#f0b830;
+  box-shadow:0 0 20px rgba(240,184,48,.8), 0 0 40px rgba(240,184,48,.35);
+  transform:scale(.95) translateY(0);
+  transition:transform .08s ease, box-shadow .08s ease, background .08s ease;
+}
 @media(max-width:400px){
-  #sticky-nav{ padding:0 12px; }
+  #snav-order{ font-size:10px; padding:0 10px; gap:5px; }
+}
+
+/* Mobile: kurangi padding supaya muat, safe area tetap dipertahankan */
+@media(max-width:400px){
+  #sticky-nav{ padding:env(safe-area-inset-top, 0px) 12px 0; }
   #snav-logo{ font-size:14px; }
-  #snav-order{ font-size:10px; padding:0 10px; }
 }
 /* ═══ END STICKY NAVBAR ═══ */
 .top-tag{font-family:'Roboto',sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);opacity:.85;margin-bottom:8px;text-transform:uppercase;}
@@ -2886,6 +2911,12 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
   z-index:7000; display:none;
   cursor:pointer;
   animation:bubblePop .35s cubic-bezier(.34,1.56,.64,1);
+  /* Smooth transition saat sticky nav muncul/hilang */
+  transition:top .35s cubic-bezier(.22,1,.36,1);
+}
+/* Saat sticky nav aktif → geser cart bubble tepat di bawah nav (safe-area-aware) */
+body:has(#sticky-nav.snav-visible) #cart-bubble{
+  top:calc(52px + env(safe-area-inset-top, 0px) + 10px);
 }
 @media(max-width:859px){
   #cart-bubble{ z-index:790; } /* below drawer (800) on mobile */
@@ -4229,19 +4260,26 @@ footer.sticky-offset{padding-bottom:calc(220px + env(safe-area-inset-bottom,0px)
 
 <!-- ═══ STICKY NAVBAR MINIMALIS ═══ -->
 <nav id="sticky-nav" role="navigation" aria-label="Navigasi cepat">
-  <!-- Lang toggle — kiri -->
-  <div id="snav-lang" role="group" aria-label="Pilih bahasa">
-    <button class="snav-lang-btn active" id="snav-btn-id" onclick="setLang('id');document.getElementById('snav-btn-id').classList.add('active');document.getElementById('snav-btn-en').classList.remove('active');">🇮🇩 ID</button>
-    <button class="snav-lang-btn" id="snav-btn-en" onclick="setLang('en');document.getElementById('snav-btn-en').classList.add('active');document.getElementById('snav-btn-id').classList.remove('active');">🇬🇧 EN</button>
+  <div id="snav-inner">
+    <!-- Lang toggle — kiri -->
+    <div id="snav-lang" role="group" aria-label="Pilih bahasa">
+      <button class="snav-lang-btn active" id="snav-btn-id" onclick="setLang('id');document.getElementById('snav-btn-id').classList.add('active');document.getElementById('snav-btn-en').classList.remove('active');">🇮🇩 ID</button>
+      <button class="snav-lang-btn" id="snav-btn-en" onclick="setLang('en');document.getElementById('snav-btn-en').classList.add('active');document.getElementById('snav-btn-id').classList.remove('active');">🇬🇧 EN</button>
+    </div>
+
+    <!-- Logo — tengah -->
+    <div id="snav-logo">AWAS BAHAYA <em>NPD.</em></div>
+
+    <!-- Order button — kanan -->
+    <button id="snav-order" onclick="var k=document.getElementById('katalog-section');if(k)k.scrollIntoView({behavior:'smooth',block:'start'});" aria-label="Pesan sekarang">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      Order
+    </button>
   </div>
-
-  <!-- Logo — tengah -->
-  <div id="snav-logo">AWAS BAHAYA <em>NPD.</em></div>
-
-  <!-- Order button — kanan -->
-  <button id="snav-order" onclick="var k=document.getElementById('katalog-section');if(k)k.scrollIntoView({behavior:'smooth',block:'start'});" aria-label="Pesan sekarang">
-    🛒 Order
-  </button>
 </nav>
 
 <script>
